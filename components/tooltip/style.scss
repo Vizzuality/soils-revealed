@@ -1,0 +1,12 @@
+@import 'css/settings';
+
+.tippy-popper {
+  max-width: none !important;
+  z-index: 10 !important;
+
+  div.tippy-tooltip.light-theme {
+    padding: map-get($spacers, 2);
+    color: $body-color;
+    border-radius: $border-radius;
+  }
+}

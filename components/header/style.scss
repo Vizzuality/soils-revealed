@@ -1,0 +1,18 @@
+@import 'css/settings';
+
+.l-header {
+  position: relative;
+  z-index: 3;
+
+  @media screen and (min-width: map-get($grid-breakpoints, 'sm')) {
+    width: 100%;
+  }
+
+  .navbar {
+    background-color: $secondary;
+
+    .nav-link.-active {
+      border-bottom: rem(5) solid $primary;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "lib": ["es2017", "dom"],
+    "jsx": "react",
+    "checkJs": true,
+    "noEmit": true,
+    "strict": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "allowSyntheticDefaultImports": true,
+    "module": "esnext"
+  },
+  "exclude": ["node_modules", "k8s", ".next"]
+}

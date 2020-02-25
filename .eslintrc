@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended"
+  ],
+  "plugins": ["babel", "jest", "react", "react-hooks"],
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
+  },
+  "rules": {
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}

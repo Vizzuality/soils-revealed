@@ -1,0 +1,39 @@
+{
+  "env": {
+    "development": {
+      "presets": ["next/babel"]
+    },
+    "production": {
+      "presets": ["next/babel"]
+    },
+    "test": {
+      "presets": [
+        [
+          "next/babel",
+          {
+            "preset-env": {
+              "modules": "commonjs"
+            }
+          }
+        ]
+      ]
+    }
+  },
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./"],
+        "alias": {
+          "components": "./components",
+          "css": "./css",
+          "layout": "./layout",
+          "lib": "./lib",
+          "modules": "./modules"
+        }
+      }
+    ],
+    "@babel/plugin-proposal-optional-chaining"
+  ],
+  "ignore": []
+}
