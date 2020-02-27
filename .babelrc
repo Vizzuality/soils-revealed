@@ -29,7 +29,8 @@
           "css": "./css",
           "layout": "./layout",
           "lib": "./lib",
-          "modules": "./modules"
+          "modules": "./modules",
+          "static": "./static"
         }
       }
     ],
