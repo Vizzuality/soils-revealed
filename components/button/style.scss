@@ -1,0 +1,41 @@
+
+@import 'css/settings';
+
+.c-button {
+  font-family: $font-family-2;
+  font-weight: $font-weight-medium;
+  font-size: 13px;
+  letter-spacing: 2px;
+  line-height: 18px;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 20px;
+  min-width: 186px;
+  background: transparent;
+
+  // ** MODIFIERS ** //
+
+  // Theme
+
+  &.-primary {
+    color: $white;
+    border: 1px solid $color-2;
+  }
+
+  &.-secondary {
+    color: $color-1;
+    background-color: $color-2;
+  }
+
+  // Shape
+
+  &.-rounded {
+    border-radius: 50%;
+  }
+
+  // Size
+
+  &._big {
+    padding: 20px;
+  }
+}
