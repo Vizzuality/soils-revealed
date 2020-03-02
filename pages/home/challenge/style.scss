@@ -1,0 +1,55 @@
+@import 'css/settings';
+
+.p-home-challenge {
+  position: relative;
+  background-image: url('/images/home-challenge-background.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding-top: rem(200);
+  color: $white;
+  padding-bottom: rem(150);
+  border-top: rem(3) solid $white;
+
+  h2 {
+    font-size: rem(52);
+    line-height: rem(64);
+    font-weight: normal;
+    vertical-align: bottom;
+  }
+
+  .description {
+    position: relative;
+    display: flex;
+
+    h2 {
+      span {
+        position: relative;
+      }
+    }
+
+    svg {
+      display: none;
+      position: absolute;
+      right: rem(-35);
+      bottom: rem(130);
+    }
+
+    &:hover {
+      span {
+        color: $color-5;
+      }
+
+      svg {
+        display: block;
+      }
+    }
+  }
+
+  .contact {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}

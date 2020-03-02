@@ -5,8 +5,22 @@
   height: rem(22);
   fill: $color-1;
 
+
+  // Modifiers
+
+  // size
+
+  &.-big {
+    width: 40px;
+    height: 40px;
+  }
+
+  // functionality
+  // specifc
   &.-logo {
     width: rem(150);
     height: rem(50);
   }
+
+
 }
