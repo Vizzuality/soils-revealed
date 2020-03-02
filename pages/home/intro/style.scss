@@ -1,0 +1,46 @@
+@import 'css/settings';
+
+.p-home-intro {
+  position: relative;
+  background-position-x: center;
+  background-position-y: bottom;
+  background-repeat: no-repeat;
+  padding-top: 200px;
+
+  p {
+    font-family: $font-family-3;
+    font-size: 19px;
+  }
+
+  .intro-title {
+    margin-bottom: 200px;
+
+    p {
+      line-height: 35px;
+    }
+
+    h1 {
+      font-size: 98px;
+      line-height: 96px;
+      font-weight: normal;
+      padding: 40px 0;
+    }
+  }
+
+  .intro-description {
+    color: $white;
+    padding-bottom: 200px;
+
+    h2 {
+      color: $white;
+      font-size: 56px;
+      line-height: 96px;
+      font-weight: normal;
+    }
+
+    p {
+      line-height: 33px;
+      padding-top: 20px; //to avoid unevenness of line height
+    }
+  }
+}

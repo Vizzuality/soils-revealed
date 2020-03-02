@@ -1,0 +1,24 @@
+@import 'css/settings';
+
+.c-foot-note {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: $white;
+  font-family: $font-family-3;
+  font-weight: $font-weight-medium;
+  font-size: 12px;
+  letter-spacing: 3px;
+  line-height: 28px;
+  padding: 20px;
+  width: 100%;
+
+  .page-number {
+    box-sizing: border-box;
+    padding: 0 5px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid $white;
+    height: 100%;
+  }
+}

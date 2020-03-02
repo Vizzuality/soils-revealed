@@ -11,10 +11,8 @@ const SimplePage = ({ className, children }) => (
   <div className={classNames('l-simple-page', className)}>
     <Header />
     <div className="l-static-page">
-      <div className="container">
-        <div className="row">
-          <div className="col-sm-12 col-md-10 offset-md-1">{children}</div>
-        </div>
+      <div className="row">
+        <div className="col-sm-12">{children}</div>
       </div>
     </div>
     <Footer />
