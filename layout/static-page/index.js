@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import Icons from 'components/icons';
 import Header from 'components/header';
+import Footer from 'components/footer';
 
 import './style.scss';
 
@@ -15,6 +17,8 @@ const SimplePage = ({ className, children }) => (
         </div>
       </div>
     </div>
+    <Footer />
+    <Icons />
   </div>
 );
 

@@ -30,7 +30,6 @@
           "layout": "./layout",
           "lib": "./lib",
           "modules": "./modules",
-          "static": "./static"
         }
       }
     ],
