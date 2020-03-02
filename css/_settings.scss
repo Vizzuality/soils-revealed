@@ -54,11 +54,6 @@ $modal-backdrop-opacity: 0.6;
 $bg-color-primary: #3b383b;
 $bg-color-secondary: #434043;
 
-$border-radius-alt: rem(4.5);
-$border-radius-sm: rem(10);
-$border-radius: rem(10);
-$border-radius-lg: rem(10);
-
 $box-shadow-sm: 0 3px 5px 0 rgba(75, 125, 103, 0.1), 0 0 2px 0 rgba(89, 148, 122, 0.3);
 $box-shadow: $box-shadow-sm;
 $box-shadow-lg: $box-shadow-sm;
@@ -131,9 +126,3 @@ $header-size: rem(80);
 $out-space: rem(110);
 $ui-space: rem(15);
 $margin-size: rem(40);
-
-
-// Bootstrap overrides
-
-/* remove rounding from cards, buttons and inputs */
-.card, .btn, .form-control, .dropdown-menu { border-radius: 0; }
