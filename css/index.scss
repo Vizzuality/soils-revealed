@@ -1,8 +1,11 @@
 @import 'settings';
 
+@import 'reset';
 @import '~bootstrap/scss/bootstrap';
 @import '~tippy.js/dist/tippy.css';
 @import '~tippy.js/themes/light.css';
 
 // Projects styles
+
 @import 'base';
+

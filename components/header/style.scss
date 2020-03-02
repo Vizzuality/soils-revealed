@@ -1,18 +1,113 @@
 @import 'css/settings';
 
-.l-header {
+.c-header {
   position: relative;
+  padding: 20px 0;
   z-index: 3;
+  font-family: $font-family-2;
 
   @media screen and (min-width: map-get($grid-breakpoints, 'sm')) {
     width: 100%;
   }
 
   .navbar {
-    background-color: $secondary;
+    position: relative;
 
-    .nav-link.-active {
-      border-bottom: rem(5) solid $primary;
+    .nav-item {
+      padding-right: 40px;
+      font-size: 11px;
+      letter-spacing: 3px;
+      line-height: 28px;
+      text-align: center;
+      position: relative;
+      box-sizing: border-box;
+
+      &.login {
+        padding-left: 40px;
+
+        &:before {
+          content: '';
+          position: absolute;
+          border: 0.5px solid rgba($color-2, 0.2);
+          height: 100%;
+          left: 0;
+          color: $color-2;
+        }
+      }
+
+      &.-active {
+
+        .nav-link {
+          text-decoration: none;
+          text-align: center;
+          position: relative;
+
+          &:before {
+            content: '';
+            position: absolute;
+            top: -27px;
+            left: 8px;
+            right: 8px;
+            box-sizing: content-box;
+            height: 3px;
+            background-color: $color-1;
+          }
+        }
+      }
+    }
+
+    .dropdown-container {
+      position: relative;
+
+      span {
+        &:after  {
+          content: '';
+          border: solid black;
+          border-width: 0 3px 3px 0;
+          top: 0;
+          display: inline-block;
+          padding: 3px;
+          position: absolute;
+          top: 50%;
+          transform: rotate(45deg) translateY(-100%);
+        }
+      }
+
+      .dropdown-toggle {
+        position: relative;
+        padding: 8px;
+        font-size: inherit;
+        line-height: inherit;
+        letter-spacing: inherit;
+      }
+
+      &:hover {
+        .dropdown-menu {
+          display: block;
+          border: 2px solid $color-1;
+          background-color: #F2F3EF;
+          position: absolute;
+          left: 50%;
+          transform: translateX(-50%);
+          font-size: 12px;
+          letter-spacing: 3.27px;
+          line-height: 28px;
+          text-align: center;
+
+          &:before {
+            content: '';
+            border: solid $color-1;
+            border-width: 0 2px 2px 0;
+            display: inline-block;
+            padding: 6px;
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            background-color: $color-cream-1;
+            transform: rotate(-135deg) translateX(50%);
+          }
+        }
+      }
     }
   }
 }
