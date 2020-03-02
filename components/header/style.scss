@@ -85,7 +85,8 @@
         .dropdown-menu {
           display: block;
           border: 2px solid $color-1;
-          background-color: #F2F3EF;
+          background-color: $color-cream-1;
+          border-radius: 0;
           position: absolute;
           left: 50%;
           transform: translateX(-50%);

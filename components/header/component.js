@@ -15,7 +15,7 @@ const Header = ({ pathname }) => (
         <div className="col-sm-12">
           <nav className="navbar navbar-expand-md">
             <Link route="home">
-              <a className="">
+              <a className="nav-link">
                 <img src="/images/logo.png" alt="Soils Reavealed logo" />
               </a>
             </Link>
@@ -53,7 +53,7 @@ const Header = ({ pathname }) => (
                                 route={child.route}
                                 params={{ tab: child.tab }}
                               >
-                                <a className="dropdown-item">{child.name}</a>
+                                <a className="nav-link">{child.name}</a>
                               </Link>
                             ))}
                           </div>
