@@ -1,17 +1,43 @@
 @import 'css/settings';
 
 .c-home-map {
-  .map-background {
+  display: flex;
+  justify-content: center;
+  padding-top: 80px;
+  color: $color-cream-1;
+
+  .map-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin: 40px;
+    padding: 20px;
+    max-width: 500px;
+
+    h2 {
+      font-size: 52px;
+      line-height: 64px;
+      font-weight: normal;
+      vertical-align: bottom;
+    }
+
+    .section-description {
+      color: $color-cream-1;
+      font-size: 19px;
+      line-height: 27px;
+      text-align: center;
+    }
 
     .buttons {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       padding: rem(50);
+
+      button {
+        margin-bottom: rem(20);
+      }
     }
   }
 }
