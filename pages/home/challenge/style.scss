@@ -33,6 +33,8 @@
       position: absolute;
       right: rem(-35);
       bottom: rem(130);
+      background-color: rgba($color-5, 0.1);
+      border-radius: 50%;
     }
 
     &:hover {
