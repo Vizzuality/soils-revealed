@@ -1,0 +1,60 @@
+@import 'css/settings';
+
+$padding: 20px;
+
+.c-card-insights {
+  border: 2px solid $color-1;
+  box-shadow: 4px 4px 0 0 $color-1;
+
+  span {
+    font-family: $font-family-2;
+    font-size: 11px;
+    letter-spacing: 3px;
+    line-height: 28px;
+    padding: 3px;
+    background-color: $color-2;
+  }
+
+  .card-box {
+    border: 1px solid $color-1;
+  }
+
+  .row {
+    box-sizing: border-box;
+    padding: $padding;
+  }
+
+  .content {
+    padding: 0;
+  }
+
+  h3 {
+    font-size: 32px;
+    font-weight: normal;
+  }
+
+  h4 {
+    font-family: $font-family-3;
+    font-weight: $font-weight-medium;
+    font-size: 11px;
+    letter-spacing: 3px;
+    line-height: 28px;
+  }
+
+  h5 {
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 27px;
+  }
+
+  ul {
+    list-style-type: disc;
+
+    li {
+      font-size: 19px;
+      line-height: 27px;
+      list-style-position: inside;
+      padding: $padding;
+    }
+  }
+}

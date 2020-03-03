@@ -5,8 +5,10 @@ import { Link } from 'lib/routes';
 import classnames from 'classnames';
 import StaticPage from 'layout/static-page';
 import Head from 'components/head';
+import Card from 'components/card';
+import CardInsights from 'components/card-insights';
 
-import tabLinks from './constants';
+import info from './constants';
 import './style.scss';
 
 const NarrativesPage = ({ title, activeTab }) => (
@@ -20,7 +22,7 @@ const NarrativesPage = ({ title, activeTab }) => (
           </div>
           <div className="col-3">
             <ul className="tabs">
-              {tabLinks.map(tab => (
+              {info['tabLinks'].map(tab => (
                 <li key={tab.name}>
                   <Link key={tab.name} route={tab.route} params={{ tab: tab.params }}>
                     <a
@@ -38,6 +40,8 @@ const NarrativesPage = ({ title, activeTab }) => (
           </div>
         </div>
       </div>
+      {activeTab === 'projects' && <Card info={info['cardInfo'][0]} />}
+      {activeTab === 'insights' && <CardInsights />}
     </div>
   </StaticPage>
 );
