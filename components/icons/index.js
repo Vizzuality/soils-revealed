@@ -9,6 +9,14 @@ const Icons = () => (
     xlink="http://www.w3.org/1999/xlink"
   >
     <defs>
+      <symbol id="icon-dots-dark" viewBox="0 0 32 32">
+        <title>dots-dark</title>
+        <path d="M0 0h32v32h-32v-32z"></path>
+      </symbol>
+      <symbol id="icon-dots-light" viewBox="0 0 32 32">
+        <title>dots-light</title>
+        <path d="M0 0h32v32h-32v-32z"></path>
+      </symbol>
       <symbol id="icon-login" viewBox="0 0 29 32">
         <title>login</title>
         <path

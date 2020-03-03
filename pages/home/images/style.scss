@@ -1,0 +1,54 @@
+@import 'css/settings';
+
+.p-home-cards {
+  background-color: $white;
+  position: relative;
+  padding-top: 90px;
+  padding-bottom: 150px;
+
+
+  h2 {
+    color: $color-1;
+    font-size: 52px;
+    line-height: 64px;
+    font-weight: normal;
+    margin: auto;
+    padding-bottom: 75px;
+  }
+
+  .description {
+    position: relative;
+    display: flex;
+
+    h2 {
+      span {
+        position: relative;
+      }
+    }
+
+    svg {
+      display: none;
+      position: absolute;
+      right: -35px;
+      bottom: 130px;
+    }
+
+    &:hover {
+
+      span {
+        color: $color-5;
+      }
+
+      svg {
+        display: block;
+      }
+    }
+  }
+
+  .contact {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+}

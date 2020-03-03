@@ -1,0 +1,36 @@
+@import 'css/settings';
+
+.c-card {
+
+  img {
+    width: 100%;
+  }
+
+  .card-head{
+    display: flex;
+    justify-content: flex-start;
+
+    h4 {
+      font-family: $font-family-3;
+      font-size: 12px;
+      letter-spacing: 3px;
+      line-height: 28px;
+      padding-left: 10px;
+    }
+  }
+
+  .card-info {
+    padding-left: 30px;
+
+    .card-category {
+      font-family: $font-family-3;
+      font-size: 18px;
+      line-height: 29px;
+    }
+
+    .card-description {
+      font-size: 19px;
+      line-height: 27px;
+    }
+  }
+}
