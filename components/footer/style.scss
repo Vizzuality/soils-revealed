@@ -3,6 +3,12 @@
 .c-footer {
   color: $white;
 
+  ul {
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
   li {
     padding: 40px;
     display: flex;
@@ -28,5 +34,6 @@
     letter-spacing: 2px;
     line-height: 18px;
     text-align: center;
+    font-weight: normal;
   }
 }
