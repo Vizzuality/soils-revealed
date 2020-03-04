@@ -4,13 +4,13 @@
 .c-button {
   font-family: $font-family-2;
   font-weight: $font-weight-medium;
-  font-size: 13px;
-  letter-spacing: 2px;
-  line-height: 18px;
+  font-size: rem(13);
+  letter-spacing: rem(2);
+  line-height: rem(18);
   text-align: center;
   box-sizing: border-box;
-  padding: 20px;
-  min-width: 186px;
+  padding: rem(20);
+  min-width: rem(186);
   background: transparent;
 
   // ** MODIFIERS ** //
@@ -19,7 +19,7 @@
 
   &.-primary {
     color: $white;
-    border: 1px solid $color-2;
+    border: rem(1) solid $color-2;
   }
 
   &.-secondary {
@@ -35,7 +35,7 @@
 
   // Size
 
-  &._big {
-    padding: 20px;
+  &.-big {
+    padding: rem(20);
   }
 }
