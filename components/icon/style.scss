@@ -1,0 +1,12 @@
+@import 'css/settings';
+
+.c-icon {
+  width: rem(22);
+  height: rem(22);
+  fill: $color-1;
+
+  &.-logo {
+    width: rem(150);
+    height: rem(50);
+  }
+}
