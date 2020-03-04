@@ -28,6 +28,7 @@
 
       &.login {
         padding-left: rem(40);
+        cursor: pointer;
 
         &:before {
           content: '';
