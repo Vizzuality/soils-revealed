@@ -30,3 +30,20 @@ You can check out [the Next.js GitHub repository](https://github.com/zeit/next.j
 The easiest way to deploy your Next.js app is to use the [ZEIT Now Platform](https://zeit.co/) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## Documentation
+
+This project uses IcoMoon to manage Icons [Learn about IcoMoon](https://icomoon.io/#docs).
+
+Steps for adding new Icons:
+
+- Create and IcoMoon project and drag you icons there 
+- After selecting them, click on Generate SVG & More 
+- Download the folder and update your component "Icons" as follows:
+
+	- Add new icons to SVG folder 
+	- Update selection.json 
+	- Update symbol-defs.svg
+	- Update index.js, add new <'symbols'> generated to <'defs'>.
+
+#### To visualize them just add component Icon with the correspondent name of the icon.
