@@ -16,7 +16,7 @@ const Header = ({ pathname }) => (
           <nav className="navbar navbar-expand-md">
             <Link route="home">
               <a className="nav-link">
-                <img src="/images/logo.png" alt="Soils Reavealed logo" />
+                <img src="/images/logo.svg" alt="Soils Reavealed" />
               </a>
             </Link>
             <div className="collapse navbar-collapse">
@@ -53,7 +53,7 @@ const Header = ({ pathname }) => (
                                 route={child.route}
                                 params={{ tab: child.tab }}
                               >
-                                <a className="nav-link">{child.name}</a>
+                                <a>{child.name}</a>
                               </Link>
                             ))}
                           </div>
