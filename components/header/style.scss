@@ -28,7 +28,6 @@
 
       &.login {
         padding-left: rem(40);
-        cursor: pointer;
 
         &:before {
           content: '';
@@ -41,7 +40,6 @@
       }
 
       &.-active {
-
         .nav-link {
           text-decoration: none;
           text-align: center;
@@ -64,8 +62,10 @@
     .dropdown-container {
       position: relative;
 
-      span {
-        &:after  {
+      .nav-link {
+        cursor: default;
+
+        &:after {
           content: '';
           border: solid black;
           border-width: 0 rem(3) rem(3) 0;
