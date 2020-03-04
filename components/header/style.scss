@@ -2,7 +2,7 @@
 
 .c-header {
   position: relative;
-  padding: 20px 0;
+  padding: rem(20) 0;
   z-index: 3;
   font-family: $font-family-2;
 
@@ -13,22 +13,27 @@
   .navbar {
     position: relative;
 
+    img {
+      width: rem(100);
+    }
+
     .nav-item {
-      padding-right: 40px;
-      font-size: 11px;
-      letter-spacing: 3px;
-      line-height: 28px;
+      padding-right: rem(40);
+      font-size: rem(11);
+      letter-spacing: rem(3);
+      line-height: rem(28);
       text-align: center;
       position: relative;
       box-sizing: border-box;
 
       &.login {
-        padding-left: 40px;
+        padding-left: rem(40);
+        cursor: pointer;
 
         &:before {
           content: '';
           position: absolute;
-          border: 0.5px solid rgba($color-2, 0.2);
+          border: rem(0.5) solid rgba($color-2, 0.2);
           height: 100%;
           left: 0;
           color: $color-2;
@@ -45,11 +50,11 @@
           &:before {
             content: '';
             position: absolute;
-            top: -27px;
-            left: 8px;
-            right: 8px;
+            top: rem(-27);
+            left: rem(8);
+            right: rem(8);
             box-sizing: content-box;
-            height: 3px;
+            height: rem(3);
             background-color: $color-1;
           }
         }
@@ -63,10 +68,10 @@
         &:after  {
           content: '';
           border: solid black;
-          border-width: 0 3px 3px 0;
+          border-width: 0 rem(3) rem(3) 0;
           top: 0;
           display: inline-block;
-          padding: 3px;
+          padding: rem(3);
           position: absolute;
           top: 50%;
           transform: rotate(45deg) translateY(-100%);
@@ -75,7 +80,7 @@
 
       .dropdown-toggle {
         position: relative;
-        padding: 8px;
+        padding: rem(8);
         font-size: inherit;
         line-height: inherit;
         letter-spacing: inherit;
@@ -83,25 +88,27 @@
 
       &:hover {
         .dropdown-menu {
-          display: block;
-          border: 2px solid $color-1;
-          background-color: #F2F3EF;
+          display: flex;
+          flex-direction: column;
+          border: rem(2) solid $color-1;
+          background-color: $color-cream-1;
+          border-radius: 0;
           position: absolute;
           left: 50%;
           transform: translateX(-50%);
-          font-size: 12px;
-          letter-spacing: 3.27px;
-          line-height: 28px;
+          font-size: rem(12);
+          letter-spacing: rem(3.27);
+          line-height: rem(28);
           text-align: center;
 
           &:before {
             content: '';
             border: solid $color-1;
-            border-width: 0 2px 2px 0;
+            border-width: 0 rem(2) rem(2) 0;
             display: inline-block;
-            padding: 6px;
+            padding: rem(6);
             position: absolute;
-            top: -3px;
+            top: rem(-3);
             left: 50%;
             background-color: $color-cream-1;
             transform: rotate(-135deg) translateX(50%);
