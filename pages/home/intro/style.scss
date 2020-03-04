@@ -2,6 +2,7 @@
 
 .p-home-intro {
   position: relative;
+  background-size: cover;
   background-position-x: center;
   background-position-y: bottom;
   background-repeat: no-repeat;
@@ -33,8 +34,8 @@
 
     h2 {
       color: $white;
-      font-size: rem(56);
-      line-height: rem(96);
+      font-size: rem(52);
+      line-height: rem(64);
       font-weight: normal;
     }
 

@@ -20,7 +20,7 @@ const IntroComponent = () => (
         </div>
       </div>
       <div className="row">
-        <FootNoteComponent info={{ page: 1, text: 'Why soil carbon?' }} />
+        <FootNoteComponent info={{ page: 1, text: 'WHY SOIL CARBON?' }} />
       </div>
       <div className="intro-description">
         <div className="row">
