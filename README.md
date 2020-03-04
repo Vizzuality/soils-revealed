@@ -35,10 +35,8 @@ If you wish to add new icons, please follow these steps:
 
 Once you have downloaded the folder, you need to update the `Icons` component:
 
-1. Copy the new icons of the `SVG` folder inside `components/icons/SVG/`
-2. Replace `components/icons/selection.json` by the new one
-3. Replace `components/icons/symbol-defs.svg` by the new one
-4. For each new icon, make sure to copy its `symbol` element from `symbol-defs.svg` and to add it to `components/icons/index.js`
+1. Replace `components/icons/selection.json` by the new one
+2. For each new icon, make sure to copy its `symbol` element from `symbol-defs.svg` and to add it to `components/icons/index.js`
 
 In order to use any of the icons in a component, import the `Icon` component and pass the icon's name to the `name` prop. You can find the name of an icon by looking at the second part of their `symbol`'s `id`.
 
