@@ -1,5 +1,5 @@
 import React from 'react';
-import FootNoteComponent from 'components/foot-note';
+import SectionTitle from 'components/section-title';
 
 import './style.scss';
 
@@ -20,7 +20,7 @@ const IntroComponent = () => (
         </div>
       </div>
       <div className="row">
-        <FootNoteComponent info={{ page: 1, text: 'WHY SOIL CARBON?' }} />
+        <SectionTitle info={{ index: 1, text: 'Why soil carbon?' }} />
       </div>
       <div className="intro-description">
         <div className="row">
