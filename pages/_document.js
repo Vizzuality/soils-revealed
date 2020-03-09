@@ -19,7 +19,7 @@ export default class MyDocument extends Document {
           <meta name="msapplication-TileColor" content="#72c990" />
           <meta name="theme-color" content="#ffffff" />
           <link
-            href="https://fonts.googleapis.com/css?family=Crimson+Text:400,700|Roboto:400,500,700&display=swap"
+            href="https://fonts.googleapis.com/css?family=Crimson+Text:400,700|Roboto+Mono:400,500,700|Roboto:400,500,700&display=swap"
             rel="stylesheet"
           />
         </Head>

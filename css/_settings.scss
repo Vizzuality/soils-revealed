@@ -4,28 +4,29 @@
 
 // Colors
 
-$white:      #fff !default;
-$black:      #000 !default;
+$white: #fff !default;
+$black: #000 !default;
 
-$color-1: #1A203C;
-$color-2: #C68E54;
-$color-3: #C5A475;
-$color-4: #8E3721;
+$color-1: #1a203c;
+$color-2: #c68e54;
+$color-3: #c5a475;
+$color-4: #8e3721;
 
-$color-cream-1: #F2F3EF;
-$color-cream-2: #D8D8D8;
-$color-cream-3: #FCFCFC;
+$color-cream-1: #f2f3ef;
+$color-cream-2: #d8d8d8;
+$color-cream-3: #fcfcfc;
 $color-cream-4: #979797;
 
-$color-grey-1: rgba(108,123,159,0.85);
-$color-grey-2: #2D3548;
-$color-grey-3: #2D3548;
-$color-grey-4: #201E1F;
+$color-grey-1: rgba(108, 123, 159, 0.85);
+$color-grey-2: #2d3548;
+$color-grey-3: #2d3548;
+$color-grey-4: #201e1f;
 
 // Fonts
 
-$font-family-1: 'Crimson Text';
-$font-family-2: 'Roboto';
+$font-family-1: 'Crimson Text', serif;
+$font-family-2: 'Roboto', sans-serif;
+$font-family-3: 'Roboto Mono', monospace;
 
 $font-weight-regular: 300;
 $font-weight-medium: 500;
@@ -66,7 +67,7 @@ $box-shadow-right-side: 3px 3px 5px -3px rgba(75, 125, 103, 0.1),
 // Typography
 $font-size-base: rem(14);
 $font-size-lg: rem(16);
-$font-size-sm: rem(13);
+$font-size-sm: rem(12);
 $lead-font-size: rem(22);
 
 $font-family-sans-serif: $font-family-1;

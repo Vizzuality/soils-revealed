@@ -1,0 +1,17 @@
+@import 'css/settings';
+
+.c-home-map {
+  .map-background {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: rem(50);
+    }
+  }
+}
