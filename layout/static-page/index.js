@@ -7,24 +7,20 @@ import Icons from 'components/icons';
 
 import './style.scss';
 
-const SimplePage = ({ className, children }) => (
+const StaticPage = ({ className, children }) => (
   <div className={classNames('l-simple-page', className)}>
     <Header />
-    <div className="l-static-page">
-      <div className="row">
-        <div className="col-sm-12">{children}</div>
-      </div>
-    </div>
+    <div className="l-static-page">{children}</div>
     <Footer />
     <Icons />
   </div>
 );
 
-SimplePage.propTypes = {
+StaticPage.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 
-SimplePage.defaultProps = { className: null };
+StaticPage.defaultProps = { className: null };
 
-export default SimplePage;
+export default StaticPage;
