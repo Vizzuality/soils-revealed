@@ -8,7 +8,7 @@ import './style.scss';
 
 const Footer = () => (
   <div className="c-footer">
-    <ul className="footer-cards" style={{ backgroundImage: 'url(images/footerBackground.png)' }}>
+    <ul className="footer-cards">
       <div className="container">
         <div className="row">
           {footerLinks.map(link => (
