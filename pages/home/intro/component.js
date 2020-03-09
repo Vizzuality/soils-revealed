@@ -4,7 +4,7 @@ import SectionTitle from 'components/section-title';
 import './style.scss';
 
 const IntroComponent = () => (
-  <div className="p-home-intro" style={{ backgroundImage: `url(images/homeIntroBackground.png)` }}>
+  <div className="p-home-intro">
     <div className="container">
       <div className="intro-title">
         <div className="row">
