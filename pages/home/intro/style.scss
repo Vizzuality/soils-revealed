@@ -3,11 +3,24 @@
 .p-home-intro {
   position: relative;
   background-image: url('/images/home-intro-background.png');
-  background-size: cover;
+  background-size: auto rem(1300);
   background-position-x: center;
   background-position-y: bottom;
   background-repeat: no-repeat;
   padding-top: rem(200);
+
+  @media screen and (min-width: map-get($grid-breakpoints, 'sm')) {
+    background-size: auto rem(1150);
+  }
+
+  @media screen and (min-width: map-get($grid-breakpoints, 'md')) {
+    background-size: auto rem(900);
+  }
+
+  @media screen and (min-width: map-get($grid-breakpoints, 'xl')) {
+    background-size: cover;
+    background-position-y: rem(600);
+  }
 
   p {
     font-family: $font-family-3;
