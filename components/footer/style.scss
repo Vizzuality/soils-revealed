@@ -4,6 +4,7 @@
   color: $white;
 
   ul {
+    background-image: url('/images/footer-background.png');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -19,7 +20,6 @@
   }
 
   h2 {
-
     font-size: rem(52);
     line-height: rem(64);
     text-align: center;
