@@ -32,8 +32,9 @@
     color: $white;
     padding-bottom: rem(200);
 
-    h2 {
+    .lead-text {
       color: $white;
+      font-family: $font-family-1;
       font-size: rem(52);
       line-height: rem(64);
       font-weight: normal;

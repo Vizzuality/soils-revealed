@@ -25,10 +25,10 @@ const IntroComponent = () => (
       <div className="intro-description">
         <div className="row">
           <div className="col-sm-8">
-            <h2>
+            <p className="lead-text">
               Did you know? Glogally, soils, hold at least two trillion tonnes of organic carbon;
               around three times as much as the atmosphere.
-            </h2>
+            </p>
           </div>
           <div className="col-sm-4">
             <p>
