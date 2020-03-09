@@ -1,0 +1,39 @@
+@import 'css/settings';
+
+.c-footer {
+  color: $white;
+
+  ul {
+    background-image: url('/images/footer-background.png');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  li {
+    padding: rem(40);
+    display: flex;
+    max-width: rem(250);
+    flex-direction: column;
+    align-items: center;
+    margin: auto;
+  }
+
+  h2 {
+    font-size: rem(52);
+    line-height: rem(64);
+    text-align: center;
+    margin-bottom: rem(80);
+    font-weight: normal;
+  }
+
+  a {
+    color: $white;
+    font-family: $font-family-2;
+    font-size: rem(13);
+    letter-spacing: rem(2);
+    line-height: rem(18);
+    text-align: center;
+    font-weight: normal;
+  }
+}
