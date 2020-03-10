@@ -1,0 +1,60 @@
+@import 'css/settings';
+
+$padding: rem(20);
+
+.c-card-insights {
+  border: rem(2) solid $color-1;
+  box-shadow: rem(4) rem(4) 0 0 $color-1;
+
+  span {
+    font-family: $font-family-2;
+    font-size: rem(11);
+    letter-spacing: rem(3);
+    line-height: rem(28);
+    padding: rem(3);
+    background-color: $color-2;
+  }
+
+  .card-box {
+    border: rem(1) solid $color-1;
+  }
+
+  .row {
+    box-sizing: border-box;
+    padding: $padding;
+  }
+
+  .content {
+    padding: 0;
+  }
+
+  h3 {
+    font-size: rem(32);
+    font-weight: $font-weight-regular;
+  }
+
+  h4 {
+    font-family: $font-family-3;
+    font-weight: $font-weight-medium;
+    font-size: rem(11);
+    letter-spacing: rem(3);
+    line-height: rem(28);
+  }
+
+  h5 {
+    font-weight: $font-weight-regular;
+    font-size: rem(19);
+    line-height: rem(27);
+  }
+
+  ul {
+    list-style-type: disc;
+
+    li {
+      font-size: rem(19);
+      line-height: rem(27);
+      list-style-position: inside;
+      padding: $padding;
+    }
+  }
+}

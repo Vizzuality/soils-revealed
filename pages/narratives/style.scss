@@ -1,0 +1,38 @@
+@import 'css/settings';
+
+.p-narratives {
+  .hero {
+    padding: rem(20) 0;
+
+    h2 {
+      font-size: rem(52);
+      line-height: rem(58);
+      font-weight: normal;
+      padding-bottom: rem(20);
+    }
+
+    .tabs {
+      display: flex;
+      font-family: $font-family-3;
+      font-size: rem(13);
+      letter-spacing: rem(2);
+
+      a {
+        position: relative;
+
+        &.-active {
+          &:after {
+            content: '';
+            box-sizing: border-box;
+            position: absolute;
+            bottom: calc(rem(-36));
+            height: rem(4);
+            left: 0;
+            right: 0;
+            background-color: $color-6;
+          }
+        }
+      }
+    }
+  }
+}
