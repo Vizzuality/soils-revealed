@@ -1,3 +1,6 @@
+// The button styles might be used outside of the component
+@import 'components/button/style';
+
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

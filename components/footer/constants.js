@@ -3,19 +3,19 @@ const footerLinks = [
     name: 'Understand Soils',
     route: 'discover',
     path: '/discover',
-    title: 'DISCOVER',
+    title: 'Discover',
   },
   {
     name: 'Explore Soils',
     route: 'explore',
     path: '/explore',
-    title: 'GO TO MAP',
+    title: 'Go to map',
   },
   {
     name: 'Related Projects',
     route: 'narratives',
     path: '/narratives',
-    title: 'VIEW PROJECTS',
+    title: 'View projects',
   },
 ];
 
