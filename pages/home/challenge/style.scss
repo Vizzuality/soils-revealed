@@ -11,41 +11,17 @@
   padding-bottom: rem(150);
   border-top: rem(3) solid $white;
 
-  h2 {
+  .lead-text {
+    padding-top: rem(20);
+    color: $white;
+    font-family: $font-family-1;
     font-size: rem(52);
     line-height: rem(64);
-    font-weight: normal;
-    vertical-align: bottom;
+    font-weight: $font-weight-regular;
   }
 
   .description {
-    position: relative;
-    display: flex;
-
-    h2 {
-      span {
-        position: relative;
-      }
-    }
-
-    svg {
-      display: none;
-      position: absolute;
-      right: rem(-35);
-      bottom: rem(130);
-      background-color: rgba($color-5, 0.1);
-      border-radius: 50%;
-    }
-
-    &:hover {
-      span {
-        color: $color-5;
-      }
-
-      svg {
-        display: block;
-      }
-    }
+    padding-right: rem(50);
   }
 
   .contact {
@@ -53,5 +29,9 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+
+    .c-icon {
+      display: block;
+    }
   }
 }

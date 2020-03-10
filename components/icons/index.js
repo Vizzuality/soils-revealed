@@ -26,7 +26,7 @@ const Icons = () => (
           d="M28 27.877c0-2.4-1.596-4.511-3.912-5.141-2.525-0.689-5.973-1.403-9.421-1.403s-6.896 0.713-9.421 1.403c-2.316 0.631-3.912 2.741-3.912 5.141v2.789h26.667v-2.789z"
         ></path>
       </symbol>
-      <symbol id="icon-search" viewBox="0 0 32 32">
+      <symbol id="icon-arrow-right" viewBox="0 0 32 32">
         <title>arrow-right</title>
         <path
           fill="none"
