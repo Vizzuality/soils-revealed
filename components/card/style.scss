@@ -1,13 +1,11 @@
 @import 'css/settings';
 
 .c-card {
-
-  border
-  img {
+  border img {
     width: 100%;
   }
 
-  .card-head{
+  .card-head {
     display: flex;
     justify-content: flex-start;
 
@@ -17,6 +15,7 @@
       letter-spacing: rem(3);
       line-height: rem(28);
       padding-left: rem(10);
+      text-transform: uppercase;
     }
   }
 

@@ -4,7 +4,7 @@ import Icon from 'components/icon';
 
 import './style.scss';
 
-const Card = ({ info }) => (
+const Card = () => (
   <div className="c-card-insights">
     <div className="container">
       <div className="row justify-content-between align-items-end">
@@ -50,14 +50,5 @@ const Card = ({ info }) => (
     </div>
   </div>
 );
-
-Card.propTypes = {
-  info: PropType.shape({
-    title: PropType.string.isRequired,
-    imageUrl: PropType.string.isRequired,
-    category: PropType.string.isRequired,
-    description: PropType.string.isRequired,
-  }),
-};
 
 export default Card;
