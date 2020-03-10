@@ -1,36 +1,36 @@
 @import 'css/settings';
 
 .c-card {
-
   img {
     width: 100%;
   }
 
-  .card-head{
+  .card-head {
     display: flex;
     justify-content: flex-start;
 
     h4 {
       font-family: $font-family-3;
-      font-size: 12px;
-      letter-spacing: 3px;
-      line-height: 28px;
-      padding-left: 10px;
+      font-size: rem(12);
+      letter-spacing: rem(3);
+      line-height: rem(28);
+      padding-left: rem(10);
+      text-transform: uppercase;
     }
   }
 
   .card-info {
-    padding-left: 30px;
+    padding-left: rem(30);
 
     .card-category {
       font-family: $font-family-3;
-      font-size: 18px;
-      line-height: 29px;
+      font-size: rem(18);
+      line-height: rem(29);
     }
 
     .card-description {
-      font-size: 19px;
-      line-height: 27px;
+      font-size: rem(19);
+      line-height: rem(27);
     }
   }
 }

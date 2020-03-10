@@ -10,18 +10,22 @@ const CardsHomeComponent = () => (
   <div className="p-home-cards">
     <div className="container">
       <div className="row">
-        <SectionTitle info={{ index: 4, text: 'DISCOVER PROJECTS' }} className="-secondary" />
+        <div className="col">
+          <SectionTitle info={{ index: 4, text: 'Discover projects' }} className="-secondary" />
+        </div>
       </div>
 
       <div className="row">
-        <h2>Learn more in our absorbing stories.</h2>
+        <div className="col">
+          <h3>Learn more in our absorbing stories.</h3>
+        </div>
       </div>
 
       <div className="row">
-        <div className="col-sm-4">
+        <div className="col-md-4">
           <Card info={cardInfo[0]} />
         </div>
-        <div className="col-sm-8">
+        <div className="col-md-8">
           <Card info={cardInfo[1]} />
         </div>
       </div>

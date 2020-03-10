@@ -6,11 +6,11 @@ import './style.scss';
 
 const Card = ({ info }) => (
   <div className="c-card">
-    <img src={`/images${info.imageUrl}`} alt={info.title} />
+    <img src={`/images/${info.imageUrl}`} alt={info.title} />
     <div className="card-content">
       <div className="card-head">
         <Icon name="dots-dark" />
-        <h4>CATEGORY NAME</h4>
+        <h4>Category name</h4>
       </div>
 
       <div className="card-info">
