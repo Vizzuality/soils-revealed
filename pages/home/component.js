@@ -1,10 +1,13 @@
 import React from 'react';
+
 import StaticPage from 'layout/static-page';
-import IntroComponent from './intro';
+import Intro from './intro';
+import Challenge from './challenge';
 
 const HomePage = () => (
   <StaticPage className="p-home">
-    <IntroComponent />
+    <Intro />
+    <Challenge />
   </StaticPage>
 );
 
