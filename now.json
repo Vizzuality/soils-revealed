@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "name": "soils-revealed",
+  "build": {
+    "env": {}
+  },
+  "env": {}
+}
