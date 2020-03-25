@@ -1,0 +1,61 @@
+@import 'css/settings';
+
+// Background-height of the next section
+$background-height: 100vw * #{139 / 1204};
+
+$depth-visualization-offset: rem(100);
+
+// Increase of specificity needed to override the styles of .p-home
+.p-home .c-homepage-section-1 {
+  padding: rem(50) 0 calc(#{$background-height} + #{rem(50)});
+  background-image: url("data:image/svg+xml,%3Csvg width='1204' height='514' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23DF9D62' fill-rule='evenodd'%3E%3Cpath d='M1202.099.511c-70.281 32.457-121.777 52.666-154.488 60.629-121.596 29.602-212.008 17.672-276.585 31.204-144.106 30.198-210 89.586-296.53 103.679-86.53 14.092-215.217 39.845-228.274 39.845-8.705 0-90.779 9.48-246.222 28.438v248.97h1202.099V.511z' fill-opacity='.1'/%3E%3Cpath d='M0 316.935c33.749 7.44 90.307-9 122.953-12.407 52.37-5.465 93.91-1.09 119.78 3.884 77.461 14.893 128.674 36.622 157.386 44.194 88.538 23.35 170.81 66.283 298.142 59.033 28.646-1.63 32.452-24.504 87.519-17.078 74.375 10.03 111.253-5.178 119.023-5.178 5.395 0 79.388.93 139.22 5.178 12.723.904 22.243 12.056 46.585 16.603 11.32 2.115 36.956 17.126 62.113 19.824 9.747 1.045 26.84 28.474 51.279 82.287H0v-196.34z' fill-opacity='.2'/%3E%3Cpath d='M0 407c78.68 3.333 125.912 7 141.695 11 23.676 6 33.125 15 71.31 15 38.184 0 62.202-4 81.217 7 19.014 11 57.414 19.088 82.062 29.632 16.431 7.029 32.67 21.705 48.716 44.028H0V407z' fill-opacity='.2'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: cover;
+  background-position: bottom rem(-50) center;
+  background-repeat: no-repeat;
+
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    // Hack for the depth visualization so it seems contained in the next section
+    padding: rem(100) 0 calc(#{$background-height} + #{rem(100) + $depth-visualization-offset});
+  }
+
+  .container {
+    position: relative;
+  }
+
+  .title {
+    @include font-size($font-size-xxl);
+    line-height: 1;
+  }
+
+  .intro {
+    font-family: $font-family-2;
+  }
+
+  .scroll-text {
+    display: none;
+    position: absolute;
+    left: 0;
+    bottom: rem(-100);
+    max-width: rem(100);
+    transform: translateY(100%);
+    font-family: $font-family-2;
+    @include font-size($font-size-xxxs);
+    font-weight: $font-weight-bold;
+    text-align: center;
+    text-transform: uppercase;
+
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      display: block;
+    }
+
+    .c-icon {
+      display: block;
+      width: rem(16);
+      margin: 0 auto;
+
+      use {
+        stroke: $body-color;
+      }
+    }
+  }
+}

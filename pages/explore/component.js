@@ -2,9 +2,9 @@ import React from 'react';
 import StaticPage from 'layout/static-page';
 import Head from 'components/head';
 
-const AboutPage = () => (
-  <StaticPage className="p-about">
-    <Head title="About" />
+const ExplorePage = () => (
+  <StaticPage className="p-explore">
+    <Head title="Explore" />
     <div className="container">
       <div className="row">
         <div className="col-sm-12">
@@ -17,4 +17,4 @@ const AboutPage = () => (
   </StaticPage>
 );
 
-export default AboutPage;
+export default ExplorePage;

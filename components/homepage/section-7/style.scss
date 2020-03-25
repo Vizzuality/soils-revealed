@@ -1,0 +1,18 @@
+@import 'css/settings';
+
+$background-height: 100vw * #{32 / 1204};
+
+// Increase of specificity needed to override the styles of .p-home
+.p-home .c-homepage-section-7 {
+  padding: calc(#{$background-height} + #{rem(100)}) 0 rem(100);
+  background-color: #602214;
+  background-image: url('/images/homepage-section-7-background.svg');
+  background-size: cover;
+  background-position: top center;
+  background-repeat: no-repeat;
+  color: $text-color-2;
+
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    padding: calc(#{$background-height} + #{rem(200)}) 0 rem(200);
+  }
+}

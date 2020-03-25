@@ -1,40 +1,52 @@
 @import 'css/settings';
 
 .c-footer {
+  position: relative; // Needed for the z-index
   color: $white;
+  font-family: $font-family-2;
+  @include font-size($font-size-xs);
+  text-transform: uppercase;
+  background: $primary;
+  box-shadow: 0 rem(-2) rem(5) 0 rgba($black, 0.3);
+  z-index: 2; // Needed to be on top of the depth visualization
+  transform: translate3d(0, 0, 0); // Hack for Safari to take into account the z-index
 
-  ul {
-    margin: 0;
-    background-image: url('/images/footer-background.png');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
-  li {
-    padding: rem(40);
-    display: flex;
-    max-width: rem(250);
-    flex-direction: column;
-    align-items: center;
-    margin: auto;
-  }
-
-  h2 {
-    font-size: rem(52);
-    line-height: rem(64);
-    text-align: center;
-    margin-bottom: rem(80);
-    font-weight: normal;
+  .c-icon {
+    display: inline-block;
+    width: rem(115);
+    height: rem(40);
+    fill: $text-color-2;
+    stroke: $text-color-2;
   }
 
   a {
     color: $white;
-    font-family: $font-family-2;
-    font-size: rem(13);
-    letter-spacing: rem(2);
-    line-height: rem(18);
+  }
+
+  .navbar {
+    display: block;
+  }
+
+  .navbar-nav {
+    text-align: right;
+    padding-left: $grid-gutter-width / 2;
+
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      text-align: initial;
+    }
+  }
+
+  .navbar-text {
+    margin-top: map-get($spacers, 4);
     text-align: center;
-    font-weight: normal;
+
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      margin-top: 0;
+      text-align: right;
+    }
+
+    a {
+      text-decoration: underline;
+    }
   }
 }

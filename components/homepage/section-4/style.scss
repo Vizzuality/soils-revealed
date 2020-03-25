@@ -1,0 +1,34 @@
+@import 'css/settings';
+
+$background-height: 100vw * #{124 / 1204};
+
+.c-homepage-section-4 {
+  position: relative;
+  margin-top: calc(#{$background-height});
+  background-color: #742b19;
+  color: $text-color-2;
+
+  &:before {
+    display: block;
+    position: absolute;
+    top: calc(-1 * #{$background-height});
+    left: 0;
+    width: 100%;
+    height: calc(#{$background-height});
+    background-color: #7a2f1c;
+    background-image: url("data:image/svg+xml,%3Csvg width='1204' height='124' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 123.08l1204 .002v-63c-51.837-31.225-90.335-48.832-115.496-52.821-121.124-19.204-221.077 5.158-288.876 10.49-295.35 23.228-536.945 0-712.404 0-32.948 0-62.022.246-87.224.739v104.59z' fill='%23742B19' fill-rule='evenodd'/%3E%3C/svg%3E");
+    background-size: calc(100% + #{rem(1)}) auto; // We need to add 1px for subpixel rendering
+    background-position: bottom rem(-1) left; // We need to add 1px for subpixel rendering
+    background-repeat: no-repeat;
+    content: '';
+  }
+
+  .intro {
+    @include font-size($font-size-l);
+    line-height: 1.25;
+
+    mark {
+      color: #742b19;
+    }
+  }
+}

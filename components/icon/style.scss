@@ -3,21 +3,10 @@
 .c-icon {
   width: rem(22);
   height: rem(22);
-  fill: $color-1;
-
-  // Modifiers
-
-  // size
+  fill: $body-color;
 
   &.-big {
     width: rem(40);
     height: rem(40);
-  }
-
-  // functionality
-  // specifc
-  &.-logo {
-    width: rem(150);
-    height: rem(50);
   }
 }

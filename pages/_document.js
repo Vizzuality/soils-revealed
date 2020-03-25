@@ -15,11 +15,8 @@ export default class MyDocument extends Document {
           <meta httpEquiv="x-ua-compatible" content="ie=edge" />
           <meta name="viewport" content="width=1024, initial-scale=1, shrink-to-fit=no" />
           <meta name="author" content="Vizzuality" />
-          <link rel="manifest" href="/static/site.webmanifest" />
-          <meta name="msapplication-TileColor" content="#72c990" />
-          <meta name="theme-color" content="#ffffff" />
           <link
-            href="https://fonts.googleapis.com/css?family=Crimson+Text:400,700|Roboto+Mono:400,500,700|Roboto:400,500,700&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Roboto+Mono:wght@400;700&display=swap"
             rel="stylesheet"
           />
         </Head>

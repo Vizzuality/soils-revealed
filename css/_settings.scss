@@ -1,128 +1,64 @@
-@import 'functions';
-
-// Bootstrap + custom
-
-// Colors
-
-$white: #fff !default;
-$black: #000 !default;
-
-$color-1: #1a203c;
-$color-2: #c68e54;
-$color-3: #c5a475;
-$color-4: #8e3721;
-$color-5: #f08e6a;
-$color-6: #c18547;
-
-$color-cream-1: #f2f3ef;
-$color-cream-2: #d8d8d8;
-$color-cream-3: #fcfcfc;
-$color-cream-4: #979797;
-
-$color-grey-1: rgba(108, 123, 159, 0.85);
-$color-grey-2: #2d3548;
-$color-grey-3: #2d3548;
-$color-grey-4: #201e1f;
-
-// Fonts
-
-$font-family-1: 'Crimson Text', serif;
-$font-family-2: 'Roboto', sans-serif;
-$font-family-3: 'Roboto Mono', monospace;
-
-$font-weight-regular: 400;
-$font-weight-medium: 500;
-$font-weight-bold: 700;
-
-// Options
-$enable-caret: true;
-$enable-rounded: true;
-$enable-shadows: true;
-$enable-gradients: false;
-$enable-transitions: true;
-$enable-hover-media-query: false; // Deprecated, no longer affects any compiled CSS
-$enable-grid-classes: true;
-$enable-print-styles: true;
-$enable-validation-icons: true;
-
-// Body
-$body-bg: $color-cream-1;
-$body-color: $color-1;
-
-// Components
-$border-color: #e3e3e3;
-$modal-backdrop-opacity: 0.6;
-
-// Backgrounds
-$bg-color-primary: #3b383b;
-$bg-color-secondary: #434043;
-
-$box-shadow-sm: 0 3px 5px 0 rgba(75, 125, 103, 0.1), 0 0 2px 0 rgba(89, 148, 122, 0.3);
-$box-shadow: $box-shadow-sm;
-$box-shadow-lg: $box-shadow-sm;
-$box-shadow-hover: 0 10px 15px 1px rgba(89, 148, 122, 0.14), 0 0 2px 0 rgba(75, 125, 103, 0.3);
-$box-shadow-borders: 0 8px 11px 0 rgba(114, 201, 144, 0.49);
-
-$box-shadow-right-side: 3px 3px 5px -3px rgba(75, 125, 103, 0.1),
-  2px 0 2px -2px rgba(89, 148, 122, 0.3);
-
-// Typography
-$font-size-sm: rem(12);
-$font-size-base: rem(19);
-$lead-font-size: rem(22);
-
-$font-family-sans-serif: $font-family-1;
-$h1-font-size: rem(48);
-$h2-font-size: rem(18);
-$h3-font-size: rem(16);
-$h4-font-size: rem(16);
-$h5-font-size: rem(16);
-$h6-font-size: rem(14);
-
-// Buttons + Forms
-// Shared variables that are reassigned to `$input-` and `$btn-` specific variables.
-$input-btn-padding-y: rem(10);
-$input-btn-padding-x: rem(15);
-
-// Buttons
-$btn-padding-y: rem(11);
-$btn-padding-x: rem(34);
-$btn-font-size: rem(15);
-$btn-font-size-lg: rem(16);
-$btn-font-size-sm: rem(13);
-$btn-line-height: rem(20);
-
-$btn-padding-y-sm: rem(2);
-$btn-padding-x-sm: rem(15);
-$btn-line-height-sm: $btn-line-height;
-
-$btn-padding-y-lg: $btn-padding-y;
-$btn-padding-x-lg: $btn-padding-x;
-$btn-line-height-lg: $btn-line-height;
-
-$btn-font-weight: 500;
-$btn-box-shadow: 0 3px 6px 0 rgba(114, 201, 144, 0.4);
-$btn-box-shadow-hover: 0 8px 11px 0 rgba(114, 201, 144, 0.5);
-$btn-box-shadow-alt: 0 3px 6px 0 rgba(0, 0, 0, 0.15);
-$btn-box-shadow-alt-hover: 0 8px 11px 0 rgba(0, 0, 0, 0.15);
-
-// Forms
-$input-box-shadow: 0 3px 5px 0 rgba(75, 125, 103, 0.1), 0 0 2px 0 rgba(89, 148, 122, 0.5);
-$input-border-color: $border-color;
-$input-placeholder-color: rgba(#393f44, 0.3);
-$input-border-width: 0rem;
-$input-group-addon-bg: white;
-$input-group-addon-border-color: $border-color;
-$input-group-addon-color: $body-color;
-
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
+@import 'functions';
 
-// App structure
-$header-size-sm: rem(65);
-$header-size: rem(80);
+// Colors
 
-$out-space: rem(110);
-$ui-space: rem(15);
-$margin-size: rem(40);
+$primary: #1a203c;
+$secondary: #d79b5c;
+
+$text-color-1: $primary;
+$text-color-2: #fdddba;
+
+$theme-colors: (
+  'primary': $primary,
+  'secondary': $secondary,
+);
+
+// Body
+
+$body-bg: #f2f3ef;
+$body-color: $text-color-1;
+
+// Typography
+
+$font-family-1: 'Crimson Text', serif;
+$font-family-2: 'Roboto Mono', sans-serif;
+
+$font-family-base: $font-family-1;
+
+$font-size-xxl: rem(98);
+$font-size-xl: rem(52);
+$font-size-l: rem(44);
+$font-size-base: rem(18);
+$font-size-s: rem(16);
+$font-size-xs: rem(13);
+$font-size-xxs: rem(12);
+$font-size-xxxs: rem(10);
+
+$mark-padding: 0 0.2rem;
+$mark-bg: #fac080;
+
+// Grid containers
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1040px,
+);
+
+// Buttons
+
+$btn-font-family: $font-family-2;
+$btn-font-size: $font-size-xs;
+
+$btn-padding-y: rem(17);
+$btn-padding-x: rem(17);
+
+$btn-border-radius: 0;
+
+// Options
+
+$enable-responsive-font-sizes: true;

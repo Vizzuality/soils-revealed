@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+
+import Head from 'components/head';
 import Header from 'components/header';
 import Footer from 'components/footer';
 import Icons from 'components/icons';
@@ -9,8 +11,9 @@ import './style.scss';
 
 const StaticPage = ({ className, children }) => (
   <div className={classNames('l-simple-page', className)}>
+    <Head />
     <Header />
-    <div className="l-static-page">{children}</div>
+    <main className="l-static-page">{children}</main>
     <Footer />
     <Icons />
   </div>

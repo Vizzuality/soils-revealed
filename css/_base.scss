@@ -1,8 +1,17 @@
-// The button styles might be used outside of the component
-@import 'components/button/style';
-
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-display: swap;
+}
+
+.btn {
+  text-transform: uppercase;
+
+  &.btn-fixed-width {
+    min-width: rem(190);
+  }
+
+  &.btn-outline-secondary {
+    color: $white;
+  }
 }

@@ -1,0 +1,88 @@
+@import 'css/settings';
+
+$background-height: 100vw * #{84 / 1204};
+
+.c-homepage-section-6 {
+  position: relative;
+  margin-top: calc(#{$background-height});
+  background-color: #602214;
+  color: $text-color-2;
+
+  &:before {
+    display: block;
+    position: absolute;
+    top: calc(-1 * #{$background-height});
+    left: 0;
+    width: 100%;
+    height: calc(#{$background-height});
+    background-color: #6d2917;
+    background-image: url("data:image/svg+xml,%3Csvg width='1204' height='84' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 29.48C73.685-8.493 183.205-9.781 328.561 25.615c342.347 83.367 266.557-29.49 513.61-21.532 75.524 2.433 196.133 2.433 361.829 0v79.151H0V29.48z' fill='%23602214' fill-rule='evenodd'/%3E%3C/svg%3E");
+    background-size: calc(100% + #{rem(1)}) auto; // We need to add 1px for subpixel rendering
+    background-position: bottom rem(-1) left; // We need to add 1px for subpixel rendering
+    background-repeat: no-repeat;
+    content: '';
+  }
+
+  .tab-intro {
+    font-family: $font-family-2;
+  }
+
+  .tabs {
+    .react-tabs__tab-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      text-align: center;
+
+      @include media-breakpoint-up(lg, $grid-breakpoints) {
+        text-align: initial;
+      }
+    }
+
+    .react-tabs__tab {
+      display: block;
+      font-family: $font-family-2;
+      @include font-size($font-size-xs);
+      text-transform: uppercase;
+      cursor: pointer;
+
+      &--selected {
+        .c-icon {
+          background: $text-color-2;
+
+          use {
+            stroke: #602214;
+          }
+        }
+      }
+    }
+
+    .c-icon {
+      display: block;
+      width: rem(40);
+      height: rem(40);
+      margin: 0 auto map-get($spacers, 2);
+      padding: rem(8);
+      border: rem(2) solid rgba($text-color-2, 0.2);
+      border-radius: 100%;
+      overflow: visible; // Needed otherwise the icons will be clipped by the border-radius
+
+      @include media-breakpoint-up(lg, $grid-breakpoints) {
+        display: inline-block;
+        width: rem(60);
+        height: rem(60);
+        margin: 0 map-get($spacers, 1) 0 0;
+        padding: rem(15);
+      }
+
+      use {
+        stroke: $text-color-2;
+      }
+    }
+  }
+
+  .tab-content {
+    @include font-size($font-size-l);
+    line-height: 1.25;
+  }
+}

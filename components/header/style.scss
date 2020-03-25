@@ -2,119 +2,21 @@
 
 .c-header {
   position: relative;
-  padding: rem(20) 0;
-  z-index: 3;
-  font-family: $font-family-2;
+  padding: map-get($spacers, 3) 0;
 
-  @media screen and (min-width: map-get($grid-breakpoints, 'sm')) {
-    width: 100%;
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    padding: map-get($spacers, 5) 0;
   }
 
   .navbar {
     position: relative;
 
-    img {
-      width: rem(100);
-    }
-
-    .nav-item {
-      padding-right: rem(40);
-      font-size: rem(11);
-      letter-spacing: rem(3);
-      line-height: rem(28);
-      text-align: center;
-      position: relative;
-      box-sizing: border-box;
-
-      &.login {
-        padding-left: rem(40);
-
-        &:before {
-          content: '';
-          position: absolute;
-          border: rem(0.5) solid rgba($color-2, 0.2);
-          height: 100%;
-          left: 0;
-          color: $color-2;
-        }
-      }
-
-      &.-active {
-        .nav-link {
-          text-decoration: none;
-          text-align: center;
-          position: relative;
-
-          &:before {
-            content: '';
-            position: absolute;
-            top: rem(-27);
-            left: rem(8);
-            right: rem(8);
-            box-sizing: content-box;
-            height: rem(3);
-            background-color: $color-1;
-          }
-        }
-      }
-    }
-
-    .dropdown-container {
-      position: relative;
-
-      .nav-link {
-        cursor: default;
-
-        &:after {
-          content: '';
-          border: solid black;
-          border-width: 0 rem(3) rem(3) 0;
-          top: 0;
-          display: inline-block;
-          padding: rem(3);
-          position: absolute;
-          top: 50%;
-          transform: rotate(45deg) translateY(-100%);
-        }
-      }
-
-      .dropdown-toggle {
-        position: relative;
-        padding: rem(8);
-        font-size: inherit;
-        line-height: inherit;
-        letter-spacing: inherit;
-      }
-
-      &:hover {
-        .dropdown-menu {
-          display: flex;
-          flex-direction: column;
-          border: rem(2) solid $color-1;
-          background-color: $color-cream-1;
-          border-radius: 0;
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          font-size: rem(12);
-          letter-spacing: rem(3.27);
-          line-height: rem(28);
-          text-align: center;
-
-          &:before {
-            content: '';
-            border: solid $color-1;
-            border-width: 0 rem(2) rem(2) 0;
-            display: inline-block;
-            padding: rem(6);
-            position: absolute;
-            top: rem(-3);
-            left: 50%;
-            background-color: $color-cream-1;
-            transform: rotate(-135deg) translateX(50%);
-          }
-        }
-      }
+    .c-icon {
+      display: inline-block;
+      width: rem(115);
+      height: rem(40);
+      fill: #8f3721;
+      stroke: #8f3721;
     }
   }
 }

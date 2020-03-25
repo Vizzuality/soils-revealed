@@ -1,0 +1,82 @@
+@import 'css/settings';
+
+.c-homepage-depth-visualization {
+  display: none;
+  position: sticky;
+  left: $grid-gutter-width / 2;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 0; // Hack to not reserve space for the component above the first section
+  z-index: 1; // Needed to be on top of the backgrounds
+
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    display: flex;
+  }
+
+  @each $breakpoint, $container-max-width in $container-max-widths {
+    @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+      left: calc((100vw - #{$container-max-width}) / 2 - #{$grid-gutter-width / 2});
+    }
+  }
+
+  .item {
+    position: relative;
+
+    &.-active {
+      .text {
+        display: block;
+      }
+
+      .rectangle {
+        border-color: $white;
+        background: $white;
+      }
+    }
+
+    .rectangle {
+      position: relative;
+      display: block;
+      border: rem(1) solid rgba(#c68e54, 0.4);
+
+      &:before {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 800%;
+        height: 800%;
+        transform: translate(-50%, -50%);
+        content: '';
+      }
+    }
+
+    .line {
+      position: relative;
+      width: rem(1);
+      background: rgba(#c68e54, 0.4);
+    }
+
+    .text {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: map-get($spacers, 4);
+      width: rem(100);
+      transform: translateY(-50%);
+      font-family: $font-family-2;
+
+      .title {
+        @include font-size($font-size-s);
+        color: $white;
+      }
+
+      .description {
+        margin-top: map-get($spacers, 1);
+        padding-top: map-get($spacers, 1);
+        border-top: rem(1) solid rgba($white, 0.2);
+        @include font-size($font-size-xxs);
+        color: $text-color-2;
+      }
+    }
+  }
+}
