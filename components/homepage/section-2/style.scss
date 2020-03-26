@@ -21,7 +21,7 @@ $depth-visualization-offset: rem(100);
     width: 100%;
     height: calc(#{$background-height});
     background-image: url("data:image/svg+xml,%3Csvg width='1204' height='139' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 118.919h51.914c13.982 0 73.484 7.158 89.881 0 16.397-7.159 45.826-25.298 94.444-16.38 48.619 8.918 50.556 2.43 95.008 11.961 44.451 9.531 39.166 1.356 105.819 1.356s59.833 3.883 132.366-13.317c72.532-17.2 123.226-73.828 211.004-84.96C868.214 6.444 887.908 0 953.742 0c65.833 0 120.976 1.758 165.99 24.61 45.014 22.851 65.2 42.187 83.769 54.492l.499 59.817H0v-20z' fill='%2387341E' fill-rule='evenodd'/%3E%3C/svg%3E");
-    background-size: calc(100% + #{rem(1)}) auto; // We need to add 1px for subpixel rendering
+    background-size: calc(100% + #{rem(2)}) auto; // We need to add 1px for subpixel rendering
     background-position: bottom rem(-1) left; // We need to add 1px for subpixel rendering
     background-repeat: no-repeat;
     content: '';
