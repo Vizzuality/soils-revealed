@@ -13,6 +13,10 @@ const Icons = () => (
         <title>Soils Revealed</title>
         <path
           fill="none"
+          strokeLinejoin="miter"
+          strokeLinecap="butt"
+          strokeMiterlimit="4"
+          strokeWidth="1.7391"
           d="M50.139 1.391H8.696a7.304 7.304 0 1 0 0 14.608h72.275a7.304 7.304 0 1 1 0 14.608H10.944"
         />
         <path
