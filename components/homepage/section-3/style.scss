@@ -68,5 +68,6 @@ $background-height: 100vw * #{201 / 1204};
   .text {
     font-family: $font-family-2;
     @include font-size($font-size-xs);
+    line-height: 2.1;
   }
 }
