@@ -23,6 +23,43 @@ $background-height: 100vw * #{201 / 1204};
     content: '';
   }
 
+  .image {
+    position: relative;
+    height: rem(100);
+    margin-bottom: map-get($spacers, 3);
+    background-image: url('/images/homepage-section-3-image.png');
+    background-size: cover;
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-clip: content-box;
+
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      height: inherit;
+      margin-bottom: 0;
+      background-size: 0 0;
+    }
+
+    &:before {
+      @include media-breakpoint-up(md, $grid-breakpoints) {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: calc(100% - #{map-get($spacers, 2)});
+        height: 100%;
+        background-image: inherit;
+        background-size: cover;
+        background-position: top center;
+        background-repeat: no-repeat;
+        content: '';
+      }
+
+      @include media-breakpoint-up(lg, $grid-breakpoints) {
+        width: calc(100% - #{rem(40)});
+      }
+    }
+  }
+
   .intro {
     @include font-size($font-size-l);
     line-height: 1.25;

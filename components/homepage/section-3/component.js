@@ -11,7 +11,7 @@ const Section3 = ({ configuration }) => (
           <div className="section-title">{configuration.title}</div>
           <div className="section-description">{configuration.description}</div>
         </div>
-        <div className="col-sm-12 col-md-3 offset-md-2">Image</div>
+        <div className="col-sm-12 col-md-3 offset-md-2 image" />
         <div className="col-sm-12 col-md-5">
           <div className="row mb-4">
             <div className="col intro">
