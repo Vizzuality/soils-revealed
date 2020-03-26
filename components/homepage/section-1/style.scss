@@ -18,10 +18,6 @@ $depth-visualization-offset: rem(100);
     padding: rem(100) 0 calc(#{$background-height} + #{rem(100) + $depth-visualization-offset});
   }
 
-  .container {
-    position: relative;
-  }
-
   .title {
     @include font-size($font-size-xxl);
     line-height: 1;
@@ -32,21 +28,37 @@ $depth-visualization-offset: rem(100);
     line-height: 1.9;
   }
 
+  .scroll-text-container {
+    position: relative;
+  }
+
   .scroll-text {
     display: none;
     position: absolute;
-    left: 0;
+    left: rem($grid-gutter-width) / 2;
     bottom: rem(-100);
     max-width: rem(100);
-    transform: translateY(100%);
     font-family: $font-family-2;
     @include font-size($font-size-xxxs);
     font-weight: $font-weight-bold;
     text-align: center;
     text-transform: uppercase;
 
+    @each $breakpoint, $container-max-width in $container-max-widths {
+      @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+        left: calc((100vw - #{$container-max-width}) / 2 - #{$grid-gutter-width / 2});
+      }
+    }
+
     @include media-breakpoint-up(md, $grid-breakpoints) {
+      display: flex;
+      flex-direction: row-reverse;
+      transform: translate(0, 100%);
+    }
+
+    @include media-breakpoint-up(xl, $grid-breakpoints) {
       display: block;
+      transform: translate(-50%, 100%);
     }
 
     .c-icon {
