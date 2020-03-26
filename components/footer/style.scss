@@ -5,6 +5,7 @@
   color: $white;
   font-family: $font-family-2;
   @include font-size($font-size-xs);
+  font-weight: $font-weight-medium;
   text-transform: uppercase;
   background: $primary;
   box-shadow: 0 rem(-2) rem(5) 0 rgba($black, 0.3);

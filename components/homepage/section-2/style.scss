@@ -5,12 +5,14 @@ $depth-visualization-offset: rem(100);
 
 .c-homepage-section-2 {
   position: relative;
+  padding: rem(50) 0;
   background-color: #87341e;
   color: $text-color-2;
 
   @include media-breakpoint-up(md, $grid-breakpoints) {
     // Hack for the depth visualization so it seems contained in the section
     margin-top: #{-1 * $depth-visualization-offset};
+    padding: rem(110) 0 rem(50);
   }
 
   &:before {

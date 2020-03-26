@@ -5,8 +5,13 @@ $background-height: 100vw * #{201 / 1204};
 .c-homepage-section-3 {
   position: relative;
   margin-top: calc(#{$background-height});
+  padding: rem(50) 0;
   background-color: #7a2f1c;
   color: $text-color-2;
+
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    padding: rem(50) 0 rem(100);
+  }
 
   &:before {
     display: block;

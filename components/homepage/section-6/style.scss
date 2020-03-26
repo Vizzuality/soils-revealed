@@ -5,8 +5,13 @@ $background-height: 100vw * #{84 / 1204};
 .c-homepage-section-6 {
   position: relative;
   margin-top: calc(#{$background-height});
+  padding: rem(50) 0;
   background-color: #602214;
   color: $text-color-2;
+
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    padding: rem(30) 0 rem(90);
+  }
 
   &:before {
     display: block;
@@ -34,7 +39,7 @@ $background-height: 100vw * #{84 / 1204};
       list-style: none;
       text-align: center;
 
-      @include media-breakpoint-up(lg, $grid-breakpoints) {
+      @include media-breakpoint-up(xl, $grid-breakpoints) {
         text-align: initial;
       }
     }
@@ -44,6 +49,7 @@ $background-height: 100vw * #{84 / 1204};
       font-family: $font-family-2;
       @include font-size($font-size-xs);
       text-transform: uppercase;
+      letter-spacing: rem(1);
       cursor: pointer;
 
       &--selected {
@@ -67,7 +73,7 @@ $background-height: 100vw * #{84 / 1204};
       border-radius: 100%;
       overflow: visible; // Needed otherwise the icons will be clipped by the border-radius
 
-      @include media-breakpoint-up(lg, $grid-breakpoints) {
+      @include media-breakpoint-up(xl, $grid-breakpoints) {
         display: inline-block;
         width: rem(60);
         height: rem(60);

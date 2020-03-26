@@ -37,6 +37,8 @@ $font-size-xs: rem(13);
 $font-size-xxs: rem(12);
 $font-size-xxxs: rem(10);
 
+$font-weight-medium: 500; // Only for Roboto Mono
+
 $mark-padding: 0 0.2rem;
 $mark-bg: #fac080;
 
@@ -53,11 +55,13 @@ $container-max-widths: (
 
 $btn-font-family: $font-family-2;
 $btn-font-size: $font-size-xs;
+$btn-font-weight: $font-weight-medium;
 
 $btn-padding-y: rem(17);
 $btn-padding-x: rem(17);
 
 $btn-border-radius: 0;
+$btn-border-width: rem(2);
 
 // Options
 

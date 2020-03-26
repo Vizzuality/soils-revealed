@@ -2,12 +2,6 @@
 
 .p-home {
   section {
-    padding: rem(50) 0;
-
-    @include media-breakpoint-up(md, $grid-breakpoints) {
-      padding: rem(100) 0;
-    }
-
     .section-title {
       font-family: $font-family-2;
       @include font-size($font-size-s);

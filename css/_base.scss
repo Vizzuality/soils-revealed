@@ -6,6 +6,7 @@ body {
 
 .btn {
   text-transform: uppercase;
+  letter-spacing: rem(2);
 
   &.btn-fixed-width {
     min-width: rem(190);
