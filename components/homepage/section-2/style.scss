@@ -33,4 +33,19 @@ $depth-visualization-offset: rem(100);
     @include font-size($font-size-xl);
     line-height: 1.2;
   }
+
+  .visualization {
+    display: inline-block;
+
+    text {
+      font-family: $font-family-2;
+      @include font-size($font-size-xs);
+      font-weight: $font-weight-medium;
+      fill: $text-color-2;
+    }
+
+    path {
+      stroke: $text-color-2;
+    }
+  }
 }
