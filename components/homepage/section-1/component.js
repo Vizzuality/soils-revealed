@@ -15,13 +15,13 @@ const Section1 = () => (
         <div className="row mb-4">
           <div className="col intro">
             Soils Revealed can help you find places with the greatest potential to increase soil
-            organic carbon and advance food security, water quality and climate action.
+            organic carbon and advance food security, soil health and climate action.
           </div>
         </div>
         <div className="row">
           <div className="col">
             <Link to="explore">
-              <a className="btn btn-primary btn-fixed-width">Explore</a>
+              <a className="btn btn-primary btn-fixed-width">Explore map</a>
             </Link>
           </div>
         </div>

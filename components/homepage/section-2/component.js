@@ -31,16 +31,9 @@ const Section2 = ({ configuration }) => (
               />
             </defs>
             <g fill="none" fillRule="evenodd">
-              <g transform="translate(345 1)">
-                <circle
-                  stroke="#FFC112"
-                  strokeWidth="2"
-                  fill="url(#b)"
-                  cx="100.5"
-                  cy="100.5"
-                  r="100.5"
-                />
-                <circle fill="#FFC112" cx="100.5" cy="155.5" r="45.5" />
+              <g transform="translate(345 1)" stroke="#FFC112" strokeWidth="2">
+                <circle fill="url(#b)" cx="100.5" cy="100.5" r="100.5" />
+                <circle fill="#87341E" cx="100.5" cy="155.5" r="45.5" />
               </g>
               <text transform="translate(-7 1)">
                 <tspan x="39" y="123">

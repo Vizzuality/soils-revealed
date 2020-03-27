@@ -12,10 +12,10 @@ const Section4 = ({ configuration }) => (
           <div className="section-description">{configuration.description}</div>
         </div>
         <div className="col-sm-12 col-md-8 offset-md-2 intro">
-          <mark>Carbon stored in soil can remain</mark> there for up to{' '}
-          <mark>thousands of years</mark> before being washed into rivers by erosion or released
-          into the atmosphere through soil respiration. Between 1989 and 2008 soil respiration
-          increased by about 0.1% per year.
+          <mark>Carbon stored in soil can be preserved</mark> for <mark>thousands of years</mark>{' '}
+          under natural conditions. Upon disturbance, from 30-60 % of the surficial carbon can be
+          emitted to the atmosphere and lost through erosion. Judicious land use management can help
+          prevent such losses.
         </div>
       </div>
     </div>

@@ -12,9 +12,10 @@ const Section5 = ({ configuration }) => (
           <div className="section-description">{configuration.description}</div>
         </div>
         <div className="col-sm-12 col-md-8 offset-md-2 intro">
-          An increase of just 1% of the carbon stocks in the top metre of soils would be{' '}
-          <mark>higher than the amount</mark> corresponding to the{' '}
-          <mark>annual anthropogenic CO2</mark> emissions from fossil fuel burning.
+          An increase of 0.4% per year in the soil organic carbon stocks in the topsoil would{' '}
+          <mark>significantly reduce the CO2 concentration</mark> in the atmosphere related to human
+          activities. When realised, such an increase would help to stabilise the climate and ensure
+          food security.
         </div>
       </div>
     </div>

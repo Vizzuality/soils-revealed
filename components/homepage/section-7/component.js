@@ -22,7 +22,7 @@ const Section7 = ({ configuration }) => (
       <div className="row">
         <div className="col-sm-12 col-md-8 offset-md-2 text-center">
           <Link route="explore">
-            <a className="btn btn-outline-secondary btn-fixed-width">Explore</a>
+            <a className="btn btn-outline-secondary btn-fixed-width">Explore map</a>
           </Link>
         </div>
       </div>
