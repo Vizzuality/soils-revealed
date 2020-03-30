@@ -47,7 +47,14 @@ const Section6 = ({ configuration }) => (
               But there are solutions, including maintaining or improving carbon stocks in
               terrestrial systems through sustainable land management.
             </TabPanel>
-            <TabPanel>Missing text</TabPanel>
+            <TabPanel>
+              Soil health is determined by numerous soil properties, in particular soil organic
+              matter. Organic matter can be increased through judicious land management practices.
+              It enhances nutrient and water holding capacity, and improves soil structure. Managing
+              for increased soil carbon can enhance productivity, soil biodiversity and
+              environmental quality. Increased soil organic matter levels can also help reduce
+              atmospheric CO2 emissions that contribute to climate change.
+            </TabPanel>
           </div>
         </div>
       </Tabs>
