@@ -36,6 +36,7 @@ $depth-visualization-offset: rem(100);
 
   .visualization {
     display: inline-block;
+    max-width: rem(547);
 
     text {
       font-family: $font-family-2;

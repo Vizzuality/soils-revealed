@@ -17,8 +17,8 @@ const Section2 = ({ configuration }) => (
         </div>
       </div>
       <div className="row">
-        <div className="col-sm-12 col-md-8 offset-md-2 text-right mt-2">
-          <svg width="547" height="203" className="visualization">
+        <div className="col-sm-12 col-md-8 offset-md-2 text-right mt-4 mt-lg-2">
+          <svg viewBox="0 0 547 203" className="visualization">
             <defs>
               <pattern id="b" width="20" height="20" x="-20" y="-20" patternUnits="userSpaceOnUse">
                 <use xlinkHref="#a" transform="scale(.5)" />
