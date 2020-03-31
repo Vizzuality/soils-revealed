@@ -4,9 +4,16 @@ import Head from 'next/head';
 
 const HeadComponent = ({ title, description }) => (
   <Head>
-    {!title && <title key="title">Soils Revealed</title>}
-    {!!title && <title key="title">{`${title} | Soils Revealed`}</title>}
-    {description && <meta key="description" name="description" content={description} />}
+    <title key="title">{title ? `${title} | Soils Revealed` : 'Soils Revealed'}</title>
+    <meta
+      key="description"
+      name="description"
+      content={
+        description
+          ? description
+          : 'Soils Revealed platform is an interface that allows direct visualization and analysis of soil organic carbon (SOC) change and shows predictions for future changes, in order to achieve a sustainable ecosystem management.'
+      }
+    />
   </Head>
 );
 
