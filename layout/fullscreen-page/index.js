@@ -4,26 +4,24 @@ import classNames from 'classnames';
 
 import Head from 'components/head';
 import Header from 'components/header';
-import Footer from 'components/footer';
 import Icons from 'components/icons';
 
 import './style.scss';
 
-const StaticPage = ({ className, children }) => (
-  <div className={classNames('l-static-page', className)}>
+const FullscreenPage = ({ className, children }) => (
+  <div className={classNames('l-fullscreen-page', className)}>
     <Head />
-    <Header />
+    <Header minimal />
     <main>{children}</main>
-    <Footer />
     <Icons />
   </div>
 );
 
-StaticPage.propTypes = {
+FullscreenPage.propTypes = {
   className: PropTypes.string,
   children: PropTypes.node.isRequired,
 };
 
-StaticPage.defaultProps = { className: null };
+FullscreenPage.defaultProps = { className: null };
 
-export default StaticPage;
+export default FullscreenPage;
