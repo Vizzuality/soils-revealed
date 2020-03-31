@@ -1,0 +1,11 @@
+@import 'css/settings';
+
+.c-explore-fullscreen-message {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  @include font-size($font-size-l);
+  color: $text-color-2;
+  transform: translateY(-50%);
+}

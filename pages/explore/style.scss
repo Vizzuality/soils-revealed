@@ -1,4 +1,15 @@
 @import 'css/settings';
 
-.p-explore
+.p-explore {
+  width: 100vw;
+  height: 100vh;
+  background: #87341e;
+
+  main {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+  }
 }
