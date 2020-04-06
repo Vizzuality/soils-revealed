@@ -20,18 +20,26 @@ const AboutModal = ({ open, onClose }) => (
     <div className="container">
       <div className="row text-center mb-md-5">
         <div className="col-12 col-md-6 mb-4 mb-md-0">
-          <img src="/images/tnc-logo.svg" alt="The Nature Conservancy" />
+          <a href="https://www.nature.org" target="_blank" rel="noopener noreferrer">
+            <img src="/images/tnc-logo.svg" alt="The Nature Conservancy" />
+          </a>
         </div>
         <div className="col-12 col-md-6 mb-4 mb-md-0">
-          <img src="/images/cornell-university-logo.svg" alt="Cornell University" />
+          <a href="https://www.cornell.edu" target="_blank" rel="noopener noreferrer">
+            <img src="/images/cornell-university-logo.svg" alt="Cornell University" />
+          </a>
         </div>
       </div>
       <div className="row text-center">
         <div className="col-12 col-md-6 mb-4 mb-md-0">
-          <img src="/images/isric-logo.svg" alt="ISRIC" />
+          <a href="https://www.isric.org" target="_blank" rel="noopener noreferrer">
+            <img src="/images/isric-logo.svg" alt="ISRIC" />
+          </a>
         </div>
         <div className="col-12 col-md-6">
-          <img src="/images/whrc-logo.svg" alt="Woods Hole Research Center" />
+          <a href="https://whrc.org" target="_blank" rel="noopener noreferrer">
+            <img src="/images/whrc-logo.svg" alt="Woods Hole Research Center" />
+          </a>
         </div>
       </div>
     </div>
