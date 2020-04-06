@@ -1,5 +1,66 @@
 @import 'css/settings';
 
+.ReactModal__Overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  z-index: 9; // Needs to be below the z-index of the tooltip
+  background-color: rgba($black, 0.5) !important;
+  opacity: 0;
+  transform: scale(1.15);
+  transition: transform 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946),
+    opacity 0.1s cubic-bezier(0.465, 0.183, 0.153, 0.946);
+  will-change: transform, opacity;
+
+  &.ReactModal__Overlay--after-open {
+    opacity: 1;
+    transform: scale(1);
+    transition: transform 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946),
+      opacity 0.3s cubic-bezier(0.465, 0.183, 0.153, 0.946);
+  }
+}
+
 .c-modal {
-  background: transparent;
+  position: relative;
+  display: flex; // Needed by .content to be scrollable
+  width: calc(100% - #{2 * map-get($spacers, 4)});
+  max-height: calc(100% - #{2 * map-get($spacers, 4)});
+  margin: 0 auto;
+  padding: map-get($spacers, 4);
+  background-color: $body-bg;
+  background-image: url("data:image/svg+xml,%3Csvg width='1099' height='283' viewBox='0 0 1099 283' xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3EGroup%3C/title%3E%3Cg fill='%23DF9D62' fill-rule='evenodd'%3E%3Cpath d='M1099 0c-83.107 32.674-142.06 52.475-176.86 59.401C815.106 80.704 735.522 72.12 678.68 81.858c-126.846 21.732-184.848 64.471-261.014 74.613-76.167 10.142-189.44 28.675-200.934 28.675-7.662 0-79.906 6.822-216.732 20.467v76.503L1099 283V0z' fill-opacity='.1'/%3E%3Cpath d='M56.747 244.43c8.157-1.47 24.414-.49 36.592-2.94 12.179-2.449 28.134-.49 38.99-1.469 10.857-.98 6.857-1.47 26.86-4.409 20.002-2.939 39.792-4.898 55.227-7.837 15.436-2.94 44.75-9.798 65.353-9.798 20.605 0 29.47 0 37.995-1.47 8.524-1.469 55.68-9.307 73.311-9.307 17.63 0 22.314-3.394 40.718-5.86 18.405-2.467 56.12-8.36 69.243-11.047 13.122-2.687 52.254-21.302 73.212-23.752 20.959-2.449 65.637-14.206 83.031-16.655 17.395-2.45 42.365-4.899 58.155-6.368 15.79-1.47 53.62-4.409 84.913-4.409h45.227c15.4 0 34.213-2.495 85.76 0 51.545 2.495 64.347 4.409 107.85 22.044 29.002 11.757 48.94 16.532 59.816 14.327V283H0v-39.464c32.394 1.576 51.31 1.874 56.747.894z' fill-opacity='.2'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: calc(100% + #{rem(2)}) auto; // We need to add 1px for subpixel rendering
+  background-position: bottom rem(-1) left; // We need to add 1px for subpixel rendering
+  background-repeat: no-repeat;
+
+  .close-button {
+    position: absolute;
+    top: map-get($spacers, 3);
+    right: 0;
+    width: rem(40);
+    height: rem(40);
+    padding: 0;
+    border-radius: 100%;
+    transform: translateX(50%);
+    background: $body-bg;
+
+    .c-icon {
+      width: 100%;
+      height: 100%;
+
+      use {
+        fill: currentColor;
+      }
+    }
+
+    @include hover() {
+      background: $primary;
+    }
+  }
+
+  .content {
+    overflow: scroll;
+    -webkit-overflow-scrolling: touch;
+  }
 }
