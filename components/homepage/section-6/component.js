@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
-import { Link } from 'lib/routes';
 import Icon from 'components/icon';
 
 import './style.scss';
@@ -58,13 +57,6 @@ const Section6 = ({ configuration }) => (
           </div>
         </div>
       </Tabs>
-      <div className="row">
-        <div className="col-sm-12 col-md-8 offset-md-2">
-          <Link route="about">
-            <a className="btn btn-primary btn-fixed-width">About</a>
-          </Link>
-        </div>
-      </div>
     </div>
   </section>
 );
