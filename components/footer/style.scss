@@ -20,8 +20,20 @@
     stroke: $text-color-2;
   }
 
-  a {
-    color: $white;
+  a,
+  button {
+    color: currentColor;
+  }
+
+  button {
+    display: inline;
+    border: none;
+    background: none;
+    font-family: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    text-transform: inherit;
+    cursor: pointer;
   }
 
   .navbar {
