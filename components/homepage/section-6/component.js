@@ -27,7 +27,7 @@ const Section6 = ({ configuration }) => (
                 <Icon name="food-security" /> Food security
               </Tab>
               <Tab className="react-tabs__tab col-4 pr-0">
-                <Icon name="soil-health" /> Soil health
+                <Icon name="water-quality" /> Water quality
               </Tab>
             </TabList>
           </div>
