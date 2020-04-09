@@ -13,9 +13,11 @@ const Section5 = ({ configuration }) => (
         </div>
         <div className="col-sm-12 col-md-8 offset-md-2 intro">
           A relatively small increase in the soil organic carbon stocks in the topsoil would{' '}
-          <mark>significantly reduce the CO2 concentration</mark> in the atmosphere related to human
-          activities. When realised, such an increase would help to stabilise the climate and ensure
-          food security.
+          <mark>
+            significantly reduce the CO<sub>2</sub> concentration
+          </mark>{' '}
+          in the atmosphere related to human activities. When realised, such an increase would help
+          to stabilise the climate and ensure food security.
         </div>
       </div>
     </div>

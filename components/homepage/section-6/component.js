@@ -38,7 +38,8 @@ const Section6 = ({ configuration }) => (
             <TabPanel>
               Soil use and management have a direct effect on climate change by altering emissions
               of greenhouse gases to the atmosphere. Judicious land management can reduce these
-              emissions and thereby remove CO2 from the atmosphere by storing it in the soil.
+              emissions and thereby remove CO<sub>2</sub> from the atmosphere by storing it in the
+              soil.
             </TabPanel>
             <TabPanel>
               World food crisis looms if greenhouse gas emissions go unchecked. The impacts of
