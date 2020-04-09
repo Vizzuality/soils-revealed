@@ -15,8 +15,8 @@ const Section3 = ({ configuration }) => (
         <div className="col-sm-12 col-md-5">
           <div className="row mb-4">
             <div className="col intro">
-              But due to agriculture, the world’s soils have lost 116 billion tons of organic
-              carbon.
+              But due to agriculture, the world’s soils have lost 116 billion tons of organic carbon
+              or roughly a fourth of all carbon emitted by humans since the Industrial Revolution.
             </div>
           </div>
           <div className="row">

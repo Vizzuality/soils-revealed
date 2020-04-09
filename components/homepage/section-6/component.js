@@ -37,22 +37,21 @@ const Section6 = ({ configuration }) => (
           <div className="col-sm-12 col-md-8 offset-md-2 tab-content">
             <TabPanel>
               Soil use and management have a direct effect on climate change by altering emissions
-              of &apos;greenhouse gases&apos; to the atmosphere. Judicious land management can
-              reduce these emissions and safeguard ecosystem services and soil health.
+              of greenhouse gases to the atmosphere. Judicious land management can reduce these
+              emissions and thereby remove CO2 from the atmosphere by storing it in the soil.
             </TabPanel>
             <TabPanel>
               World food crisis looms if greenhouse gas emissions go unchecked. The impacts of
               climate change on land will increase food prices and risk widespread food instability.
-              But there are solutions, including maintaining or improving carbon stocks in
-              terrestrial systems through sustainable land management.
+              But there are solutions, including maintaining or improving soil carbon stocks in
+              terrestrial systems through sustainable land management can mitigate some of these
+              impacts.
             </TabPanel>
             <TabPanel>
-              Soil health is determined by numerous soil properties, in particular soil organic
-              matter. Organic matter can be increased through judicious land management practices.
-              It enhances nutrient and water holding capacity, and improves soil structure. Managing
-              for increased soil carbon can enhance productivity, soil biodiversity and
-              environmental quality. Increased soil organic matter levels can also help reduce
-              atmospheric CO2 emissions that contribute to climate change.
+              Restorative land use and management practices have many additional benefits to
+              enhancing soil carbon. These include reduction in sedimentation of waterways and
+              reservoirs, biodegradation of pollutants and ultimately improvement in the quality of
+              groundwater, rivers and oceans.
             </TabPanel>
           </div>
         </div>

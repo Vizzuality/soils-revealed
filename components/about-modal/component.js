@@ -9,14 +9,19 @@ const AboutModal = ({ open, onClose }) => (
   <Modal open={open} onClose={onClose} title="About Soils Revealed" className="c-about-modal">
     <h1 className="mb-4">About Soils Revealed</h1>
     <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut at lacinia ligula, eu placerat
-      magna. Sed bibendum metus sed enim posuere, eu congue nunc fermentum. Vestibulum sit amet diam
-      condimentum, aliquet eros nec, blandit neque. Duis tortor massa, consectetur sed sem ut,
-      commodo egestas orci. Curabitur libero metus, pulvinar non neque id, tempor pellentesque
-      lectus. Aenean dignissim vestibulum orci quis condimentum. Fusce congue, dui vitae semper
-      feugiat, nisl est tincidunt ex, ut imperdiet tellus arcu at leo.{' '}
+      Soils Revealed is a platform for visualizing how past and future management changes soil
+      organic carbon stocks globally. It is based on the best, and sometimes only, available soil
+      data, information about the environment and computer simulations over time. Projections for
+      the coming decades are based on scenarios issued by the Intergovernmental Panel on Climate
+      Change (IPCC).
     </p>
-    <h2 className="mb-4">Our partners</h2>
+    <p>
+      The platform provides a novel and dynamic way of displaying, and comparing areas with greatest
+      potential to increase soil organic carbon and advance food security, soil health and climate
+      action. Potential partners are encouraged to join this international effort to help gradually
+      improve the platform.
+    </p>
+    <p>The project involved collaboration with the following partners:</p>
     <div className="container">
       <div className="row text-center mb-md-5">
         <div className="col-12 col-md-6 mb-4 mb-md-0">
@@ -43,6 +48,15 @@ const AboutModal = ({ open, onClose }) => (
         </div>
       </div>
     </div>
+    <h2 className="mt-5 mb-4">Methods in more detail</h2>
+    <p>
+      The historic SOC changes in agricultural lands are derived from Sanderman et al. (2017) who
+      used a data-driven statistical model and the HYDE v3.2 historic land-use dataset (Klein
+      Goldewijk et al., 2017). Recent changes in SOC stocks are assessed using actual soil carbon
+      data from national archives, a statistical space-time method for mapping SOC stocks, using
+      Argentina as a pilot region (Heuvelink et al., submitted). Future carbon changes are predicted
+      using scenarios from IPCC (2019).
+    </p>
   </Modal>
 );
 

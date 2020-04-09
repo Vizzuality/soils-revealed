@@ -20,9 +20,9 @@ const Section7 = ({ configuration }) => {
               <div className="section-description">{configuration.description}</div>
             </div>
             <div className="col-sm-12 col-md-8 offset-md-2 text-center intro">
-              As well as estimating actual carbon storage, we’ve predicted the potential amount of
-              carbon our soils could hold. Using that, you can see the areas where our action can
-              make the biggest impact.{' '}
+              We have estimated recent historic changes of actual carbon storage, as well as
+              predicted the potential amount of carbon our soils could hold globally. Using that,
+              you can see the areas where our action is and can make the biggest impact.
             </div>
           </div>
           <div className="row">

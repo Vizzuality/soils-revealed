@@ -12,10 +12,9 @@ const Section4 = ({ configuration }) => (
           <div className="section-description">{configuration.description}</div>
         </div>
         <div className="col-sm-12 col-md-8 offset-md-2 intro">
-          <mark>Carbon stored in soil can be preserved</mark> for <mark>thousands of years</mark>{' '}
-          under natural conditions. Upon disturbance, from 30-60 % of the surficial carbon can be
-          emitted to the atmosphere and lost through erosion. Judicious land use management can help
-          prevent such losses.
+          <mark>Carbon stored in soil can be maintained for thousands of years</mark> under natural
+          conditions. Upon disturbance and land use change, 30-80 % of the surficial carbon can be
+          emitted to the atmosphere. Judicious management can help prevent such losses.
         </div>
       </div>
     </div>

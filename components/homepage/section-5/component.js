@@ -12,7 +12,7 @@ const Section5 = ({ configuration }) => (
           <div className="section-description">{configuration.description}</div>
         </div>
         <div className="col-sm-12 col-md-8 offset-md-2 intro">
-          An increase of 0.4% per year in the soil organic carbon stocks in the topsoil would{' '}
+          A relatively small increase in the soil organic carbon stocks in the topsoil would{' '}
           <mark>significantly reduce the CO2 concentration</mark> in the atmosphere related to human
           activities. When realised, such an increase would help to stabilise the climate and ensure
           food security.
