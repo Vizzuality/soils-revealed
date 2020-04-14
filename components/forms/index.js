@@ -1,3 +1,4 @@
 import Switch from './switch';
+import Radio from './radio';
 
-export default { Switch };
+export default { Switch, Radio };

@@ -1,0 +1,7 @@
+@import 'css/settings';
+
+.c-radio {
+  font-family: $font-family-2;
+  @include font-size($font-size-xxs);
+  line-height: $font-size-base * $line-height-base;
+}
