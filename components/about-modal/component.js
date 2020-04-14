@@ -22,33 +22,31 @@ const AboutModal = ({ open, onClose }) => (
       improve the platform.
     </p>
     <p>The project involved collaboration with the following partners:</p>
-    <div className="container">
-      <div className="row text-center mb-md-5">
-        <div className="col-12 col-md-6 mb-4 mb-md-0">
+    <div className="container mt-3">
+      <div className="row align-items-center ">
+        <div className="col-6 col-md-3 pl-md-0 mb-4 mb-md-0">
           <a href="https://www.nature.org" target="_blank" rel="noopener noreferrer">
             <img src="/images/tnc-logo.svg" alt="The Nature Conservancy" />
           </a>
         </div>
-        <div className="col-12 col-md-6 mb-4 mb-md-0">
+        <div className="col-6 col-md-3 mb-4 mb-md-0">
           <a href="https://www.cornell.edu" target="_blank" rel="noopener noreferrer">
             <img src="/images/cornell-university-logo.svg" alt="Cornell University" />
           </a>
         </div>
-      </div>
-      <div className="row text-center">
-        <div className="col-12 col-md-6 mb-4 mb-md-0">
+        <div className="col-6 col-md-3">
           <a href="https://www.isric.org" target="_blank" rel="noopener noreferrer">
             <img src="/images/isric-logo.svg" alt="ISRIC" />
           </a>
         </div>
-        <div className="col-12 col-md-6">
+        <div className="col-6 col-md-3 pr-md-0">
           <a href="https://whrc.org" target="_blank" rel="noopener noreferrer">
             <img src="/images/whrc-logo.svg" alt="Woods Hole Research Center" />
           </a>
         </div>
       </div>
     </div>
-    <h2 className="mt-5 mb-4">Methods in more detail</h2>
+    <h2 className="mt-5 mb-3">Methods in more detail</h2>
     <p>
       The historic SOC changes in agricultural lands are derived from Sanderman et al. (2017) who
       used a data-driven statistical model and the HYDE v3.2 historic land-use dataset (Klein
