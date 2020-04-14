@@ -76,6 +76,19 @@ $custom-control-indicator-active-border-color: $custom-control-indicator-border-
 $custom-control-indicator-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
 $custom-control-indicator-focus-border-color: lighten($primary, 25%);
 
+$custom-switch-width: rem(36);
+
+$custom-select-border-radius: 0;
+$custom-select-font-family: $font-family-2;
+$custom-select-font-size: $font-size-xxs;
+$custom-select-font-weight: $font-weight-medium;
+$custom-select-padding-x: map-get($spacers, 2);
+$custom-select-padding-y: map-get($spacers, 1);
+$custom-select-border-width: rem(2);
+$custom-select-border-color: $primary;
+$custom-select-focus-border-color: $custom-select-border-color;
+$custom-select-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
+
 // Options
 
 $enable-responsive-font-sizes: true;

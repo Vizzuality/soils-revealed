@@ -1,4 +1,5 @@
 import Switch from './switch';
 import Radio from './radio';
+import Select from './select';
 
-export default { Switch, Radio };
+export { Switch, Radio, Select };
