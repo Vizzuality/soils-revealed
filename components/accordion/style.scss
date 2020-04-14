@@ -1,0 +1,32 @@
+@import 'css/settings';
+
+.c-accordion {
+  > .item {
+    > .title {
+      cursor: default;
+
+      .button {
+        &[aria-expanded='false'] {
+          .c-icon {
+            transform: rotate(180deg);
+            transform-origin: center;
+          }
+        }
+
+        .c-icon {
+          width: rem(13);
+          margin-left: map-get($spacers, 2);
+          vertical-align: bottom;
+
+          use {
+            stroke: currentColor;
+          }
+        }
+      }
+    }
+
+    > .panel {
+      margin: map-get($spacers, 2) 0;
+    }
+  }
+}
