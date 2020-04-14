@@ -63,6 +63,18 @@ $btn-padding-x: rem(17);
 $btn-border-radius: 0;
 $btn-border-width: rem(2);
 
+// Controls
+
+$custom-control-gutter: map-get($spacers, 3);
+$custom-switch-width: rem(36);
+$custom-control-indicator-checked-bg: $primary;
+$custom-control-indicator-checked-border-color: $primary;
+$custom-control-indicator-border-color: #d8d8d8;
+$custom-control-indicator-active-bg: lighten($primary, 60%);
+$custom-control-indicator-active-border-color: $custom-control-indicator-border-color;
+$custom-control-indicator-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
+$custom-control-indicator-focus-border-color: lighten($primary, 25%);
+
 // Options
 
 $enable-responsive-font-sizes: true;
