@@ -5,8 +5,32 @@
   z-index: 10 !important;
 
   div.tippy-tooltip.light-theme {
-    padding: map-get($spacers, 2);
+    padding: map-get($spacers, 3);
+    @include font-size($font-size-base);
+    line-height: inherit;
     color: $body-color;
-    border-radius: $border-radius;
+    border-radius: 0;
+    background-color: $body-bg;
+    box-shadow: $box-shadow-2;
+
+    &[data-placement^='top'] > .tippy-arrow {
+      border-top-color: $body-bg;
+    }
+
+    &[data-placement^='bottom'] > .tippy-arrow {
+      border-bottom-color: $body-bg;
+    }
+
+    &[data-placement^='left'] > .tippy-arrow {
+      border-left-color: $body-bg;
+    }
+
+    &[data-placement^='right'] > .tippy-arrow {
+      border-right-color: $body-bg;
+    }
+
+    .tippy-content {
+      padding: 0;
+    }
   }
 }
