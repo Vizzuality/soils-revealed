@@ -18,33 +18,33 @@ const DepthVisualization = dynamic(() => import('components/homepage/depth-visua
 
 export const DEPTH_ITEMS = [
   {
-    title: 'Depth 0-5 cm',
-    description: 'Soil Organic Carbon: XXX',
+    title: 'Depth 0-15 cm',
+    description: 'Soil Organic Carbon: 498 Pg',
     anchor: 'section-1',
   },
   {
-    title: 'Depth 5-15 cm',
-    description: 'Soil Organic Carbon: XXX',
+    title: 'Depth 0-30 cm',
+    description: 'Soil Organic Carbon: 755 Pg',
     anchor: 'section-2',
   },
   {
-    title: 'Depth 15-30 cm',
-    description: 'Soil Organic Carbon: XXX',
+    title: 'Depth 0-50 cm',
+    description: 'Soil Organic Carbon: 993 Pg',
     anchor: 'section-3',
   },
   {
-    title: 'Depth 30-60 cm',
-    description: 'Soil Organic Carbon: XXX',
+    title: 'Depth 0-100 cm',
+    description: 'Soil Organic Carbon: 1,408 Pg',
     anchor: 'section-4',
   },
   {
-    title: 'Depth 60-100 cm',
-    description: 'Soil Organic Carbon: XXX',
+    title: 'Depth 0-150 cm',
+    description: 'Soil Organic Carbon: 1,778 Pg',
     anchor: 'section-5',
   },
   {
-    title: 'Depth 100-200 cm',
-    description: 'Soil Organic Carbon: XXX',
+    title: 'Depth 0-200 cm',
+    description: 'Soil Organic Carbon: 2,060 Pg',
     anchor: 'section-6',
   },
 ];

@@ -88,7 +88,11 @@ const DepthVisualization = ({ items }) => {
               <br />
               {[...item.title.split(/\s/).slice(1)].join(' ')}
             </div>
-            <div className="description">{item.description}</div>
+            <div className="description">
+              {item.description.split(/:\s/)[0]}:
+              <br />
+              {item.description.split(/:\s/)[1]}
+            </div>
           </div>
         </div>
       ))}
