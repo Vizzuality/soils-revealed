@@ -1,0 +1,119 @@
+@import 'css/settings';
+
+.c-dropdown {
+  display: inline-block;
+
+  .target-button {
+    position: relative;
+    margin: 0 1ch;
+    padding: 0;
+    border: 0;
+    border-bottom: rem(2) solid $primary;
+    background: none;
+    font-family: $font-family-2;
+    font-weight: $font-weight-medium;
+    @include font-size($font-size-xxs);
+    z-index: 10;
+
+    &:after {
+      display: block;
+      position: absolute;
+      bottom: -#{rem(8)};
+      left: 50%;
+      width: rem(3.5);
+      height: rem(3.5);
+      border: rem(3.5) solid transparent;
+      border-top: rem(3.5) solid $primary;
+      border-left: rem(3.5) solid $primary;
+      transform: translateX(-50%) rotate(-135deg);
+      content: '';
+    }
+  }
+
+  .menu {
+    position: relative;
+    top: rem(10);
+    left: 50%;
+    z-index: 10;
+
+    &__control {
+      @include sr-only();
+    }
+
+    &__menu {
+      width: auto;
+      border-radius: 0;
+      border: rem(1) solid $primary;
+      box-shadow: $box-shadow-1;
+      transform: translateX(-50%);
+
+      &:before {
+        display: block;
+        position: absolute;
+        top: -#{rem(5)};
+        left: 50%;
+        width: rem(10);
+        height: rem(10);
+        border: rem(1) solid transparent;
+        border-top-color: $primary;
+        border-left-color: $primary;
+        background: $body-bg;
+        transform: translateX(-50%) rotate(45deg);
+        content: '';
+      }
+    }
+
+    &__menu-list {
+      padding: 0;
+    }
+
+    &__option {
+      white-space: nowrap;
+      font-family: $font-family-2;
+      font-weight: $font-weight-medium;
+      @include font-size($font-size-xxs);
+      border-bottom: rem(1) solid $custom-control-indicator-border-color;
+      background: $body-bg;
+
+      &:active {
+        background-color: rgba($primary, 0.25);
+      }
+
+      &:before {
+        display: inline-block;
+        width: rem(14);
+        height: rem(14);
+        margin-right: map-get($spacers, 2);
+        padding: rem(2);
+        border-radius: 100%;
+        box-shadow: 0 0 0 rem(1) $custom-control-indicator-border-color;
+        background-clip: content-box;
+        vertical-align: sub;
+        content: '';
+      }
+
+      &--is-selected {
+        color: $body-color;
+        background: $body-bg;
+
+        &:before {
+          background-color: $primary;
+        }
+      }
+
+      // Must be after &--is-selected
+      &--is-focused {
+        background-color: rgba($primary, 0.25);
+      }
+    }
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+  }
+}

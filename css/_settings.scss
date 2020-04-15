@@ -51,6 +51,10 @@ $container-max-widths: (
   xl: 1040px,
 );
 
+// Box shadows
+
+$box-shadow-1: rem(2) rem(2) 0 0 $primary;
+
 // Buttons
 
 $btn-font-family: $font-family-2;
