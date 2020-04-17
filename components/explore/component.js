@@ -1,12 +1,12 @@
 import React from 'react';
-import { useMediaQuery } from 'react-responsive';
 
+import { useDesktop } from 'utils/hooks';
 import FullscreenMessage from './fullscreen-message';
 
 import './style.scss';
 
 const Explore = () => {
-  const isDesktop = useMediaQuery({ minDeviceWidth: 992 });
+  const isDesktop = useDesktop();
 
   return (
     <div className="c-explore">
