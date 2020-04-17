@@ -37,7 +37,10 @@
     "@zeit/next-sass": "^1.0.1",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
+    "deck.gl": "7.3.6",
+    "layer-manager": "^3.0.4",
     "lodash": "^4.17.15",
+    "luma.gl": "7.3.2",
     "next": "9.3.2",
     "next-redux-wrapper": "^5.0.0",
     "next-routes": "^1.4.2",
@@ -54,7 +57,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "viewport-mercator-project": "^7.0.1",
+    "viewport-mercator-project": "6.1.1",
     "vizzuality-redux-tools": "^4.1.1"
   }
 }
