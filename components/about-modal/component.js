@@ -46,7 +46,7 @@ const AboutModal = ({ open, onClose }) => (
         </div>
       </div>
     </div>
-    <h2 className="mt-5 mb-3">Methods in more detail</h2>
+    <h2 className="mt-5 mb-3">Methods in brief</h2>
     <p>
       The historic SOC changes in agricultural lands are derived from Sanderman et al. (2017) who
       used a data-driven statistical model and the HYDE v3.2 historic land-use dataset (Klein
