@@ -17,7 +17,7 @@ const Footer = () => {
           <div className="row py-4">
             <div className="col-sm-12">
               <nav className="navbar p-0">
-                <div className="row">
+                <div className="row align-items-center">
                   <div className="col-6 col-md-2">
                     <Link route="home">
                       <a className="navbar-brand mb-3 mb-md-0 py-0">
@@ -38,7 +38,12 @@ const Footer = () => {
                           className="nav-link pb-0"
                           onClick={() => setAboutModalOpen(true)}
                         >
-                          About
+                          About us
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" className="nav-link pb-0" disabled>
+                          Contact
                         </button>
                       </li>
                     </ul>

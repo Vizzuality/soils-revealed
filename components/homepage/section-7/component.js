@@ -20,9 +20,8 @@ const Section7 = ({ configuration }) => {
               <div className="section-description">{configuration.description}</div>
             </div>
             <div className="col-sm-12 col-md-8 offset-md-2 text-center intro">
-              We have estimated recent and historic changes of actual carbon storage, as well as
-              predicted the potential amount of carbon our soils could hold globally. Using that,
-              you can see the areas where our action is and can make the biggest impact.
+              Check out our map with a complete set of different layers and estimations for past and
+              future scenarios.
             </div>
           </div>
           <div className="row">
@@ -37,7 +36,7 @@ const Section7 = ({ configuration }) => {
                 className="btn btn-outline-secondary btn-fixed-width"
                 onClick={() => setAboutModalOpen(true)}
               >
-                About
+                About us
               </button>
             </div>
           </div>
