@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 
-import makeStore from 'lib/store';
-import { setRoutes } from 'modules/routes/actions';
+import createStore from 'lib/store';
+import { updateRoute } from 'modules/routing';
 
 import 'css/index.scss';
 
@@ -18,13 +18,13 @@ const SoilsRevealedApp = ({ Component, pageProps, store }) => {
 
 SoilsRevealedApp.getInitialProps = async ({ Component, router, ctx }) => {
   const { asPath } = router;
-  const { req, store, query } = ctx;
+  const { req, query, store } = ctx;
 
   const pathname = req ? asPath : ctx.asPath;
 
   // We save the route in Redux
   if (pathname) {
-    store.dispatch(setRoutes({ pathname, query }));
+    store.dispatch(updateRoute({ pathname, query }));
   }
 
   const pageProps = Component.getInitialProps ? await Component.getInitialProps(ctx) : {};
@@ -38,4 +38,4 @@ SoilsRevealedApp.propTypes = {
   store: PropTypes.any.isRequired,
 };
 
-export default withRedux(makeStore)(SoilsRevealedApp);
+export default withRedux(createStore)(SoilsRevealedApp);
