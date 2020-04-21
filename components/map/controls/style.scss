@@ -1,0 +1,49 @@
+@import 'css/settings';
+
+.c-map-controls {
+  position: absolute;
+  top: map-get($spacers, 3);
+  right: map-get($spacers, 3);
+  display: flex;
+  flex-direction: column;
+  z-index: 2; // Needed to be on top of the header
+
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    top: map-get($spacers, 4);
+    right: map-get($spacers, 4);
+  }
+
+  .group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: map-get($spacers, 2);
+
+    .btn {
+      position: relative;
+      width: #{rem(25) + $btn-border-width * 2};
+      height: #{rem(25) + $btn-border-width * 2};
+      padding: 0;
+
+      & + .btn:before {
+        display: block;
+        position: absolute;
+        top: -$btn-border-width;
+        left: -$btn-border-width;
+        width: calc(100% + #{2 * $btn-border-width});
+        height: rem(1);
+        background: rgba($white, 0.4);
+        content: '';
+      }
+
+      .c-icon {
+        display: block;
+        width: 100%;
+        height: 100%;
+
+        use {
+          fill: currentColor;
+        }
+      }
+    }
+  }
+}
