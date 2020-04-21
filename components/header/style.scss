@@ -10,13 +10,16 @@
 
   &.-minimal {
     padding: map-get($spacers, 3) map-get($spacers, 3);
-    z-index: 1;
 
     @include media-breakpoint-up(md, $grid-breakpoints) {
       padding: map-get($spacers, 4) map-get($spacers, 4);
     }
 
     .navbar {
+      .navbar-brand {
+        z-index: 1;
+      }
+
       .c-icon {
         width: rem(95);
         height: rem(35);
