@@ -12,7 +12,15 @@ body {
     min-width: rem(190);
   }
 
-  &.btn-outline-secondary {
+  &.btn-secondary {
+    color: $body-color;
+
+    &:not(:disabled):not(.disabled):active {
+      color: $body-color;
+    }
+  }
+
+  &.btn-outline-secondary:not(:hover) {
     color: $white;
   }
 }

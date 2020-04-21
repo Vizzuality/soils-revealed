@@ -29,7 +29,7 @@ const Footer = () => {
                     <ul className="navbar-nav">
                       <li>
                         <Link to="explore">
-                          <a className="nav-link py-0">Explore</a>
+                          <a className="nav-link py-0">Explore map</a>
                         </Link>
                       </li>
                       <li>
