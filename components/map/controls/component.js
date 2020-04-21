@@ -7,13 +7,31 @@ import MapControlsSettings from './settings';
 
 import './style.scss';
 
-const MapControls = ({ zoom, basemap, onChangeZoom, onChangeBasemap }) => {
+const MapControls = ({
+  zoom,
+  basemap,
+  roads,
+  labels,
+  onChangeZoom,
+  onChangeBasemap,
+  onChangeRoads,
+  onChangeLabels,
+}) => {
   return (
     <div className="c-map-controls">
       <div className="group">
         <Tooltip
           placement="left"
-          content={<MapControlsSettings basemap={basemap} onChangeBasemap={onChangeBasemap} />}
+          content={
+            <MapControlsSettings
+              basemap={basemap}
+              roads={roads}
+              labels={labels}
+              onChangeBasemap={onChangeBasemap}
+              onChangeRoads={onChangeRoads}
+              onChangeLabels={onChangeLabels}
+            />
+          }
         >
           <button type="button" className="btn btn-primary btn-sm">
             <Icon name="map-settings" />
@@ -43,8 +61,12 @@ const MapControls = ({ zoom, basemap, onChangeZoom, onChangeBasemap }) => {
 MapControls.propTypes = {
   zoom: PropTypes.number.isRequired,
   basemap: PropTypes.string.isRequired,
+  roads: PropTypes.bool.isRequired,
+  labels: PropTypes.bool.isRequired,
   onChangeZoom: PropTypes.func.isRequired,
   onChangeBasemap: PropTypes.func.isRequired,
+  onChangeRoads: PropTypes.func.isRequired,
+  onChangeLabels: PropTypes.func.isRequired,
 };
 
 export default MapControls;

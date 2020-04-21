@@ -8,6 +8,8 @@ export default connect(
     zoom: mapSelectors.selectZoom(state),
     viewport: mapSelectors.selectViewport(state),
     basemap: mapSelectors.selectBasemap(state),
+    roads: mapSelectors.selectRoads(state),
+    labels: mapSelectors.selectLabels(state),
     serializedState: exploreSelectors.selectSerializedState(state),
   }),
   {
@@ -15,5 +17,7 @@ export default connect(
     updateZoom: mapActions.updateZoom,
     updateViewport: mapActions.updateViewport,
     updateBasemap: mapActions.updateBasemap,
+    updateRoads: mapActions.updateRoads,
+    updateLabels: mapActions.updateLabels,
   }
 )(Component);

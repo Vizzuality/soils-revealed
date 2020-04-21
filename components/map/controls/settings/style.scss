@@ -4,6 +4,7 @@
   width: rem(180);
 
   section {
+    position: relative;
     padding: map-get($spacers, 3) 0;
 
     &:first-of-type {
@@ -12,6 +13,21 @@
 
     &:last-of-type {
       padding-bottom: 0;
+
+      &:after {
+        content: none;
+      }
+    }
+
+    &:after {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: -#{map-get($spacers, 3)};
+      width: calc(100% + #{2 * map-get($spacers, 3)});
+      height: rem(1);
+      background: rgba($black, 0.1);
+      content: '';
     }
 
     h3 {
@@ -21,6 +37,8 @@
   }
 
   .map-styles {
+    margin-bottom: -#{map-get($spacers, 3)};
+
     & > div {
       flex-basis: calc(50% - #{map-get($spacers, 3) / 2});
     }
