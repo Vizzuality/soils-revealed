@@ -1,0 +1,64 @@
+@import 'css/settings';
+
+.c-map-controls-settings {
+  width: rem(180);
+
+  section {
+    padding: map-get($spacers, 3) 0;
+
+    &:first-of-type {
+      padding-top: 0;
+    }
+
+    &:last-of-type {
+      padding-bottom: 0;
+    }
+
+    h3 {
+      margin-bottom: map-get($spacers, 3);
+      @include font-size($font-size-base);
+    }
+  }
+
+  .map-styles {
+    & > div {
+      flex-basis: calc(50% - #{map-get($spacers, 3) / 2});
+    }
+
+    input:checked + label:after {
+      border-color: $primary;
+    }
+
+    label {
+      position: relative;
+      display: block;
+      margin-bottom: map-get($spacers, 3);
+      font-family: $font-family-2;
+      @include font-size($font-size-xxs);
+      background-size: 0;
+
+      &:before {
+        display: block;
+        width: 100%;
+        height: rem(50);
+        margin-bottom: map-get($spacers, 2);
+        background-color: rgba($primary, 0.25);
+        background-image: inherit;
+        background-repeat: no-repeat;
+        background-size: cover;
+        content: '';
+      }
+
+      &:after {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: rem(50);
+        border: rem(4) solid transparent;
+        content: '';
+      }
+    }
+  }
+}

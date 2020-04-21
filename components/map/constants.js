@@ -1,6 +1,7 @@
 export const BASEMAPS = {
   light: {
     label: 'White',
+    image: null,
     mapStyle: {
       version: 8,
       sources: {
@@ -23,6 +24,7 @@ export const BASEMAPS = {
   },
   dark: {
     label: 'Dark',
+    image: null,
     mapStyle: {
       version: 8,
       sources: {
@@ -45,6 +47,7 @@ export const BASEMAPS = {
   },
   satellite: {
     label: 'Satellite',
+    image: null,
     mapStyle: {
       version: 8,
       sources: {

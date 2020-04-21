@@ -9,7 +9,16 @@ import FullscreenMessage from './fullscreen-message';
 
 import './style.scss';
 
-const Explore = ({ zoom, viewport, serializedState, restoreState, updateZoom, updateViewport }) => {
+const Explore = ({
+  zoom,
+  viewport,
+  basemap,
+  serializedState,
+  restoreState,
+  updateZoom,
+  updateViewport,
+  updateBasemap,
+}) => {
   const isDesktop = useDesktop();
 
   const onChangeViewport = useCallback(
@@ -36,13 +45,18 @@ const Explore = ({ zoom, viewport, serializedState, restoreState, updateZoom, up
       {isDesktop && (
         <>
           <Map
-            mapStyle={BASEMAPS.light.mapStyle}
+            mapStyle={BASEMAPS[basemap].mapStyle}
             viewport={viewport}
             onViewportChange={onChangeViewport}
           >
             {map => (
               <>
-                <Controls zoom={zoom} updateZoom={updateZoom} />
+                <Controls
+                  zoom={zoom}
+                  basemap={basemap}
+                  onChangeZoom={updateZoom}
+                  onChangeBasemap={updateBasemap}
+                />
                 <LayerManager map={map} providers={{}} layers={[]} />
               </>
             )}
@@ -62,10 +76,12 @@ const Explore = ({ zoom, viewport, serializedState, restoreState, updateZoom, up
 Explore.propTypes = {
   zoom: PropTypes.number.isRequired,
   viewport: PropTypes.object.isRequired,
+  basemap: PropTypes.string.isRequired,
   serializedState: PropTypes.string.isRequired,
   restoreState: PropTypes.func.isRequired,
   updateZoom: PropTypes.func.isRequired,
   updateViewport: PropTypes.func.isRequired,
+  updateBasemap: PropTypes.func.isRequired,
 };
 
 export default Explore;

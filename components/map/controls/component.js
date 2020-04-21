@@ -2,29 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Icon from 'components/icon';
+import Tooltip from 'components/tooltip';
+import MapControlsSettings from './settings';
 
 import './style.scss';
 
-const MapControls = ({ zoom, updateZoom }) => {
+const MapControls = ({ zoom, basemap, onChangeZoom, onChangeBasemap }) => {
   return (
     <div className="c-map-controls">
       <div className="group">
-        <button type="button" className="btn btn-primary btn-sm" disabled>
-          <Icon name="map-settings" />
-        </button>
+        <Tooltip
+          placement="left"
+          content={<MapControlsSettings basemap={basemap} onChangeBasemap={onChangeBasemap} />}
+        >
+          <button type="button" className="btn btn-primary btn-sm">
+            <Icon name="map-settings" />
+          </button>
+        </Tooltip>
       </div>
       <div className="group">
         <button
           type="button"
           className="btn btn-primary btn-sm"
-          onClick={() => updateZoom(zoom + 1)}
+          onClick={() => onChangeZoom(zoom + 1)}
         >
           <Icon name="zoom-in" />
         </button>
         <button
           type="button"
           className="btn btn-primary btn-sm"
-          onClick={() => updateZoom(zoom - 1)}
+          onClick={() => onChangeZoom(zoom - 1)}
         >
           <Icon name="zoom-out" />
         </button>
@@ -35,7 +42,9 @@ const MapControls = ({ zoom, updateZoom }) => {
 
 MapControls.propTypes = {
   zoom: PropTypes.number.isRequired,
-  updateZoom: PropTypes.func.isRequired,
+  basemap: PropTypes.string.isRequired,
+  onChangeZoom: PropTypes.func.isRequired,
+  onChangeBasemap: PropTypes.func.isRequired,
 };
 
 export default MapControls;

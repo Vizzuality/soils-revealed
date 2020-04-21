@@ -9,11 +9,16 @@ export const selectCenter = createSelector([selectViewport], viewport => ({
   latitude: viewport.lat,
   longitude: viewport.lng,
 }));
-export const selectSerializedState = createSelector([selectViewport], viewport => {
-  return {
-    viewport: omit(viewport, 'transitionDuration'),
-  };
-});
+export const selectBasemap = state => state[SLICE_NAME].basemap;
+export const selectSerializedState = createSelector(
+  [selectViewport, selectBasemap],
+  (viewport, basemap) => {
+    return {
+      viewport: omit(viewport, 'transitionDuration'),
+      basemap,
+    };
+  }
+);
 
 export default exploreActions =>
   createSlice({
@@ -25,6 +30,7 @@ export default exploreActions =>
         longitude: 0,
         transitionDuration: 250,
       },
+      basemap: 'light',
     },
     reducers: {
       updateZoom(state, action) {
@@ -38,6 +44,9 @@ export default exploreActions =>
         const { transitionDuration } = state.viewport;
         state.viewport = action.payload;
         state.viewport.transitionDuration = transitionDuration;
+      },
+      updateBasemap(state, action) {
+        state.basemap = action.payload;
       },
     },
     extraReducers: {
