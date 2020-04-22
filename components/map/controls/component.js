@@ -9,6 +9,8 @@ import './style.scss';
 
 const MapControls = ({
   zoom,
+  acceptableMinZoom,
+  acceptableMaxZoom,
   basemap,
   roads,
   labels,
@@ -46,14 +48,16 @@ const MapControls = ({
         <button
           type="button"
           className="btn btn-primary btn-sm"
-          onClick={() => onChangeZoom(zoom + 1)}
+          onClick={() => onChangeZoom(Math.min(zoom + 1, acceptableMaxZoom))}
+          disabled={zoom >= acceptableMaxZoom}
         >
           <Icon name="zoom-in" />
         </button>
         <button
           type="button"
           className="btn btn-primary btn-sm"
-          onClick={() => onChangeZoom(zoom - 1)}
+          onClick={() => onChangeZoom(Math.max(zoom - 1, acceptableMinZoom))}
+          disabled={zoom <= acceptableMinZoom}
         >
           <Icon name="zoom-out" />
         </button>
@@ -64,6 +68,8 @@ const MapControls = ({
 
 MapControls.propTypes = {
   zoom: PropTypes.number.isRequired,
+  acceptableMinZoom: PropTypes.number.isRequired,
+  acceptableMaxZoom: PropTypes.number.isRequired,
   basemap: PropTypes.string.isRequired,
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,

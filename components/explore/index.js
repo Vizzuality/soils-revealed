@@ -6,6 +6,8 @@ import Component from './component';
 export default connect(
   state => ({
     zoom: mapSelectors.selectZoom(state),
+    acceptableMinZoom: mapSelectors.selectAcceptableMinZoom(state),
+    acceptableMaxZoom: mapSelectors.selectAcceptableMaxZoom(state),
     viewport: mapSelectors.selectViewport(state),
     basemap: mapSelectors.selectBasemap(state),
     roads: mapSelectors.selectRoads(state),

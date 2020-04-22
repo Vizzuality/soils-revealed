@@ -11,6 +11,8 @@ import './style.scss';
 
 const Explore = ({
   zoom,
+  acceptableMinZoom,
+  acceptableMaxZoom,
   viewport,
   basemap,
   roads,
@@ -46,6 +48,18 @@ const Explore = ({
     Router.replaceRoute('explore', { state: serializedState });
   }, [serializedState]);
 
+  // If the user toggles on some layer that has a restricted zoom range and the current zoom is
+  // outside of it, we need to update the zoom to the min or max acceptable value
+  useEffect(() => {
+    if (zoom < acceptableMinZoom) {
+      updateZoom(acceptableMinZoom);
+    }
+
+    if (zoom > acceptableMaxZoom) {
+      updateZoom(acceptableMaxZoom);
+    }
+  }, [zoom, acceptableMinZoom, acceptableMaxZoom, updateZoom]);
+
   return (
     <div className="c-explore">
       {isDesktop && (
@@ -59,6 +73,8 @@ const Explore = ({
               <>
                 <Controls
                   zoom={zoom}
+                  acceptableMinZoom={acceptableMinZoom}
+                  acceptableMaxZoom={acceptableMaxZoom}
                   basemap={basemap}
                   roads={roads}
                   labels={labels}
@@ -87,6 +103,8 @@ const Explore = ({
 
 Explore.propTypes = {
   zoom: PropTypes.number.isRequired,
+  acceptableMinZoom: PropTypes.number.isRequired,
+  acceptableMaxZoom: PropTypes.number.isRequired,
   viewport: PropTypes.object.isRequired,
   basemap: PropTypes.string.isRequired,
   roads: PropTypes.bool.isRequired,

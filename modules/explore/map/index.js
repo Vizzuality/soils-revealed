@@ -1,6 +1,8 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { omit } from 'lodash';
 
+import { BASEMAPS } from 'components/map';
+
 export const SLICE_NAME = 'map';
 
 export const selectViewport = state => state[SLICE_NAME].viewport;
@@ -13,6 +15,15 @@ export const selectBasemap = state => state[SLICE_NAME].basemap;
 export const selectRoads = state => state[SLICE_NAME].roads;
 export const selectLabels = state => state[SLICE_NAME].labels;
 export const selectBoundaries = state => state[SLICE_NAME].boundaries;
+export const selectAcceptableMinZoom = createSelector(
+  [selectBasemap],
+  basemap => BASEMAPS[basemap].minZoom
+);
+export const selectAcceptableMaxZoom = createSelector(
+  [selectBasemap],
+  basemap => BASEMAPS[basemap].maxZoom
+);
+
 export const selectSerializedState = createSelector(
   [selectViewport, selectBasemap, selectRoads, selectLabels, selectBoundaries],
   (viewport, basemap, roads, labels, boundaries) => {

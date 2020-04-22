@@ -2,6 +2,8 @@ export const BASEMAPS = {
   light: {
     label: 'White',
     image: null,
+    minZoom: 0,
+    maxZoom: 19,
     mapStyle: {
       version: 8,
       sources: {
@@ -9,6 +11,8 @@ export const BASEMAPS = {
           type: 'raster',
           tiles: ['https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png'],
           tileSize: 256,
+          minzoom: 0,
+          maxzoom: 19,
         },
       },
       layers: [
@@ -16,8 +20,6 @@ export const BASEMAPS = {
           id: 'basemap',
           type: 'raster',
           source: 'carto-tiles',
-          minzoom: 0,
-          maxzoom: 22,
         },
       ],
     },
@@ -25,6 +27,8 @@ export const BASEMAPS = {
   dark: {
     label: 'Dark',
     image: null,
+    minZoom: 0,
+    maxZoom: 19,
     mapStyle: {
       version: 8,
       sources: {
@@ -32,6 +36,8 @@ export const BASEMAPS = {
           type: 'raster',
           tiles: ['https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png'],
           tileSize: 256,
+          minzoom: 0,
+          maxzoom: 19,
         },
       },
       layers: [
@@ -39,8 +45,6 @@ export const BASEMAPS = {
           id: 'basemap',
           type: 'raster',
           source: 'carto-tiles',
-          minzoom: 0,
-          maxzoom: 22,
         },
       ],
     },
@@ -48,6 +52,8 @@ export const BASEMAPS = {
   satellite: {
     label: 'Satellite',
     image: null,
+    minZoom: 0,
+    maxZoom: 18,
     mapStyle: {
       version: 8,
       sources: {
@@ -57,6 +63,8 @@ export const BASEMAPS = {
             'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
           ],
           tileSize: 256,
+          minzoom: 0,
+          maxzoom: 18,
         },
       },
       layers: [
@@ -64,8 +72,6 @@ export const BASEMAPS = {
           id: 'basemap',
           type: 'raster',
           source: 'carto-tiles',
-          minzoom: 0,
-          maxzoom: 22,
         },
       ],
     },
