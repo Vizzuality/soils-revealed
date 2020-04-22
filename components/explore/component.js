@@ -30,6 +30,7 @@ const Explore = ({
   acceptableMaxZoom,
   viewport,
   basemap,
+  basemapParams,
   roads,
   labels,
   boundaries,
@@ -39,6 +40,7 @@ const Explore = ({
   updateZoom,
   updateViewport,
   updateBasemap,
+  updateBasemapParams,
   updateRoads,
   updateLabels,
   updateBoundaries,
@@ -85,11 +87,13 @@ const Explore = ({
             acceptableMinZoom={acceptableMinZoom}
             acceptableMaxZoom={acceptableMaxZoom}
             basemap={basemap}
+            basemapParams={basemapParams}
             roads={roads}
             labels={labels}
             boundaries={boundaries}
             onChangeZoom={updateZoom}
             onChangeBasemap={updateBasemap}
+            onChangeBasemapParams={updateBasemapParams}
             onChangeRoads={updateRoads}
             onChangeLabels={updateLabels}
             onChangeBoundaries={updateBoundaries}
@@ -115,6 +119,7 @@ Explore.propTypes = {
   acceptableMaxZoom: PropTypes.number.isRequired,
   viewport: PropTypes.object.isRequired,
   basemap: PropTypes.string.isRequired,
+  basemapParams: PropTypes.object,
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
   boundaries: PropTypes.string.isRequired,
@@ -124,9 +129,14 @@ Explore.propTypes = {
   updateZoom: PropTypes.func.isRequired,
   updateViewport: PropTypes.func.isRequired,
   updateBasemap: PropTypes.func.isRequired,
+  updateBasemapParams: PropTypes.func.isRequired,
   updateRoads: PropTypes.func.isRequired,
   updateLabels: PropTypes.func.isRequired,
   updateBoundaries: PropTypes.func.isRequired,
+};
+
+Explore.defaultProps = {
+  basemapProps: null,
 };
 
 export default Explore;

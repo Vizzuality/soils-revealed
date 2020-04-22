@@ -12,6 +12,7 @@ export const selectCenter = createSelector([selectViewport], viewport => ({
   longitude: viewport.lng,
 }));
 export const selectBasemap = state => state[SLICE_NAME].basemap;
+export const selectBasemapParams = state => state[SLICE_NAME].basemapParams;
 export const selectRoads = state => state[SLICE_NAME].roads;
 export const selectLabels = state => state[SLICE_NAME].labels;
 export const selectBoundaries = state => state[SLICE_NAME].boundaries;
@@ -23,26 +24,41 @@ export const selectAcceptableMaxZoom = createSelector(
   [selectBasemap],
   basemap => BASEMAPS[basemap].maxZoom
 );
-export const selectBasemapLayerDef = createSelector([selectBasemap], basemap => ({
-  id: basemap,
-  type: 'raster',
-  source: {
-    type: 'raster',
-    tiles: [BASEMAPS[basemap].url],
-    minzoom: BASEMAPS[basemap].minZoom,
-    maxzoom: BASEMAPS[basemap].maxZoom,
-  },
-}));
+export const selectBasemapLayerDef = createSelector(
+  [selectBasemap, selectBasemapParams],
+  (basemap, basemapParams) => {
+    let basemapUrl = BASEMAPS[basemap].url;
+
+    if (basemapParams) {
+      basemapUrl = Object.keys(basemapParams).reduce(
+        (res, key) => basemapUrl.replace(`{${key}}`, basemapParams[key]),
+        basemapUrl
+      );
+    }
+
+    return {
+      id: basemap,
+      type: 'raster',
+      source: {
+        type: 'raster',
+        tiles: [basemapUrl],
+        minzoom: BASEMAPS[basemap].minZoom,
+        maxzoom: BASEMAPS[basemap].maxZoom,
+      },
+    };
+  }
+);
 export const selectActiveLayersDef = createSelector([selectBasemapLayerDef], basemapLayerDef => [
   basemapLayerDef,
 ]);
 
 export const selectSerializedState = createSelector(
-  [selectViewport, selectBasemap, selectRoads, selectLabels, selectBoundaries],
-  (viewport, basemap, roads, labels, boundaries) => {
+  [selectViewport, selectBasemap, selectBasemapParams, selectRoads, selectLabels, selectBoundaries],
+  (viewport, basemap, basemapParams, roads, labels, boundaries) => {
     return {
       viewport: omit(viewport, 'transitionDuration'),
       basemap,
+      basemapParams,
       roads,
       labels,
       boundaries,
@@ -61,6 +77,7 @@ export default exploreActions =>
         transitionDuration: 250,
       },
       basemap: 'light',
+      basemapParams: null,
       roads: false,
       labels: false,
       boundaries: 'no-boundaries',
@@ -79,7 +96,11 @@ export default exploreActions =>
         state.viewport.transitionDuration = transitionDuration;
       },
       updateBasemap(state, action) {
-        state.basemap = action.payload;
+        state.basemap = action.payload.basemap;
+        state.basemapParams = action.payload.params || null;
+      },
+      updateBasemapParams(state, action) {
+        state.basemapParams = action.payload;
       },
       updateRoads(state, action) {
         state.roads = action.payload;

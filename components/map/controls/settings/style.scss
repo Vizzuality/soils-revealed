@@ -1,7 +1,10 @@
 @import 'css/settings';
 
+$basemap-preview-width: rem(90);
+$basemap-preview-height: rem(50);
+
 .c-map-controls-settings {
-  width: rem(200);
+  width: rem(215);
 
   section {
     position: relative;
@@ -40,7 +43,9 @@
     margin-bottom: -#{map-get($spacers, 3)};
 
     & > div {
-      flex-basis: calc(50% - #{map-get($spacers, 3) / 2});
+      &:nth-of-type(2n + 1) {
+        margin-right: map-get($spacers, 3);
+      }
     }
 
     input:checked + label:after {
@@ -54,11 +59,12 @@
       font-family: $font-family-2;
       @include font-size($font-size-xxs);
       background-size: 0;
+      white-space: nowrap; // Needed for the landsat label
 
       &:before {
         display: block;
-        width: 100%;
-        height: rem(55);
+        width: $basemap-preview-width;
+        height: $basemap-preview-height;
         margin-bottom: map-get($spacers, 2);
         background-color: rgba($primary, 0.25);
         background-image: inherit;
@@ -72,10 +78,29 @@
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: rem(55);
+        width: $basemap-preview-width;
+        height: $basemap-preview-height;
         border: rem(4) solid transparent;
         content: '';
+      }
+    }
+
+    .c-dropdown {
+      .target-button {
+        margin-right: 0;
+        border-bottom: 0;
+        font-weight: initial;
+
+        &:after {
+          position: static;
+          display: inline-block;
+          margin-left: 0.5ch;
+          transform: scale(0.8) rotate(-135deg);
+        }
+      }
+
+      .menu {
+        top: 0;
       }
     }
   }

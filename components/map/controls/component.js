@@ -12,11 +12,13 @@ const MapControls = ({
   acceptableMinZoom,
   acceptableMaxZoom,
   basemap,
+  basemapParams,
   roads,
   labels,
   boundaries,
   onChangeZoom,
   onChangeBasemap,
+  onChangeBasemapParams,
   onChangeRoads,
   onChangeLabels,
   onChangeBoundaries,
@@ -29,10 +31,12 @@ const MapControls = ({
           content={
             <MapControlsSettings
               basemap={basemap}
+              basemapParams={basemapParams}
               roads={roads}
               labels={labels}
               boundaries={boundaries}
               onChangeBasemap={onChangeBasemap}
+              onChangeBasemapParams={onChangeBasemapParams}
               onChangeRoads={onChangeRoads}
               onChangeLabels={onChangeLabels}
               onChangeBoundaries={onChangeBoundaries}
@@ -71,14 +75,20 @@ MapControls.propTypes = {
   acceptableMinZoom: PropTypes.number.isRequired,
   acceptableMaxZoom: PropTypes.number.isRequired,
   basemap: PropTypes.string.isRequired,
+  basemapParams: PropTypes.object,
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
   boundaries: PropTypes.string.isRequired,
   onChangeZoom: PropTypes.func.isRequired,
   onChangeBasemap: PropTypes.func.isRequired,
+  onChangeBasemapParams: PropTypes.func.isRequired,
   onChangeRoads: PropTypes.func.isRequired,
   onChangeLabels: PropTypes.func.isRequired,
   onChangeBoundaries: PropTypes.func.isRequired,
+};
+
+MapControls.defaultProps = {
+  basemapProps: null,
 };
 
 export default MapControls;
