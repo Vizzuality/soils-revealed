@@ -1,7 +1,7 @@
 @import 'css/settings';
 
 .c-map-controls-settings {
-  width: rem(180);
+  width: rem(200);
 
   section {
     position: relative;
@@ -58,7 +58,7 @@
       &:before {
         display: block;
         width: 100%;
-        height: rem(50);
+        height: rem(55);
         margin-bottom: map-get($spacers, 2);
         background-color: rgba($primary, 0.25);
         background-image: inherit;
@@ -73,7 +73,7 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: rem(50);
+        height: rem(55);
         border: rem(4) solid transparent;
         content: '';
       }
