@@ -80,26 +80,22 @@ const Explore = ({
     <div className="c-explore">
       {isDesktop && (
         <>
+          <Controls
+            zoom={zoom}
+            acceptableMinZoom={acceptableMinZoom}
+            acceptableMaxZoom={acceptableMaxZoom}
+            basemap={basemap}
+            roads={roads}
+            labels={labels}
+            boundaries={boundaries}
+            onChangeZoom={updateZoom}
+            onChangeBasemap={updateBasemap}
+            onChangeRoads={updateRoads}
+            onChangeLabels={updateLabels}
+            onChangeBoundaries={updateBoundaries}
+          />
           <Map mapStyle={MAP_STYLE} viewport={viewport} onViewportChange={onChangeViewport}>
-            {map => (
-              <>
-                <Controls
-                  zoom={zoom}
-                  acceptableMinZoom={acceptableMinZoom}
-                  acceptableMaxZoom={acceptableMaxZoom}
-                  basemap={basemap}
-                  roads={roads}
-                  labels={labels}
-                  boundaries={boundaries}
-                  onChangeZoom={updateZoom}
-                  onChangeBasemap={updateBasemap}
-                  onChangeRoads={updateRoads}
-                  onChangeLabels={updateLabels}
-                  onChangeBoundaries={updateBoundaries}
-                />
-                <LayerManager map={map} providers={{}} layers={activeLayersDef} />
-              </>
-            )}
+            {map => <LayerManager map={map} providers={{}} layers={activeLayersDef} />}
           </Map>
         </>
       )}
