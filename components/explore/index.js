@@ -10,6 +10,7 @@ export default connect(
     basemap: mapSelectors.selectBasemap(state),
     roads: mapSelectors.selectRoads(state),
     labels: mapSelectors.selectLabels(state),
+    boundaries: mapSelectors.selectBoundaries(state),
     serializedState: exploreSelectors.selectSerializedState(state),
   }),
   {
@@ -19,5 +20,6 @@ export default connect(
     updateBasemap: mapActions.updateBasemap,
     updateRoads: mapActions.updateRoads,
     updateLabels: mapActions.updateLabels,
+    updateBoundaries: mapActions.updateBoundaries,
   }
 )(Component);

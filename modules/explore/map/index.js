@@ -12,14 +12,16 @@ export const selectCenter = createSelector([selectViewport], viewport => ({
 export const selectBasemap = state => state[SLICE_NAME].basemap;
 export const selectRoads = state => state[SLICE_NAME].roads;
 export const selectLabels = state => state[SLICE_NAME].labels;
+export const selectBoundaries = state => state[SLICE_NAME].boundaries;
 export const selectSerializedState = createSelector(
-  [selectViewport, selectBasemap, selectRoads, selectLabels],
-  (viewport, basemap, roads, labels) => {
+  [selectViewport, selectBasemap, selectRoads, selectLabels, selectBoundaries],
+  (viewport, basemap, roads, labels, boundaries) => {
     return {
       viewport: omit(viewport, 'transitionDuration'),
       basemap,
       roads,
       labels,
+      boundaries,
     };
   }
 );
@@ -37,6 +39,7 @@ export default exploreActions =>
       basemap: 'light',
       roads: false,
       labels: false,
+      boundaries: 'no-boundaries',
     },
     reducers: {
       updateZoom(state, action) {
@@ -59,6 +62,9 @@ export default exploreActions =>
       },
       updateLabels(state, action) {
         state.labels = action.payload;
+      },
+      updateBoundaries(state, action) {
+        state.boundaries = action.payload;
       },
     },
     extraReducers: {

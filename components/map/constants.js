@@ -71,3 +71,21 @@ export const BASEMAPS = {
     },
   },
 };
+
+export const BOUNDARIES = {
+  'no-boundaries': {
+    label: 'No boundaries',
+  },
+  'political-boundaries': {
+    label: 'Political boundaries',
+  },
+  'protected-areas': {
+    label: 'Protected areas',
+  },
+  'river-basins': {
+    label: 'River basins',
+  },
+  biomes: {
+    label: 'Biomes',
+  },
+};

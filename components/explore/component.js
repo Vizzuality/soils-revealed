@@ -15,6 +15,7 @@ const Explore = ({
   basemap,
   roads,
   labels,
+  boundaries,
   serializedState,
   restoreState,
   updateZoom,
@@ -22,6 +23,7 @@ const Explore = ({
   updateBasemap,
   updateRoads,
   updateLabels,
+  updateBoundaries,
 }) => {
   const isDesktop = useDesktop();
 
@@ -60,10 +62,12 @@ const Explore = ({
                   basemap={basemap}
                   roads={roads}
                   labels={labels}
+                  boundaries={boundaries}
                   onChangeZoom={updateZoom}
                   onChangeBasemap={updateBasemap}
                   onChangeRoads={updateRoads}
                   onChangeLabels={updateLabels}
+                  onChangeBoundaries={updateBoundaries}
                 />
                 <LayerManager map={map} providers={{}} layers={[]} />
               </>
@@ -87,6 +91,7 @@ Explore.propTypes = {
   basemap: PropTypes.string.isRequired,
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
+  boundaries: PropTypes.string.isRequired,
   serializedState: PropTypes.string.isRequired,
   restoreState: PropTypes.func.isRequired,
   updateZoom: PropTypes.func.isRequired,
@@ -94,6 +99,7 @@ Explore.propTypes = {
   updateBasemap: PropTypes.func.isRequired,
   updateRoads: PropTypes.func.isRequired,
   updateLabels: PropTypes.func.isRequired,
+  updateBoundaries: PropTypes.func.isRequired,
 };
 
 export default Explore;

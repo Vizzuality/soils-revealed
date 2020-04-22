@@ -12,10 +12,12 @@ const MapControls = ({
   basemap,
   roads,
   labels,
+  boundaries,
   onChangeZoom,
   onChangeBasemap,
   onChangeRoads,
   onChangeLabels,
+  onChangeBoundaries,
 }) => {
   return (
     <div className="c-map-controls">
@@ -27,9 +29,11 @@ const MapControls = ({
               basemap={basemap}
               roads={roads}
               labels={labels}
+              boundaries={boundaries}
               onChangeBasemap={onChangeBasemap}
               onChangeRoads={onChangeRoads}
               onChangeLabels={onChangeLabels}
+              onChangeBoundaries={onChangeBoundaries}
             />
           }
         >
@@ -63,10 +67,12 @@ MapControls.propTypes = {
   basemap: PropTypes.string.isRequired,
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
+  boundaries: PropTypes.string.isRequired,
   onChangeZoom: PropTypes.func.isRequired,
   onChangeBasemap: PropTypes.func.isRequired,
   onChangeRoads: PropTypes.func.isRequired,
   onChangeLabels: PropTypes.func.isRequired,
+  onChangeBoundaries: PropTypes.func.isRequired,
 };
 
 export default MapControls;
