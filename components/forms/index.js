@@ -1,6 +1,4 @@
-import Switch from './switch';
-import Radio from './radio';
-import Select from './select';
-import Dropdown from './dropdown';
-
-export { Switch, Radio, Select, Dropdown };
+export { default as Switch } from './switch';
+export { default as Radio } from './radio';
+export { default as Select } from './select';
+export { default as Dropdown } from './dropdown';
