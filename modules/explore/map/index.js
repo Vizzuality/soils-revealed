@@ -23,6 +23,19 @@ export const selectAcceptableMaxZoom = createSelector(
   [selectBasemap],
   basemap => BASEMAPS[basemap].maxZoom
 );
+export const selectBasemapLayerDef = createSelector([selectBasemap], basemap => ({
+  id: basemap,
+  type: 'raster',
+  source: {
+    type: 'raster',
+    tiles: [BASEMAPS[basemap].url],
+    minzoom: BASEMAPS[basemap].minZoom,
+    maxzoom: BASEMAPS[basemap].maxZoom,
+  },
+}));
+export const selectActiveLayersDef = createSelector([selectBasemapLayerDef], basemapLayerDef => [
+  basemapLayerDef,
+]);
 
 export const selectSerializedState = createSelector(
   [selectViewport, selectBasemap, selectRoads, selectLabels, selectBoundaries],

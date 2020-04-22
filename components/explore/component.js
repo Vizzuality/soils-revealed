@@ -4,10 +4,25 @@ import { debounce } from 'lodash';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
-import { BASEMAPS, Map, LayerManager, Controls } from 'components/map';
+import { Map, LayerManager, Controls } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 
 import './style.scss';
+
+const MAP_STYLE = {
+  version: 8,
+  sources: {},
+  layers: [
+    {
+      id: 'custom-layers',
+      type: 'background',
+      layout: {},
+      paint: {
+        'background-opacity': 0,
+      },
+    },
+  ],
+};
 
 const Explore = ({
   zoom,
@@ -18,6 +33,7 @@ const Explore = ({
   roads,
   labels,
   boundaries,
+  activeLayersDef,
   serializedState,
   restoreState,
   updateZoom,
@@ -64,11 +80,7 @@ const Explore = ({
     <div className="c-explore">
       {isDesktop && (
         <>
-          <Map
-            mapStyle={BASEMAPS[basemap].mapStyle}
-            viewport={viewport}
-            onViewportChange={onChangeViewport}
-          >
+          <Map mapStyle={MAP_STYLE} viewport={viewport} onViewportChange={onChangeViewport}>
             {map => (
               <>
                 <Controls
@@ -85,7 +97,7 @@ const Explore = ({
                   onChangeLabels={updateLabels}
                   onChangeBoundaries={updateBoundaries}
                 />
-                <LayerManager map={map} providers={{}} layers={[]} />
+                <LayerManager map={map} providers={{}} layers={activeLayersDef} />
               </>
             )}
           </Map>
@@ -110,6 +122,7 @@ Explore.propTypes = {
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
   boundaries: PropTypes.string.isRequired,
+  activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
   serializedState: PropTypes.string.isRequired,
   restoreState: PropTypes.func.isRequired,
   updateZoom: PropTypes.func.isRequired,
