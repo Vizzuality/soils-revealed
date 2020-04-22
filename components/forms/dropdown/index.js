@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import ReactSelect from 'react-select';
 
@@ -27,6 +27,13 @@ Container.propTypes = {
 
 const Dropdown = ({ options, value, onChange }) => {
   const [open, setOpen] = useState(false);
+  const onChangeCallback = useCallback(
+    (...params) => {
+      setOpen(false);
+      onChange(...params);
+    },
+    [setOpen, onChange]
+  );
 
   return (
     <div className="c-dropdown">
@@ -55,7 +62,7 @@ const Dropdown = ({ options, value, onChange }) => {
           tabSelectsValue={false}
           menuIsOpen
           options={options}
-          onChange={onChange}
+          onChange={onChangeCallback}
           value={value}
           components={{ DropdownIndicator: null, IndicatorSeparator: null }}
           classNamePrefix="menu"
@@ -67,7 +74,7 @@ const Dropdown = ({ options, value, onChange }) => {
 
 const optionType = PropTypes.shape({
   label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.any.isRequired,
 });
 
 Dropdown.propTypes = {
