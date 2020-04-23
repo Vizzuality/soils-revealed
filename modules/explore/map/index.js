@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { omit } from 'lodash';
 
-import { BASEMAPS } from 'components/map';
+import { BASEMAPS, BOUNDARIES } from 'components/map';
 
 export const SLICE_NAME = 'map';
 
@@ -16,13 +16,30 @@ export const selectBasemapParams = state => state[SLICE_NAME].basemapParams;
 export const selectRoads = state => state[SLICE_NAME].roads;
 export const selectLabels = state => state[SLICE_NAME].labels;
 export const selectBoundaries = state => state[SLICE_NAME].boundaries;
+export const selectBoundariesLayerDef = createSelector([selectBoundaries], boundaries => {
+  if (!BOUNDARIES[boundaries].url) {
+    return null;
+  }
+
+  return {
+    id: boundaries,
+    type: 'vector',
+    source: {
+      type: 'vector',
+      tiles: [BOUNDARIES[boundaries].url],
+      minzoom: BOUNDARIES[boundaries].minZoom,
+      maxzoom: BOUNDARIES[boundaries].maxZoom,
+    },
+    render: BOUNDARIES[boundaries].render,
+  };
+});
 export const selectAcceptableMinZoom = createSelector(
-  [selectBasemap],
-  basemap => BASEMAPS[basemap].minZoom
+  [selectBasemap, selectBoundaries],
+  (basemap, boundaries) => Math.max(BASEMAPS[basemap].minZoom, BOUNDARIES[boundaries].minZoom)
 );
 export const selectAcceptableMaxZoom = createSelector(
-  [selectBasemap],
-  basemap => BASEMAPS[basemap].maxZoom
+  [selectBasemap, selectBoundaries],
+  (basemap, boundaries) => Math.min(BASEMAPS[basemap].maxZoom, BOUNDARIES[boundaries].maxZoom)
 );
 export const selectBasemapLayerDef = createSelector(
   [selectBasemap, selectBasemapParams],
@@ -48,9 +65,13 @@ export const selectBasemapLayerDef = createSelector(
     };
   }
 );
-export const selectActiveLayersDef = createSelector([selectBasemapLayerDef], basemapLayerDef => [
-  basemapLayerDef,
-]);
+export const selectActiveLayersDef = createSelector(
+  [selectBasemapLayerDef, selectBoundariesLayerDef],
+  (basemapLayerDef, boundariesLayerDef) => [
+    ...(boundariesLayerDef ? [boundariesLayerDef] : []),
+    basemapLayerDef,
+  ]
+);
 
 export const selectSerializedState = createSelector(
   [selectViewport, selectBasemap, selectBasemapParams, selectRoads, selectLabels, selectBoundaries],

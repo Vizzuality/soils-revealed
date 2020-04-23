@@ -52,5 +52,21 @@ export const BOUNDARIES = {
   },
   biomes: {
     label: 'Biomes',
+    // minZoom: 0,
+    // maxZoom: 8,
+    // url: '',
+    // render: {
+    //   layers: [
+    //     {
+    //       type: 'fill',
+    //       'source-layer': 'Biomes',
+    //       paint: {
+    //         'fill-color': 'orange',
+    //         'fill-opacity': 0.5,
+    //         'fill-outline-color': 'red',
+    //       },
+    //     },
+    //   ],
+    // },
   },
 };
