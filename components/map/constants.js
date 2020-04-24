@@ -2,6 +2,7 @@ export const BASEMAPS = {
   light: {
     label: 'White',
     image: null,
+    backgroundColor: '#d4d8da',
     minZoom: 0,
     maxZoom: 19,
     url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
@@ -9,6 +10,7 @@ export const BASEMAPS = {
   dark: {
     label: 'Dark',
     image: null,
+    backgroundColor: '#282626',
     minZoom: 0,
     maxZoom: 19,
     url: 'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
@@ -16,6 +18,7 @@ export const BASEMAPS = {
   satellite: {
     label: 'Satellite',
     image: null,
+    backgroundColor: '#061b3a',
     minZoom: 0,
     maxZoom: 18,
     url:
@@ -24,6 +27,7 @@ export const BASEMAPS = {
   // landsat: {
   //   label: 'Landsat',
   //   image: null,
+  //   backgroundColor: '#020043',
   //   minZoom: 0,
   //   maxZoom: 12,
   //   url: '',

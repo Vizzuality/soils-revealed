@@ -4,7 +4,7 @@ import { debounce } from 'lodash';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
-import { Map, LayerManager, Controls } from 'components/map';
+import { Map, LayerManager, Controls, BASEMAPS } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 
 import './style.scss';
@@ -79,7 +79,7 @@ const Explore = ({
   }, [zoom, acceptableMinZoom, acceptableMaxZoom, updateZoom]);
 
   return (
-    <div className="c-explore">
+    <div className="c-explore" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>
       {isDesktop && (
         <>
           <Controls
