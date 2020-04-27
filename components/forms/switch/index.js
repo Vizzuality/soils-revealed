@@ -38,7 +38,7 @@ Switch.propTypes = {
 Switch.defaultProps = {
   disabled: false,
   checked: false,
-  onChange: null,
+  onChange: () => null,
   className: null,
 };
 

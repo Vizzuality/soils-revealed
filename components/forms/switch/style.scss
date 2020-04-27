@@ -1,24 +1,23 @@
 @import 'css/settings';
 
 .c-switch {
-  &.-transparent {
-    input:not(:checked) + .custom-control-label:before {
-      background-color: transparent;
-      border-color: $primary;
-    }
-  }
-
   input:not(:checked) + .custom-control-label:before {
     background-color: transparent;
   }
 
-  .custom-control-label {
-    font-family: $font-family-2;
-    @include font-size($font-size-xxs);
-    line-height: $font-size-base * $line-height-base;
+  &.custom-switch {
+    .custom-control-input:checked ~ .custom-control-label:after {
+      background-color: $white;
+    }
 
-    &:after {
-      background-color: $primary;
+    .custom-control-label {
+      font-family: $font-family-2;
+      @include font-size($font-size-xxs);
+      line-height: $font-size-base * $line-height-base;
+
+      &:after {
+        background-color: $primary;
+      }
     }
   }
 }
