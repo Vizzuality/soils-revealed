@@ -7,6 +7,7 @@ import { useDesktop } from 'utils/hooks';
 import { Map, LayerManager, Controls, BASEMAPS } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 import Tabs from './tabs';
+import ExperimentalDatasetToggle from './experimental-dataset-toggle';
 
 import './style.scss';
 
@@ -88,6 +89,7 @@ const Explore = ({
       {isDesktop && (
         <>
           <Tabs />
+          <ExperimentalDatasetToggle />
           <Controls
             zoom={zoom}
             acceptableMinZoom={acceptableMinZoom}

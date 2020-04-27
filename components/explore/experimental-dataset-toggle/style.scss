@@ -1,0 +1,62 @@
+@import 'css/settings';
+
+.c-explore-experimental-dataset-toggle {
+  position: absolute;
+  bottom: map-get($spacers, 3);
+  left: map-get($spacers, 3);
+  z-index: 1; // Needed to be on top of the map, but below the backdrop of the tabs
+
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    bottom: map-get($spacers, 4);
+    left: map-get($spacers, 4);
+  }
+
+  &.-invert {
+    .c-switch {
+      color: $white;
+
+      input:not(:checked) + .custom-control-label {
+        &:before {
+          background-color: transparent;
+          border-color: $white;
+        }
+
+        &:after {
+          background-color: $white;
+        }
+      }
+
+      input:checked + .custom-control-label {
+        &:before {
+          background-color: $white;
+          border-color: $white;
+        }
+
+        &:after {
+          background-color: $primary;
+        }
+      }
+    }
+
+    .c-info-button {
+      color: $white;
+      border-radius: 100%; // Needed for :focus
+
+      &:focus {
+        box-shadow: 0 0 0 $btn-focus-width rgba($white, 0.5);
+      }
+    }
+  }
+
+  .c-switch {
+    input:not(:checked) + .custom-control-label:before {
+      background-color: transparent;
+      border-color: $primary;
+    }
+
+    label {
+      @include font-size($font-size-xs);
+      font-weight: $font-weight-bold;
+    }
+  }
+}
