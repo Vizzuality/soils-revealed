@@ -84,6 +84,10 @@ const Icons = () => (
         <title>Location</title>
         <path d="M6.5 0C2.906 0 0 2.817 0 6.3 0 11.025 6.5 18 6.5 18S13 11.025 13 6.3C13 2.817 10.094 0 6.5 0zm0 9a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z" />
       </symbol>
+      <symbol id="icon-info" viewBox="0 0 16 16">
+        <title>Info</title>
+        <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0zm1.143 6.857H5.714V8h1.143v3.428H5.714v1.143h4.572V11.43l-1.144-.001v-4.57zm0-3.428H6.857v2.285h2.286V3.43z" />
+      </symbol>
     </defs>
   </svg>
 );
