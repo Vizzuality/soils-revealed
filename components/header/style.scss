@@ -17,7 +17,7 @@
 
     .navbar {
       .navbar-brand {
-        z-index: 1;
+        z-index: 3; // Needed to be on top of the backdrop of the tabs
       }
 
       .c-icon {

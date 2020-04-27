@@ -6,6 +6,7 @@ import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
 import { Map, LayerManager, Controls, BASEMAPS } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
+import Tabs from './tabs';
 
 import './style.scss';
 
@@ -49,10 +50,14 @@ const Explore = ({
 
   const onChangeViewport = useCallback(
     // @ts-ignore
-    debounce(
-      v => updateViewport({ zoom: v.zoom, latitude: v.latitude, longitude: v.longitude }),
-      500
-    ),
+    debounce(v => {
+      updateViewport({
+        zoom: v.zoom,
+        latitude: v.latitude,
+        longitude: v.longitude,
+        bounds: v.bounds,
+      });
+    }, 500),
     [updateViewport]
   );
 
@@ -82,6 +87,7 @@ const Explore = ({
     <div className="c-explore" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>
       {isDesktop && (
         <>
+          <Tabs />
           <Controls
             zoom={zoom}
             acceptableMinZoom={acceptableMinZoom}

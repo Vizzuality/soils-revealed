@@ -6,7 +6,7 @@
   right: map-get($spacers, 3);
   display: flex;
   flex-direction: column;
-  z-index: 2; // Needed to be on top of the header
+  z-index: 1; // Needed to be on top of the map, but below the backdrop of the tabs
 
   @include media-breakpoint-up(md, $grid-breakpoints) {
     top: map-get($spacers, 4);

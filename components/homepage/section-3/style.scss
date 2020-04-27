@@ -66,7 +66,7 @@ $background-height: 100vw * #{201 / 1204};
   }
 
   .intro {
-    @include font-size($font-size-l);
+    @include font-size($font-size-xl);
     line-height: 1.25;
   }
 

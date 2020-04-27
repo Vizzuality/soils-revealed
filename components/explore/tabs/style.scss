@@ -1,0 +1,56 @@
+@import 'css/settings';
+
+.c-explore-tabs {
+  position: absolute;
+  top: map-get($spacers, 3);
+  left: rem(155);
+  display: flex;
+  width: 0; // Needed prevent the div to be on top of the controls
+  z-index: 4; // Needed to be on top of the header
+
+  @include media-breakpoint-up(md, $grid-breakpoints) {
+    top: map-get($spacers, 4);
+    right: map-get($spacers, 4);
+  }
+
+  &-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba($primary, 0.5);
+    z-index: 2;
+  }
+
+  & > .btn {
+    flex-shrink: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    font-family: $font-family-1;
+    @include font-size($font-size-base);
+    letter-spacing: initial;
+    text-transform: none;
+
+    &[aria-expanded='true'] {
+      color: $body-color;
+      background-color: $body-bg;
+      border-color: $body-bg;
+    }
+
+    & + .btn {
+      margin-left: rem(1);
+    }
+
+    .c-icon {
+      width: $font-size-base;
+      height: $font-size-base;
+      margin-right: map-get($spacers, 2);
+      vertical-align: sub;
+
+      use {
+        fill: currentColor;
+      }
+    }
+  }
+}

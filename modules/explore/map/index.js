@@ -11,6 +11,7 @@ export const selectCenter = createSelector([selectViewport], viewport => ({
   latitude: viewport.lat,
   longitude: viewport.lng,
 }));
+export const selectBounds = createSelector([selectViewport], viewport => viewport.bounds);
 export const selectBasemap = state => state[SLICE_NAME].basemap;
 export const selectBasemapParams = state => state[SLICE_NAME].basemapParams;
 export const selectRoads = state => state[SLICE_NAME].roads;
@@ -77,7 +78,7 @@ export const selectSerializedState = createSelector(
   [selectViewport, selectBasemap, selectBasemapParams, selectRoads, selectLabels, selectBoundaries],
   (viewport, basemap, basemapParams, roads, labels, boundaries) => {
     return {
-      viewport: omit(viewport, 'transitionDuration'),
+      viewport: omit(viewport, 'transitionDuration', 'bounds'),
       basemap,
       basemapParams,
       roads,
@@ -96,6 +97,7 @@ export default exploreActions =>
         latitude: 0,
         longitude: 0,
         transitionDuration: 250,
+        bounds: null,
       },
       basemap: 'light',
       basemapParams: null,
@@ -110,6 +112,9 @@ export default exploreActions =>
       updateCenter(state, action) {
         state.viewport.latitude = action.payload.latitude;
         state.viewport.longitude = action.payload.longitude;
+      },
+      updateBounds(state, action) {
+        state.viewport.bounds = action.payload;
       },
       updateViewport(state, action) {
         const { transitionDuration } = state.viewport;

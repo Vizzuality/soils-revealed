@@ -16,6 +16,8 @@ $theme-colors: (
   'secondary': $secondary,
 );
 
+$border-color-1: #d8d8d8;
+
 // Body
 
 $body-bg: #f2f3ef;
@@ -28,9 +30,10 @@ $font-family-2: 'Roboto Mono', sans-serif;
 
 $font-family-base: $font-family-1;
 
-$font-size-xxl: rem(98);
-$font-size-xl: rem(52);
-$font-size-l: rem(44);
+$font-size-xxxl: rem(98);
+$font-size-xxl: rem(52);
+$font-size-xl: rem(44);
+$font-size-l: rem(24);
 $font-size-base: rem(18);
 $font-size-s: rem(16);
 $font-size-xs: rem(13);
@@ -76,7 +79,7 @@ $custom-control-indicator-bg: transparent;
 $custom-control-indicator-checked-disabled-bg: rgba($primary, 0.25);
 $custom-control-indicator-checked-bg: $primary;
 $custom-control-indicator-checked-border-color: $primary;
-$custom-control-indicator-border-color: #d8d8d8;
+$custom-control-indicator-border-color: $border-color-1;
 $custom-control-indicator-active-bg: lighten($primary, 60%);
 $custom-control-indicator-active-border-color: $custom-control-indicator-border-color;
 $custom-control-indicator-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);

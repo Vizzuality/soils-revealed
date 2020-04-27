@@ -32,7 +32,8 @@ class Map extends Component {
 
     /** An object that defines the bounds */
     bounds: PropTypes.shape({
-      bbox: PropTypes.array,
+      bbox: PropTypes.arrayOf(PropTypes.array),
+      duration: PropTypes.number,
       options: PropTypes.shape({}),
     }),
 
@@ -172,21 +173,43 @@ class Map extends Component {
       map: this.map,
       mapContainer: this.mapContainer,
     });
+
+    // We trigger a viewport change to send the intial bounds
+    const { onViewportChange } = this.props;
+    const { viewport } = this.state;
+    const bounds = this.map?.getBounds();
+    onViewportChange({ ...viewport, bounds: bounds.toArray() });
   };
 
   onViewportChange = v => {
     const { onViewportChange } = this.props;
+    const bounds = this.map?.getBounds();
+    const viewport = {
+      ...v,
+      ...(bounds
+        ? {
+            bounds: bounds.toArray(),
+          }
+        : {}),
+    };
 
-    this.setState({ viewport: v });
-    onViewportChange(v);
+    this.setState({ viewport });
+    onViewportChange(viewport);
   };
 
   onResize = v => {
     const { onViewportChange } = this.props;
     const { viewport } = this.state;
+    const bounds = this.map?.getBounds();
+
     const newViewport = {
       ...viewport,
       ...v,
+      ...(bounds
+        ? {
+            bounds: bounds.toArray(),
+          }
+        : {}),
     };
 
     this.setState({ viewport: newViewport });
@@ -202,6 +225,7 @@ class Map extends Component {
       const pitch = this.map.getPitch();
       const zoom = this.map.getZoom();
       const { lng, lat } = this.map.getCenter();
+      const bounds = this.map?.getBounds();
 
       const newViewport = {
         ...viewport,
@@ -210,6 +234,11 @@ class Map extends Component {
         zoom,
         latitude: lat,
         longitude: lng,
+        ...(bounds
+          ? {
+              bounds: bounds.toArray(),
+            }
+          : {}),
       };
 
       // Publish new viewport and save it into the state
@@ -268,19 +297,18 @@ class Map extends Component {
     !!onMouseLeave && onMouseLeave(e);
   };
 
-  fitBounds = (transitionDuration = 2500) => {
+  fitBounds = () => {
     const { bounds, onViewportChange } = this.props;
-    const { bbox, options } = bounds;
+    const { bbox, duration, options } = bounds;
 
     const { longitude, latitude, zoom } = fitBounds({
       width: this.mapContainer.offsetWidth,
       height: this.mapContainer.offsetHeight,
-      bounds: [
-        [bbox[0], bbox[1]],
-        [bbox[2], bbox[3]],
-      ],
+      bounds: bbox,
       ...options,
     });
+
+    const transitionDuration = duration !== undefined && duration !== null ? duration : 2500;
 
     const newViewport = {
       ...this.state.viewport,
@@ -289,6 +317,7 @@ class Map extends Component {
       zoom,
       transitionDuration,
       transitionInterruption: TRANSITION_EVENTS.UPDATE,
+      bounds: bbox,
     };
 
     this.setState({

@@ -4,6 +4,10 @@
   max-width: none !important;
   z-index: 10 !important;
 
+  div.tippy-tooltip {
+    max-width: none !important;
+  }
+
   div.tippy-tooltip.light-theme {
     padding: map-get($spacers, 3);
     @include font-size($font-size-base);
