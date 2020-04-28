@@ -10,9 +10,9 @@
     "node": ">= 12.16.1"
   },
   "scripts": {
-    "dev": "next",
+    "dev": "node index.js",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node index.js",
     "test": "jest"
   },
   "devDependencies": {
@@ -39,6 +39,7 @@
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
     "deck.gl": "7.3.6",
+    "express": "^4.17.1",
     "layer-manager": "^3.0.4",
     "lodash": "^4.17.15",
     "luma.gl": "7.3.2",
