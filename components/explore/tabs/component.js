@@ -25,7 +25,7 @@ const ExploreTabs = () => {
           placement="bottom-start"
           offset={`-${areasBtnWidth} 0`}
           content={
-            layersTooltipVisible ? <LayersTab onClose={() => layersTooltip?.hide?.()} /> : null
+            layersTooltipVisible ? <LayersTab onClose={() => layersTooltip?.hide?.()} /> : <span />
           }
           onCreate={tooltip => setLayersTooltip(tooltip)}
           onShow={() => setLayersTooltipVisible(true)}
