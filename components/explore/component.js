@@ -8,6 +8,7 @@ import { Map, LayerManager, Controls, BASEMAPS } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 import Tabs from './tabs';
 import ExperimentalDatasetToggle from './experimental-dataset-toggle';
+import Attributions from './attributions';
 
 import './style.scss';
 
@@ -88,6 +89,7 @@ const Explore = ({
     <div className="c-explore" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>
       {isDesktop && (
         <>
+          <Attributions />
           <Tabs />
           <ExperimentalDatasetToggle />
           <Controls

@@ -74,3 +74,8 @@ export const BOUNDARIES = {
     // },
   },
 };
+
+export const ATTRIBUTIONS = {
+  rw:
+    'Powered by <a href="https://resourcewatch.org/" target="_blank" rel="noopener noreferrer">Resource Watch</a>',
+};

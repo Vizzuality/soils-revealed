@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import { omit } from 'lodash';
 
-import { BASEMAPS, BOUNDARIES } from 'components/map';
+import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS } from 'components/map';
 
 export const SLICE_NAME = 'map';
 
@@ -73,6 +73,12 @@ export const selectActiveLayersDef = createSelector(
     basemapLayerDef,
   ]
 );
+export const selectAttributions = createSelector([selectBasemap], basemap => {
+  const basemapAttributions = BASEMAPS[basemap].attribution;
+  return `${
+    basemapAttributions ? `${ATTRIBUTIONS[basemapAttributions]} | ` : ''
+  }© <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">Mapbox</a> | © <a href="http://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> | <strong><a href="https://www.mapbox.com/map-feedback/" target="_blank" rel="noopener noreferrer">Improve this map</a></strong>`;
+});
 
 export const selectSerializedState = createSelector(
   [selectViewport, selectBasemap, selectBasemapParams, selectRoads, selectLabels, selectBoundaries],

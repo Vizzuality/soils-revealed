@@ -1,0 +1,35 @@
+@import 'css/settings';
+
+.c-explore-attributions {
+  display: flex;
+  align-items: flex-end;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  font-family: $font-family-2;
+  @include font-size($font-size-xxxs);
+  color: $primary;
+  z-index: 1; // Needed to be on top of the map, but below the backdrop of the tabs
+
+  &.-invert {
+    color: $white;
+  }
+
+  > span {
+    display: inline-block;
+    padding: map-get($spacers, 1);
+    background-color: rgba($white, 0.2);
+
+    a {
+      color: currentColor;
+    }
+  }
+
+  .c-icon {
+    display: block;
+    width: rem(70);
+    height: rem(18);
+    margin-right: map-get($spacers, 2);
+    margin-bottom: map-get($spacers, 1) / 2;
+  }
+}
