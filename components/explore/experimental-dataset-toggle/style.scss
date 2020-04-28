@@ -49,11 +49,6 @@
   }
 
   .c-switch {
-    input:not(:checked) + .custom-control-label:before {
-      background-color: transparent;
-      border-color: $primary;
-    }
-
     label {
       @include font-size($font-size-xs);
       font-weight: $font-weight-bold;

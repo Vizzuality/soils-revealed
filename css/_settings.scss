@@ -79,7 +79,7 @@ $custom-control-indicator-bg: transparent;
 $custom-control-indicator-checked-disabled-bg: rgba($primary, 0.25);
 $custom-control-indicator-checked-bg: $primary;
 $custom-control-indicator-checked-border-color: $primary;
-$custom-control-indicator-border-color: $border-color-1;
+$custom-control-indicator-border-color: $primary;
 $custom-control-indicator-active-bg: lighten($primary, 60%);
 $custom-control-indicator-active-border-color: $custom-control-indicator-border-color;
 $custom-control-indicator-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
