@@ -337,7 +337,6 @@ class Map extends Component {
       children,
       getCursor,
       dragPan,
-      dragRotate,
       scrollZoom,
       touchZoom,
       touchRotate,
@@ -367,9 +366,10 @@ class Map extends Component {
           {...viewport}
           width="100%"
           height="100%"
+          maxPitch={0}
+          dragRotate={false}
           // INTERACTIVE
           dragPan={!flying && dragPan}
-          dragRotate={!flying && dragRotate}
           scrollZoom={!flying && scrollZoom}
           touchZoom={!flying && touchZoom}
           touchRotate={!flying && touchRotate}
