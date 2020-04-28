@@ -177,18 +177,18 @@ class Map extends Component {
     // We trigger a viewport change to send the intial bounds
     const { onViewportChange } = this.props;
     const { viewport } = this.state;
-    const bounds = this.map?.getBounds();
-    onViewportChange({ ...viewport, bounds: bounds.toArray() });
+    const bounds = this.map?.getBounds().toArray();
+    onViewportChange({ ...viewport, bounds });
   };
 
   onViewportChange = v => {
     const { onViewportChange } = this.props;
-    const bounds = this.map?.getBounds();
+    const bounds = this.map?.getBounds().toArray();
     const viewport = {
       ...v,
       ...(bounds
         ? {
-            bounds: bounds.toArray(),
+            bounds,
           }
         : {}),
     };
@@ -200,14 +200,14 @@ class Map extends Component {
   onResize = v => {
     const { onViewportChange } = this.props;
     const { viewport } = this.state;
-    const bounds = this.map?.getBounds();
+    const bounds = this.map?.getBounds().toArray();
 
     const newViewport = {
       ...viewport,
       ...v,
       ...(bounds
         ? {
-            bounds: bounds.toArray(),
+            bounds,
           }
         : {}),
     };
@@ -225,7 +225,7 @@ class Map extends Component {
       const pitch = this.map.getPitch();
       const zoom = this.map.getZoom();
       const { lng, lat } = this.map.getCenter();
-      const bounds = this.map?.getBounds();
+      const bounds = this.map?.getBounds().toArray();
 
       const newViewport = {
         ...viewport,
@@ -236,7 +236,7 @@ class Map extends Component {
         longitude: lng,
         ...(bounds
           ? {
-              bounds: bounds.toArray(),
+              bounds,
             }
           : {}),
       };
