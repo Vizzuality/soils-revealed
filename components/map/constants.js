@@ -24,21 +24,22 @@ export const BASEMAPS = {
     url:
       'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
   },
-  // landsat: {
-  //   label: 'Landsat',
-  //   image: null,
-  //   backgroundColor: '#020043',
-  //   minZoom: 0,
-  //   maxZoom: 12,
-  //   url: '',
-  //   params: {
-  //     year: {
-  //       label: 'Year',
-  //       values: [2013, 2014, 2015, 2016, 2017],
-  //       default: 2017,
-  //     },
-  //   },
-  // },
+  landsat: {
+    label: 'Landsat',
+    image: null,
+    backgroundColor: '#020043',
+    minZoom: 0,
+    maxZoom: 12,
+    url: 'https://api.resourcewatch.org/v2/landsat-tiles/{year}/{z}/{x}/{y}',
+    params: {
+      year: {
+        label: 'Year',
+        values: [2013, 2014, 2015, 2016, 2017],
+        default: 2017,
+      },
+    },
+    attribution: 'rw',
+  },
 };
 
 export const BOUNDARIES = {
