@@ -58,6 +58,7 @@ $container-max-widths: (
 
 $box-shadow-1: rem(2) rem(2) 0 0 $primary;
 $box-shadow-2: rem(1) rem(1) rem(10) 0 rgba($black, 0.2);
+$box-shadow-3: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
 
 // Buttons
 
@@ -82,7 +83,7 @@ $custom-control-indicator-checked-border-color: $primary;
 $custom-control-indicator-border-color: $primary;
 $custom-control-indicator-active-bg: lighten($primary, 60%);
 $custom-control-indicator-active-border-color: $custom-control-indicator-border-color;
-$custom-control-indicator-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
+$custom-control-indicator-focus-box-shadow: $box-shadow-3;
 $custom-control-indicator-focus-border-color: lighten($primary, 25%);
 
 $custom-switch-width: rem(36);
@@ -96,7 +97,7 @@ $custom-select-padding-y: map-get($spacers, 1);
 $custom-select-border-width: rem(2);
 $custom-select-border-color: $primary;
 $custom-select-focus-border-color: $custom-select-border-color;
-$custom-select-focus-box-shadow: 0 0 0 $input-btn-focus-width rgba($primary, 0.25);
+$custom-select-focus-box-shadow: $box-shadow-3;
 
 // Options
 

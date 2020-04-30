@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import Head from 'components/head';
 import Header from 'components/header';
 import Icons from 'components/icons';
+import { Icons as VizzIcons } from 'vizzuality-components';
 
 import './style.scss';
 
@@ -14,6 +15,7 @@ const FullscreenPage = ({ className, children }) => (
     <Header minimal />
     <main>{children}</main>
     <Icons />
+    <VizzIcons />
   </div>
 );
 

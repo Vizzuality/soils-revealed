@@ -44,6 +44,7 @@
     "layer-manager": "^3.0.4",
     "lodash": "^4.17.15",
     "luma.gl": "7.3.2",
+    "moment": "^2.24.0",
     "next": "9.3.2",
     "next-redux-wrapper": "^5.0.0",
     "next-routes": "^1.4.2",
@@ -56,6 +57,7 @@
     "react-redux": "^7.2.0",
     "react-select": "^3.1.0",
     "react-tabs": "^3.1.0",
-    "viewport-mercator-project": "6.1.1"
+    "viewport-mercator-project": "6.1.1",
+    "vizzuality-components": "^3.0.1"
   }
 }
