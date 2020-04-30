@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { debounce } from 'lodash';
+import debounce from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
-import { Map, LayerManager, Controls, BASEMAPS } from 'components/map';
+import { Map, LayerManager, Controls, Legend, BASEMAPS } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 import Tabs from './tabs';
 import ExperimentalDatasetToggle from './experimental-dataset-toggle';
@@ -38,6 +38,7 @@ const Explore = ({
   labels,
   boundaries,
   activeLayersDef,
+  legendDataLayers,
   serializedState,
   restoreState,
   updateZoom,
@@ -47,6 +48,8 @@ const Explore = ({
   updateRoads,
   updateLabels,
   updateBoundaries,
+  removeLayer,
+  updateLayer,
 }) => {
   const isDesktop = useDesktop();
 
@@ -108,6 +111,16 @@ const Explore = ({
             onChangeLabels={updateLabels}
             onChangeBoundaries={updateBoundaries}
           />
+          <Legend
+            layers={legendDataLayers}
+            onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
+            onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
+            onClickInfo={console.log}
+            onClickRemove={removeLayer}
+            onChangeDate={(id, dates) =>
+              updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
+            }
+          />
           <Map mapStyle={MAP_STYLE} viewport={viewport} onViewportChange={onChangeViewport}>
             {map => <LayerManager map={map} providers={{}} layers={activeLayersDef} />}
           </Map>
@@ -134,6 +147,7 @@ Explore.propTypes = {
   labels: PropTypes.bool.isRequired,
   boundaries: PropTypes.string.isRequired,
   activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
+  legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   serializedState: PropTypes.string.isRequired,
   restoreState: PropTypes.func.isRequired,
   updateZoom: PropTypes.func.isRequired,
@@ -143,6 +157,8 @@ Explore.propTypes = {
   updateRoads: PropTypes.func.isRequired,
   updateLabels: PropTypes.func.isRequired,
   updateBoundaries: PropTypes.func.isRequired,
+  removeLayer: PropTypes.func.isRequired,
+  updateLayer: PropTypes.func.isRequired,
 };
 
 Explore.defaultProps = {

@@ -16,6 +16,7 @@ export default connect(
     boundaries: mapSelectors.selectBoundaries(state),
     activeLayersDef: mapSelectors.selectActiveLayersDef(state),
     serializedState: exploreSelectors.selectSerializedState(state),
+    legendDataLayers: mapSelectors.selectLegendDataLayers(state),
   }),
   {
     restoreState: exploreActions.restoreState,
@@ -26,5 +27,7 @@ export default connect(
     updateRoads: mapActions.updateRoads,
     updateLabels: mapActions.updateLabels,
     updateBoundaries: mapActions.updateBoundaries,
+    removeLayer: mapActions.removeLayer,
+    updateLayer: mapActions.updateLayer,
   }
 )(Component);
