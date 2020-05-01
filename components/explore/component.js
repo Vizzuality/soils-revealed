@@ -1,31 +1,17 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useRef, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
-import { Map, LayerManager, Controls, Legend, BASEMAPS } from 'components/map';
+import { toggleBasemap } from 'utils/map';
+import { Map, LayerManager, Controls, Legend, BASEMAPS, mapStyle } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 import Tabs from './tabs';
 import ExperimentalDatasetToggle from './experimental-dataset-toggle';
 import Attributions from './attributions';
 
 import './style.scss';
-
-const MAP_STYLE = {
-  version: 8,
-  sources: {},
-  layers: [
-    {
-      id: 'custom-layers',
-      type: 'background',
-      layout: {},
-      paint: {
-        'background-opacity': 0,
-      },
-    },
-  ],
-};
 
 const Explore = ({
   zoom,
@@ -52,6 +38,10 @@ const Explore = ({
   updateLayer,
 }) => {
   const isDesktop = useDesktop();
+  const mapRef = useRef(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const map = useMemo(() => mapRef.current?.map, [mapRef.current]);
+  const [mapLoaded, setMapLoaded] = useState(false);
 
   const onChangeViewport = useCallback(
     // @ts-ignore
@@ -65,6 +55,11 @@ const Explore = ({
     }, 500),
     [updateViewport]
   );
+
+  const onLoadMap = useCallback(() => {
+    setMapLoaded(true);
+    toggleBasemap(map, BASEMAPS[basemap]);
+  }, [map, basemap]);
 
   // When the component is mounted, we restore its state from the URL
   useEffect(() => {
@@ -87,6 +82,13 @@ const Explore = ({
       updateZoom(acceptableMaxZoom);
     }
   }, [zoom, acceptableMinZoom, acceptableMaxZoom, updateZoom]);
+
+  // When the basemap changes, we update the map style
+  useEffect(() => {
+    if (map && mapLoaded) {
+      toggleBasemap(map, BASEMAPS[basemap]);
+    }
+  }, [map, mapLoaded, basemap]);
 
   return (
     <div className="c-explore" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>
@@ -121,7 +123,13 @@ const Explore = ({
               updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
             }
           />
-          <Map mapStyle={MAP_STYLE} viewport={viewport} onViewportChange={onChangeViewport}>
+          <Map
+            ref={mapRef}
+            mapStyle={mapStyle}
+            viewport={viewport}
+            onViewportChange={onChangeViewport}
+            onLoad={onLoadMap}
+          >
             {map => <LayerManager map={map} providers={{}} layers={activeLayersDef} />}
           </Map>
         </>

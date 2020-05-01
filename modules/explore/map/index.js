@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { computeDecodeParams } from 'utils/layers';
+import { computeDecodeParams } from 'utils/map';
 import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'components/map';
 
 export const SLICE_NAME = 'map';
@@ -42,6 +42,10 @@ export const selectBasemapLayerDef = createSelector(
   [selectBasemap, selectBasemapParams],
   (basemap, basemapParams) => {
     let basemapUrl = BASEMAPS[basemap].url;
+
+    if (!basemapUrl) {
+      return null;
+    }
 
     if (basemapParams) {
       basemapUrl = Object.keys(basemapParams).reduce(
@@ -156,14 +160,16 @@ export const selectActiveLayersDef = createSelector(
         ? { decodeFunction: dataLayers[layerId].decodeFunction }
         : {}),
     })),
-    basemapLayerDef,
+    ...(basemapLayerDef ? [basemapLayerDef] : []),
   ]
 );
 
 export const selectAttributions = createSelector(
   [selectBasemap, selectDataLayers, selectActiveDataLayers],
   (basemap, dataLayers, activeDataLayers) => {
-    const basemapAttributions = BASEMAPS[basemap].attribution || [];
+    const basemapAttributions = BASEMAPS[basemap].attribution
+      ? [BASEMAPS[basemap].attribution]
+      : [];
     const layerAttributions = activeDataLayers.map(
       layerId => dataLayers[layerId].attribution || []
     );

@@ -1,28 +1,29 @@
+export const mapStyle = 'mapbox://styles/tncsoilscience/ck9o2m8o652i51irzm0acciu7';
+
 export const BASEMAPS = {
   light: {
     label: 'White',
     image: null,
-    backgroundColor: '#d4d8da',
+    backgroundColor: '#d2c1b1',
     minZoom: 0,
-    maxZoom: 19,
-    url: 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}@2x.png',
+    maxZoom: 22,
+    styleGroup: 'basemap_light',
   },
   dark: {
     label: 'Dark',
     image: null,
-    backgroundColor: '#282626',
+    backgroundColor: '#4b3116',
     minZoom: 0,
-    maxZoom: 19,
-    url: 'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}@2x.png',
+    maxZoom: 22,
+    styleGroup: 'basemap_dark',
   },
   satellite: {
     label: 'Satellite',
     image: null,
-    backgroundColor: '#061b3a',
+    backgroundColor: '#050810',
     minZoom: 0,
-    maxZoom: 18,
-    url:
-      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    maxZoom: 22,
+    styleGroup: 'basemap_satellite',
   },
   landsat: {
     label: 'Landsat',
