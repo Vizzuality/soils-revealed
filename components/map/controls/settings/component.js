@@ -86,7 +86,29 @@ const MapControlsSettings = ({
                         label: `${value}`,
                         value,
                       }))}
-                      onChange={({ value }) => onChangeBasemapParams({ [param]: value })}
+                      onChange={({ value }) => {
+                        if (basemap !== key) {
+                          onChangeBasemap({
+                            basemap: key,
+                            ...(BASEMAPS[key].params
+                              ? {
+                                  params: Object.keys(BASEMAPS[key].params).reduce(
+                                    (res, paramKey) => ({
+                                      ...res,
+                                      [paramKey]:
+                                        param === paramKey
+                                          ? value
+                                          : BASEMAPS[key].params[paramKey].default,
+                                    }),
+                                    {}
+                                  ),
+                                }
+                              : {}),
+                          });
+                        } else {
+                          onChangeBasemapParams({ [param]: value });
+                        }
+                      }}
                     />
                   ))}
                 </>
