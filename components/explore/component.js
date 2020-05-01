@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
-import { toggleBasemap } from 'utils/map';
+import { toggleBasemap, toggleLabels } from 'utils/map';
 import { Map, LayerManager, Controls, Legend, BASEMAPS, mapStyle } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 import Tabs from './tabs';
@@ -59,7 +59,8 @@ const Explore = ({
   const onLoadMap = useCallback(() => {
     setMapLoaded(true);
     toggleBasemap(map, BASEMAPS[basemap]);
-  }, [map, basemap]);
+    toggleLabels(map, basemap, labels);
+  }, [map, basemap, labels]);
 
   // When the component is mounted, we restore its state from the URL
   useEffect(() => {
@@ -87,8 +88,9 @@ const Explore = ({
   useEffect(() => {
     if (map && mapLoaded) {
       toggleBasemap(map, BASEMAPS[basemap]);
+      toggleLabels(map, basemap, labels);
     }
-  }, [map, mapLoaded, basemap]);
+  }, [map, mapLoaded, basemap, labels]);
 
   return (
     <div className="c-explore" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>

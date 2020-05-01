@@ -56,3 +56,43 @@ export const toggleBasemap = (map, basemap) => {
     }
   });
 };
+
+export const toggleLabels = (map, basemap, showLabels) => {
+  const mapStyle = map.getStyle();
+  const { layers } = mapStyle;
+  const groups = mapStyle.metadata['mapbox:groups'];
+
+  const labelsGroups = Object.keys(groups)
+    .map(groupId => ({ [groupId]: groups[groupId].name }))
+    .reduce((res, group) => {
+      const groupId = Object.keys(group)[0];
+      const groupName = group[groupId];
+
+      if (!groupName.startsWith('labels_')) {
+        return res;
+      }
+
+      return {
+        ...res,
+        [groupId]: groupName,
+      };
+    }, {});
+
+  const labelsGroupIds = Object.keys(labelsGroups);
+  const activeLabelsGroup =
+    basemap === 'dark' || basemap === 'satellite' || basemap === 'landsat'
+      ? 'labels_light'
+      : 'labels_dark';
+
+  layers.forEach(layer => {
+    const group = layer.metadata?.['mapbox:group'];
+
+    if (group && labelsGroupIds.indexOf(group) !== -1) {
+      map.setLayoutProperty(
+        layer.id,
+        'visibility',
+        showLabels && labelsGroups[group] === activeLabelsGroup ? 'visible' : 'none'
+      );
+    }
+  });
+};
