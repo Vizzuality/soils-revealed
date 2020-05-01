@@ -27,12 +27,7 @@ const ExploreLayersTab = ({
       </button>
       <div className="sidebar">
         <h3>Add layers to the map</h3>
-        <Accordion
-          expanded={Object.keys(layersByGroup).filter(group =>
-            layersByGroup[group].layers.some(layer => layer.active)
-          )}
-          className="mt-3"
-        >
+        <Accordion expanded={Object.keys(layersByGroup)} className="mt-3">
           {Object.keys(layersByGroup).map(group => (
             <AccordionItem key={group} id={group}>
               <AccordionTitle aria-level={4}>
