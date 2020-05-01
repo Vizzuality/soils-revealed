@@ -120,7 +120,7 @@ const MapControlsSettings = ({
     </section>
     <section>
       <h3>Other settings</h3>
-      <Switch id="controls-settings-roads" checked={roads} onChange={onChangeRoads} disabled>
+      <Switch id="controls-settings-roads" checked={roads} onChange={onChangeRoads}>
         Roads
       </Switch>
       <Switch id="controls-settings-labels" checked={labels} onChange={onChangeLabels}>

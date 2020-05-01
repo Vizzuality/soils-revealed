@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
-import { toggleBasemap, toggleLabels } from 'utils/map';
+import { toggleBasemap, toggleLabels, toggleRoads } from 'utils/map';
 import { Map, LayerManager, Controls, Legend, BASEMAPS, mapStyle } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 import Tabs from './tabs';
@@ -60,6 +60,7 @@ const Explore = ({
     setMapLoaded(true);
     toggleBasemap(map, BASEMAPS[basemap]);
     toggleLabels(map, basemap, labels);
+    toggleRoads(map, labels);
   }, [map, basemap, labels]);
 
   // When the component is mounted, we restore its state from the URL
@@ -89,6 +90,7 @@ const Explore = ({
     if (map && mapLoaded) {
       toggleBasemap(map, BASEMAPS[basemap]);
       toggleLabels(map, basemap, labels);
+      toggleRoads(map, labels);
     }
   }, [map, mapLoaded, basemap, labels]);
 
