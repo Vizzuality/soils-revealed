@@ -141,6 +141,17 @@ export const selectActiveLayersDef = createSelector(
     ...activeDataLayers.map(layerId => ({
       id: layerId,
       ...dataLayers[layerId].config,
+      source:
+        typeof dataLayers[layerId].config.source === 'function'
+          ? dataLayers[layerId].config.source(
+              layers[layerId].dateRange
+                ? computeDecodeParams(dataLayers[layerId], {
+                    dateRange: layers[layerId].dateRange,
+                    currentDate: layers[layerId].currentDate,
+                  }).endYear
+                : undefined
+            )
+          : dataLayers[layerId].config.source,
       opacity: layers[layerId].opacity,
       visibility: layers[layerId].visible,
       ...(dataLayers[layerId].decodeParams

@@ -209,6 +209,13 @@ div.c-rc-tooltip {
     background-color: rgba($primary, 0.2);
   }
 
+  .rc-slider-dot {
+    background-color: $body-bg !important;
+    border: rem(3) solid $primary !important;
+    box-shadow: none !important;
+    visibility: visible !important;
+  }
+
   .rc-slider-mark-text {
     font-family: $font-family-2;
     @include font-size($font-size-xxs);
