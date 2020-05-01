@@ -48,8 +48,12 @@ $basemap-preview-height: rem(50);
       }
     }
 
-    input:checked + label:after {
-      border-color: $primary;
+    input:checked + label {
+      font-weight: $font-weight-medium;
+
+      &:after {
+        border-color: $primary;
+      }
     }
 
     label {
@@ -89,7 +93,7 @@ $basemap-preview-height: rem(50);
       .target-button {
         margin-right: 0;
         border-bottom: 0;
-        font-weight: initial;
+        font-weight: inherit;
 
         &:after {
           position: static;

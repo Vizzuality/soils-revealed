@@ -2,8 +2,8 @@ export const mapStyle = 'mapbox://styles/tncsoilscience/ck9o2m8o652i51irzm0acciu
 
 export const BASEMAPS = {
   light: {
-    label: 'White',
-    image: null,
+    label: 'Light',
+    image: '/images/basemap-light.png',
     backgroundColor: '#d2c1b1',
     minZoom: 0,
     maxZoom: 22,
@@ -11,7 +11,7 @@ export const BASEMAPS = {
   },
   dark: {
     label: 'Dark',
-    image: null,
+    image: '/images/basemap-dark.png',
     backgroundColor: '#4b3116',
     minZoom: 0,
     maxZoom: 22,
@@ -19,7 +19,7 @@ export const BASEMAPS = {
   },
   satellite: {
     label: 'Satellite',
-    image: null,
+    image: '/images/basemap-satellite.png',
     backgroundColor: '#050810',
     minZoom: 0,
     maxZoom: 22,
@@ -27,7 +27,7 @@ export const BASEMAPS = {
   },
   landsat: {
     label: 'Landsat',
-    image: null,
+    image: '/images/basemap-landsat.png',
     backgroundColor: '#020043',
     minZoom: 0,
     maxZoom: 12,
