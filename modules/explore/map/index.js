@@ -85,7 +85,10 @@ export const selectDataLayersByGroup = createSelector(
           ...res,
           [layer.group]: {
             label: LAYER_GROUPS[layer.group],
-            layers: [...(res[layer.group] ? res[layer.group].layers : []), layer],
+            layers: [
+              ...(res[layer.group] ? res[layer.group].layers : []),
+              layer,
+            ].sort((layerA, layerB) => layerA.label.localeCompare(layerB.label)),
           },
         }),
         {}
