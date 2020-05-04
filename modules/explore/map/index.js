@@ -111,6 +111,7 @@ export const selectLegendDataLayers = createSelector(
         {
           name: layer.label,
           opacity: layers[layer.id].opacity,
+          order: layers[layer.id].order,
           legendConfig: layer.legend,
           timelineParams: layer.legend?.timeline
             ? {
@@ -124,7 +125,11 @@ export const selectLegendDataLayers = createSelector(
       ],
     }));
 
-    return layerGroups;
+    const sortedLayerGroups = layerGroups.sort((groupA, groupB) =>
+      groupA.layers[0].order < groupB.layers[0].order ? 1 : -1
+    );
+
+    return sortedLayerGroups;
   }
 );
 
@@ -154,6 +159,7 @@ export const selectActiveLayersDef = createSelector(
           : dataLayers[layerId].config.source,
       opacity: layers[layerId].opacity,
       visibility: layers[layerId].visible,
+      zIndex: layers[layerId].order + 1,
       ...(dataLayers[layerId].decodeParams
         ? {
             decodeParams: {
@@ -294,16 +300,37 @@ export default exploreActions =>
         state.layers[action.payload] = {
           visible: true,
           opacity: 1,
+          // Like z-index, the higher = on top
+          order: Object.keys(state.layers).length,
         };
       },
       removeLayer(state, action) {
+        const order = state.layers[action.payload].order;
+
         delete state.layers[action.payload];
+
+        // We make sure to update the order of all the layers
+        Object.keys(state.layers).forEach(layerId => {
+          if (state.layers[layerId].order > order) {
+            state.layers[layerId].order -= 1;
+          }
+        });
       },
       updateLayer(state, action) {
         state.layers[action.payload.id] = {
           ...state.layers[action.payload.id],
           ...omit(action.payload, 'id'),
         };
+      },
+      updateLayerOrder(state, action) {
+        const mapLayerToOrder = action.payload.reduce(
+          (res, layerId, index) => ({ ...res, [layerId]: index }),
+          {}
+        );
+
+        Object.keys(state.layers).forEach(layerId => {
+          state.layers[layerId].order = mapLayerToOrder[layerId];
+        });
       },
     },
     extraReducers: {

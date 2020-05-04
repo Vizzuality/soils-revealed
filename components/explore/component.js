@@ -36,6 +36,7 @@ const Explore = ({
   updateBoundaries,
   removeLayer,
   updateLayer,
+  updateLayerOrder,
 }) => {
   const isDesktop = useDesktop();
   const mapRef = useRef(null);
@@ -110,6 +111,7 @@ const Explore = ({
             onChangeDate={(id, dates) =>
               updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
             }
+            onChangeLayersOrder={updateLayerOrder}
           />
           {/* Controls must be placed after the legend so they are visually on top (same z-index) */}
           <Controls
@@ -172,6 +174,7 @@ Explore.propTypes = {
   updateBoundaries: PropTypes.func.isRequired,
   removeLayer: PropTypes.func.isRequired,
   updateLayer: PropTypes.func.isRequired,
+  updateLayerOrder: PropTypes.func.isRequired,
 };
 
 Explore.defaultProps = {

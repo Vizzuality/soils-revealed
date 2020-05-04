@@ -20,9 +20,15 @@ const Legend = ({
   onClickInfo,
   onClickRemove,
   onChangeDate,
+  onChangeLayersOrder,
 }) => (
   <div className="c-map-legend">
-    <VizzLegend sortable expanded maxHeight={420}>
+    <VizzLegend
+      sortable
+      expanded
+      maxHeight={420}
+      onChangeOrder={layers => onChangeLayersOrder(layers.reverse())}
+    >
       {layers.map(layer => (
         <LegendListItem
           key={layer.id}
@@ -63,6 +69,7 @@ Legend.propTypes = {
   onClickInfo: PropTypes.func.isRequired,
   onClickRemove: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
+  onChangeLayersOrder: PropTypes.func.isRequired,
 };
 
 export default Legend;

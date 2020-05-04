@@ -29,5 +29,6 @@ export default connect(
     updateBoundaries: mapActions.updateBoundaries,
     removeLayer: mapActions.removeLayer,
     updateLayer: mapActions.updateLayer,
+    updateLayerOrder: mapActions.updateLayerOrder,
   }
 )(Component);
