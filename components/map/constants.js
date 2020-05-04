@@ -304,7 +304,7 @@ export const LAYERS = {
   },
   pasture: {
     // From: https://api.resourcewatch.org/v1/dataset/0ce24533-7877-4926-b962-a6c726332d82?includes=layer
-    label: 'Pasture',
+    label: 'Pasture Area',
     description: 'The percentage of each grid cell used as pasture in the year 2000.',
     group: 'land-use',
     attribution: ['rw'],
