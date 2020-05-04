@@ -60,8 +60,8 @@ const Explore = ({
     setMapLoaded(true);
     toggleBasemap(map, BASEMAPS[basemap]);
     toggleLabels(map, basemap, labels);
-    toggleRoads(map, labels);
-  }, [map, basemap, labels]);
+    toggleRoads(map, roads);
+  }, [map, basemap, labels, roads]);
 
   // When the component is mounted, we restore its state from the URL
   useEffect(() => {
@@ -90,9 +90,9 @@ const Explore = ({
     if (map && mapLoaded) {
       toggleBasemap(map, BASEMAPS[basemap]);
       toggleLabels(map, basemap, labels);
-      toggleRoads(map, labels);
+      toggleRoads(map, roads);
     }
-  }, [map, mapLoaded, basemap, labels]);
+  }, [map, mapLoaded, basemap, labels, roads]);
 
   return (
     <div className="c-explore" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>
