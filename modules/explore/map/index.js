@@ -178,12 +178,13 @@ export const selectActiveLayersDef = createSelector(
 export const selectAttributions = createSelector(
   [selectBasemap, selectDataLayers, selectActiveDataLayers],
   (basemap, dataLayers, activeDataLayers) => {
-    const basemapAttributions = BASEMAPS[basemap].attribution
-      ? [BASEMAPS[basemap].attribution]
+    const basemapAttributions = BASEMAPS[basemap].attributions
+      ? BASEMAPS[basemap].attributions
       : [];
-    const layerAttributions = activeDataLayers.map(
-      layerId => dataLayers[layerId].attribution || []
-    );
+    const layerAttributions = activeDataLayers
+      .map(layerId => dataLayers[layerId].attributions || [])
+      .reduce((res, attr) => [...res, ...attr], []);
+    console.log(layerAttributions);
     const uniqueAttributions = [...new Set([...basemapAttributions, ...layerAttributions])];
     return `${
       uniqueAttributions.length

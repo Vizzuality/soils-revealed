@@ -39,7 +39,7 @@ export const BASEMAPS = {
         default: 2017,
       },
     },
-    attribution: 'rw',
+    attributions: ['rw'],
   },
 };
 
@@ -94,7 +94,7 @@ export const LAYERS = {
     description:
       "Land Cover from the European Space Agency's Climate Change Initiative Land Cover (ESA CCI-LC) dataset, categorized under the IPCC land cover classification system at 300 m resolution.",
     group: 'land-use',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: (year = 2015) => {
@@ -182,7 +182,7 @@ export const LAYERS = {
     label: 'Tree Cover Loss',
     description: 'Identifies areas of gross tree cover loss',
     group: 'land-use',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: {
@@ -260,7 +260,7 @@ export const LAYERS = {
     label: 'Cropland',
     description: 'The percentage of each grid cell used as cropland in the year 2000.',
     group: 'land-use',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: {
@@ -307,7 +307,7 @@ export const LAYERS = {
     label: 'Pasture Area',
     description: 'The percentage of each grid cell used as pasture in the year 2000.',
     group: 'land-use',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: {
@@ -354,7 +354,7 @@ export const LAYERS = {
     label: 'Wetlands and Waterbodies',
     description: 'Types of large-scale wetland distributions and important wetland complexes.',
     group: 'land-use',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: {
@@ -425,7 +425,7 @@ export const LAYERS = {
     description:
       'Built-up areas represent the presence of structures on any land. Data shown represents: the global built-up area before 1975, from 1975 to 1990, 1990 - 2000 and 2000 - 2014.',
     group: 'land-use',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: {
@@ -468,7 +468,7 @@ export const LAYERS = {
     description:
       'The distribution and density of population, expressed as the number of people per 250 m grid cell. Legend displays people per square kilometer.',
     group: 'others',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: (year = 2015) => {
@@ -542,7 +542,7 @@ export const LAYERS = {
     description:
       'Carbon density of woody biomass that is above ground and living, measured in megagrams of carbon per hectare (Mg C/ha).',
     group: 'others',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: {
@@ -589,7 +589,7 @@ export const LAYERS = {
     description:
       'Average proportion of natural biodiversity remaining in local ecosystems in 2005. Green areas are those within safe limits for biodiversity, and red areas are those beyond proposed safe limits.',
     group: 'others',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: {
@@ -662,7 +662,7 @@ export const LAYERS = {
     description:
       'Estimates of soil loss from rainfall and runoff on a scale from 1 to 5. A value of 1 indicates a low risk of erosion and 5 indicates a high risk of erosion.',
     group: 'others',
-    attribution: ['rw'],
+    attributions: ['rw'],
     config: {
       type: 'raster',
       source: {
