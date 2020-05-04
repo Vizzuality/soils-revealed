@@ -143,6 +143,7 @@ li.vizzuality__c-legend-item {
     }
 
     .vizzuality__c-legend-timestep {
+      min-height: rem(40);
       margin-top: map-get($spacers, 4);
 
       .vizzuality__player-btn {
