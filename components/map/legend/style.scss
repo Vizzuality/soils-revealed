@@ -133,6 +133,13 @@ li.vizzuality__c-legend-item {
         font-family: inherit;
         font-size: inherit;
       }
+
+      .vizzuality__c-legend-type-choropleth {
+        .vizzuality__name {
+          font-family: $font-family-2;
+          @include font-size($font-size-xxs);
+        }
+      }
     }
 
     .vizzuality__c-legend-timestep {
