@@ -184,7 +184,6 @@ export const selectAttributions = createSelector(
     const layerAttributions = activeDataLayers
       .map(layerId => dataLayers[layerId].attributions || [])
       .reduce((res, attr) => [...res, ...attr], []);
-    console.log(layerAttributions);
     const uniqueAttributions = [...new Set([...basemapAttributions, ...layerAttributions])];
     return `${
       uniqueAttributions.length

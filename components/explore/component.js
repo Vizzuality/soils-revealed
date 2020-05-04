@@ -101,6 +101,17 @@ const Explore = ({
           <Attributions />
           <Tabs />
           <ExperimentalDatasetToggle />
+          <Legend
+            layers={legendDataLayers}
+            onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
+            onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
+            onClickInfo={console.log}
+            onClickRemove={removeLayer}
+            onChangeDate={(id, dates) =>
+              updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
+            }
+          />
+          {/* Controls must be placed after the legend so they are visually on top (same z-index) */}
           <Controls
             zoom={zoom}
             acceptableMinZoom={acceptableMinZoom}
@@ -116,16 +127,6 @@ const Explore = ({
             onChangeRoads={updateRoads}
             onChangeLabels={updateLabels}
             onChangeBoundaries={updateBoundaries}
-          />
-          <Legend
-            layers={legendDataLayers}
-            onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
-            onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
-            onClickInfo={console.log}
-            onClickRemove={removeLayer}
-            onChangeDate={(id, dates) =>
-              updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
-            }
           />
           <Map
             ref={mapRef}
