@@ -574,6 +574,14 @@ export const LAYERS = {
         },
       ],
     },
+    decodeParams: {},
+    decodeFunction: `
+      float intensity = color.b * 255.;
+      alpha = color.b;
+      color.r = (255. - intensity) / 255.;
+      color.g = 128. / 255.;
+      color.b = 0.;
+    `,
   },
   'biodiversity-intactness': {
     // From: http://api.resourcewatch.org/v1/dataset/0e565ddf-74fd-4f90-a6b8-c89d747a89ab?includes=layer
