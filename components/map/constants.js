@@ -180,7 +180,7 @@ export const LAYERS = {
   'tree-cover-loss': {
     // From: http://api.resourcewatch.org/v1/dataset/897ecc76-2308-4c51-aeb3-495de0bdca79?includes=layer
     label: 'Tree Cover Loss',
-    description: 'Identifies areas of gross tree cover loss',
+    description: 'Identifies areas of gross tree cover loss.',
     group: 'land-use',
     attributions: ['rw'],
     config: {

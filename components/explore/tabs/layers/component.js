@@ -134,6 +134,14 @@ const ExploreLayersTab = ({
             />
           )}
         </Map>
+        {activeLayerId && layers[activeLayerId].description && (
+          <div className="description">
+            {layers[activeLayerId].description}
+            <button type="button" className="btn btn-sm btn-link" disabled>
+              <Icon name="info" /> More information
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
