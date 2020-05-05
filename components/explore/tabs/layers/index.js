@@ -10,6 +10,7 @@ export default connect(
     bounds: mapSelectors.selectBounds(state),
     basemapLayerDef: mapSelectors.selectBasemapLayerDef(state),
     layersByGroup: mapSelectors.selectDataLayersByGroup(state),
+    layers: mapSelectors.selectDataLayers(),
   }),
   {
     addLayer: mapActions.addLayer,

@@ -21,6 +21,39 @@ export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
   };
 };
 
+export const getLayerDef = (layerId, layer, layerSettings) => ({
+  id: layerId,
+  ...layer.config,
+  source:
+    typeof layer.config.source === 'function'
+      ? layer.config.source(
+          layerSettings.dateRange
+            ? computeDecodeParams(layer, {
+                dateRange: layerSettings.dateRange,
+                currentDate: layerSettings.currentDate,
+              }).endYear
+            : undefined
+        )
+      : layer.config.source,
+  opacity: layerSettings.opacity,
+  visibility: layerSettings.visible,
+  zIndex: layerSettings.order + 1,
+  ...(layer.decodeParams
+    ? {
+        decodeParams: {
+          ...layer.decodeParams,
+          ...(layerSettings.dateRange
+            ? computeDecodeParams(layer, {
+                dateRange: layerSettings.dateRange,
+                currentDate: layerSettings.currentDate,
+              })
+            : {}),
+        },
+      }
+    : {}),
+  ...(layer.decodeFunction ? { decodeFunction: layer.decodeFunction } : {}),
+});
+
 export const toggleBasemap = (map, basemap) => {
   const mapStyle = map.getStyle();
   const { layers } = mapStyle;

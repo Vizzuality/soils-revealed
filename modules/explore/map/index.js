@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { computeDecodeParams } from 'utils/map';
+import { getLayerDef } from 'utils/map';
 import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'components/map';
 
 export const SLICE_NAME = 'map';
@@ -146,40 +146,7 @@ export const selectActiveLayersDef = createSelector(
   ],
   (basemapLayerDef, boundariesLayerDef, dataLayers, activeDataLayers, layers) => [
     ...(boundariesLayerDef ? [boundariesLayerDef] : []),
-    ...activeDataLayers.map(layerId => ({
-      id: layerId,
-      ...dataLayers[layerId].config,
-      source:
-        typeof dataLayers[layerId].config.source === 'function'
-          ? dataLayers[layerId].config.source(
-              layers[layerId].dateRange
-                ? computeDecodeParams(dataLayers[layerId], {
-                    dateRange: layers[layerId].dateRange,
-                    currentDate: layers[layerId].currentDate,
-                  }).endYear
-                : undefined
-            )
-          : dataLayers[layerId].config.source,
-      opacity: layers[layerId].opacity,
-      visibility: layers[layerId].visible,
-      zIndex: layers[layerId].order + 1,
-      ...(dataLayers[layerId].decodeParams
-        ? {
-            decodeParams: {
-              ...dataLayers[layerId].decodeParams,
-              ...(layers[layerId].dateRange
-                ? computeDecodeParams(dataLayers[layerId], {
-                    dateRange: layers[layerId].dateRange,
-                    currentDate: layers[layerId].currentDate,
-                  })
-                : {}),
-            },
-          }
-        : {}),
-      ...(dataLayers[layerId].decodeFunction
-        ? { decodeFunction: dataLayers[layerId].decodeFunction }
-        : {}),
-    })),
+    ...activeDataLayers.map(layerId => getLayerDef(layerId, dataLayers[layerId], layers[layerId])),
     ...(basemapLayerDef ? [basemapLayerDef] : []),
   ]
 );

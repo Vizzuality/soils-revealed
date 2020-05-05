@@ -48,6 +48,30 @@
         @include font-size($font-size-base);
       }
     }
+
+    .layer-row {
+      margin: 0 -#{map-get($spacers, 3)};
+      padding: #{map-get($spacers, 1) / 2} 0;
+
+      &.-highlighted {
+        background-color: $background-color-1;
+      }
+
+      .btn {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        padding: 0;
+        font-family: $font-family-2;
+        @include font-size($font-size-xxs);
+        text-transform: none;
+        letter-spacing: initial;
+
+        .c-icon {
+          margin-right: 1ch;
+        }
+      }
+    }
   }
 
   .preview {
@@ -71,8 +95,6 @@
       width: 100%;
       height: 100%;
       min-height: rem(580);
-
-      border-left: rem(1) solid $border-color-1;
       z-index: 0;
     }
   }
