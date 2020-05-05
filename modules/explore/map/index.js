@@ -286,6 +286,17 @@ export default exploreActions =>
           }
         });
       },
+      updateActiveLayers(state, action) {
+        state.layers = {};
+        action.payload.forEach((layerId, index) => {
+          state.layers[layerId] = {
+            visible: true,
+            opacity: 1,
+            // Like z-index, the higher = on top
+            order: index,
+          };
+        });
+      },
       updateLayer(state, action) {
         state.layers[action.payload.id] = {
           ...state.layers[action.payload.id],

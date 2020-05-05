@@ -5,6 +5,7 @@
   justify-content: space-between;
   align-items: stretch;
   width: rem(820);
+  min-height: rem(580);
 
   .close-button {
     display: flex;
@@ -42,8 +43,16 @@
   .sidebar {
     flex-basis: calc(50% - #{map-get($spacers, 3) / 2});
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+
+    > * {
+      flex-shrink: 0;
+    }
 
     .c-accordion {
+      flex-grow: 1;
+
       .group-title {
         @include font-size($font-size-base);
       }
@@ -94,7 +103,6 @@
     .c-map {
       width: 100%;
       height: 100%;
-      min-height: rem(580);
       z-index: 0;
     }
 

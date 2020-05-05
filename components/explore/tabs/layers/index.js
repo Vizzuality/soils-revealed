@@ -11,9 +11,9 @@ export default connect(
     basemapLayerDef: mapSelectors.selectBasemapLayerDef(state),
     layersByGroup: mapSelectors.selectDataLayersByGroup(state),
     layers: mapSelectors.selectDataLayers(),
+    activeLayers: mapSelectors.selectActiveDataLayers(state),
   }),
   {
-    addLayer: mapActions.addLayer,
-    removeLayer: mapActions.removeLayer,
+    updateActiveLayers: mapActions.updateActiveLayers,
   }
 )(Component);

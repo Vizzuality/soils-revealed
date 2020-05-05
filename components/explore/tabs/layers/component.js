@@ -16,44 +16,53 @@ const ExploreLayersTab = ({
   basemapLayerDef,
   layersByGroup,
   layers,
+  activeLayers,
   onClose,
-  addLayer,
-  removeLayer,
+  updateActiveLayers,
 }) => {
   const [viewport, setViewport] = useState(undefined);
-  const [activeLayerId, setActiveLayerId] = useState(null);
-  const activeLayerDef = useMemo(() => {
-    if (!activeLayerId) {
+  const [previewedLayerId, setPreviewedLayerId] = useState(null);
+  const [activeLayersIds, setActiveLayersIds] = useState(activeLayers);
+
+  const previewedLayerDef = useMemo(() => {
+    if (!previewedLayerId) {
       return null;
     }
 
-    return getLayerDef(activeLayerId, layers[activeLayerId], {
+    return getLayerDef(previewedLayerId, layers[previewedLayerId], {
       visible: true,
       opacity: 1,
       order: 0,
     });
-  }, [layers, activeLayerId]);
+  }, [layers, previewedLayerId]);
 
   const onLoadMap = useCallback(({ map }) => toggleBasemap(map, BASEMAPS[basemap]), [basemap]);
   const onChangeViewport = useCallback(debounce(setViewport, 500), [setViewport]);
+  const onClickSave = useCallback(() => {
+    updateActiveLayers(activeLayersIds);
+    onClose();
+  }, [activeLayersIds, updateActiveLayers, onClose]);
 
   useEffect(() => {
-    if (activeLayerDef) {
-      if (activeLayerDef.source.minzoom && viewport.zoom < activeLayerDef.source.minzoom) {
+    if (previewedLayerDef) {
+      if (previewedLayerDef.source.minzoom && viewport.zoom < previewedLayerDef.source.minzoom) {
         setViewport(viewport => ({
           ...viewport,
           transitionDuration: 250,
-          zoom: activeLayerDef.source.minzoom,
+          zoom: previewedLayerDef.source.minzoom,
         }));
-      } else if (activeLayerDef.source.maxzoom && viewport.zoom > activeLayerDef.source.maxzoom) {
+      } else if (
+        previewedLayerDef.source.maxzoom &&
+        viewport.zoom > previewedLayerDef.source.maxzoom
+      ) {
         setViewport(viewport => ({
           ...viewport,
           transitionDuration: 250,
-          zoom: activeLayerDef.source.maxzoom,
+          zoom: previewedLayerDef.source.maxzoom,
         }));
       }
     }
-  }, [viewport, activeLayerDef]);
+  }, [viewport, previewedLayerDef]);
 
   return (
     <div className="c-explore-layers-tab">
@@ -75,14 +84,18 @@ const ExploreLayersTab = ({
                     className={[
                       'row',
                       'layer-row',
-                      ...(layer.id === activeLayerId ? ['-highlighted'] : []),
+                      ...(layer.id === previewedLayerId ? ['-highlighted'] : []),
                     ].join(' ')}
                   >
                     <div className="col-8">
                       <Switch
                         id={layer.id}
-                        checked={layer.active}
-                        onChange={() => (layer.active ? removeLayer(layer.id) : addLayer(layer.id))}
+                        checked={activeLayersIds.indexOf(layer.id) !== -1}
+                        onChange={() =>
+                          activeLayersIds.indexOf(layer.id) !== -1
+                            ? setActiveLayersIds(ids => ids.filter(id => id !== layer.id))
+                            : setActiveLayersIds(ids => [...ids, layer.id])
+                        }
                       >
                         {layer.label}
                       </Switch>
@@ -92,15 +105,15 @@ const ExploreLayersTab = ({
                         type="button"
                         className="btn"
                         onClick={() =>
-                          setActiveLayerId(activeLayerId === layer.id ? null : layer.id)
+                          setPreviewedLayerId(previewedLayerId === layer.id ? null : layer.id)
                         }
                       >
-                        {activeLayerId === layer.id && (
+                        {previewedLayerId === layer.id && (
                           <>
                             <Icon name="slashed-eye" /> Hide
                           </>
                         )}
-                        {activeLayerId !== layer.id && (
+                        {previewedLayerId !== layer.id && (
                           <>
                             <Icon name="eye" /> Preview
                           </>
@@ -113,6 +126,14 @@ const ExploreLayersTab = ({
             </AccordionItem>
           ))}
         </Accordion>
+        <div className="text-center mt-4">
+          <button type="button" className="btn btn-primary py-2 mr-2" onClick={onClickSave}>
+            Save
+          </button>
+          <button type="button" className="btn btn-outline-primary py-2" onClick={onClose}>
+            Cancel
+          </button>
+        </div>
       </div>
       <div className="preview" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>
         <h3>Preview layers</h3>
@@ -129,14 +150,14 @@ const ExploreLayersTab = ({
               providers={{}}
               layers={[
                 ...(basemapLayerDef ? [basemapLayerDef] : []),
-                ...(activeLayerDef ? [activeLayerDef] : []),
+                ...(previewedLayerDef ? [previewedLayerDef] : []),
               ]}
             />
           )}
         </Map>
-        {activeLayerId && layers[activeLayerId].description && (
+        {previewedLayerId && layers[previewedLayerId].description && (
           <div className="description">
-            {layers[activeLayerId].description}
+            {layers[previewedLayerId].description}
             <button type="button" className="btn btn-sm btn-link" disabled>
               <Icon name="info" /> More information
             </button>
@@ -153,9 +174,9 @@ ExploreLayersTab.propTypes = {
   basemapLayerDef: PropTypes.object,
   layersByGroup: PropTypes.object.isRequired,
   layers: PropTypes.object.isRequired,
+  activeLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   onClose: PropTypes.func.isRequired,
-  addLayer: PropTypes.func.isRequired,
-  removeLayer: PropTypes.func.isRequired,
+  updateActiveLayers: PropTypes.func.isRequired,
 };
 
 ExploreLayersTab.defaultProps = {
