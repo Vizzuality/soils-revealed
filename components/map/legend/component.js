@@ -43,7 +43,7 @@ const Legend = ({
               >
                 <Icon name={layer.visibility ? 'eye' : 'slashed-eye'} />
               </button>
-              <button type="button" className="btn" onClick={() => onClickInfo(layer.id)} disabled>
+              <button type="button" className="btn" onClick={() => onClickInfo(layer.id)}>
                 <Icon name="info" />
               </button>
               {layer.closeable && (

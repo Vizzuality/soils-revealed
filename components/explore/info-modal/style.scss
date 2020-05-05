@@ -1,0 +1,38 @@
+@import 'css/settings';
+
+.c-explore-info-modal {
+  max-width: rem(850);
+  @include font-size($font-size-s);
+
+  @include media-breakpoint-up(lg, $grid-breakpoints) {
+    padding: rem(50) rem(100);
+  }
+
+  h1 {
+    @include font-size($font-size-xxl);
+    text-align: center;
+  }
+
+  h2 {
+    margin-bottom: 0;
+    padding-top: rem(5);
+    font-family: $font-family-2;
+    @include font-size($font-size-xxs);
+  }
+
+  h3 {
+    @include font-size($font-size-base);
+  }
+
+  ul {
+    padding-left: 2ch;
+
+    li > p {
+      margin-bottom: 0;
+    }
+  }
+
+  .intro {
+    @include font-size($font-size-l);
+  }
+}

@@ -1,4 +1,5 @@
 import React, { useRef, useMemo, useState } from 'react';
+import PropTypes from 'prop-types';
 
 import Icon from 'components/icon';
 import Tooltip from 'components/tooltip';
@@ -6,7 +7,7 @@ import LayersTab from './layers';
 
 import './style.scss';
 
-const ExploreTabs = () => {
+const ExploreTabs = ({ onClickInfo }) => {
   const areasBtnRef = useRef(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const areasBtnWidth = useMemo(() => areasBtnRef.current?.offsetWidth || 0, [areasBtnRef.current]);
@@ -25,7 +26,11 @@ const ExploreTabs = () => {
           placement="bottom-start"
           offset={`-${areasBtnWidth} 0`}
           content={
-            layersTooltipVisible ? <LayersTab onClose={() => layersTooltip?.hide?.()} /> : <span />
+            layersTooltipVisible ? (
+              <LayersTab onClickInfo={onClickInfo} onClose={() => layersTooltip?.hide?.()} />
+            ) : (
+              <span />
+            )
           }
           onCreate={tooltip => setLayersTooltip(tooltip)}
           onShow={() => setLayersTooltipVisible(true)}
@@ -39,6 +44,10 @@ const ExploreTabs = () => {
       </div>
     </>
   );
+};
+
+ExploreTabs.propTypes = {
+  onClickInfo: PropTypes.func.isRequired,
 };
 
 export default ExploreTabs;

@@ -10,6 +10,7 @@ import FullscreenMessage from './fullscreen-message';
 import Tabs from './tabs';
 import ExperimentalDatasetToggle from './experimental-dataset-toggle';
 import Attributions from './attributions';
+import InfoModal from './info-modal';
 
 import './style.scss';
 
@@ -43,6 +44,7 @@ const Explore = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const map = useMemo(() => mapRef.current?.map, [mapRef.current]);
   const [mapLoaded, setMapLoaded] = useState(false);
+  const [infoLayerId, setInfoLayerId] = useState(null);
 
   const onChangeViewport = useCallback(
     // @ts-ignore
@@ -99,14 +101,15 @@ const Explore = ({
     <div className="c-explore" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>
       {isDesktop && (
         <>
+          <InfoModal layerId={infoLayerId} onClose={() => setInfoLayerId(null)} />
           <Attributions />
-          <Tabs />
+          <Tabs onClickInfo={setInfoLayerId} />
           <ExperimentalDatasetToggle />
           <Legend
             layers={legendDataLayers}
             onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
             onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
-            onClickInfo={console.log}
+            onClickInfo={setInfoLayerId}
             onClickRemove={removeLayer}
             onChangeDate={(id, dates) =>
               updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })

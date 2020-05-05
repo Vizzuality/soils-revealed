@@ -17,6 +17,7 @@ const ExploreLayersTab = ({
   layersByGroup,
   layers,
   activeLayers,
+  onClickInfo,
   onClose,
   updateActiveLayers,
 }) => {
@@ -158,7 +159,11 @@ const ExploreLayersTab = ({
         {previewedLayerId && layers[previewedLayerId].description && (
           <div className="description">
             {layers[previewedLayerId].description}
-            <button type="button" className="btn btn-sm btn-link" disabled>
+            <button
+              type="button"
+              className="btn btn-sm btn-link"
+              onClick={() => onClickInfo(previewedLayerId)}
+            >
               <Icon name="info" /> More information
             </button>
           </div>
@@ -175,6 +180,7 @@ ExploreLayersTab.propTypes = {
   layersByGroup: PropTypes.object.isRequired,
   layers: PropTypes.object.isRequired,
   activeLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onClickInfo: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   updateActiveLayers: PropTypes.func.isRequired,
 };
