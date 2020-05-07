@@ -11,32 +11,33 @@ const ExploreTabs = ({ onClickInfo }) => {
   const areasBtnRef = useRef(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const areasBtnWidth = useMemo(() => areasBtnRef.current?.offsetWidth || 0, [areasBtnRef.current]);
-  const [layersTooltip, setLayersTooltip] = useState(null);
   const [layersTooltipVisible, setLayersTooltipVisible] = useState(false);
 
   return (
     <>
-      {layersTooltipVisible && <div className="c-explore-tabs-backdrop" />}
+      {layersTooltipVisible && (
+        <div className="c-explore-tabs-backdrop" onClick={() => setLayersTooltipVisible(false)} />
+      )}
       <div className="c-explore-tabs">
         <button ref={areasBtnRef} type="button" className="btn btn-primary btn-sm" disabled>
           <Icon name="pin" />
           Areas of interest
         </button>
         <Tooltip
+          trigger="manual"
           placement="bottom-start"
+          visible={layersTooltipVisible}
+          hideOnClick={false}
           offset={`-${areasBtnWidth} 0`}
           content={
-            layersTooltipVisible ? (
-              <LayersTab onClickInfo={onClickInfo} onClose={() => layersTooltip?.hide?.()} />
-            ) : (
-              <span />
-            )
+            <LayersTab onClickInfo={onClickInfo} onClose={() => setLayersTooltipVisible(false)} />
           }
-          onCreate={tooltip => setLayersTooltip(tooltip)}
-          onShow={() => setLayersTooltipVisible(true)}
-          onHidden={() => setLayersTooltipVisible(false)}
         >
-          <button type="button" className="btn btn-primary btn-sm">
+          <button
+            type="button"
+            className="btn btn-primary btn-sm"
+            onClick={() => setLayersTooltipVisible(visible => !visible)}
+          >
             <Icon name="layers" />
             Map layers
           </button>
