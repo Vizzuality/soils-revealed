@@ -108,7 +108,10 @@ const Explore = ({
   }, [map, mapLoaded, basemap, labels, roads, boundaries]);
 
   return (
-    <div className="c-explore" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>
+    <div
+      className="c-explore"
+      style={isDesktop ? { backgroundColor: BASEMAPS[basemap].backgroundColor } : undefined}
+    >
       {isDesktop && (
         <>
           <InfoModal layerId={infoLayerId} onClose={() => setInfoLayerId(null)} />
