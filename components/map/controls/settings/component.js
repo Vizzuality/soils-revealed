@@ -28,7 +28,6 @@ const MapControlsSettings = ({
           name="boundaries"
           checked={key === boundaries}
           onChange={() => onChangeBoundaries(key)}
-          disabled
         >
           {BOUNDARIES[key].label}
         </Radio>

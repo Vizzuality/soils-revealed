@@ -4,8 +4,16 @@ import debounce from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
-import { toggleBasemap, toggleLabels, toggleRoads } from 'utils/map';
-import { Map, LayerManager, Controls, Legend, BASEMAPS, mapStyle } from 'components/map';
+import { toggleBasemap, toggleLabels, toggleRoads, toggleBoundaries } from 'utils/map';
+import {
+  Map,
+  LayerManager,
+  Controls,
+  Legend,
+  BASEMAPS,
+  BOUNDARIES,
+  mapStyle,
+} from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 import Tabs from './tabs';
 import ExperimentalDatasetToggle from './experimental-dataset-toggle';
@@ -64,7 +72,8 @@ const Explore = ({
     toggleBasemap(map, BASEMAPS[basemap]);
     toggleLabels(map, basemap, labels);
     toggleRoads(map, roads);
-  }, [map, basemap, labels, roads]);
+    toggleBoundaries(map, BOUNDARIES[boundaries]);
+  }, [map, basemap, labels, roads, boundaries]);
 
   // When the component is mounted, we restore its state from the URL
   useEffect(() => {
@@ -88,14 +97,15 @@ const Explore = ({
     }
   }, [zoom, acceptableMinZoom, acceptableMaxZoom, updateZoom]);
 
-  // When the basemap changes, we update the map style
+  // When the basemap, labels, roads or boundaries change, we update the map style
   useEffect(() => {
     if (map && mapLoaded) {
       toggleBasemap(map, BASEMAPS[basemap]);
       toggleLabels(map, basemap, labels);
       toggleRoads(map, roads);
+      toggleBoundaries(map, BOUNDARIES[boundaries]);
     }
-  }, [map, mapLoaded, basemap, labels, roads]);
+  }, [map, mapLoaded, basemap, labels, roads, boundaries]);
 
   return (
     <div className="c-explore" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>

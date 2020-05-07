@@ -1,4 +1,4 @@
-export const mapStyle = 'mapbox://styles/tncsoilscience/ck9o2m8o652i51irzm0acciu7';
+export const mapStyle = 'mapbox://styles/tncsoilscience/ck9wlqrzv0kfq1jljzyls86g8';
 
 export const BASEMAPS = {
   light: {
@@ -53,37 +53,25 @@ export const BOUNDARIES = {
     label: 'Political boundaries',
     minZoom: -Infinity,
     maxZoom: Infinity,
+    styleGroup: 'boundaries_political-boundaries',
   },
-  'protected-areas': {
-    label: 'Protected areas',
+  landforms: {
+    label: 'Landforms',
     minZoom: -Infinity,
     maxZoom: Infinity,
+    styleGroup: 'boundaries_landforms',
   },
   'river-basins': {
     label: 'River basins',
-    minZoom: -Infinity,
+    minZoom: 3.5,
     maxZoom: Infinity,
+    styleGroup: 'boundaries_river-basins',
   },
   biomes: {
     label: 'Biomes',
     minZoom: -Infinity,
     maxZoom: Infinity,
-    // minZoom: 0,
-    // maxZoom: 8,
-    // url: '',
-    // render: {
-    //   layers: [
-    //     {
-    //       type: 'fill',
-    //       'source-layer': 'Biomes',
-    //       paint: {
-    //         'fill-color': 'orange',
-    //         'fill-opacity': 0.5,
-    //         'fill-outline-color': 'red',
-    //       },
-    //     },
-    //   ],
-    // },
+    styleGroup: 'boundaries_biomes',
   },
 };
 
