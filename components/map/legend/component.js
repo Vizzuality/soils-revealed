@@ -33,20 +33,25 @@ const Legend = ({
         <LegendListItem
           key={layer.id}
           layerGroup={layer}
+          disabled={layer.readonly}
           toolbar={
             <LegendItemToolbar onChangeOpacity={(_, opacity) => onChangeOpacity(layer.id, opacity)}>
-              <LegendItemButtonOpacity />
-              <button
-                type="button"
-                className="btn"
-                onClick={() => onClickToggleVisibility(layer.id, !layer.visibility)}
-              >
-                <Icon name={layer.visibility ? 'eye' : 'slashed-eye'} />
-              </button>
-              <button type="button" className="btn" onClick={() => onClickInfo(layer.id)}>
-                <Icon name="info" />
-              </button>
-              {layer.closeable && (
+              {!layer.readonly && <LegendItemButtonOpacity />}
+              {!layer.readonly && (
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => onClickToggleVisibility(layer.id, !layer.visibility)}
+                >
+                  <Icon name={layer.visibility ? 'eye' : 'slashed-eye'} />
+                </button>
+              )}
+              {!layer.readonly && (
+                <button type="button" className="btn" onClick={() => onClickInfo(layer.id)}>
+                  <Icon name="info" />
+                </button>
+              )}
+              {!layer.readonly && layer.closeable && (
                 <button type="button" className="btn" onClick={() => onClickRemove(layer.id)}>
                   <Icon name="close" />
                 </button>

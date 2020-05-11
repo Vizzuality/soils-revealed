@@ -96,8 +96,8 @@ export const selectDataLayersByGroup = createSelector(
 );
 
 export const selectLegendDataLayers = createSelector(
-  [selectDataLayers, selectActiveDataLayers, selectLayers],
-  (dataLayers, activeDataLayers, layers) => {
+  [selectDataLayers, selectActiveDataLayers, selectLayers, selectBoundaries],
+  (dataLayers, activeDataLayers, layers, boundaries) => {
     const activeLayers = Object.keys(dataLayers)
       .map(layerId => ({
         ...dataLayers[layerId],
@@ -110,6 +110,7 @@ export const selectLegendDataLayers = createSelector(
       dataset: layer.id,
       visibility: layers[layer.id].visible,
       closeable: true,
+      readonly: false,
       layers: [
         {
           name: layer.label,
@@ -127,6 +128,25 @@ export const selectLegendDataLayers = createSelector(
         },
       ],
     }));
+
+    if (BOUNDARIES[boundaries].legend) {
+      layerGroups.unshift({
+        id: boundaries,
+        dataset: boundaries,
+        visibility: true,
+        closeable: false,
+        readonly: true,
+        layers: [
+          {
+            name: BOUNDARIES[boundaries].label,
+            opacity: 1,
+            order: 9999,
+            legendConfig: BOUNDARIES[boundaries].legend,
+            timelineParams: undefined,
+          },
+        ],
+      });
+    }
 
     const sortedLayerGroups = layerGroups.sort((groupA, groupB) =>
       groupA.layers[0].order < groupB.layers[0].order ? 1 : -1
@@ -304,10 +324,10 @@ export default exploreActions =>
         };
       },
       updateLayerOrder(state, action) {
-        const mapLayerToOrder = action.payload.reduce(
-          (res, layerId, index) => ({ ...res, [layerId]: index }),
-          {}
-        );
+        const mapLayerToOrder = action.payload
+          // We remove the IDs that correspond to the boundaries
+          .filter(layerId => !!LAYERS[layerId])
+          .reduce((res, layerId, index) => ({ ...res, [layerId]: index }), {});
 
         Object.keys(state.layers).forEach(layerId => {
           state.layers[layerId].order = mapLayerToOrder[layerId];

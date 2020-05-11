@@ -60,6 +60,83 @@ export const BOUNDARIES = {
     minZoom: -Infinity,
     maxZoom: Infinity,
     styleGroup: 'boundaries_landforms',
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Island',
+          color: '#81a7ea',
+        },
+        {
+          name: 'Coast',
+          color: '#3e7bb6',
+        },
+        {
+          name: 'Mountain Range/Mountain',
+          color: '#f1db93',
+        },
+        {
+          name: 'Pen/Cape',
+          color: '#167bb6',
+        },
+        {
+          name: 'Desert',
+          color: '#f2ae40',
+        },
+        {
+          name: 'Plateau',
+          color: '#f66760',
+        },
+        {
+          name: 'Geoarea',
+          color: '#7583db',
+        },
+        {
+          name: 'Plain',
+          color: '#50aa78',
+        },
+        {
+          name: 'Depression',
+          color: '#ebc599',
+        },
+        {
+          name: 'Valley',
+          color: '#266a6d',
+        },
+        {
+          name: 'Wetland',
+          color: '#7hhch0',
+        },
+        {
+          name: 'Delta',
+          color: '#89dcb7',
+        },
+        {
+          name: 'Lowland',
+          color: '#349861',
+        },
+        {
+          name: 'Gorge',
+          color: '#ce5050',
+        },
+        {
+          name: 'Tundra',
+          color: '#b3d5d1',
+        },
+        {
+          name: 'Isthmus',
+          color: '#299993',
+        },
+        {
+          name: 'Foothills',
+          color: '#0aa49f',
+        },
+        {
+          name: 'Peninsula',
+          color: '#5c929d',
+        },
+      ],
+    },
   },
   'river-basins': {
     label: 'River basins',
@@ -72,6 +149,67 @@ export const BOUNDARIES = {
     minZoom: -Infinity,
     maxZoom: Infinity,
     styleGroup: 'boundaries_biomes',
+    legend: {
+      type: 'basic',
+      items: [
+        {
+          name: 'Boreal Forests/Taiga',
+          color: '#a8ccc3',
+        },
+        {
+          name: 'Deserts & Xeric Shrublands',
+          color: '#f5cc89',
+        },
+        {
+          name: 'Flooded Grasslands & Savannas',
+          color: '#439c9d',
+        },
+        {
+          name: 'Mangroves',
+          color: '#52babc',
+        },
+        {
+          name: 'Mediterranean Forests, Woodlands & Scrub',
+          color: '#1b7979',
+        },
+        {
+          name: 'Montane Grasslands & Shrublands',
+          color: '#d4b425',
+        },
+        {
+          name: 'Temperate Broadleaf & Mixed Forests',
+          color: '#84b390',
+        },
+        {
+          name: 'Temperate Conifer Forests',
+          color: '#4da284',
+        },
+        {
+          name: 'Temperate Grasslands, Savannas & Shrublands',
+          color: '#e99c72',
+        },
+        {
+          name: 'Tropical & Subtropical Coniferous Forests',
+          color: '#166a37',
+        },
+        {
+          name: 'Tropical & Subtropical Dry Broadleaf Forests',
+          color: '#a0cb48',
+        },
+        {
+          name: 'Tropical & Subtropical Grasslands, Savannas & Shrublands',
+          color: '#7fa239',
+        },
+        {
+          name: 'Tropical & Subtropical Moist Broadleaf Forests',
+          color: '#398959',
+        },
+        {
+          name: 'Tundra',
+          color: '#cae3dd',
+        },
+      ],
+    },
   },
 };
 
