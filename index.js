@@ -1,7 +1,8 @@
 const express = require('express');
 const next = require('next');
+const ee = require('@google/earthengine');
 
-// const gee = require('./api/gee');
+const landCoverLayer = require('./api/land-cover');
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const isDev = process.env.NODE_ENV !== 'production';
@@ -9,10 +10,30 @@ const isDev = process.env.NODE_ENV !== 'production';
 const app = next({ dev: isDev });
 const handle = app.getRequestHandler();
 
+let geePrivateKey;
+try {
+  geePrivateKey = require('./gee.key.json');
+  ee.data.authenticateViaPrivateKey(
+    geePrivateKey,
+    () => {
+      ee.initialize();
+      console.log('> GEE authenticated and initialized');
+    },
+    err => {
+      console.log('> GEE authentication failed');
+      console.log(err);
+    }
+  );
+} catch (e) {
+  console.log('> GEE private key missing. GEE services disabled.');
+}
+
 app.prepare().then(() => {
   const server = express();
 
-  // server.get('/api/gee/:imageId/:z/:x/:y', gee);
+  if (geePrivateKey) {
+    server.get('/api/land-cover/:year/:z/:x/:y', landCoverLayer);
+  }
   server.get('/api/*', (req, res) => res.status(404).end());
   server.all('*', (req, res) => handle(req, res));
 

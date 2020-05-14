@@ -11,7 +11,8 @@
     "noImplicitThis": true,
     "alwaysStrict": true,
     "allowSyntheticDefaultImports": true,
-    "module": "esnext"
+    "module": "esnext",
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", "k8s", ".next"]
 }
