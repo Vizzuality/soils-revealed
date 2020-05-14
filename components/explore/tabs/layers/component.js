@@ -65,6 +65,12 @@ const ExploreLayersTab = ({
     }
   }, [viewport, previewedLayerDef]);
 
+  // Whenever the list of active layers is updated in the store, the internal state of the
+  // component should also follow
+  useEffect(() => {
+    setActiveLayersIds(activeLayers);
+  }, [activeLayers]);
+
   return (
     <div className="c-explore-layers-tab">
       <button type="button" className="btn btn-outline-primary close-button" onClick={onClose}>
