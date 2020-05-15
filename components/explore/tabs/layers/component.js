@@ -6,7 +6,7 @@ import { toggleBasemap, getLayerDef } from 'utils/map';
 import Icon from 'components/icon';
 import { Map, LayerManager, BASEMAPS, mapStyle } from 'components/map';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
-import { Switch } from 'components/forms';
+import { Switch, Radio } from 'components/forms';
 
 import './style.scss';
 
@@ -95,17 +95,36 @@ const ExploreLayersTab = ({
                     ].join(' ')}
                   >
                     <div className="col-8">
-                      <Switch
-                        id={layer.id}
-                        checked={activeLayersIds.indexOf(layer.id) !== -1}
-                        onChange={() =>
-                          activeLayersIds.indexOf(layer.id) !== -1
-                            ? setActiveLayersIds(ids => ids.filter(id => id !== layer.id))
-                            : setActiveLayersIds(ids => [...ids, layer.id])
-                        }
-                      >
-                        {layer.label}
-                      </Switch>
+                      {group === 'soc' && (
+                        <Radio
+                          id={layer.id}
+                          name="layers-tab-soc-layer"
+                          checked={activeLayersIds.indexOf(layer.id) !== -1}
+                          onChange={() => {
+                            setActiveLayersIds(ids => [
+                              ...ids.filter(
+                                id => !layersByGroup[group].layers.find(l => l.id === id)
+                              ),
+                              layer.id,
+                            ]);
+                          }}
+                        >
+                          {layer.label}
+                        </Radio>
+                      )}
+                      {group !== 'soc' && (
+                        <Switch
+                          id={layer.id}
+                          checked={activeLayersIds.indexOf(layer.id) !== -1}
+                          onChange={() =>
+                            activeLayersIds.indexOf(layer.id) !== -1
+                              ? setActiveLayersIds(ids => ids.filter(id => id !== layer.id))
+                              : setActiveLayersIds(ids => [...ids, layer.id])
+                          }
+                        >
+                          {layer.label}
+                        </Switch>
+                      )}
                     </div>
                     <div className="col-4">
                       <button
