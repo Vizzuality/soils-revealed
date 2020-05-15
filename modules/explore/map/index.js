@@ -254,7 +254,13 @@ export default exploreActions =>
       roads: false,
       labels: false,
       boundaries: 'no-boundaries',
-      layers: {},
+      layers: {
+        'soc-stock': {
+          visible: true,
+          opacity: 1,
+          order: 0,
+        },
+      },
     },
     reducers: {
       updateZoom(state, action) {
