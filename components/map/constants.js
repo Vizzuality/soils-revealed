@@ -244,7 +244,7 @@ export const LAYERS = {
         year = 2018,
         year1 = 2000,
         year2 = 2018,
-        scenario = 0,
+        scenario = '0',
       }) => {
         let tilesURL;
         if (type === 'historic') {
