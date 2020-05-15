@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { Switch } from 'components/forms';
@@ -6,8 +6,25 @@ import InfoButton from 'components/info-button';
 
 import './style.scss';
 
-const ExploreExperimentalDatasetToggle = ({ basemap }) => {
+const ExploreExperimentalDatasetToggle = ({
+  basemap,
+  activeLayers,
+  layersByGroup,
+  updateActiveLayers,
+}) => {
   const invert = basemap === 'dark' || basemap === 'satellite' || basemap === 'landsat';
+
+  const isToggledOn = activeLayers.indexOf('soc-experimental') !== -1;
+
+  const onChange = useCallback(() => {
+    const socLayers = layersByGroup.soc.layers.map(layer => layer.id);
+    updateActiveLayers([
+      ...activeLayers.filter(activeLayer => socLayers.indexOf(activeLayer) === -1),
+      isToggledOn
+        ? socLayers.filter(socLayer => socLayer !== 'soc-experimental')
+        : 'soc-experimental',
+    ]);
+  }, [isToggledOn, layersByGroup, activeLayers, updateActiveLayers]);
 
   return (
     <div
@@ -15,7 +32,12 @@ const ExploreExperimentalDatasetToggle = ({ basemap }) => {
         ' '
       )}
     >
-      <Switch id="explore-experimental-dataset-toggle" className="-transparent" disabled>
+      <Switch
+        id="explore-experimental-dataset-toggle"
+        className="-transparent"
+        checked={isToggledOn}
+        onChange={onChange}
+      >
         Experimental dataset{' '}
         <InfoButton>
           Facere illo deleniti dolorem ut. Vero saepe quisquam dolor beatae. Debitis sit blanditiis
@@ -28,6 +50,9 @@ const ExploreExperimentalDatasetToggle = ({ basemap }) => {
 
 ExploreExperimentalDatasetToggle.propTypes = {
   basemap: PropTypes.string.isRequired,
+  activeLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
+  layersByGroup: PropTypes.object.isRequired,
+  updateActiveLayers: PropTypes.func.isRequired,
 };
 
 export default ExploreExperimentalDatasetToggle;
