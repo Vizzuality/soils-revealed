@@ -214,6 +214,57 @@ export const BOUNDARIES = {
 };
 
 export const LAYERS = {
+  'soc-experimental': {
+    label: 'SOC experimental dataset',
+    description: '',
+    group: 'soc',
+    attributions: [],
+    paramsConfig: {
+      years: [1982, 2017],
+      depths: {
+        0: '0-5 cm',
+        1: '5-15 cm',
+        2: '15-30 cm',
+        3: '30-60 cm',
+        4: '60-100 cm',
+        5: '100-200 cm',
+      },
+    },
+    config: {
+      type: 'raster',
+      // If you update the default params, remember to update the ones of getLayerExtraParams too
+      source: ({
+        type = 'concentration',
+        depth = 0,
+        mode = 'timeseries',
+        year = 2017,
+        year1 = 1982,
+        year2 = 2017,
+      }) => {
+        let tilesURL;
+        if (type === 'stock') {
+          if (mode === 'timeseries') {
+            tilesURL = `/api/soc-experimental/stock/0/timeseries/${year}/{z}/{x}/{y}`;
+          } else if (mode === 'change') {
+            tilesURL = `/api/soc-experimental/stock/0/change/${year1}/${year2}/{z}/{x}/{y}`;
+          }
+        } else if (type === 'concentration') {
+          if (mode === 'timeseries') {
+            tilesURL = `/api/soc-experimental/concentration/${depth}/timeseries/${year}/{z}/{x}/{y}`;
+          } else if (mode === 'change') {
+            tilesURL = `/api/soc-experimental/concentration/${depth}/change/${year1}/${year2}/{z}/{x}/{y}`;
+          }
+        }
+
+        return {
+          tiles: tilesURL ? [tilesURL] : [],
+          minzoom: 0,
+          maxzoom: 22,
+        };
+      },
+    },
+    info: {},
+  },
   'land-cover': {
     // From: https://api.resourcewatch.org/v1/dataset/bca0109c-6d13-42a0-89b2-bcc046dc177e?includes=layer
     label: 'Global Land Cover',
@@ -1016,6 +1067,7 @@ export const LAYERS = {
 };
 
 export const LAYER_GROUPS = {
+  soc: 'Soil layers',
   'land-use': 'Land use',
   others: 'Other layers',
 };

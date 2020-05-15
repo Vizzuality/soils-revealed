@@ -21,38 +21,47 @@ export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
   };
 };
 
-export const getLayerDef = (layerId, layer, layerSettings) => ({
-  id: layerId,
-  ...layer.config,
-  source:
-    typeof layer.config.source === 'function'
-      ? layer.config.source(
-          layerSettings.dateRange
-            ? computeDecodeParams(layer, {
-                dateRange: layerSettings.dateRange,
-                currentDate: layerSettings.currentDate,
-              }).endYear
-            : undefined
-        )
-      : layer.config.source,
-  opacity: layerSettings.opacity,
-  visibility: layerSettings.visible,
-  zIndex: layerSettings.order + 1,
-  ...(layer.decodeParams
-    ? {
-        decodeParams: {
-          ...layer.decodeParams,
-          ...(layerSettings.dateRange
-            ? computeDecodeParams(layer, {
-                dateRange: layerSettings.dateRange,
-                currentDate: layerSettings.currentDate,
-              })
-            : {}),
-        },
-      }
-    : {}),
-  ...(layer.decodeFunction ? { decodeFunction: layer.decodeFunction } : {}),
-});
+export const getLayerDef = (layerId, layer, layerSettings) => {
+  let source;
+  if (layerId === 'soc-experimental') {
+    source = layer.config.source(layerSettings);
+  } else {
+    source =
+      typeof layer.config.source === 'function'
+        ? layer.config.source(
+            layerSettings.dateRange
+              ? computeDecodeParams(layer, {
+                  dateRange: layerSettings.dateRange,
+                  currentDate: layerSettings.currentDate,
+                }).endYear
+              : undefined
+          )
+        : layer.config.source;
+  }
+
+  return {
+    id: layerId,
+    ...layer.config,
+    source,
+    opacity: layerSettings.opacity,
+    visibility: layerSettings.visible,
+    zIndex: layerSettings.order + 1,
+    ...(layer.decodeParams
+      ? {
+          decodeParams: {
+            ...layer.decodeParams,
+            ...(layerSettings.dateRange
+              ? computeDecodeParams(layer, {
+                  dateRange: layerSettings.dateRange,
+                  currentDate: layerSettings.currentDate,
+                })
+              : {}),
+          },
+        }
+      : {}),
+    ...(layer.decodeFunction ? { decodeFunction: layer.decodeFunction } : {}),
+  };
+};
 
 export const toggleBasemap = (map, basemap) => {
   const mapStyle = map.getStyle();
@@ -198,4 +207,22 @@ export const toggleBoundaries = (map, boundaries) => {
       );
     }
   });
+};
+
+export const getLayerExtraParams = (layer, layerConfig) => {
+  if (layer.id === 'soc-experimental') {
+    // The default values must be in sync with the default params values of the source function
+    // of the layer in components/map/constants.js
+    return {
+      config: layer.paramsConfig,
+      type: layerConfig.type || 'concentration',
+      depth: layerConfig.depth || 0,
+      mode: layerConfig.mode || 'timeseries',
+      year: layerConfig.year || 2017,
+      year1: layerConfig.year1 || 1982,
+      year2: layerConfig.year2 || 2017,
+    };
+  }
+
+  return undefined;
 };

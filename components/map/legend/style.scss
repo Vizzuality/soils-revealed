@@ -135,6 +135,13 @@ li.vizzuality__c-legend-item {
           @include font-size($font-size-xxs);
         }
       }
+
+      .vizzuality__c-legend-type-gradient {
+        .vizzuality__icon-gradient {
+          margin-top: 0;
+          height: rem(12);
+        }
+      }
     }
 
     .vizzuality__c-legend-timestep {

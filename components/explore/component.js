@@ -128,6 +128,7 @@ const Explore = ({
               updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
             }
             onChangeLayersOrder={updateLayerOrder}
+            onChangeParams={(id, params) => updateLayer({ id, ...params })}
           />
           {/* Controls must be placed after the legend so they are visually on top (same z-index) */}
           <Controls

@@ -10,6 +10,8 @@ import {
 } from 'vizzuality-components';
 
 import Icon from 'components/icon';
+import LegendTitle from './title';
+import SOCExperimentalLegend from './soc-experimental';
 
 import './style.scss';
 
@@ -21,6 +23,7 @@ const Legend = ({
   onClickRemove,
   onChangeDate,
   onChangeLayersOrder,
+  onChangeParams,
 }) => (
   <div className="c-map-legend">
     <VizzLegend
@@ -34,6 +37,7 @@ const Legend = ({
           key={layer.id}
           layerGroup={layer}
           disabled={layer.readonly}
+          title={<LegendTitle layerGroup={layer} onChangeParams={onChangeParams} />}
           toolbar={
             <LegendItemToolbar onChangeOpacity={(_, opacity) => onChangeOpacity(layer.id, opacity)}>
               {!layer.readonly && <LegendItemButtonOpacity />}
@@ -59,8 +63,13 @@ const Legend = ({
             </LegendItemToolbar>
           }
         >
-          <LegendItemTypes />
-          <LegendItemTimeStep handleChange={dates => onChangeDate(layer.id, dates)} />
+          {layer.id !== 'soc-experimental' && <LegendItemTypes />}
+          {layer.id !== 'soc-experimental' && (
+            <LegendItemTimeStep handleChange={dates => onChangeDate(layer.id, dates)} />
+          )}
+          {layer.id === 'soc-experimental' && (
+            <SOCExperimentalLegend layerGroup={layer} onChangeParams={onChangeParams} />
+          )}
         </LegendListItem>
       ))}
     </VizzLegend>
@@ -75,6 +84,7 @@ Legend.propTypes = {
   onClickRemove: PropTypes.func.isRequired,
   onChangeDate: PropTypes.func.isRequired,
   onChangeLayersOrder: PropTypes.func.isRequired,
+  onChangeParams: PropTypes.func.isRequired,
 };
 
 export default Legend;

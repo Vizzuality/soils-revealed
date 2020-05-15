@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { getLayerDef } from 'utils/map';
+import { getLayerDef, getLayerExtraParams } from 'utils/map';
 import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'components/map';
 
 export const SLICE_NAME = 'map';
@@ -109,7 +109,7 @@ export const selectLegendDataLayers = createSelector(
       id: layer.id,
       dataset: layer.id,
       visibility: layers[layer.id].visible,
-      closeable: true,
+      closeable: layer.id !== 'soc-experimental',
       readonly: false,
       layers: [
         {
@@ -125,6 +125,7 @@ export const selectLegendDataLayers = createSelector(
                 trimEndDate: layers[layer.id].dateRange?.[1] || layer.legend?.timeline.maxDate,
               }
             : undefined,
+          extraParams: getLayerExtraParams(layer, layers[layer.id]),
         },
       ],
     }));
@@ -143,6 +144,7 @@ export const selectLegendDataLayers = createSelector(
             order: 9999,
             legendConfig: BOUNDARIES[boundaries].legend,
             timelineParams: undefined,
+            extraParams: undefined,
           },
         ],
       });

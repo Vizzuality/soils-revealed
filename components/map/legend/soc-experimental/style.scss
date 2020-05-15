@@ -1,0 +1,84 @@
+@import 'css/settings';
+
+.c-map-legend-soc-experimental {
+  .gradient-container {
+    display: flex;
+    margin-top: map-get($spacers, 4);
+
+    .vizzuality__c-legend-item-types {
+      margin-top: 0 !important;
+      flex-grow: 1;
+    }
+
+    .unit {
+      position: relative;
+      top: -#{rem(3)};
+      margin-left: map-get($spacers, 1);
+      font-family: $font-family-2;
+      @include font-size($font-size-xxs);
+    }
+  }
+
+  .react-tabs {
+    position: relative;
+    margin-top: map-get($spacers, 3);
+
+    &:before {
+      display: block;
+      position: absolute;
+      top: -#{rem(1)};
+      left: -#{rem(30)};
+      width: calc(100% + #{rem(30) + map-get($spacers, 3)});
+      height: rem(1);
+      background-color: $border-color-1;
+      content: '';
+    }
+
+    &__tab-list {
+      display: flex;
+      align-items: flex-end;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+
+      .depth-dropdown {
+        flex-grow: 1;
+        padding-bottom: rem(5); // Needed to align with the bottom of the tabs
+        text-align: right;
+        font-family: $font-family-2;
+        @include font-size($font-size-xxs);
+      }
+    }
+
+    &__tab {
+      margin-right: map-get($spacers, 3);
+      padding: map-get($spacers, 1) 0;
+      border-top: rem(2) solid transparent;
+      color: rgba($body-color, 0.5);
+      cursor: pointer;
+
+      &--selected {
+        border-top-color: $primary;
+        color: $body-color;
+      }
+    }
+
+    &__tab-panel {
+      &--selected {
+        display: flex;
+        align-items: center;
+        height: rem(50);
+        padding-top: map-get($spacers, 3);
+      }
+
+      .vizzuality__c-legend-timestep {
+        margin-top: 0 !important;
+      }
+
+      .change-year {
+        font-family: $font-family-2;
+        @include font-size($font-size-xxs);
+      }
+    }
+  }
+}

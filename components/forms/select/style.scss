@@ -1,7 +1,8 @@
 @import 'css/settings';
 
-.c-select {
+select.c-select {
   width: auto;
+  vertical-align: baseline;
   -moz-appearance: none;
   -moz-webkit: none;
 }
