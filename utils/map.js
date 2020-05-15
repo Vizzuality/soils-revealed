@@ -23,7 +23,7 @@ export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
 
 export const getLayerDef = (layerId, layer, layerSettings) => {
   let source;
-  if (layerId === 'soc-experimental') {
+  if (layerId === 'soc-experimental' || layerId === 'soc-stock') {
     source = layer.config.source(layerSettings);
   } else {
     source =
@@ -221,6 +221,19 @@ export const getLayerExtraParams = (layer, layerConfig) => {
       year: layerConfig.year || 2017,
       year1: layerConfig.year1 || 1982,
       year2: layerConfig.year2 || 2017,
+    };
+  } else if (layer.id === 'soc-stock') {
+    // The default values must be in sync with the default params values of the source function
+    // of the layer in components/map/constants.js
+    return {
+      config: layer.paramsConfig,
+      type: layerConfig.type || 'recent',
+      mode: layerConfig.mode || 'timeseries',
+      period: layerConfig.period || 'historic',
+      year: layerConfig.year || 2018,
+      year1: layerConfig.year1 || 2000,
+      year2: layerConfig.year2 || 2018,
+      scenario: layerConfig.scenario || 0,
     };
   }
 

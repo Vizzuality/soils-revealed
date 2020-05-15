@@ -70,18 +70,23 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
           <Tab>Time Series</Tab>
           <Tab>Change</Tab>
           <div className="depth-dropdown">
-            Soil depth:
             {layer.extraParams.type === 'stock' && (
-              <span className="d-inline-block ml-1 font-weight-bold">0-30 cm</span>
+              <>
+                Soil depth:
+                <span className="d-inline-block ml-1 font-weight-bold">0-30 cm</span>
+              </>
             )}
             {layer.extraParams.type === 'concentration' && (
-              <Select
-                className="ml-2"
-                aria-label="Soil depth"
-                options={depthOptions}
-                value={`${layer.extraParams.depth}`}
-                onChange={({ value }) => onChangeParams(layerGroup.id, { depth: +value })}
-              />
+              <>
+                <label htmlFor="legend-depth">Soil depth:</label>
+                <Select
+                  id="legend-depth"
+                  className="ml-2"
+                  options={depthOptions}
+                  value={`${layer.extraParams.depth}`}
+                  onChange={({ value }) => onChangeParams(layerGroup.id, { depth: +value })}
+                />
+              </>
             )}
           </div>
         </TabList>
@@ -104,20 +109,20 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
         </TabPanel>
         <TabPanel>
           <div className="change-year d-inline-block mr-4">
-            From:
+            <label htmlFor="legend-from">From:</label>
             <Select
+              id="legend-from"
               className="ml-2"
-              aria-label="From"
               options={yearOptions}
               value={`${layer.extraParams.year1}`}
               onChange={({ value }) => onChangeParams(layerGroup.id, { year1: +value })}
             />
           </div>
           <div className="change-year d-inline-block">
-            To:
+            <label htmlFor="legend-to">To:</label>
             <Select
+              id="legend-to"
               className="ml-2"
-              aria-label="To"
               options={yearOptions}
               value={`${layer.extraParams.year2}`}
               onChange={({ value }) => onChangeParams(layerGroup.id, { year2: +value })}

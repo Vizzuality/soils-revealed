@@ -1,9 +1,37 @@
 @import 'css/settings';
 
-.c-map-legend-soc-experimental {
+.c-map-legend-soc-stock {
+  .type-tabs {
+    // The 4px are needed to remove an unwanted margin at the top of the element
+    // Source: https://css-tricks.com/fighting-the-space-between-inline-block-elements/#article-header-id-1
+    margin-top: #{map-get($spacers, 4) - rem(4)};
+
+    > .react-tabs__tab-list {
+      display: inline-flex;
+      margin: 0 0 map-get($spacers, 3);
+      padding: 0;
+      list-style: none;
+      border: rem(1) solid $primary;
+
+      > .react-tabs__tab {
+        margin: rem(1);
+        padding: 0 map-get($spacers, 3);
+        font-family: $font-family-2;
+        @include font-size($font-size-xs);
+        color: $body-color;
+        text-transform: uppercase;
+        cursor: pointer;
+
+        &--selected {
+          color: $white;
+          background-color: $primary;
+        }
+      }
+    }
+  }
+
   .gradient-container {
     display: flex;
-    margin-top: map-get($spacers, 4);
 
     .vizzuality__c-legend-item-types {
       margin-top: 0 !important;
@@ -19,7 +47,7 @@
     }
   }
 
-  .react-tabs {
+  .mode-tabs {
     position: relative;
     margin-top: map-get($spacers, 3);
 
@@ -34,7 +62,7 @@
       content: '';
     }
 
-    &__tab-list {
+    .react-tabs__tab-list {
       display: flex;
       align-items: flex-end;
       margin: 0;
@@ -47,14 +75,10 @@
         text-align: right;
         font-family: $font-family-2;
         @include font-size($font-size-xxs);
-
-        label {
-          margin: 0;
-        }
       }
     }
 
-    &__tab {
+    .react-tabs__tab {
       margin-right: map-get($spacers, 3);
       padding: map-get($spacers, 1) 0;
       border-top: rem(2) solid transparent;
@@ -67,7 +91,7 @@
       }
     }
 
-    &__tab-panel {
+    .react-tabs__tab-panel {
       &--selected {
         display: flex;
         align-items: center;
@@ -79,7 +103,18 @@
         margin-top: 0 !important;
       }
 
-      .change-year {
+      .c-radio {
+        padding-left: map-get($spacers, 4);
+
+        label {
+          &:before,
+          &:after {
+            left: -#{map-get($spacers, 4)};
+          }
+        }
+      }
+
+      .select {
         font-family: $font-family-2;
         @include font-size($font-size-xxs);
 

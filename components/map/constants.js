@@ -214,6 +214,68 @@ export const BOUNDARIES = {
 };
 
 export const LAYERS = {
+  'soc-stock': {
+    label: 'Soil organic carbon stock',
+    description: '',
+    group: 'soc',
+    attributions: [],
+    paramsConfig: {
+      periods: {
+        historic: 'Historic',
+        current: 'Current',
+      },
+      years: [2000, 2018],
+      futureYears: {
+        2030: '2030',
+        2040: '2040',
+        2050: '2050',
+      },
+      scenarios: {
+        0: 'Default',
+      },
+    },
+    config: {
+      type: 'raster',
+      // If you update the default params, remember to update the ones of getLayerExtraParams too
+      source: ({
+        type = 'recent',
+        mode = 'timeseries',
+        period = 'historic',
+        year = 2018,
+        year1 = 2000,
+        year2 = 2018,
+        scenario = 0,
+      }) => {
+        let tilesURL;
+        if (type === 'historic') {
+          if (mode === 'period') {
+            tilesURL = `/api/soc-stock/historic/period/${period}/{z}/{x}/{y}`;
+          } else if (mode === 'change') {
+            tilesURL = '/api/soc-stock/historic/change/{z}/{x}/{y}';
+          }
+        } else if (type === 'recent') {
+          if (mode === 'timeseries') {
+            tilesURL = `/api/soc-stock/recent/timeseries/${year}/{z}/{x}/{y}`;
+          } else if (mode === 'change') {
+            tilesURL = `/api/soc-stock/recent/change/${year1}/${year2}/{z}/{x}/{y}`;
+          }
+        } else if (type === 'future') {
+          if (mode === 'period') {
+            tilesURL = `/api/soc-stock/future/${scenario}/period/${year}/{z}/{x}/{y}`;
+          } else if (mode === 'change') {
+            tilesURL = `/api/soc-stock/future/${scenario}/change/${year}/{z}/{x}/{y}`;
+          }
+        }
+
+        return {
+          tiles: tilesURL ? [tilesURL] : [],
+          minzoom: 0,
+          maxzoom: 22,
+        };
+      },
+    },
+    info: {},
+  },
   'soc-experimental': {
     label: 'SOC experimental dataset',
     description: '',

@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import './style.scss';
 
 const Select = ({
+  id,
   options,
   defaultValue,
   value,
@@ -22,6 +23,7 @@ const Select = ({
 
   return (
     <select
+      id={id}
       className={['c-select', 'custom-select', ...(className ? [className] : [])].join(' ')}
       disabled={disabled}
       aria-label={ariaLabel}
@@ -39,6 +41,7 @@ const Select = ({
 };
 
 Select.propTypes = {
+  id: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
@@ -49,7 +52,7 @@ Select.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
-  'aria-label': PropTypes.string.isRequired,
+  'aria-label': PropTypes.string,
   className: PropTypes.string,
 };
 
@@ -58,7 +61,7 @@ Select.defaultProps = {
   value: undefined,
   onChange: () => null,
   disabled: false,
-  placeholder: 'Select...',
+  'aria-label': null,
   className: undefined,
 };
 

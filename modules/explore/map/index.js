@@ -109,7 +109,7 @@ export const selectLegendDataLayers = createSelector(
       id: layer.id,
       dataset: layer.id,
       visibility: layers[layer.id].visible,
-      closeable: layer.id !== 'soc-experimental',
+      closeable: layer.id !== 'soc-experimental' && layer.id !== 'soc-stock',
       readonly: false,
       layers: [
         {
