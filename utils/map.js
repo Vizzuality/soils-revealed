@@ -21,7 +21,7 @@ export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
   };
 };
 
-export const getLayerDef = (layerId, layer, layerSettings) => {
+export const getLayerSource = (layerId, layer, layerSettings) => {
   let source;
   if (layerId === 'soc-experimental' || layerId === 'soc-stock') {
     source = layer.config.source(layerSettings);
@@ -38,6 +38,11 @@ export const getLayerDef = (layerId, layer, layerSettings) => {
           )
         : layer.config.source;
   }
+  return source;
+};
+
+export const getLayerDef = (layerId, layer, layerSettings) => {
+  const source = getLayerSource(layerId, layer, layerSettings);
 
   return {
     id: layerId,

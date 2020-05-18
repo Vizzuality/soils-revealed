@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { getLayerDef, getLayerExtraParams } from 'utils/map';
+import { getLayerSource, getLayerDef, getLayerExtraParams } from 'utils/map';
 import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'components/map';
 
 export const SLICE_NAME = 'map';
@@ -192,25 +192,30 @@ export const selectAttributions = createSelector(
 );
 
 export const selectAcceptableMinZoom = createSelector(
-  [selectBasemap, selectBoundaries, selectDataLayers, selectActiveDataLayers],
-  (basemap, boundaries, dataLayers, activeDataLayers) =>
+  [selectBasemap, selectBoundaries, selectDataLayers, selectActiveDataLayers, selectLayers],
+  (basemap, boundaries, dataLayers, activeDataLayers, layers) =>
     Math.max(
       ...[
         BASEMAPS[basemap].minZoom,
         BOUNDARIES[boundaries].minZoom,
-        ...activeDataLayers.map(layerId => dataLayers[layerId].config.source.minzoom),
+        ...activeDataLayers.map(
+          layerId => getLayerSource(layerId, dataLayers[layerId], layers[layerId]).minzoom
+        ),
       ]
     )
 );
 
 export const selectAcceptableMaxZoom = createSelector(
-  [selectBasemap, selectBoundaries, selectDataLayers, selectActiveDataLayers],
-  (basemap, boundaries, dataLayers, activeDataLayers) =>
+  [selectBasemap, selectBoundaries, selectDataLayers, selectActiveDataLayers, selectLayers],
+  (basemap, boundaries, dataLayers, activeDataLayers, layers) =>
     Math.min(
       ...[
         BASEMAPS[basemap].maxZoom,
         BOUNDARIES[boundaries].maxZoom,
-        ...activeDataLayers.map(layerId => dataLayers[layerId].config.source.maxzoom),
+        // ...activeDataLayers.map(layerId => dataLayers[layerId].config.source.maxzoom),
+        ...activeDataLayers.map(
+          layerId => getLayerSource(layerId, dataLayers[layerId], layers[layerId]).maxzoom
+        ),
       ]
     )
 );
@@ -315,6 +320,7 @@ export default exploreActions =>
         });
       },
       updateActiveLayers(state, action) {
+        // @ts-ignore
         state.layers = {};
         action.payload.forEach((layerId, index) => {
           state.layers[layerId] = {
