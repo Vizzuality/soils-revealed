@@ -113,7 +113,10 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
             <Select
               id="legend-from"
               className="ml-2"
-              options={yearOptions}
+              options={yearOptions.map(o => ({
+                ...o,
+                disabled: +o.value >= layer.extraParams.year2,
+              }))}
               value={`${layer.extraParams.year1}`}
               onChange={({ value }) => onChangeParams(layerGroup.id, { year1: +value })}
             />
@@ -123,7 +126,10 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
             <Select
               id="legend-to"
               className="ml-2"
-              options={yearOptions}
+              options={yearOptions.map(o => ({
+                ...o,
+                disabled: +o.value <= layer.extraParams.year1,
+              }))}
               value={`${layer.extraParams.year2}`}
               onChange={({ value }) => onChangeParams(layerGroup.id, { year2: +value })}
             />
