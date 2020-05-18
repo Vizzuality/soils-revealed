@@ -63,6 +63,7 @@ export const selectBasemapLayerDef = createSelector(
         minzoom: BASEMAPS[basemap].minZoom,
         maxzoom: BASEMAPS[basemap].maxZoom,
       },
+      zIndex: 1, // 1 is the minimum we can assign
     };
   }
 );
