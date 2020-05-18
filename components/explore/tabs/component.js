@@ -9,8 +9,13 @@ import './style.scss';
 
 const ExploreTabs = ({ onClickInfo }) => {
   const areasBtnRef = useRef(null);
+  const layersBtnRef = useRef(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const areasBtnWidth = useMemo(() => areasBtnRef.current?.offsetWidth || 0, [areasBtnRef.current]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const layersBtnWidth = useMemo(() => layersBtnRef.current?.offsetWidth || 0, [
+    layersBtnRef.current,
+  ]);
   const [layersTooltipVisible, setLayersTooltipVisible] = useState(false);
 
   return (
@@ -18,7 +23,11 @@ const ExploreTabs = ({ onClickInfo }) => {
       {layersTooltipVisible && (
         <div className="c-explore-tabs-backdrop" onClick={() => setLayersTooltipVisible(false)} />
       )}
-      <div className="c-explore-tabs">
+      <div
+        className="c-explore-tabs js-explore-tabs"
+        // The width is needed by the ExploreTour component
+        style={{ width: `${areasBtnWidth + layersBtnWidth}px` }}
+      >
         <button ref={areasBtnRef} type="button" className="btn btn-primary btn-sm" disabled>
           <Icon name="pin" />
           Areas of interest
@@ -34,6 +43,7 @@ const ExploreTabs = ({ onClickInfo }) => {
           }
         >
           <button
+            ref={layersBtnRef}
             type="button"
             className="btn btn-primary btn-sm"
             onClick={() => setLayersTooltipVisible(visible => !visible)}

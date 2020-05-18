@@ -1,0 +1,112 @@
+@import 'css/settings';
+
+.c-explore-tour {
+  text-align: left;
+
+  h1 {
+    margin-bottom: 0;
+    @include font-size($font-size-l);
+  }
+
+  p {
+    margin: map-get($spacers, 3) 0 map-get($spacers, 4);
+  }
+}
+
+.react-joyride__overlay {
+  background-color: rgba($primary, 0.7) !important;
+
+  .react-joyride__spotlight {
+    border-radius: 0 !important;
+  }
+}
+
+.react-joyride__tooltip {
+  width: 100% !important;
+  max-width: rem(220) !important;
+  padding: map-get($spacers, 3) !important;
+  @include font-size($font-size-s !important);
+  color: $body-color !important;
+  border-radius: 0 !important;
+  background-color: $body-bg !important;
+
+  & > div {
+    justify-content: space-between !important;
+    flex-direction: row-reverse;
+
+    & > div {
+      padding: 0 !important;
+      flex-grow: 0 !important;
+    }
+  }
+
+  button[data-action='primary'] {
+    padding: map-get($spacers, 1) map-get($spacers, 3) !important;
+    border: $btn-border-width solid transparent !important;
+    border-radius: 0 !important;
+    font-family: $btn-font-family !important;
+    @include font-size($btn-font-size !important);
+    font-weight: $btn-font-weight !important;
+    line-height: initial !important;
+    color: $white !important;
+    text-transform: uppercase;
+    letter-spacing: rem(2);
+    background-color: $primary !important;
+    @include transition($btn-transition);
+
+    @include hover() {
+      color: color-yiq(darken($primary, 7.5%)) !important;
+      @include gradient-bg(darken($primary, 7.5%) !important);
+      border-color: darken($primary, 10%) !important;
+    }
+
+    &:focus {
+      outline: 0 !important;
+      color: color-yiq(darken($primary, 7.5%)) !important;
+      @include gradient-bg(darken($primary, 7.5%) !important);
+      border-color: darken($primary, 10%) !important;
+      box-shadow: $btn-box-shadow,
+        0 0 0 $btn-focus-width rgba(mix(color-yiq($primary), $primary, 15%), 0.5) !important;
+    }
+  }
+
+  button[data-action='skip'] {
+    padding: map-get($spacers, 1) map-get($spacers, 3) !important;
+    border: $btn-border-width solid $primary !important;
+    border-radius: 0 !important;
+    font-family: $btn-font-family !important;
+    @include font-size($btn-font-size !important);
+    font-weight: $btn-font-weight !important;
+    line-height: initial !important;
+    color: $primary !important;
+    text-transform: uppercase;
+    letter-spacing: rem(2);
+    background-color: transparent !important;
+    @include transition($btn-transition);
+
+    @include hover() {
+      color: color-yiq($primary) !important;
+      background-color: $primary !important;
+      border-color: $primary !important;
+    }
+
+    &:focus {
+      outline: 0 !important;
+      color: color-yiq(darken($primary, 7.5%)) !important;
+      @include gradient-bg(darken($primary, 7.5%) !important);
+      border-color: darken($primary, 10%) !important;
+      box-shadow: $btn-box-shadow,
+        0 0 0 $btn-focus-width rgba(mix(color-yiq($primary), $primary, 15%), 0.5) !important;
+    }
+  }
+
+  button[data-action='close'] {
+    display: none;
+  }
+}
+
+.__floater__arrow {
+  polygon {
+    fill: $body-bg !important;
+  }
+}

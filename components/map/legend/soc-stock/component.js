@@ -141,7 +141,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
   return (
     <div className="c-map-legend-soc-stock">
       <Tabs className="type-tabs" selectedIndex={selectedTypeIndex} onSelect={onChangeType}>
-        <TabList>
+        <TabList className="react-tabs__tab-list js-soc-stock-tabs">
           {TYPES.map((type, index) => (
             <Tab key={type.value}>{TYPES[index].label}</Tab>
           ))}

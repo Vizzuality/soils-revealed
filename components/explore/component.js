@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useRef, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
+import dynamic from 'next/dynamic';
 import debounce from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
@@ -21,6 +22,9 @@ import Attributions from './attributions';
 import InfoModal from './info-modal';
 
 import './style.scss';
+
+// Non essential component and causes issues in SSR
+const Tour = dynamic(() => import('./tour'), { ssr: false });
 
 const Explore = ({
   zoom,
@@ -114,6 +118,7 @@ const Explore = ({
     >
       {isDesktop && (
         <>
+          <Tour />
           <InfoModal layerId={infoLayerId} onClose={() => setInfoLayerId(null)} />
           <Attributions />
           <Tabs onClickInfo={setInfoLayerId} />
