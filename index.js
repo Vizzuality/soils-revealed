@@ -2,6 +2,8 @@ const express = require('express');
 const next = require('next');
 const ee = require('@google/earthengine');
 
+require('dotenv').config();
+
 const landCover = require('./api/land-cover');
 const socExperimentalTimeseries = require('./api/soc-experimental-timeseries');
 const socExperimentalChange = require('./api/soc-experimental-change');
