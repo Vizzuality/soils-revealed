@@ -3,7 +3,7 @@ const ee = require('@google/earthengine');
 const RAMP = `
   <RasterSymbolizer>
     <ColorMap type="values" extended="false">
-      <ColorMapEntry color="#ffff64" quantity="10" opacity="1" />
+      <ColorMapEntry color="#ffff64" quantity="10" />
       <ColorMapEntry color="#ffff64" quantity="11" />
       <ColorMapEntry color="#ffff00" quantity="12" />
       <ColorMapEntry color="#aaf0f0" quantity="20" />
@@ -47,7 +47,12 @@ const RAMP = `
 module.exports = ({ params: { year, x, y, z } }, res) => {
   try {
     const image = ee
-      .Image(`projects/soils-revealed/esa_landcover_ipcc/ESA_${year}_ipcc`)
+      .Image(
+        ee
+          .ImageCollection('projects/soils-revealed/ESA_landcover_ipcc')
+          .filterDate(`${year}-01-01`, `${year}-12-31`)
+          .first()
+      )
       .sldStyle(RAMP);
     image.getMap({}, ({ formatTileUrl }) => res.redirect(formatTileUrl(x, y, z)));
   } catch (e) {

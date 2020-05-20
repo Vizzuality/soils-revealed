@@ -336,7 +336,7 @@ export const LAYERS = {
     attributions: ['rw'],
     config: {
       type: 'raster',
-      source: (year = 2017) => {
+      source: (year = 2018) => {
         return {
           tiles: [`${location.origin}/api/land-cover/${year}/{z}/{x}/{y}`],
           minzoom: 2,
@@ -392,8 +392,8 @@ export const LAYERS = {
         range: false,
         interval: 'years',
         dateFormat: 'YYYY',
-        minDate: '2016-01-01',
-        maxDate: '2017-12-31',
+        minDate: '2000-01-01',
+        maxDate: '2018-12-31',
       },
     },
     info: {
