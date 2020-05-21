@@ -7,6 +7,7 @@ import Icon from 'components/icon';
 import { Map, LayerManager, BASEMAPS, mapStyle } from 'components/map';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
 import { Switch, Radio } from 'components/forms';
+import { getGroupLayers } from './helpers';
 
 import './style.scss';
 
@@ -85,7 +86,7 @@ const ExploreLayersTab = ({
                 <span className="group-title">{layersByGroup[group].label}</span>
               </AccordionTitle>
               <AccordionPanel>
-                {layersByGroup[group].layers.map(layer => (
+                {getGroupLayers(group, layersByGroup[group]).map(layer => (
                   <div
                     key={layer.id}
                     className={[
