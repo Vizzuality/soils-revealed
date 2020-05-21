@@ -348,46 +348,95 @@ export const LAYERS = {
       type: 'basic',
       items: [
         {
-          name: 'Agriculture',
-          color: '#fffd70',
+          color: '#ffff64',
+          name: 'Cropland rainfed',
         },
         {
-          name: 'Forest',
-          color: '#09630c',
+          color: '#aaf0f0',
+          name: 'Cropland irrigated or post-flooding',
         },
         {
-          name: 'Grassland',
-          color: '#3fa02c',
+          color: '#dcf064',
+          name: 'Mosaic cropland (>50%) / natural vegetation (<50%)',
         },
         {
-          name: 'Wetland',
-          color: '#159578',
+          color: '#c8c864',
+          name: 'Mosaic natural vegetation (>50%) / cropland (<50%)',
         },
         {
-          name: 'Settlement',
-          color: '#c11812',
+          color: '#006400',
+          name: 'Tree cover broadleaved evergreen (>%15)',
         },
         {
+          color: '#00a000',
+          name: 'Tree cover broadleaved deciduous (>%15)',
+        },
+        {
+          color: '#003c00',
+          name: 'Tree cover needleleaved evergreen (>%15)',
+        },
+        {
+          color: '#285000',
+          name: 'Tree cover needleleaved deciduous (>%15)',
+        },
+        {
+          color: '#788200',
+          name: 'Tree cover mixed leaf type (broadleaved and needleleaved)',
+        },
+        {
+          color: '#8ca000',
+          name: 'Mosaic tree and shrub (>50%) / herbaceous cover (<50%)',
+        },
+        {
+          color: '#be9600',
+          name: 'Mosaic herbaceous cover (>50%) / tree and shrub (<50%)',
+        },
+        {
+          color: '#966400',
           name: 'Shrubland',
-          color: '#956314',
         },
         {
-          name: 'Sparse Vegetation',
-          color: '#c2e575',
+          color: '#ffb432',
+          name: 'Grassland',
         },
         {
-          name: 'Bare Area',
-          color: '#fff5d8',
+          color: '#ffb432',
+          name: 'Grassland',
         },
         {
-          name: 'Water',
-          color: '#0b4bc5',
+          color: '#ffdcd2',
+          name: 'Lichens and mosses',
         },
         {
-          name: 'Permanent Snow and Ice',
-          color: '#FFFFFF',
+          color: '#ffebaf',
+          name: 'Sparse vegetation (<15%)',
+        },
+        {
+          color: '#00785a',
+          name: 'Tree cover flooded fresh/brakish water',
+        },
+        {
+          color: '#009678',
+          name: 'Tree cover flooded saline water',
+        },
+        {
+          color: '#00dc82',
+          name: 'Shrub or herbaceous cover flooded',
+        },
+        {
+          color: '#c31400',
+          name: 'Urban areas',
+        },
+        {
+          color: '#c31400',
+          name: 'Bare areas',
+        },
+        {
+          color: '#ffffff',
+          name: 'Permanent snow and ice',
         },
       ],
+
       timeline: {
         range: false,
         interval: 'years',
