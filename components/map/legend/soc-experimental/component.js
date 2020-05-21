@@ -7,6 +7,49 @@ import { Select } from 'components/forms';
 
 import './style.scss';
 
+const LEGEND_ITEMS = {
+  timeseries: {
+    stock: [
+      { color: '#E18D67', value: '5' },
+      { color: '#CB5A3A', value: '' },
+      { color: '#9D4028', value: '50' },
+      { color: '#6D2410', value: '' },
+      { color: '#380E03', value: '200' },
+    ],
+    concentration: [
+      { color: '#E18D67', value: '5' },
+      { color: '#CB5A3A', value: '' },
+      { color: '#9D4028', value: '30' },
+      { color: '#6D2410', value: '' },
+      { color: '#380E03', value: '75' },
+    ],
+  },
+  change: {
+    stock: [
+      { color: '#B30200', value: '-30' },
+      { color: '#E34A33', value: '' },
+      { color: '#FC8D59', value: '' },
+      { color: '#FDCC8A', value: '' },
+      { color: '#FFFFCC', value: '0' },
+      { color: '#A1DAB4', value: '' },
+      { color: '#31B3BD', value: '' },
+      { color: '#1C9099', value: '' },
+      { color: '#066C59', value: '30' },
+    ],
+    concentration: [
+      { color: '#B30200', value: '-5' },
+      { color: '#E34A33', value: '' },
+      { color: '#FC8D59', value: '' },
+      { color: '#FDCC8A', value: '' },
+      { color: '#FFFFCC', value: '0' },
+      { color: '#A1DAB4', value: '' },
+      { color: '#31B3BD', value: '' },
+      { color: '#1C9099', value: '' },
+      { color: '#066C59', value: '5' },
+    ],
+  },
+};
+
 const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
   const layer = layerGroup.layers[0];
 
@@ -29,32 +72,10 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
       <div className="gradient-container">
         <LegendItemTypes
           activeLayer={{
-            legendConfig:
-              layer.extraParams.mode === 'timeseries'
-                ? {
-                    type: 'gradient',
-                    items: [
-                      { color: '#E18D67', value: '0' },
-                      { color: '#CB5A3A', value: '' },
-                      { color: '#9D4028', value: '100' },
-                      { color: '#6D2410', value: '' },
-                      { color: '#380E03', value: '200' },
-                    ],
-                  }
-                : {
-                    type: 'gradient',
-                    items: [
-                      { color: '#B30200', value: '-80' },
-                      { color: '#E34A33', value: '' },
-                      { color: '#FC8D59', value: '' },
-                      { color: '#FDCC8A', value: '' },
-                      { color: '#FFFFCC', value: '0' },
-                      { color: '#A1DAB4', value: '' },
-                      { color: '#31B3BD', value: '' },
-                      { color: '#1C9099', value: '' },
-                      { color: '#066C59', value: '80' },
-                    ],
-                  },
+            legendConfig: {
+              type: 'gradient',
+              items: LEGEND_ITEMS[layer.extraParams.mode][layer.extraParams.type],
+            },
           }}
         />
         <div className="unit">(g C/Kg)</div>
