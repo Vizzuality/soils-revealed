@@ -54,7 +54,7 @@ const Explore = ({
   const isDesktop = useDesktop();
   const mapRef = useRef(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const map = useMemo(() => mapRef.current?.map, [mapRef.current]);
+  const map = useMemo(() => mapRef.current?.getMap(), [mapRef.current]);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [infoLayerId, setInfoLayerId] = useState(null);
 
@@ -71,13 +71,16 @@ const Explore = ({
     [updateViewport]
   );
 
-  const onLoadMap = useCallback(() => {
-    setMapLoaded(true);
-    toggleBasemap(map, BASEMAPS[basemap]);
-    toggleLabels(map, basemap, labels);
-    toggleRoads(map, roads);
-    toggleBoundaries(map, BOUNDARIES[boundaries]);
-  }, [map, basemap, labels, roads, boundaries]);
+  const onLoadMap = useCallback(
+    m => {
+      setMapLoaded(true);
+      toggleBasemap(m, BASEMAPS[basemap]);
+      toggleLabels(m, basemap, labels);
+      toggleRoads(m, roads);
+      toggleBoundaries(m, BOUNDARIES[boundaries]);
+    },
+    [basemap, labels, roads, boundaries]
+  );
 
   // When the component is mounted, we restore its state from the URL
   useEffect(() => {

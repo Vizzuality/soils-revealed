@@ -4,6 +4,11 @@
   width: 100%;
   height: 100%;
 
+  > div {
+    width: 100% !important;
+    height: 100% !important;
+  }
+
   .mapboxgl-control-container {
     display: none;
   }

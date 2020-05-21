@@ -1,6 +1,7 @@
-import React, { useCallback, useState, useMemo, useEffect } from 'react';
+import React, { useRef, useCallback, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
+import { WebMercatorViewport } from 'react-map-gl';
 
 import { toggleBasemap, getLayerDef } from 'utils/map';
 import Icon from 'components/icon';
@@ -22,6 +23,11 @@ const ExploreLayersTab = ({
   onClose,
   updateActiveLayers,
 }) => {
+  const mapRef = useRef(null);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const map = useMemo(() => mapRef.current?.getMap(), [mapRef.current]);
+  const [mapLoaded, setMapLoaded] = useState(false);
+
   const [viewport, setViewport] = useState(undefined);
   const [previewedLayerId, setPreviewedLayerId] = useState(null);
   const [activeLayersIds, setActiveLayersIds] = useState(activeLayers);
@@ -38,7 +44,13 @@ const ExploreLayersTab = ({
     });
   }, [layers, previewedLayerId]);
 
-  const onLoadMap = useCallback(({ map }) => toggleBasemap(map, BASEMAPS[basemap]), [basemap]);
+  const onLoadMap = useCallback(
+    map => {
+      setMapLoaded(true);
+      toggleBasemap(map, BASEMAPS[basemap]);
+    },
+    [basemap, setMapLoaded]
+  );
   const onChangeViewport = useCallback(debounce(setViewport, 500), [setViewport]);
   const onClickSave = useCallback(() => {
     updateActiveLayers(activeLayersIds);
@@ -71,6 +83,23 @@ const ExploreLayersTab = ({
   useEffect(() => {
     setActiveLayersIds(activeLayers);
   }, [activeLayers]);
+
+  // Whenever the main map is moved, update the preview map as well
+  useEffect(() => {
+    if (bounds && mapLoaded) {
+      const { width, height } = map.transform;
+
+      setViewport(v => {
+        const { latitude, longitude, zoom } = new WebMercatorViewport({
+          ...v,
+          width,
+          height,
+        }).fitBounds(bounds);
+
+        return { ...v, latitude, longitude, zoom, bounds, transitionDuration: 0 };
+      });
+    }
+  }, [bounds, setViewport, mapLoaded, map]);
 
   return (
     <div className="c-explore-layers-tab">
@@ -165,8 +194,8 @@ const ExploreLayersTab = ({
       <div className="preview" style={{ backgroundColor: BASEMAPS[basemap].backgroundColor }}>
         <h3>Preview layers</h3>
         <Map
+          ref={mapRef}
           mapStyle={mapStyle}
-          bounds={bounds ? { bbox: bounds, duration: 0 } : undefined}
           viewport={viewport}
           onLoad={onLoadMap}
           onViewportChange={onChangeViewport}
