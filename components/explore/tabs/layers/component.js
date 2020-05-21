@@ -1,11 +1,10 @@
 import React, { useRef, useCallback, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
-import { WebMercatorViewport } from 'react-map-gl';
 
 import { toggleBasemap, getLayerDef } from 'utils/map';
 import Icon from 'components/icon';
-import { Map, LayerManager, BASEMAPS, mapStyle } from 'components/map';
+import { Map, LayerManager, BASEMAPS, mapStyle, getViewportFromBounds } from 'components/map';
 import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
 import { Switch, Radio } from 'components/forms';
 import { getGroupLayers } from './helpers';
@@ -89,15 +88,10 @@ const ExploreLayersTab = ({
     if (bounds && mapLoaded) {
       const { width, height } = map.transform;
 
-      setViewport(v => {
-        const { latitude, longitude, zoom } = new WebMercatorViewport({
-          ...v,
-          width,
-          height,
-        }).fitBounds(bounds);
-
-        return { ...v, latitude, longitude, zoom, bounds, transitionDuration: 0 };
-      });
+      setViewport(v => ({
+        ...getViewportFromBounds(width, height, v, bounds),
+        transitionDuration: 0,
+      }));
     }
   }, [bounds, setViewport, mapLoaded, map]);
 

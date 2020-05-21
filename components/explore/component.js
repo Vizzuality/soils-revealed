@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useMemo, useState } from 'react'
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import debounce from 'lodash/debounce';
-import { WebMercatorViewport } from 'react-map-gl';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
@@ -16,6 +15,7 @@ import {
   BOUNDARIES,
   LAYERS,
   mapStyle,
+  getViewportFromBounds,
 } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
 import Tabs from './tabs';
@@ -129,13 +129,7 @@ const Explore = ({
 
       if (bounds && map) {
         const { width, height } = map.transform;
-        const { latitude, longitude, zoom } = new WebMercatorViewport({
-          ...viewport,
-          width,
-          height,
-        }).fitBounds(bounds, { padding: 20 });
-
-        updateViewport({ ...viewport, latitude, longitude, zoom, bounds });
+        updateViewport(getViewportFromBounds(width, height, viewport, bounds, { padding: 20 }));
       }
 
       setPreviousSOCLayer(socLayer);
