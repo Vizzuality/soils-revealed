@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useMemo, useState } from 'react'
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import debounce from 'lodash/debounce';
+import { WebMercatorViewport } from 'react-map-gl';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
@@ -13,6 +14,7 @@ import {
   Legend,
   BASEMAPS,
   BOUNDARIES,
+  LAYERS,
   mapStyle,
 } from 'components/map';
 import FullscreenMessage from './fullscreen-message';
@@ -36,6 +38,7 @@ const Explore = ({
   roads,
   labels,
   boundaries,
+  activeDataLayers,
   activeLayersDef,
   legendDataLayers,
   serializedState,
@@ -57,6 +60,9 @@ const Explore = ({
   const map = useMemo(() => mapRef.current?.getMap(), [mapRef.current]);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [infoLayerId, setInfoLayerId] = useState(null);
+  const [previousSOCLayer, setPreviousSOCLayer] = useState(
+    activeDataLayers.find(layer => LAYERS[layer].group === 'soc')
+  );
 
   const onChangeViewport = useCallback(
     // @ts-ignore
@@ -113,6 +119,28 @@ const Explore = ({
       toggleBoundaries(map, BOUNDARIES[boundaries]);
     }
   }, [map, mapLoaded, basemap, labels, roads, boundaries]);
+
+  // We zoom to the SOC layers's bounding box if it has any
+  useEffect(() => {
+    const socLayer = activeDataLayers.find(layer => LAYERS[layer].group === 'soc');
+
+    if (socLayer !== previousSOCLayer) {
+      const bounds = LAYERS[socLayer].bbox;
+
+      if (bounds && map) {
+        const { width, height } = map.transform;
+        const { latitude, longitude, zoom } = new WebMercatorViewport({
+          ...viewport,
+          width,
+          height,
+        }).fitBounds(bounds, { padding: 20 });
+
+        updateViewport({ ...viewport, latitude, longitude, zoom, bounds });
+      }
+
+      setPreviousSOCLayer(socLayer);
+    }
+  }, [map, activeDataLayers, previousSOCLayer, setPreviousSOCLayer, viewport, updateViewport]);
 
   return (
     <div
@@ -186,6 +214,7 @@ Explore.propTypes = {
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
   boundaries: PropTypes.string.isRequired,
+  activeDataLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
   legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   serializedState: PropTypes.string.isRequired,

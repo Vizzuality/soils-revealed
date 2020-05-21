@@ -281,6 +281,10 @@ export const LAYERS = {
     description: '',
     group: 'soc',
     attributions: [],
+    bbox: [
+      [-73.4154357571, -55.25],
+      [-53.628348965, -21.8323104794],
+    ],
     paramsConfig: {
       years: [1982, 2017],
       depths: {

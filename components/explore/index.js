@@ -14,6 +14,7 @@ export default connect(
     roads: mapSelectors.selectRoads(state),
     labels: mapSelectors.selectLabels(state),
     boundaries: mapSelectors.selectBoundaries(state),
+    activeDataLayers: mapSelectors.selectActiveDataLayers(state),
     activeLayersDef: mapSelectors.selectActiveLayersDef(state),
     serializedState: exploreSelectors.selectSerializedState(state),
     legendDataLayers: mapSelectors.selectLegendDataLayers(state),
