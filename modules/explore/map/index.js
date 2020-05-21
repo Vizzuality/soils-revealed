@@ -360,10 +360,7 @@ export default exploreActions =>
             ...state.viewport,
             ...stateToRestore.viewport,
           },
-          layers: {
-            ...state.layers,
-            ...stateToRestore.layers,
-          },
+          layers: stateToRestore.layers ?? state.layers,
         };
       },
     },
