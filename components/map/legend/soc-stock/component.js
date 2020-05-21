@@ -37,30 +37,67 @@ const MODES_BY_TYPE = {
   },
 };
 
-const LINEAR_LEGEND = {
-  type: 'gradient',
-  items: [
-    { color: '#E18D67', value: '0' },
-    { color: '#CB5A3A', value: '' },
-    { color: '#9D4028', value: '100' },
-    { color: '#6D2410', value: '' },
-    { color: '#380E03', value: '200' },
-  ],
-};
-
-const DIVERGENY_LEGEND = {
-  type: 'gradient',
-  items: [
-    { color: '#B30200', value: '-80' },
-    { color: '#E34A33', value: '' },
-    { color: '#FC8D59', value: '' },
-    { color: '#FDCC8A', value: '' },
-    { color: '#FFFFCC', value: '0' },
-    { color: '#A1DAB4', value: '' },
-    { color: '#31B3BD', value: '' },
-    { color: '#1C9099', value: '' },
-    { color: '#066C59', value: '80' },
-  ],
+const LEGEND_ITEMS = {
+  historic: {
+    period: [
+      { color: '#E18D67', value: '20' },
+      { color: '#CB5A3A', value: '' },
+      { color: '#9D4028', value: '80' },
+      { color: '#6D2410', value: '' },
+      { color: '#380E03', value: '400' },
+    ],
+    change: [
+      { color: '#B30200', value: '-120' },
+      { color: '#E34A33', value: '' },
+      { color: '#FC8D59', value: '' },
+      { color: '#FDCC8A', value: '' },
+      { color: '#FFFFCC', value: '0' },
+      { color: '#A1DAB4', value: '' },
+      { color: '#31B3BD', value: '' },
+      { color: '#1C9099', value: '' },
+      { color: '#066C59', value: '120' },
+    ],
+  },
+  recent: {
+    timeseries: [
+      { color: '#E18D67', value: '0' },
+      { color: '#CB5A3A', value: '' },
+      { color: '#9D4028', value: '100' },
+      { color: '#6D2410', value: '' },
+      { color: '#380E03', value: '200' },
+    ],
+    change: [
+      { color: '#B30200', value: '-80' },
+      { color: '#E34A33', value: '' },
+      { color: '#FC8D59', value: '' },
+      { color: '#FDCC8A', value: '' },
+      { color: '#FFFFCC', value: '0' },
+      { color: '#A1DAB4', value: '' },
+      { color: '#31B3BD', value: '' },
+      { color: '#1C9099', value: '' },
+      { color: '#066C59', value: '80' },
+    ],
+  },
+  future: {
+    period: [
+      { color: '#E18D67', value: '0' },
+      { color: '#CB5A3A', value: '' },
+      { color: '#9D4028', value: '100' },
+      { color: '#6D2410', value: '' },
+      { color: '#380E03', value: '200' },
+    ],
+    change: [
+      { color: '#B30200', value: '-80' },
+      { color: '#E34A33', value: '' },
+      { color: '#FC8D59', value: '' },
+      { color: '#FDCC8A', value: '' },
+      { color: '#FFFFCC', value: '0' },
+      { color: '#A1DAB4', value: '' },
+      { color: '#31B3BD', value: '' },
+      { color: '#1C9099', value: '' },
+      { color: '#066C59', value: '80' },
+    ],
+  },
 };
 
 const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
@@ -150,8 +187,10 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
           <div className="gradient-container">
             <LegendItemTypes
               activeLayer={{
-                legendConfig:
-                  layer.extraParams.mode === 'period' ? LINEAR_LEGEND : DIVERGENY_LEGEND,
+                legendConfig: {
+                  type: 'gradient',
+                  items: LEGEND_ITEMS[layer.extraParams.type][layer.extraParams.mode],
+                },
               }}
             />
             <div className="unit">(t C/ha)</div>
@@ -200,8 +239,10 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
           <div className="gradient-container">
             <LegendItemTypes
               activeLayer={{
-                legendConfig:
-                  layer.extraParams.mode === 'timeseries' ? LINEAR_LEGEND : DIVERGENY_LEGEND,
+                legendConfig: {
+                  type: 'gradient',
+                  items: LEGEND_ITEMS[layer.extraParams.type][layer.extraParams.mode],
+                },
               }}
             />
             <div className="unit">(t C/ha)</div>
@@ -269,8 +310,10 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
           <div className="gradient-container">
             <LegendItemTypes
               activeLayer={{
-                legendConfig:
-                  layer.extraParams.mode === 'period' ? LINEAR_LEGEND : DIVERGENY_LEGEND,
+                legendConfig: {
+                  type: 'gradient',
+                  items: LEGEND_ITEMS[layer.extraParams.type][layer.extraParams.mode],
+                },
               }}
             />
             <div className="unit">(t C/ha)</div>
