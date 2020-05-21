@@ -31,7 +31,7 @@ const Legend = ({
       sortable
       expanded
       maxHeight={420}
-      onChangeOrder={layers => onChangeLayersOrder(layers.reverse())}
+      onChangeOrder={layers => onChangeLayersOrder([...layers].reverse())}
     >
       {layers.map(layer => (
         <LegendListItem
