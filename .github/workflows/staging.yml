@@ -24,7 +24,7 @@ jobs:
           envs: NODE_PORT,MAPBOX_API_KEY
           script: |
             echo '> Add to Path'
-            export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v12.16.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+            source ~/.bashrc
             echo '> Kill previous node server'
             pm2 stop staging
             echo '> Open staging folder'
