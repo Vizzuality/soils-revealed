@@ -22,5 +22,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
-          envs: PORT,MAPBOX_API_KEY
           script: echo '> Kill previous node server'
