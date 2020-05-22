@@ -14,7 +14,7 @@ jobs:
         # Documentation: https://github.com/marketplace/actions/ssh-remote-commands
         uses: appleboy/ssh-action@master
         env:
-          PORT: 3001
+          NODE_PORT: 3001
           MAPBOX_API_KEY: pk.eyJ1IjoidG5jc29pbHNjaWVuY2UiLCJhIjoiY2s5Y3dweXg0MDBlZjNkbXE5ZGk4Y294biJ9.nGYVoUKe7Z8MJoi5GwCGjg
         with:
           debug: true
