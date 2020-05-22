@@ -23,7 +23,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           envs: NODE_PORT,MAPBOX_API_KEY
           script: |
-            echo '> Add to Path'
+            echo '> Use bashrc'
             source ~/.bashrc
             echo '> Kill previous node server'
             pm2 stop staging
