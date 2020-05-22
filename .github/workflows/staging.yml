@@ -40,7 +40,7 @@ jobs:
             echo '> Install dependencies'
             yarn install --frozen-lockfile
             echo '> Create .env file'
-            echo "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY" > .env
+            echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY" > .env
             echo '> Build the app'
             yarn build
             echo '> Run the server'
