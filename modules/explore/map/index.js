@@ -321,6 +321,7 @@ export default exploreActions =>
         });
       },
       updateActiveLayers(state, action) {
+        const previousLayers = { ...state.layers };
         // @ts-ignore
         state.layers = {};
         action.payload.forEach((layerId, index) => {
@@ -329,6 +330,7 @@ export default exploreActions =>
             opacity: 1,
             // Like z-index, the higher = on top
             order: index,
+            ...(previousLayers[layerId] ?? {}),
           };
         });
       },
