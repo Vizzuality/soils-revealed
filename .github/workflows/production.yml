@@ -1,0 +1,47 @@
+name: Production build
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run SSH commands
+        # Documentation: https://github.com/marketplace/actions/ssh-remote-commands
+        uses: appleboy/ssh-action@master
+        env:
+          NODE_PORT: 3001
+          MAPBOX_API_KEY: pk.eyJ1IjoidG5jc29pbHNjaWVuY2UiLCJhIjoiY2s5Y3dweXg0MDBlZjNkbXE5ZGk4Y294biJ9.nGYVoUKe7Z8MJoi5GwCGjg
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          envs: NODE_PORT,MAPBOX_API_KEY
+          script: |
+            echo '> Source nvm'
+            export NVM_DIR=~/.nvm
+            source ~/.nvm/nvm.sh
+            echo '> Export the path'
+            export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v12.16.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
+            echo '> Kill previous node server'
+            pm2 stop production
+            echo '> Open production folder'
+            cd ~/soils-revealed-production
+            echo '> Pull from git'
+            git pull
+            echo '> Use correct node version'
+            nvm install
+            nvm use
+            echo '> Install dependencies'
+            yarn install --frozen-lockfile
+            echo '> Create .env file'
+            echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY" > .env
+            echo '> Build the app'
+            yarn build
+            echo '> Run the server'
+            pm2 start production
