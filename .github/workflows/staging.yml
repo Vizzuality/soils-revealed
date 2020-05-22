@@ -23,10 +23,10 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           envs: NODE_PORT,MAPBOX_API_KEY
           script: |
-            echo '> Add to source'
+            echo '> Source nvm'
             export NVM_DIR=~/.nvm
             source ~/.nvm/nvm.sh
-            echo '> Add to path'
+            echo '> Export the path'
             export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v12.16.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
             echo '> Kill previous node server'
             pm2 stop staging
@@ -45,4 +45,3 @@ jobs:
             yarn build
             echo '> Run the server'
             pm2 start staging
-
