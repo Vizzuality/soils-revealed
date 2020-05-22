@@ -404,10 +404,6 @@ export const LAYERS = {
           name: 'Grassland',
         },
         {
-          color: '#ffb432',
-          name: 'Grassland',
-        },
-        {
           color: '#ffdcd2',
           name: 'Lichens and mosses',
         },
