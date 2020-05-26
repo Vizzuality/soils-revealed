@@ -32,39 +32,50 @@ const InfoModal = ({ layerId, layers, onClose }) => {
       {!!layerId && (
         <>
           <h1 className="mb-4">{layer.label}</h1>
-          <div className="intro mb-5">{layer.description}</div>
+          <div className="intro mb-5">{layer.description ?? '−'}</div>
           <div className="container">
             <Row name="Dataset">
-              <a href={layer.info.downloadLink} target="_blank" rel="noopener noreferrer">
-                {layer.info.datasetName}
-              </a>
+              {layer.info.dataset && layer.info.downloadLink && (
+                <a href={layer.info.downloadLink} target="_blank" rel="noopener noreferrer">
+                  {layer.info.datasetName}
+                </a>
+              )}
+              {(!layer.info.dataset || !layer.info.downloadLink) && '−'}
             </Row>
-            <Row name="Function">{layer.info.function}</Row>
-            <Row name="Geographic coverage">{layer.info.geoCoverage}</Row>
-            <Row name="Spatial resolution">{layer.info.spatialResolution}</Row>
-            <Row name="Date of content">{layer.info.contentDate}</Row>
+            <Row name="Function">{layer.info.function ?? '−'}</Row>
+            <Row name="Geographic coverage">{layer.info.geoCoverage ?? '−'}</Row>
+            <Row name="Spatial resolution">{layer.info.spatialResolution ?? '−'}</Row>
+            <Row name="Date of content">{layer.info.contentDate ?? '−'}</Row>
             <Row name="Description">
-              <Markdown content={layer.info.description} />
+              {layer.info.description && <Markdown content={layer.info.description} />}
+              {!layer.info.description && '−'}
             </Row>
             <Row name="Cautions">
-              <Markdown content={layer.info.cautions} />
+              {layer.info.cautions && <Markdown content={layer.info.cautions} />}
+              {!layer.info.cautions && '−'}
             </Row>
             <Row name="Sources">
-              <ul>
-                {layer.info.sources.map(source => (
-                  <li key={source}>
-                    <Markdown content={source} />
-                  </li>
-                ))}
-              </ul>
+              {layer.info.sources && (
+                <ul>
+                  {layer.info.sources.map(source => (
+                    <li key={source}>
+                      <Markdown content={source} />
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {!layer.info.sources && '−'}
             </Row>
             <Row name="Citation">
-              <Markdown content={layer.info.citation} />
+              <Markdown content={layer.info.citation ?? '−'} />
             </Row>
             <Row name="License">
-              <a href={layer.info.licenseLink} target="_blank" rel="noopener noreferrer">
-                {layer.info.license}
-              </a>
+              {layer.info.license && layer.info.licenseLink && (
+                <a href={layer.info.licenseLink} target="_blank" rel="noopener noreferrer">
+                  {layer.info.license}
+                </a>
+              )}
+              {(!layer.info.license || !layer.info.licenseLink) && '−'}
             </Row>
           </div>
         </>

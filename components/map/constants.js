@@ -216,7 +216,7 @@ export const BOUNDARIES = {
 export const LAYERS = {
   'soc-stock': {
     label: 'Soil organic carbon stock',
-    description: '',
+    description: '−',
     group: 'soc',
     attributions: [],
     paramsConfig: {
@@ -278,7 +278,7 @@ export const LAYERS = {
   },
   'soc-experimental': {
     label: 'SOC experimental dataset',
-    description: '',
+    description: '−',
     group: 'soc',
     attributions: [],
     bbox: [
