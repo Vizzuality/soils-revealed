@@ -44,7 +44,7 @@ jobs:
             echo '> Create .env file'
             echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY" > .env
             echo '> Create gee.key.json file'
-            echo -e "$GEE_KEY" > gee.key.json
+            echo $GEE_KEY > gee.key.json
             echo '> Build the app'
             yarn build
             echo '> Run the server'
