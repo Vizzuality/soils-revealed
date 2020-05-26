@@ -34,7 +34,8 @@ jobs:
             echo '> Open staging folder'
             cd ~/soils-revealed-staging
             echo '> Pull from git'
-            git pull
+            git fetch origin develop
+            git reset --hard origin/develop
             echo '> Use correct node version'
             nvm install
             nvm use
