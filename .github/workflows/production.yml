@@ -16,12 +16,13 @@ jobs:
         env:
           NODE_PORT: 3001
           MAPBOX_API_KEY: pk.eyJ1IjoidG5jc29pbHNjaWVuY2UiLCJhIjoiY2s5Y3dweXg0MDBlZjNkbXE5ZGk4Y294biJ9.nGYVoUKe7Z8MJoi5GwCGjg
+          GEE_KEY: ${{ secrets.GEE_KEY }}
         with:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
-          envs: NODE_PORT,MAPBOX_API_KEY
+          envs: NODE_PORT,MAPBOX_API_KEY,GEE_KEY
           script: |
             echo '> Source nvm'
             export NVM_DIR=~/.nvm
@@ -42,6 +43,8 @@ jobs:
             yarn install --frozen-lockfile
             echo '> Create .env file'
             echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY" > .env
+            echo '> Create gee.key.json file'
+            echo -e "$GEE_KEY" > gee.key.json
             echo '> Build the app'
             yarn build
             echo '> Run the server'
