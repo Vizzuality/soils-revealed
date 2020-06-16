@@ -75,6 +75,10 @@
         text-align: right;
         font-family: $font-family-2;
         @include font-size($font-size-xxs);
+
+        label {
+          margin: 0;
+        }
       }
     }
 

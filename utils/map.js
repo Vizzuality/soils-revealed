@@ -240,6 +240,7 @@ export const getLayerExtraParams = (layer, layerConfig) => {
       year1: layerConfig.year1 || 2000,
       year2: layerConfig.year2 || 2018,
       scenario: layerConfig.scenario || '0',
+      depth: layerConfig.depth || 0,
     };
   }
 

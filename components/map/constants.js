@@ -233,6 +233,10 @@ export const LAYERS = {
       scenarios: {
         0: 'Default',
       },
+      depths: {
+        0: '0-30 cm',
+        1: '0-100 cm',
+      },
     },
     config: {
       type: 'raster',
@@ -245,13 +249,14 @@ export const LAYERS = {
         year1 = 2000,
         year2 = 2018,
         scenario = '0',
+        depth = 0,
       }) => {
         let tilesURL;
         if (type === 'historic') {
           if (mode === 'period') {
-            tilesURL = `/api/soc-stock/historic/period/${period}/{z}/{x}/{y}`;
+            tilesURL = `/api/soc-stock/historic/${depth}/period/${period}/{z}/{x}/{y}`;
           } else if (mode === 'change') {
-            tilesURL = '/api/soc-stock/historic/change/{z}/{x}/{y}';
+            tilesURL = `/api/soc-stock/historic/${depth}/change/{z}/{x}/{y}`;
           }
         } else if (type === 'recent') {
           if (mode === 'timeseries') {

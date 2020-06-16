@@ -39,24 +39,46 @@ const MODES_BY_TYPE = {
 
 const LEGEND_ITEMS = {
   historic: {
-    period: [
-      { color: '#E18D67', value: '20' },
-      { color: '#CB5A3A', value: '' },
-      { color: '#9D4028', value: '80' },
-      { color: '#6D2410', value: '' },
-      { color: '#380E03', value: '400' },
-    ],
-    change: [
-      { color: '#B30200', value: '-120' },
-      { color: '#E34A33', value: '' },
-      { color: '#FC8D59', value: '' },
-      { color: '#FDCC8A', value: '' },
-      { color: '#FFFFCC', value: '0' },
-      { color: '#A1DAB4', value: '' },
-      { color: '#31B3BD', value: '' },
-      { color: '#1C9099', value: '' },
-      { color: '#066C59', value: '120' },
-    ],
+    0: {
+      period: [
+        { color: '#E18D67', value: '5' },
+        { color: '#CB5A3A', value: '' },
+        { color: '#9D4028', value: '50' },
+        { color: '#6D2410', value: '' },
+        { color: '#380E03', value: '200' },
+      ],
+      change: [
+        { color: '#B30200', value: '-30' },
+        { color: '#E34A33', value: '' },
+        { color: '#FC8D59', value: '' },
+        { color: '#FDCC8A', value: '' },
+        { color: '#FFFFCC', value: '0' },
+        { color: '#A1DAB4', value: '' },
+        { color: '#31B3BD', value: '' },
+        { color: '#1C9099', value: '' },
+        { color: '#066C59', value: '30' },
+      ],
+    },
+    1: {
+      period: [
+        { color: '#E18D67', value: '20' },
+        { color: '#CB5A3A', value: '' },
+        { color: '#9D4028', value: '80' },
+        { color: '#6D2410', value: '' },
+        { color: '#380E03', value: '300' },
+      ],
+      change: [
+        { color: '#B30200', value: '-60' },
+        { color: '#E34A33', value: '' },
+        { color: '#FC8D59', value: '' },
+        { color: '#FDCC8A', value: '' },
+        { color: '#FFFFCC', value: '0' },
+        { color: '#A1DAB4', value: '' },
+        { color: '#31B3BD', value: '' },
+        { color: '#1C9099', value: '' },
+        { color: '#066C59', value: '60' },
+      ],
+    },
   },
   recent: {
     timeseries: [
@@ -132,6 +154,11 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
     [layer]
   );
 
+  const depthOptions = Object.keys(layer.extraParams.config.depths).map(key => ({
+    label: layer.extraParams.config.depths[key],
+    value: key,
+  }));
+
   const selectedTypeIndex = useMemo(
     () => TYPES.findIndex(type => type.value === layer.extraParams.type),
     [layer]
@@ -145,6 +172,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
       if (type === 'historic') {
         otherParams.mode = 'period';
         otherParams.period = Object.keys(layer.extraParams.config.periods)[0];
+        otherParams.depth = +Object.keys(layer.extraParams.config.depths)[0];
       } else if (type === 'recent') {
         otherParams.mode = 'timeseries';
         otherParams.year = layer.extraParams.config.years[1];
@@ -189,7 +217,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
               activeLayer={{
                 legendConfig: {
                   type: 'gradient',
-                  items: LEGEND_ITEMS[layer.extraParams.type][layer.extraParams.mode],
+                  items: LEGEND_ITEMS.historic[layer.extraParams.depth][layer.extraParams.mode],
                 },
               }}
             />
@@ -198,11 +226,19 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
 
           <Tabs className="mode-tabs" selectedIndex={selectedModeIndex} onSelect={onChangeMode}>
             <TabList>
-              <Tab>{MODES_BY_TYPE[layer.extraParams.type][0].label}</Tab>
-              <Tab>{MODES_BY_TYPE[layer.extraParams.type][1].label}</Tab>
+              <Tab>{MODES_BY_TYPE.historic[0].label}</Tab>
+              <Tab>{MODES_BY_TYPE.historic[1].label}</Tab>
               <div className="depth-dropdown">
-                Soil depth:
-                <span className="d-inline-block ml-1 font-weight-bold">0-200 cm</span>
+                <>
+                  <label htmlFor="legend-depth">Soil depth:</label>
+                  <Select
+                    id="legend-depth"
+                    className="ml-2"
+                    options={depthOptions}
+                    value={`${layer.extraParams.depth}`}
+                    onChange={({ value }) => onChangeParams(layerGroup.id, { depth: +value })}
+                  />
+                </>
               </div>
             </TabList>
             <TabPanel>
@@ -241,7 +277,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
               activeLayer={{
                 legendConfig: {
                   type: 'gradient',
-                  items: LEGEND_ITEMS[layer.extraParams.type][layer.extraParams.mode],
+                  items: LEGEND_ITEMS.recent[layer.extraParams.mode],
                 },
               }}
             />
@@ -250,8 +286,8 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
 
           <Tabs className="mode-tabs" selectedIndex={selectedModeIndex} onSelect={onChangeMode}>
             <TabList>
-              <Tab>{MODES_BY_TYPE[layer.extraParams.type][0].label}</Tab>
-              <Tab>{MODES_BY_TYPE[layer.extraParams.type][1].label}</Tab>
+              <Tab>{MODES_BY_TYPE.recent[0].label}</Tab>
+              <Tab>{MODES_BY_TYPE.recent[1].label}</Tab>
               <div className="depth-dropdown">
                 Soil depth:
                 <span className="d-inline-block ml-1 font-weight-bold">0-30 cm</span>
@@ -312,7 +348,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
               activeLayer={{
                 legendConfig: {
                   type: 'gradient',
-                  items: LEGEND_ITEMS[layer.extraParams.type][layer.extraParams.mode],
+                  items: LEGEND_ITEMS.future[layer.extraParams.mode],
                 },
               }}
             />
@@ -321,8 +357,8 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
 
           <Tabs className="mode-tabs" selectedIndex={selectedModeIndex} onSelect={onChangeMode}>
             <TabList>
-              <Tab>{MODES_BY_TYPE[layer.extraParams.type][0].label}</Tab>
-              <Tab>{MODES_BY_TYPE[layer.extraParams.type][1].label}</Tab>
+              <Tab>{MODES_BY_TYPE.future[0].label}</Tab>
+              <Tab>{MODES_BY_TYPE.future[1].label}</Tab>
               <div className="depth-dropdown">
                 Soil depth:
                 <span className="d-inline-block ml-1 font-weight-bold">0-30 cm</span>

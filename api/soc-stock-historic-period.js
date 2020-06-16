@@ -1,26 +1,44 @@
 const ee = require('@google/earthengine');
 
-const RAMP = `
-  <RasterSymbolizer>
-    <ColorMap extended="false" type="ramp">
-      <ColorMapEntry color="#E18D67" quantity="20" opacity="1" />
-      <ColorMapEntry color="#CB5A3A" quantity="40" />
-      <ColorMapEntry color="#9D4028" quantity="80" />
-      <ColorMapEntry color="#6D2410" quantity="160" />
-      <ColorMapEntry color="#380E03" quantity="400" />
-    </ColorMap>
-  </RasterSymbolizer>
-`;
+const IMAGE = {
+  0: {
+    historic: 'projects/soils-revealed/Historic/SOCS_0_30cm_year_NoLU_10km',
+    current: 'projects/soils-revealed/Historic/SOCS_0_30cm_year_2010AD_10km',
+  },
+  1: {
+    historic: 'projects/soils-revealed/Historic/SOCS_0_100cm_year_NoLU_10km',
+    current: 'projects/soils-revealed/Historic/SOCS_0_100cm_year_2010AD_10km',
+  },
+};
 
-module.exports = ({ params: { period, x, y, z } }, res) => {
+const RAMP = {
+  0: `
+    <RasterSymbolizer>
+      <ColorMap extended="false" type="ramp">
+        <ColorMapEntry color="#E18D67" quantity="5" opacity="1" />
+        <ColorMapEntry color="#CB5A3A" quantity="20" />
+        <ColorMapEntry color="#9D4028" quantity="50" />
+        <ColorMapEntry color="#6D2410" quantity="75" />
+        <ColorMapEntry color="#380E03" quantity="200" />
+      </ColorMap>
+    </RasterSymbolizer>
+  `,
+  1: `
+    <RasterSymbolizer>
+      <ColorMap extended="false" type="ramp">
+        <ColorMapEntry color="#E18D67" quantity="20" opacity="1" />
+        <ColorMapEntry color="#CB5A3A" quantity="40" />
+        <ColorMapEntry color="#9D4028" quantity="80" />
+        <ColorMapEntry color="#6D2410" quantity="160" />
+        <ColorMapEntry color="#380E03" quantity="300" />
+      </ColorMap>
+    </RasterSymbolizer>
+  `,
+};
+
+module.exports = ({ params: { depth, period, x, y, z } }, res) => {
   try {
-    const image = ee
-      .Image(
-        period === 'historic'
-          ? 'projects/soils-revealed/Historic/SOCS_0_200cm_year_NoLU_10km'
-          : 'projects/soils-revealed/Historic/SOCS_0_200cm_year_2010AD_10km'
-      )
-      .sldStyle(RAMP);
+    const image = ee.Image(IMAGE[depth][period]).sldStyle(RAMP[depth]);
     image.getMap({}, ({ formatTileUrl }) => res.redirect(formatTileUrl(x, y, z)));
   } catch (e) {
     res.status(404).end();

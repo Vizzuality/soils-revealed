@@ -51,8 +51,8 @@ app.prepare().then(() => {
       '/api/soc-experimental/:type/:depth/change/:year1/:year2/:z/:x/:y',
       socExperimentalChange
     );
-    server.get('/api/soc-stock/historic/period/:period/:z/:x/:y', socStockHistoricPeriod);
-    server.get('/api/soc-stock/historic/change/:z/:x/:y', socStockHistoricChange);
+    server.get('/api/soc-stock/historic/:depth/period/:period/:z/:x/:y', socStockHistoricPeriod);
+    server.get('/api/soc-stock/historic/:depth/change/:z/:x/:y', socStockHistoricChange);
     server.get('/api/soc-stock/recent/timeseries/:year/:z/:x/:y', socStockRecentTimeseries);
     server.get('/api/soc-stock/recent/change/:year1/:year2/:z/:x/:y', socStockRecentChange);
     server.get('/api/soc-stock/future/:scenario/period/:year/:z/:x/:y', socStockFuturePeriod);
