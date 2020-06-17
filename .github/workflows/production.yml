@@ -33,7 +33,8 @@ jobs:
             echo '> Open production folder'
             cd ~/soils-revealed-production
             echo '> Pull from git'
-            git pull
+            git fetch origin master
+            git reset --hard origin/master
             echo '> Use correct node version'
             nvm install
             nvm use
