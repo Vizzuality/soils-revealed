@@ -9,6 +9,10 @@ const IMAGE = {
     historic: 'projects/soils-revealed/Historic/SOCS_0_100cm_year_NoLU_10km',
     current: 'projects/soils-revealed/Historic/SOCS_0_100cm_year_2010AD_10km',
   },
+  2: {
+    historic: 'projects/soils-revealed/Historic/SOCS_0_200cm_year_NoLU_10km',
+    current: 'projects/soils-revealed/Historic/SOCS_0_200cm_year_2010AD_10km',
+  },
 };
 
 const RAMP = {
@@ -31,6 +35,17 @@ const RAMP = {
         <ColorMapEntry color="#9D4028" quantity="80" />
         <ColorMapEntry color="#6D2410" quantity="160" />
         <ColorMapEntry color="#380E03" quantity="300" />
+      </ColorMap>
+    </RasterSymbolizer>
+  `,
+  2: `
+    <RasterSymbolizer>
+      <ColorMap extended="false" type="ramp">
+        <ColorMapEntry color="#E18D67" quantity="20" opacity="1" />
+        <ColorMapEntry color="#CB5A3A" quantity="40" />
+        <ColorMapEntry color="#9D4028" quantity="80" />
+        <ColorMapEntry color="#6D2410" quantity="160" />
+        <ColorMapEntry color="#380E03" quantity="400" />
       </ColorMap>
     </RasterSymbolizer>
   `,

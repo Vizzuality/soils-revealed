@@ -236,6 +236,7 @@ export const LAYERS = {
       depths: {
         0: '0-30 cm',
         1: '0-100 cm',
+        2: '0-200 cm',
       },
     },
     config: {
