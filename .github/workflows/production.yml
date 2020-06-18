@@ -31,7 +31,7 @@ jobs:
             echo '> Kill previous node server'
             pm2 stop production
             echo '> Open production folder'
-            cd ~/soils-revealed-production
+            cd ~/soils-revealed
             echo '> Pull from git'
             git fetch origin master
             git reset --hard origin/master
