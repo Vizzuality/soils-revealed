@@ -28,9 +28,11 @@ const ExploreExperimentalDatasetToggle = ({
 
   return (
     <div
-      className={['c-explore-experimental-dataset-toggle', ...(invert ? ['-invert'] : [])].join(
-        ' '
-      )}
+      className={[
+        'c-explore-experimental-dataset-toggle',
+        'js-experimental-dataset-toggle',
+        ...(invert ? ['-invert'] : []),
+      ].join(' ')}
     >
       <Switch
         id="explore-experimental-dataset-toggle"

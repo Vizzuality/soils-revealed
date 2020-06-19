@@ -24,13 +24,16 @@ const STEPS = [
   },
   {
     disableBeacon: true,
-    target: '.js-map-settings',
+    target: '.js-experimental-dataset-toggle',
     content: (
       <div className="c-explore-tour">
         <h1>
-          <div className="mb-1">2/3</div>Explore the map through different boundaries.
+          <div className="mb-1">2/3</div>Machine learning dataset.
         </h1>
-        <p>Clicking on the map will show different information depending on the boundaries.</p>
+        <p>
+          Explore a new kind of dataset to predict continuous fields of soils properties at X depth
+          regions. Currently available in some regions.
+        </p>
       </div>
     ),
   },
