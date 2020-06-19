@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Radio, Switch, Dropdown } from 'components/forms';
-import { BOUNDARIES, BASEMAPS } from '../../constants';
+import { Switch, Dropdown } from 'components/forms';
+import { BASEMAPS } from '../../constants';
 
 import './style.scss';
 
@@ -11,28 +11,12 @@ const MapControlsSettings = ({
   basemapParams,
   roads,
   labels,
-  boundaries,
   onChangeBasemap,
   onChangeBasemapParams,
   onChangeRoads,
   onChangeLabels,
-  onChangeBoundaries,
 }) => (
   <div className="c-map-controls-settings">
-    <section>
-      <h3>Type of map</h3>
-      {Object.keys(BOUNDARIES).map(key => (
-        <Radio
-          key={key}
-          id={`boundaries-${key}`}
-          name="boundaries"
-          checked={key === boundaries}
-          onChange={() => onChangeBoundaries(key)}
-        >
-          {BOUNDARIES[key].label}
-        </Radio>
-      ))}
-    </section>
     <section>
       <h3>Map style</h3>
       <div className="map-styles d-flex flex-wrap justify-content-start">
@@ -134,12 +118,10 @@ MapControlsSettings.propTypes = {
   basemapParams: PropTypes.object,
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
-  boundaries: PropTypes.string.isRequired,
   onChangeBasemap: PropTypes.func.isRequired,
   onChangeBasemapParams: PropTypes.func.isRequired,
   onChangeRoads: PropTypes.func.isRequired,
   onChangeLabels: PropTypes.func.isRequired,
-  onChangeBoundaries: PropTypes.func.isRequired,
 };
 
 MapControlsSettings.defaultProps = {

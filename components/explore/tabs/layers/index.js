@@ -8,12 +8,14 @@ export default connect(
     basemap: mapSelectors.selectBasemap(state),
     viewport: mapSelectors.selectViewport(state),
     bounds: mapSelectors.selectBounds(state),
+    boundaries: mapSelectors.selectBoundaries(state),
     basemapLayerDef: mapSelectors.selectBasemapLayerDef(state),
     layersByGroup: mapSelectors.selectDataLayersByGroup(state),
     layers: mapSelectors.selectDataLayers(),
     activeLayers: mapSelectors.selectActiveDataLayers(state),
   }),
   {
+    updateBoundaries: mapActions.updateBoundaries,
     updateActiveLayers: mapActions.updateActiveLayers,
   }
 )(Component);

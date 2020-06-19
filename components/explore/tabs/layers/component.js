@@ -2,24 +2,34 @@ import React, { useRef, useCallback, useState, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-import { toggleBasemap, getLayerDef } from 'utils/map';
+import { toggleBasemap, getLayerDef, toggleBoundaries } from 'utils/map';
 import Icon from 'components/icon';
-import { Map, LayerManager, BASEMAPS, mapStyle, getViewportFromBounds } from 'components/map';
-import { Accordion, AccordionItem, AccordionTitle, AccordionPanel } from 'components/accordion';
-import { Switch, Radio } from 'components/forms';
-import { getGroupLayers } from './helpers';
+import {
+  Map,
+  LayerManager,
+  BASEMAPS,
+  BOUNDARIES,
+  mapStyle,
+  getViewportFromBounds,
+} from 'components/map';
+import { Accordion, AccordionItem } from 'components/accordion';
+import StandardGroup from './standard-group';
+import SOCGroup from './soc-group';
+import AreasInterestGroup from './areas-interest-group';
 
 import './style.scss';
 
 const ExploreLayersTab = ({
   basemap,
   bounds,
+  boundaries,
   basemapLayerDef,
   layersByGroup,
   layers,
   activeLayers,
   onClickInfo,
   onClose,
+  updateBoundaries,
   updateActiveLayers,
 }) => {
   const mapRef = useRef(null);
@@ -29,7 +39,9 @@ const ExploreLayersTab = ({
 
   const [viewport, setViewport] = useState(undefined);
   const [previewedLayerId, setPreviewedLayerId] = useState(null);
+  const [previewedBoundaries, setPreviewedBoundaries] = useState(null);
   const [activeLayersIds, setActiveLayersIds] = useState(activeLayers);
+  const [boundariesId, setBoundariesId] = useState(boundaries);
 
   const previewedLayerDef = useMemo(() => {
     if (!previewedLayerId) {
@@ -50,12 +62,17 @@ const ExploreLayersTab = ({
     },
     [basemap, setMapLoaded]
   );
+
   const onChangeViewport = useCallback(debounce(setViewport, 500), [setViewport]);
+
   const onClickSave = useCallback(() => {
     updateActiveLayers(activeLayersIds);
+    updateBoundaries(boundariesId ?? 'no-boundaries');
     onClose();
-  }, [activeLayersIds, updateActiveLayers, onClose]);
+  }, [activeLayersIds, boundariesId, updateActiveLayers, updateBoundaries, onClose]);
 
+  // When a layer is previewed we make sure the zoom is within the zoom range of the layer or else
+  // we update it
   useEffect(() => {
     if (previewedLayerDef) {
       if (previewedLayerDef.source.minzoom && viewport.zoom < previewedLayerDef.source.minzoom) {
@@ -77,11 +94,55 @@ const ExploreLayersTab = ({
     }
   }, [viewport, previewedLayerDef]);
 
+  // When boundaries are previewed we make sure the zoom is within the zoom range of the layer or
+  // else we update it
+  useEffect(() => {
+    if (previewedBoundaries) {
+      if (
+        BOUNDARIES[previewedBoundaries].minZoom &&
+        viewport.zoom < BOUNDARIES[previewedBoundaries].minZoom
+      ) {
+        setViewport(viewport => ({
+          ...viewport,
+          transitionDuration: 250,
+          zoom: BOUNDARIES[previewedBoundaries].minZoom,
+        }));
+      } else if (
+        BOUNDARIES[previewedBoundaries].maxZoom &&
+        viewport.zoom > BOUNDARIES[previewedBoundaries].maxZoom
+      ) {
+        setViewport(viewport => ({
+          ...viewport,
+          transitionDuration: 250,
+          zoom: BOUNDARIES[previewedBoundaries].maxZoom,
+        }));
+      }
+    }
+  }, [viewport, previewedBoundaries]);
+
+  // When we transition from previewing boundaries to previewing layers (or the reverse), we toggle
+  // the boundaries on the map
+  useEffect(() => {
+    if (mapLoaded) {
+      if (previewedBoundaries) {
+        toggleBoundaries(map, BOUNDARIES[previewedBoundaries]);
+      } else {
+        toggleBoundaries(map, BOUNDARIES['no-boundaries']);
+      }
+    }
+  }, [previewedBoundaries, mapLoaded, map]);
+
   // Whenever the list of active layers is updated in the store, the internal state of the
   // component should also follow
   useEffect(() => {
     setActiveLayersIds(activeLayers);
   }, [activeLayers]);
+
+  // Whenever the boundaries are updated in the store, the internal state of the component should
+  // also follow
+  useEffect(() => {
+    setBoundariesId(boundaries);
+  }, [boundaries]);
 
   // Whenever the main map is moved, update the preview map as well
   useEffect(() => {
@@ -102,77 +163,56 @@ const ExploreLayersTab = ({
       </button>
       <div className="sidebar">
         <h3>Add layers to the map</h3>
-        <Accordion expanded={Object.keys(layersByGroup)} className="mt-3">
+        <Accordion expanded={['soc', 'land-use']} className="mt-3">
           {Object.keys(layersByGroup).map(group => (
             <AccordionItem key={group} id={group}>
-              <AccordionTitle aria-level={4}>
-                <span className="group-title">{layersByGroup[group].label}</span>
-              </AccordionTitle>
-              <AccordionPanel>
-                {getGroupLayers(group, layersByGroup[group]).map(layer => (
-                  <div
-                    key={layer.id}
-                    className={[
-                      'row',
-                      'layer-row',
-                      ...(layer.id === previewedLayerId ? ['-highlighted'] : []),
-                    ].join(' ')}
-                  >
-                    <div className="col-8">
-                      {group === 'soc' && (
-                        <Radio
-                          id={layer.id}
-                          name="layers-tab-soc-layer"
-                          checked={activeLayersIds.indexOf(layer.id) !== -1}
-                          onChange={() => {
-                            setActiveLayersIds(ids => [
-                              ...ids.filter(
-                                id => !layersByGroup[group].layers.find(l => l.id === id)
-                              ),
-                              layer.id,
-                            ]);
-                          }}
-                        >
-                          {layer.label}
-                        </Radio>
-                      )}
-                      {group !== 'soc' && (
-                        <Switch
-                          id={layer.id}
-                          checked={activeLayersIds.indexOf(layer.id) !== -1}
-                          onChange={() =>
-                            activeLayersIds.indexOf(layer.id) !== -1
-                              ? setActiveLayersIds(ids => ids.filter(id => id !== layer.id))
-                              : setActiveLayersIds(ids => [...ids, layer.id])
-                          }
-                        >
-                          {layer.label}
-                        </Switch>
-                      )}
-                    </div>
-                    <div className="col-4">
-                      <button
-                        type="button"
-                        className="btn"
-                        onClick={() =>
-                          setPreviewedLayerId(previewedLayerId === layer.id ? null : layer.id)
-                        }
-                      >
-                        {previewedLayerId === layer.id && (
-                          <>
-                            <Icon name="slashed-eye" /> Hide
-                          </>
-                        )}
-                        {previewedLayerId !== layer.id && (
-                          <>
-                            <Icon name="eye" /> Preview
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </AccordionPanel>
+              {group !== 'soc' && group !== 'areas-interest' && (
+                <StandardGroup
+                  group={layersByGroup[group]}
+                  activeLayersIds={activeLayersIds}
+                  previewedLayerId={previewedLayerId}
+                  onChangeActiveLayer={layerId =>
+                    setActiveLayersIds(ids =>
+                      activeLayersIds.indexOf(layerId) !== -1
+                        ? ids.filter(id => id !== layerId)
+                        : [...ids, layerId]
+                    )
+                  }
+                  onClickPreview={layerId => {
+                    setPreviewedLayerId(previewedLayerId === layerId ? null : layerId);
+                    setPreviewedBoundaries(null);
+                  }}
+                />
+              )}
+              {group === 'soc' && (
+                <SOCGroup
+                  group={layersByGroup[group]}
+                  activeLayersIds={activeLayersIds}
+                  previewedLayerId={previewedLayerId}
+                  onChangeActiveLayer={layerId =>
+                    setActiveLayersIds(ids => [
+                      ...ids.filter(id => !layersByGroup[group].layers.find(l => l.id === id)),
+                      layerId,
+                    ])
+                  }
+                  onClickPreview={layerId => {
+                    setPreviewedLayerId(previewedLayerId === layerId ? null : layerId);
+                    setPreviewedBoundaries(null);
+                  }}
+                />
+              )}
+              {group === 'areas-interest' && (
+                <AreasInterestGroup
+                  group={layersByGroup[group]}
+                  activeLayersIds={[boundariesId]}
+                  previewedLayerId={previewedBoundaries}
+                  onChangeActiveLayer={layerId => setBoundariesId(layerId)}
+                  onClickPreview={layerId => {
+                    setPreviewedLayerId(null);
+                    setPreviewedBoundaries(previewedBoundaries === layerId ? null : layerId);
+                  }}
+                />
+              )}
             </AccordionItem>
           ))}
         </Accordion>
@@ -225,12 +265,14 @@ const ExploreLayersTab = ({
 ExploreLayersTab.propTypes = {
   basemap: PropTypes.string.isRequired,
   bounds: PropTypes.arrayOf(PropTypes.array),
+  boundaries: PropTypes.string.isRequired,
   basemapLayerDef: PropTypes.object,
   layersByGroup: PropTypes.object.isRequired,
   layers: PropTypes.object.isRequired,
   activeLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   onClickInfo: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  updateBoundaries: PropTypes.func.isRequired,
   updateActiveLayers: PropTypes.func.isRequired,
 };
 

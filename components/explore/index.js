@@ -27,7 +27,6 @@ export default connect(
     updateBasemapParams: mapActions.updateBasemapParams,
     updateRoads: mapActions.updateRoads,
     updateLabels: mapActions.updateLabels,
-    updateBoundaries: mapActions.updateBoundaries,
     removeLayer: mapActions.removeLayer,
     updateLayer: mapActions.updateLayer,
     updateLayerOrder: mapActions.updateLayerOrder,

@@ -49,7 +49,6 @@ const Explore = ({
   updateBasemapParams,
   updateRoads,
   updateLabels,
-  updateBoundaries,
   removeLayer,
   updateLayer,
   updateLayerOrder,
@@ -169,13 +168,11 @@ const Explore = ({
             basemapParams={basemapParams}
             roads={roads}
             labels={labels}
-            boundaries={boundaries}
             onChangeZoom={updateZoom}
             onChangeBasemap={updateBasemap}
             onChangeBasemapParams={updateBasemapParams}
             onChangeRoads={updateRoads}
             onChangeLabels={updateLabels}
-            onChangeBoundaries={updateBoundaries}
           />
           <Map
             ref={mapRef}
@@ -219,7 +216,6 @@ Explore.propTypes = {
   updateBasemapParams: PropTypes.func.isRequired,
   updateRoads: PropTypes.func.isRequired,
   updateLabels: PropTypes.func.isRequired,
-  updateBoundaries: PropTypes.func.isRequired,
   removeLayer: PropTypes.func.isRequired,
   updateLayer: PropTypes.func.isRequired,
   updateLayerOrder: PropTypes.func.isRequired,

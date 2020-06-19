@@ -74,8 +74,8 @@ export const selectActiveDataLayers = createSelector([selectLayers], layers => O
 
 export const selectDataLayersByGroup = createSelector(
   [selectDataLayers, selectActiveDataLayers],
-  (dataLayers, activeDataLayers) =>
-    Object.keys(dataLayers)
+  (dataLayers, activeDataLayers) => {
+    const groups = Object.keys(dataLayers)
       .map(layerId => ({
         ...dataLayers[layerId],
         id: layerId,
@@ -93,7 +93,21 @@ export const selectDataLayersByGroup = createSelector(
           },
         }),
         {}
-      )
+      );
+
+    const { soc, ...rest } = groups;
+    return {
+      soc,
+      'areas-interest': {
+        label: 'Areas of interest',
+        layers: Object.keys(BOUNDARIES).map(key => ({
+          id: key,
+          label: BOUNDARIES[key].label,
+        })),
+      },
+      ...rest,
+    };
+  }
 );
 
 export const selectLegendDataLayers = createSelector(
