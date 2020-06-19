@@ -144,6 +144,13 @@ const ExploreLayersTab = ({
     setBoundariesId(boundaries);
   }, [boundaries]);
 
+  // Whenever the user changes the basemap, we make sure to use the same here
+  useEffect(() => {
+    if (mapLoaded) {
+      toggleBasemap(map, BASEMAPS[basemap]);
+    }
+  }, [map, mapLoaded, basemap]);
+
   // Whenever the main map is moved, update the preview map as well
   useEffect(() => {
     if (bounds && mapLoaded) {
