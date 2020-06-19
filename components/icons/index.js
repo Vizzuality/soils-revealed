@@ -70,6 +70,35 @@ const Icons = () => (
         <title>Zoom out</title>
         <path d="M17 11.5v2H8v-2z" />
       </symbol>
+      <symbol id="icon-help" viewBox="0 0 26 31">
+        <title>Help</title>
+        <defs>
+          <filter
+            x="-86%"
+            y="-15.6%"
+            width="272%"
+            height="131.2%"
+            filterUnits="objectBoundingBox"
+            id="a"
+          >
+            <feOffset dx="1" dy="1" in="SourceAlpha" result="shadowOffsetOuter1" />
+            <feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1" />
+            <feColorMatrix
+              values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0"
+              in="shadowBlurOuter1"
+              result="shadowMatrixOuter1"
+            />
+            <feMerge>
+              <feMergeNode in="shadowMatrixOuter1" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <g transform="translate(9 9)" filter="url(#a)">
+          <path d="M3.926 0a7.438 7.438 0 0 0-3.7.977l.852 1.711a6.006 6.006 0 0 1 2.672-.766c.37-.022.736.071 1.05.266.25.176.392.468.375.773.002.294-.09.581-.262.82-.312.37-.676.69-1.082.953a4.2 4.2 0 0 0-1.171 1.18c-.22.399-.331.85-.32 1.305V7.8h2.07v-.472a1.319 1.319 0 0 1 .2-.758 4.63 4.63 0 0 1 .95-.843A5.574 5.574 0 0 0 7.043 4.32c.269-.447.404-.962.391-1.484a2.528 2.528 0 0 0-.95-2.063A3.931 3.931 0 0 0 3.926 0z" />
+          <circle cx="3.5" cy="10.5" r="1.5" />
+        </g>
+      </symbol>
       <symbol id="icon-map-settings" viewBox="0 0 25 25">
         <title>Map settings</title>
         <path d="M12.551 6.5c-3.3 0-6 2.7-6 6s2.7 6 6 6 6-2.7 6-6-2.7-6-6-6zm4.425 5.25h-1.425a12.424 12.424 0 0 0-.6-3.075c1.05.675 1.8 1.8 2.025 3.075zM12.551 17c-.45 0-1.35-1.425-1.5-3.75h3c-.15 2.325-1.05 3.75-1.5 3.75zm-1.5-5.25c.15-2.325.975-3.75 1.5-3.75s1.35 1.425 1.5 3.75h-3zm-.825-3.075c-.375.9-.6 1.95-.675 3.075H8.126a4.476 4.476 0 0 1 2.1-3.075zm-2.1 4.575h1.425c.075 1.125.3 2.175.6 3.075a4.625 4.625 0 0 1-2.025-3.075zm6.75 3.075c.375-.9.525-1.95.6-3.075h1.425c-.15 1.275-.9 2.4-2.025 3.075z" />

@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import Joyride from 'react-joyride';
 
 import { isFirstVisit } from 'utils/explore';
@@ -54,23 +55,43 @@ const STEPS = [
   },
 ];
 
-const ExploreTour = () => {
+const ExploreTour = ({ showTour, updateShowTour }) => {
   /**
    * @type {[any, function(any): void]}
    */
   const [helpers, setHelpers] = useState({});
-  const firstVisit = useMemo(() => isFirstVisit(), []);
+  const [previousShowTour, setPreviousShowTour] = useState(showTour);
+  const [opened, setOpened] = useState(false);
+
+  // On mount, we check if the user is visiting for the first time
+  useEffect(() => {
+    if (isFirstVisit()) {
+      updateShowTour(true);
+    }
+  }, [updateShowTour]);
+
+  // Whenever the showTour flag is set to true, we display the tour
+  useEffect(() => {
+    if (previousShowTour !== showTour) {
+      if (showTour) {
+        setOpened(true);
+        updateShowTour(false);
+      }
+      setPreviousShowTour(showTour);
+    }
+  }, [previousShowTour, showTour, setOpened, setPreviousShowTour, updateShowTour]);
 
   const onChange = useCallback(
     ({ action }) => {
-      if (action === 'close' && helpers.close) {
+      if ((action === 'close' || action === 'reset') && helpers.close) {
         helpers.close();
+        setOpened(false);
       }
     },
-    [helpers]
+    [helpers, setOpened]
   );
 
-  if (!firstVisit) {
+  if (!opened) {
     return null;
   }
 
@@ -88,6 +109,11 @@ const ExploreTour = () => {
       getHelpers={setHelpers}
     />
   );
+};
+
+ExploreTour.propTypes = {
+  showTour: PropTypes.bool.isRequired,
+  updateShowTour: PropTypes.func.isRequired,
 };
 
 export default ExploreTour;

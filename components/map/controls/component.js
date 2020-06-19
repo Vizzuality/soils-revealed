@@ -20,6 +20,7 @@ const MapControls = ({
   onChangeBasemapParams,
   onChangeRoads,
   onChangeLabels,
+  onClickHelp,
 }) => {
   return (
     <div className="c-map-controls">
@@ -62,6 +63,11 @@ const MapControls = ({
           <Icon name="zoom-out" />
         </button>
       </div>
+      <div className="group">
+        <button type="button" className="btn btn-primary btn-sm" onClick={onClickHelp}>
+          <Icon name="help" />
+        </button>
+      </div>
     </div>
   );
 };
@@ -79,6 +85,7 @@ MapControls.propTypes = {
   onChangeBasemapParams: PropTypes.func.isRequired,
   onChangeRoads: PropTypes.func.isRequired,
   onChangeLabels: PropTypes.func.isRequired,
+  onClickHelp: PropTypes.func.isRequired,
 };
 
 MapControls.defaultProps = {

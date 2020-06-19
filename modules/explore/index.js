@@ -1,4 +1,4 @@
-import { createSelector, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSelector, createAsyncThunk, createReducer, createAction } from '@reduxjs/toolkit';
 
 import { deserialize, serialize } from 'utils/functions';
 import { selectQuery } from '../routing';
@@ -11,6 +11,7 @@ const actions = {
     const query = selectQuery(state);
     return deserialize(query.state);
   }),
+  updateShowTour: createAction('explore/updateShowTour'),
 };
 
 // Slices belonging to the explore module
@@ -23,10 +24,23 @@ const selectors = {
       [mapModule.SLICE_NAME]: mapState,
     })
   ),
+  selectShowTour: state => state.explore.showTour,
 };
+
+const reducer = createReducer(
+  {
+    showTour: false,
+  },
+  {
+    [actions.updateShowTour.toString()]: (state, action) => {
+      state.showTour = action.payload;
+    },
+  }
+);
 
 export const exploreActions = actions;
 export const exploreSelectors = selectors;
+export const exploreReducer = reducer;
 export const mapReducer = mapSlice.reducer;
 export const mapActions = mapSlice.actions;
 export const mapSelectors = mapModule;
