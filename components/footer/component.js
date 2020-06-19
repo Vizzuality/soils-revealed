@@ -42,9 +42,9 @@ const Footer = () => {
                         </button>
                       </li>
                       <li>
-                        <button type="button" className="nav-link pb-0" disabled>
+                        <a href="mailto:soilsrevealed@tnc.org" className="nav-link pb-0">
                           Contact
-                        </button>
+                        </a>
                       </li>
                     </ul>
                   </div>
