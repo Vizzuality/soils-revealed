@@ -63,7 +63,7 @@
   }
 
   .content {
-    overflow: scroll;
+    overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
 }

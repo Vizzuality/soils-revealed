@@ -58,7 +58,7 @@ const Explore = ({
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const map = useMemo(() => mapRef.current?.getMap(), [mapRef.current]);
   const [mapLoaded, setMapLoaded] = useState(false);
-  const [infoLayerId, setInfoLayerId] = useState(null);
+  const [infoLayer, setInfoLayer] = useState(null);
   const [previousSOCLayer, setPreviousSOCLayer] = useState(
     activeDataLayers.find(layer => LAYERS[layer].group === 'soc')
   );
@@ -143,15 +143,19 @@ const Explore = ({
       {isDesktop && (
         <>
           <Tour />
-          <InfoModal layerId={infoLayerId} onClose={() => setInfoLayerId(null)} />
+          <InfoModal
+            layerId={infoLayer?.id}
+            params={infoLayer}
+            onClose={() => setInfoLayer(null)}
+          />
           <Attributions />
-          <Tabs onClickInfo={setInfoLayerId} />
+          <Tabs onClickInfo={setInfoLayer} />
           <ExperimentalDatasetToggle />
           <Legend
             layers={legendDataLayers}
             onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
             onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
-            onClickInfo={setInfoLayerId}
+            onClickInfo={setInfoLayer}
             onClickRemove={removeLayer}
             onChangeDate={(id, dates) =>
               updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })

@@ -16,6 +16,7 @@ import { Accordion, AccordionItem } from 'components/accordion';
 import StandardGroup from './standard-group';
 import SOCGroup from './soc-group';
 import AreasInterestGroup from './areas-interest-group';
+import Description from './description';
 
 import './style.scss';
 
@@ -252,18 +253,7 @@ const ExploreLayersTab = ({
             />
           )}
         </Map>
-        {previewedLayerId && layers[previewedLayerId].description && (
-          <div className="description">
-            {layers[previewedLayerId].description}
-            <button
-              type="button"
-              className="btn btn-sm btn-link"
-              onClick={() => onClickInfo(previewedLayerId)}
-            >
-              <Icon name="info" /> More information
-            </button>
-          </div>
-        )}
+        <Description layerId={previewedLayerId} onClickInfo={onClickInfo} />
       </div>
     </div>
   );

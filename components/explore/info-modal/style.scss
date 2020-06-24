@@ -8,6 +8,10 @@
     padding: rem(50) rem(100);
   }
 
+  .content {
+    width: 100%;
+  }
+
   h1 {
     @include font-size($font-size-xxl);
     text-align: center;
@@ -29,6 +33,33 @@
 
     li > p {
       margin-bottom: 0;
+    }
+  }
+
+  .info-modal-tabs {
+    > .react-tabs__tab-list {
+      display: flex;
+      justify-content: flex-start;
+      margin: map-get($spacers, 5) 0 map-get($spacers, 3);
+      padding: 0;
+      list-style: none;
+
+      > .react-tabs__tab {
+        padding: map-get($spacers, 1);
+        font-family: $font-family-2;
+        @include font-size($font-size-xs);
+        text-transform: uppercase;
+        border-bottom: rem(4) solid transparent;
+        cursor: pointer;
+
+        &--selected {
+          border-bottom-color: $primary;
+        }
+
+        & + .react-tabs__tab {
+          margin-left: map-get($spacers, 4);
+        }
+      }
     }
   }
 

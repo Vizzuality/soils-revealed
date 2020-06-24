@@ -111,34 +111,11 @@
       z-index: 0;
     }
 
-    .description {
+    .c-layers-tab-description {
       position: absolute;
       bottom: 0;
       left: 0;
       width: 100%;
-      padding: map-get($spacers, 3);
-      @include font-size($font-size-s);
-      color: $white;
-      background: rgba($primary, 0.8);
-
-      .btn {
-        display: block;
-        margin: map-get($spacers, 2) auto 0;
-        color: $white;
-        @include font-size($font-size-xxs);
-        letter-spacing: initial;
-        text-transform: none;
-        text-decoration: none;
-
-        .c-icon {
-          width: rem(15);
-          height: rem(15);
-
-          use {
-            fill: currentColor;
-          }
-        }
-      }
     }
   }
 }

@@ -216,7 +216,12 @@ export const BOUNDARIES = {
 export const LAYERS = {
   'soc-stock': {
     label: 'Soil organic carbon stock',
-    description: '−',
+    description: {
+      historic: 'Soil carbon debt of 12,000 years of human land use.',
+      recent:
+        'Space-time predictions of 030 cm soil organic carbon stock between the years 2000 and 2017.',
+      future: '−',
+    },
     group: 'soc',
     attributions: [],
     paramsConfig: {
@@ -280,11 +285,52 @@ export const LAYERS = {
         };
       },
     },
-    info: {},
+    info: {
+      historic: {
+        datasetName: null,
+        downloadLink: null,
+        function:
+          'Estimate of the amount of the total amount of soil organic carbon that has been lost due to agricultural land uses.',
+        geoCoverage: 'Global',
+        spatialResolution: '5 arc minutes (ca. 10 km)',
+        contentDate: '2017',
+        description:
+          'A machine learning-based model was fitted using a global compilation of SOC data and the History Database of the Global Environment (HYDE) land use data in combination with climatic, landform and lithology covariates to estimate current SOC stocks. Projection of this model onto a world without agriculture (i.e. setting all land use layers to zero) indicated that historically there was 133 Pg more SOC in soils. There were higher percent SOC losses on cropland but since more than twice as much land is grazed, slightly higher total losses were found from grazing land. Important spatial patterns of SOC loss were found: Hotspots of SOC loss coincided with some major cropping regions as well as semiarid grazing regions, while other major agricultural zones showed small losses and even net gains in SOC. This analysis has demonstrated that there are identifiable regions which can be targeted for SOC restoration efforts.',
+        cautions:
+          'This map is a statistical representation of how much SOC may have been lost due to agriculture. This is a global product derived at a fairly coarse resolution (ca. 10 km). The authors believe the broad patterns are very reasonable but caution should be taken when zooming in on a particular location. The authors provide the following discussion on potential limitations:\n- There are a few limitations in this work. The training dataset used to build spatial predictions models was not ideal for testing the hypotheses. ISRIC’s soil profile dataset is a compilation of national inventories from a large number of nations with different reasons for undertaking soil surveys and different methods of laboratory analysis. Data were collected over a 50-y period, which is likely smoothing out some of the SOC loss in the model. In addition, the mismatch in scale between a soil pedon (0.5 m on a side) and the pixel size of the HYDE v3.2 land-use data (10 km) can create situations where the dominant soil properties of a pixel are not represented by the particular soil pedons that were sampled within that pixel. Relatedly, regions with low sampling density may be overly influenced by a few data points that may not be representative of that region as a whole.\n- The HYDE dataset itself also presents a few limitations. Only very coarse land-use categories are represented, so management-specific practices which can influence SOC levels, such as tillage practices, rotations, and cover crops, are not represented. Relatedly, HYDE does not contain direct information on forest or wetland loss, both known drivers of SOC loss. In our model formulation, there is no indication of the duration of a given land use. The HYDE dataset describes the extent of land use but not the intensity.',
+        sources: [
+          '[https://github.com/whrc/Soil-Carbon-Debt](https://github.com/whrc/Soil-Carbon-Debt)\n\nRaster files of predictions are organized by folder:\n- OCD = Organic carbon density (kg C / cubic-m) for 0, 30, 100 and 200 cm depths predicted at various years\n- SOCS = Soil organic carbon stocks (Mg C / ha) for 0-30, 0-100 and 0-200 cm depths predicted at various years\n- abs_error = Absolute error in prediction of OCD (kg C / cubic-m) at 0, 30, 100 and 200 cm depths',
+        ],
+        citation:
+          'Sanderman, J., Hengl, T., Fiske, G., 2017 "The soil carbon debt of 12,000 years of human land use", PNAS 114(36): 9575–9580. doi:10.1073/pnas.1706103114',
+        license:
+          'MIT License Copyright (c) 2017 WHRC Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions: The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.',
+        licenseLink: null,
+      },
+      recent: {
+        datasetName: null,
+        downloadLink: null,
+        function: 'Space-time distribution of 0-30 cm soil organic carbon stock (kg C m2).',
+        geoCoverage: 'Global',
+        spatialResolution: '250 m',
+        contentDate: '2000-2017',
+        description:
+          'The soil organic carbon (SOC) stock maps shows predictions of the 030 cm SOC stock in kg C m2 for the 2000-2017 period. The grid maps cover a landmask of the entire globe, have 250 m spatial resolution and annual frequency.\n\nThe 030 cm SOC stock maps were created by ISRIC – World Soil Information using machine learning algorithms. First, a baseline SOC stock map for the year 2000 was taken from soilgrids.org. Next, SOC stock change was modelled from the baseline year onward by taking into account SOC change factors related to land use change. See below for methodological details.\n### Methodology\nWe used the UNCCD modified IPCC Tier 1 method (UNCCD, 2018) to model the SOC stock change from the 2000 baseline year. This method considers three change factors:\n- A land use factor that reflects carbon stock changes associated with land use change.\n- A management factor that represents the effect of management practice on SOC stock.\n- An input factor representing the effect of different levels of carbon input to soil on SOC stock.\n\nFor global applications there currently are no suitable data sources to assess the management and input factors. These were therefore ignored. The land use factor was derived from the European Space Agency (ESA) CCI-LC 300m dataset (ESA, 2017). This dataset provides annual time series of land cover from 1992 until 2018. It distinguishes 36 land cover classes, which were aggregated to 7 land cover classes used by the UNCCD.\n\nA land cover change leads to an increase or decrease of the SOC stock, depending on whether the land use factor that is associated with the change is bigger or smaller than 1. Some of these change factors depend on climate zone. For this the Global Agro-Ecological Zones (IIASA/FAO, 2012) map was used, which has 12 classes and was assumed constant during the time period considered. The effect of land cover change on the 0-30 cm SOC stock as modelled in the UNCCD-modified IPCC Tier 1 approach is not immediate but may take up to 20 years.\n\nWe used GRASS GIS for pre-processing land cover maps, data storage and tiling of predictions. The modelling was done with R software. The procedure was implemented in parallel using a High Performance Computing facility of Wageningen University.',
+        cautions:
+          '- The UNCCD-modified IPCC Tier 1 method requires detailed input information, much of which is not globally available at high accuracy and high spatial resolution. For this reason SOC stock change due to management and input factors was not included. Estimated changes over time are therefore underestimations of real change.\n- The Tier 1 method strongly simplifies SOC dynamics. More elaborate approaches are the Tier 2 method, which includes more refined datasets, and the Tier 3 method, which makes use of mechanistic SOC change models.\n- The baseline SOC stock map for the year 2000 is not error-free and has considerable uncertainty, as shown using cross-validation statistics and prediction interval widths. These uncertainties propagate through the UNCCD-modified IPCC Tier 1 method and will affect the SOC stock change maps.',
+        sources: null,
+        citation:
+          'ESA, 2017. Land Cover CCI. PRODUCT USER GUIDE VERSION 2.0.\n\nIIASA/FAO, 2012. Global Agro-ecological Zones (GAEZ v3.0). IIASA, Laxenburg, Austria and FAO, Rome, Italy. [http://www.gaez.iiasa.ac.at/docs/GAEZ_User_Guide.pdf](http://www.gaez.iiasa.ac.at/docs/GAEZ_User_Guide.pdf)\n\nUNCCD, 2018. Default data: methods and interpretation. A guidance document for 2018 UNCCD reporting. United Nations Convention to Combat Desertification (UNCCD), Bonn, Germany.',
+        license: 'CC BY 4.0',
+        licenseLink: 'https://creativecommons.org/licenses/by/4.0/',
+      },
+      future: {},
+    },
   },
   'soc-experimental': {
     label: 'SOC experimental dataset',
-    description: '−',
+    description:
+      'Space-time predictions of soil organic carbon concentration and stock between the years 1982 and 2017.',
     group: 'soc',
     attributions: [],
     bbox: [
@@ -335,7 +381,24 @@ export const LAYERS = {
         };
       },
     },
-    info: {},
+    info: {
+      datasetName: null,
+      downloadLink: null,
+      function:
+        'Space-time distribution of organic carbon concentration (g/kg) for six standard soil depths and 0-30 cm soil organic stock (kg C m2).',
+      geoCoverage: 'Argentina',
+      spatialResolution: '250 m',
+      contentDate: '1982-2000',
+      description:
+        '### Soil organic carbon concentration\nThe soil organic carbon (SOC) concentration maps show predictions of SOC concentration in g/kg for six standard depths (05, 515, 1530, 3060, 60100, and 100200 cm) for the 1982-2017 period. The grid maps have 250 m spatial resolution and annual frequency.\n\nThe SOC concentration maps were created by ISRIC – World Soil Information using machine learning algorithms. See below for methodological details. Change maps show the difference in SOC concentration between two selected years.\n### Soil organic carbon stock\nThe soil organic carbon (SOC) stock maps shows predictions of the 030 cm SOC stock in kg C m2 for the 1982-2017 period. The grid maps have 250 m spatial resolution and annual frequency.\n\nThe 030 cm SOC stock maps were created by ISRIC – World Soil Information using machine learning algorithms. First, the SOC stock at observation locations was derived from SOC concentration, soil bulk density and proportion of coarse fragments. Next, a random forest model was trained with these data and prediction maps derived. See below for methodological details. Change maps show the difference in SOC stock between two selected years. Trends over time show an average decrease for the entire country from 2.55 kg C m 2 to 2.48 kg C m 2 over the 36-year period (equivalent to a decline of 211 Gg C, 3.0% of the total 030 cm SOC stock in Argentina).\n### Methodology\nWe used Quantile Regression Forest (QRF) machine learning to predict the soil organic carbon (SOC) at 250 m resolution for Argentina between the years 1982 and 2017. The random forest model was calibrated using over 5,000 SOC values from the 36-year time period and 35 environmental covariates. All SOC observations were subjected to quality and consistency checks and conversion factors applied to harmonise these to the Walkley-Black analytical method. We only used publicly available global covariates to facilitate future extension of the model from Argentina to the globe. Both static (i.e., lithology, terrain, long-term average climate) and dynamic (i.e., NDVI vegetation index) covariates were used. We pre-processed the NDVI covariates using a temporal low-pass filter to allow the SOC for a given year to depend on the NDVI of the current as well as preceding years. All covariates were also brought to a common resolution and extent by resampling and clipping to a gridded map of Argentina from which all non-soil areas were filtered out.\n\nRecursive Feature Elimination analysis was used for model selection. By plotting performance indices computed on ‘out-of-bag’ observations, the optimal number of covariates to be included in modelling was set to 22. The QRF hyperparameters mtry and ntree were set to default values, that is the square root of the number of covariates and 500, respectively.\n\nWe used GRASS GIS for covariates preparation, data storage and tiling of predictions. The modelling was done with R software, in particular the ranger package. The procedure was implemented in parallel using a High Performance Computing facility of Wageningen University.\n\nThe performance of the final model was evaluated using 10-fold cross-validation. We plotted predictions against independent observations and computed the Mean Error, Root Mean Squared Error and Concordance Correlation Coefficient.\n\nA full account of the statistical methodology and results is published in Heuvelink et al. (2020).',
+      cautions:
+        'Machine learning is a proven and established method for digital soil mapping but the quality of the results highly depends on the quality of the training data and the strength of the relationship between the dependent and explanatory variables.\n\nBoth cross-validation metrics and width of prediction intervals show that the uncertainty associated with the predictions is large. While spatial patterns and temporal patterns appear realistic, these are experimental data that should be interpreted with care.',
+      sources: null,
+      citation:
+        'Heuvelink, G.B.M., M.E. Angelini, L. Poggio,  Z. Bai, N.H. Batjes, H. Van Den Bosch, D. Bossio, S. Estella, J. Lehmann, G.F. Olmedo and J. Sanderman (2020). Machine learning in space and time for modelling soil organic carbon change. European Journal of Soil Science doi: 10.1111/ejss.12998.',
+      license: 'CC BY 4.0',
+      licenseLink: 'https://creativecommons.org/licenses/by/4.0/',
+    },
   },
   'land-cover': {
     // From: https://api.resourcewatch.org/v1/dataset/bca0109c-6d13-42a0-89b2-bcc046dc177e?includes=layer

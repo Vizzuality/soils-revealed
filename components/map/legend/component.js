@@ -52,7 +52,19 @@ const Legend = ({
                 </button>
               )}
               {!layer.readonly && (
-                <button type="button" className="btn" onClick={() => onClickInfo(layer.id)}>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() =>
+                    onClickInfo({
+                      id: layer.id,
+                      tab:
+                        layer.id === 'soc-stock'
+                          ? layer.layers[0].extraParams?.type ?? 'recent'
+                          : null,
+                    })
+                  }
+                >
                   <Icon name="info" />
                 </button>
               )}

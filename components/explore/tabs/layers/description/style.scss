@@ -1,0 +1,51 @@
+@import 'css/settings';
+
+.c-layers-tab-description {
+  position: relative;
+  padding: map-get($spacers, 3);
+  @include font-size($font-size-s);
+  color: $white;
+  background: rgba($primary, 0.8);
+
+  .description-tabs {
+    > .react-tabs__tab-list {
+      display: flex;
+      justify-content: space-between;
+      margin: -#{map-get($spacers, 3)} 0 map-get($spacers, 4);
+      padding: 0;
+      list-style: none;
+
+      > .react-tabs__tab {
+        padding: map-get($spacers, 1);
+        font-family: $font-family-2;
+        @include font-size($font-size-xs);
+        text-transform: uppercase;
+        border-top: rem(4) solid transparent;
+        cursor: pointer;
+
+        &--selected {
+          border-top-color: $white;
+        }
+      }
+    }
+  }
+
+  .btn {
+    display: block;
+    margin: map-get($spacers, 2) auto 0;
+    color: $white;
+    @include font-size($font-size-xxs);
+    letter-spacing: initial;
+    text-transform: none;
+    text-decoration: none;
+
+    .c-icon {
+      width: rem(15);
+      height: rem(15);
+
+      use {
+        fill: currentColor;
+      }
+    }
+  }
+}
