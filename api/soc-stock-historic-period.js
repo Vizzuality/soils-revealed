@@ -55,7 +55,17 @@ const RAMP = {
 module.exports = ({ params: { depth, period, x, y, z } }, res) => {
   try {
     const image = ee.Image(IMAGE[depth][period]).sldStyle(RAMP[depth]);
-    image.getMap({}, ({ formatTileUrl }) => res.send(axios.get(formatTileUrl(x, y, z))));
+    image.getMap({}, async ({ formatTileUrl }) => {
+      const url = formatTileUrl(x, y, z);
+      const serverPromise = axios.get(url, {
+        headers: { Accept: 'image/*' },
+        responseType: 'arraybuffer',
+      });
+      await serverPromise.then(serverResponse => {
+        res.set('Content-Type', 'image/png');
+        return res.send(Buffer.from(serverResponse.data));
+      });
+    });
   } catch (e) {
     res.status(404).end();
   }
