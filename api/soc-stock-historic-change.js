@@ -70,7 +70,17 @@ module.exports = ({ params: { depth, x, y, z } }, res) => {
       .Image(IMAGE[depth].recent)
       .subtract(ee.Image(IMAGE[depth].historic))
       .sldStyle(RAMP[depth]);
-    image.getMap({}, ({ formatTileUrl }) => res.send(axios.get(formatTileUrl(x, y, z))));
+    image.getMap({}, async ({ formatTileUrl }) => {
+      const url = formatTileUrl(x, y, z);
+      const serverPromise = axios.get(url, {
+        headers: { Accept: 'image/*' },
+        responseType: 'arraybuffer',
+      });
+      await serverPromise.then(serverResponse => {
+        res.set('Content-Type', 'image/png');
+        return res.send(Buffer.from(serverResponse.data));
+      });
+    });
   } catch (e) {
     res.status(404).end();
   }
