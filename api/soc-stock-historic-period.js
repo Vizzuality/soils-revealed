@@ -1,4 +1,5 @@
 const ee = require('@google/earthengine');
+const axios = require('axios').default;
 
 const IMAGE = {
   0: {
@@ -54,7 +55,7 @@ const RAMP = {
 module.exports = ({ params: { depth, period, x, y, z } }, res) => {
   try {
     const image = ee.Image(IMAGE[depth][period]).sldStyle(RAMP[depth]);
-    image.getMap({}, ({ formatTileUrl }) => res.redirect(formatTileUrl(x, y, z)));
+    image.getMap({}, ({ formatTileUrl }) => res.send(axios.get(formatTileUrl(x, y, z))));
   } catch (e) {
     res.status(404).end();
   }
