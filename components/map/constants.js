@@ -85,7 +85,7 @@ export const BOUNDARIES = {
       'Physical_features_tundra',
       'Physical_features_depression',
     ],
-    interactiveFeatureName: properties => properties.name_en,
+    interactiveFeatureName: properties => properties.name,
     interactiveFeatureDescription: properties => properties.featurecla,
     interactiveFeatureId: properties => properties.ne_id,
     legend: {
