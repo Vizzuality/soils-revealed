@@ -1,4 +1,5 @@
 const ee = require('@google/earthengine');
+const axios = require('axios').default;
 
 const STOCK_RAMP = `
   <RasterSymbolizer>
@@ -52,7 +53,17 @@ module.exports = ({ params: { type, depth, year, x, y, z } }, res) => {
       throw new Error('Unknown type');
     }
 
-    image.getMap({}, ({ formatTileUrl }) => res.redirect(formatTileUrl(x, y, z)));
+    image.getMap({}, async ({ formatTileUrl }) => {
+      const url = formatTileUrl(x, y, z);
+      const serverPromise = axios.get(url, {
+        headers: { Accept: 'image/*' },
+        responseType: 'arraybuffer',
+      });
+      await serverPromise.then(serverResponse => {
+        res.set('Content-Type', 'image/png');
+        return res.send(Buffer.from(serverResponse.data));
+      });
+    });
   } catch (e) {
     res.status(404).end();
   }
