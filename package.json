@@ -47,7 +47,7 @@
     "lodash": "^4.17.15",
     "luma.gl": "7.3.2",
     "moment": "^2.24.0",
-    "next": "^9.4.4",
+    "next": "9.3.2",
     "next-redux-wrapper": "^5.0.0",
     "next-routes": "^1.4.2",
     "node-sass": "^4.13.1",
