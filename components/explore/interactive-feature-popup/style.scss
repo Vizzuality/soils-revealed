@@ -1,0 +1,17 @@
+@import 'css/settings';
+
+.c-explore-interactive-feature-popup {
+  position: relative;
+  @include font-size($font-size-s);
+  width: rem(200);
+
+  label,
+  .label {
+    @include font-size($font-size-base);
+  }
+
+  .c-select {
+    display: block;
+    width: 100%;
+  }
+}

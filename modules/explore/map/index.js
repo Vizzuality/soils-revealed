@@ -188,6 +188,14 @@ export const selectActiveLayersDef = createSelector(
   ]
 );
 
+export const selectActiveLayersInteractiveIds = createSelector([selectBoundaries], boundaries => {
+  if (BOUNDARIES[boundaries].interactiveLayerIds) {
+    return BOUNDARIES[boundaries].interactiveLayerIds;
+  }
+
+  return [];
+});
+
 export const selectAttributions = createSelector(
   [selectBasemap, selectDataLayers, selectActiveDataLayers],
   (basemap, dataLayers, activeDataLayers) => {

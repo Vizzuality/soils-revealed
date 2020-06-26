@@ -16,6 +16,7 @@ export default connect(
     boundaries: mapSelectors.selectBoundaries(state),
     activeDataLayers: mapSelectors.selectActiveDataLayers(state),
     activeLayersDef: mapSelectors.selectActiveLayersDef(state),
+    activeLayersInteractiveIds: mapSelectors.selectActiveLayersInteractiveIds(state),
     serializedState: exploreSelectors.selectSerializedState(state),
     legendDataLayers: mapSelectors.selectLegendDataLayers(state),
   }),

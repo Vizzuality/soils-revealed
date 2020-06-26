@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useMemo, useState } from 'react'
 import PropTypes from 'prop-types';
 import dynamic from 'next/dynamic';
 import debounce from 'lodash/debounce';
+import throttle from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
@@ -22,6 +23,7 @@ import Tabs from './tabs';
 import ExperimentalDatasetToggle from './experimental-dataset-toggle';
 import Attributions from './attributions';
 import InfoModal from './info-modal';
+import InteractiveFeaturePopup from './interactive-feature-popup';
 
 import './style.scss';
 
@@ -40,6 +42,7 @@ const Explore = ({
   boundaries,
   activeDataLayers,
   activeLayersDef,
+  activeLayersInteractiveIds,
   legendDataLayers,
   serializedState,
   restoreState,
@@ -61,6 +64,18 @@ const Explore = ({
   const [infoLayer, setInfoLayer] = useState(null);
   const [previousSOCLayer, setPreviousSOCLayer] = useState(
     activeDataLayers.find(layer => LAYERS[layer].group === 'soc')
+  );
+  const [interactiveFeatures, setInteractiveFeatures] = useState(null);
+
+  // When the user clicks the popup's button that triggers its close, the map also receives the
+  // event and it opens a new popup right after
+  // This is a bug of react-map-gl's library
+  // To work around this issue, the setInteractiveFeatures function is throttle by a few hundred
+  // milliseconds so that when the popup is closed, the click event received by the map can't open
+  // a new one straight away
+  const setInteractiveFeaturesThrottled = useCallback(
+    throttle(setInteractiveFeatures, 300, { leading: true, trailing: false }),
+    [setInteractiveFeatures]
   );
 
   const onChangeViewport = useCallback(
@@ -85,6 +100,21 @@ const Explore = ({
       toggleBoundaries(m, BOUNDARIES[boundaries]);
     },
     [basemap, labels, roads, boundaries]
+  );
+
+  const onClickMap = useCallback(
+    ({ lngLat, features }) => {
+      if (features.length) {
+        setInteractiveFeaturesThrottled({
+          lat: lngLat[1],
+          lng: lngLat[0],
+          properties: features.map(feature => feature.properties),
+        });
+      } else {
+        setInteractiveFeaturesThrottled(null);
+      }
+    },
+    [setInteractiveFeaturesThrottled]
   );
 
   // When the component is mounted, we restore its state from the URL
@@ -182,10 +212,22 @@ const Explore = ({
             ref={mapRef}
             mapStyle={mapStyle}
             viewport={viewport}
+            interactiveLayerIds={activeLayersInteractiveIds}
             onViewportChange={onChangeViewport}
             onLoad={onLoadMap}
+            onClick={onClickMap}
           >
-            {map => <LayerManager map={map} providers={{}} layers={activeLayersDef} />}
+            {map => (
+              <>
+                {interactiveFeatures && (
+                  <InteractiveFeaturePopup
+                    {...interactiveFeatures}
+                    onClose={() => setInteractiveFeaturesThrottled(null)}
+                  />
+                )}
+                <LayerManager map={map} providers={{}} layers={activeLayersDef} />{' '}
+              </>
+            )}
           </Map>
         </>
       )}
@@ -211,6 +253,7 @@ Explore.propTypes = {
   boundaries: PropTypes.string.isRequired,
   activeDataLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
+  activeLayersInteractiveIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   serializedState: PropTypes.string.isRequired,
   restoreState: PropTypes.func.isRequired,

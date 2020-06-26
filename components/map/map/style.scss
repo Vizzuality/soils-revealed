@@ -12,4 +12,17 @@
   .mapboxgl-control-container {
     display: none;
   }
+
+  .mapboxgl-popup {
+    .mapboxgl-popup-tip {
+      border-top-color: $body-bg;
+    }
+
+    .mapboxgl-popup-content {
+      padding: map-get($spacers, 3);
+      border-radius: 0;
+      background-color: $body-bg;
+      box-shadow: $box-shadow-2;
+    }
+  }
 }
