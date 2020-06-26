@@ -15,9 +15,9 @@ In order to start modifying the app, please make sure to correctly configure you
 3. (Optional) Use [Visual Studio Code](https://code.visualstudio.com/) as a text editor to benefit from automatic type checking
 4. Configure your text editor with the [Prettier](https://prettier.io/), [ESLint](https://eslint.org/) and [EditorConfig](https://editorconfig.org/) plugins
 5. Use the correct Node.js version for this app by running `nvm use`; if you didn't install NVM (step 2), then manually install the Node.js version described in `.nvmrc`
-6. Install the dependencies: `yarn` (or `npm install`)
+6. Install the dependencies: `yarn`
 7. Create a `.env` file at the root of the project by copying `.env.default` and giving a value for each of the variables (currently, only `MAPBOX_API_KEY` is mandatory)
-8. Run the server: `yarn dev` (or `npm run dev`)
+8. Run the server: `yarn dev`
 
 You can access a hot-reloaded version of the app on [http://localhost:3000](http://localhost:3000).
 
