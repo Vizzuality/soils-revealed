@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Switch } from 'components/forms';
 import InfoButton from 'components/info-button';
+import { LAYERS } from 'components/map';
 
 import './style.scss';
 
@@ -40,11 +41,7 @@ const ExploreExperimentalDatasetToggle = ({
         checked={isToggledOn}
         onChange={onChange}
       >
-        Experimental dataset{' '}
-        <InfoButton>
-          Facere illo deleniti dolorem ut. Vero saepe quisquam dolor beatae. Debitis sit blanditiis
-          vero tenetur quo earum sed aut.
-        </InfoButton>
+        Experimental dataset <InfoButton>{LAYERS['soc-experimental'].description}</InfoButton>
       </Switch>
     </div>
   );
