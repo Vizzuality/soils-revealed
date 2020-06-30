@@ -163,6 +163,11 @@ const Explore = ({
     }
   }, [map, activeDataLayers, previousSOCLayer, setPreviousSOCLayer, viewport, updateViewport]);
 
+  // When the map layers are updated, we close the map's popup
+  useEffect(() => {
+    setInteractiveFeaturesThrottled(null);
+  }, [activeLayersDef]);
+
   return (
     <div
       className="c-explore"
