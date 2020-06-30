@@ -78,7 +78,7 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
             },
           }}
         />
-        <div className="unit">(g C/Kg)</div>
+        <div className="unit">(t C/ha)</div>
       </div>
 
       <Tabs
