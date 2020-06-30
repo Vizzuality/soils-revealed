@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { getLayerSource, getLayerDef, getLayerExtraParams } from 'utils/map';
+import { getLayerSource, getLayerDef, getBoundariesDef, getLayerExtraParams } from 'utils/map';
 import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'components/map';
 
 export const SLICE_NAME = 'map';
@@ -21,21 +21,11 @@ export const selectBoundaries = state => state[SLICE_NAME].boundaries;
 export const selectLayers = state => state[SLICE_NAME].layers;
 
 export const selectBoundariesLayerDef = createSelector([selectBoundaries], boundaries => {
-  if (!BOUNDARIES[boundaries].url) {
+  if (!BOUNDARIES[boundaries].config) {
     return null;
   }
 
-  return {
-    id: boundaries,
-    type: 'vector',
-    source: {
-      type: 'vector',
-      tiles: [BOUNDARIES[boundaries].url],
-      minzoom: BOUNDARIES[boundaries].minZoom,
-      maxzoom: BOUNDARIES[boundaries].maxZoom,
-    },
-    render: BOUNDARIES[boundaries].render,
-  };
+  return getBoundariesDef(boundaries, BOUNDARIES[boundaries]);
 });
 
 export const selectBasemapLayerDef = createSelector(
@@ -189,8 +179,8 @@ export const selectActiveLayersDef = createSelector(
 );
 
 export const selectActiveLayersInteractiveIds = createSelector([selectBoundaries], boundaries => {
-  if (BOUNDARIES[boundaries].interactiveLayerIds) {
-    return BOUNDARIES[boundaries].interactiveLayerIds;
+  if (BOUNDARIES[boundaries].config?.interactiveLayerIds) {
+    return BOUNDARIES[boundaries].config.interactiveLayerIds;
   }
 
   return [];
@@ -220,7 +210,7 @@ export const selectAcceptableMinZoom = createSelector(
     Math.max(
       ...[
         BASEMAPS[basemap].minZoom,
-        BOUNDARIES[boundaries].minZoom,
+        BOUNDARIES[boundaries].config?.source.minzoom ?? -Infinity,
         ...activeDataLayers.map(
           layerId => getLayerSource(layerId, dataLayers[layerId], layers[layerId]).minzoom
         ),
@@ -234,7 +224,7 @@ export const selectAcceptableMaxZoom = createSelector(
     Math.min(
       ...[
         BASEMAPS[basemap].maxZoom,
-        BOUNDARIES[boundaries].maxZoom,
+        BOUNDARIES[boundaries].config?.source.maxzoom ?? Infinity,
         // ...activeDataLayers.map(layerId => dataLayers[layerId].config.source.maxzoom),
         ...activeDataLayers.map(
           layerId => getLayerSource(layerId, dataLayers[layerId], layers[layerId]).maxzoom

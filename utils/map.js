@@ -69,6 +69,15 @@ export const getLayerDef = (layerId, layer, layerSettings) => {
   };
 };
 
+export const getBoundariesDef = (boundariesId, boundaries) => ({
+  id: boundariesId,
+  type: boundaries.config.type,
+  source: {
+    ...boundaries.config.source,
+  },
+  render: boundaries.config.render,
+});
+
 export const toggleBasemap = (map, basemap) => {
   const mapStyle = map.getStyle();
   const { layers } = mapStyle;
@@ -173,44 +182,6 @@ export const toggleRoads = (map, showRoads) => {
 
     if (group && roadsGroupIds.indexOf(group) !== -1) {
       map.setLayoutProperty(layer.id, 'visibility', showRoads ? 'visible' : 'none');
-    }
-  });
-};
-
-export const toggleBoundaries = (map, boundaries) => {
-  const mapStyle = map.getStyle();
-  const { layers } = mapStyle;
-  const groups = mapStyle.metadata['mapbox:groups'];
-
-  const boundariesGroups = Object.keys(groups)
-    .map(groupId => ({ [groupId]: groups[groupId].name }))
-    .reduce((res, group) => {
-      const groupId = Object.keys(group)[0];
-      const groupName = group[groupId];
-
-      if (!groupName.startsWith('boundaries_')) {
-        return res;
-      }
-
-      return {
-        ...res,
-        [groupId]: groupName,
-      };
-    }, {});
-
-  const boundariesGroupIds = Object.keys(boundariesGroups);
-
-  layers.forEach(layer => {
-    const group = layer.metadata?.['mapbox:group'];
-
-    if (group && boundariesGroupIds.indexOf(group) !== -1) {
-      map.setLayoutProperty(
-        layer.id,
-        'visibility',
-        boundaries.styleGroup && boundariesGroups[group] === boundaries.styleGroup
-          ? 'visible'
-          : 'none'
-      );
     }
   });
 };

@@ -2,7 +2,7 @@ import React, { useRef, useCallback, useState, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
-import { toggleBasemap, getLayerDef, toggleBoundaries } from 'utils/map';
+import { toggleBasemap, getLayerDef, getBoundariesDef } from 'utils/map';
 import Icon from 'components/icon';
 import {
   Map,
@@ -56,6 +56,14 @@ const ExploreLayersTab = ({
     });
   }, [layers, previewedLayerId]);
 
+  const previewedBoundariesDef = useMemo(() => {
+    if (!previewedBoundaries || !BOUNDARIES[previewedBoundaries].config) {
+      return null;
+    }
+
+    return getBoundariesDef(previewedBoundaries, BOUNDARIES[previewedBoundaries]);
+  }, [previewedBoundaries]);
+
   const onLoadMap = useCallback(
     map => {
       setMapLoaded(true);
@@ -100,38 +108,26 @@ const ExploreLayersTab = ({
   useEffect(() => {
     if (previewedBoundaries) {
       if (
-        BOUNDARIES[previewedBoundaries].minZoom &&
-        viewport.zoom < BOUNDARIES[previewedBoundaries].minZoom
+        BOUNDARIES[previewedBoundaries].config?.source.minzoom &&
+        viewport.zoom < BOUNDARIES[previewedBoundaries].config?.source.minzoom
       ) {
         setViewport(viewport => ({
           ...viewport,
           transitionDuration: 250,
-          zoom: BOUNDARIES[previewedBoundaries].minZoom,
+          zoom: BOUNDARIES[previewedBoundaries].config.source.minzoom,
         }));
       } else if (
-        BOUNDARIES[previewedBoundaries].maxZoom &&
-        viewport.zoom > BOUNDARIES[previewedBoundaries].maxZoom
+        BOUNDARIES[previewedBoundaries].config?.source.maxzoom &&
+        viewport.zoom > BOUNDARIES[previewedBoundaries].config?.source.maxzoom
       ) {
         setViewport(viewport => ({
           ...viewport,
           transitionDuration: 250,
-          zoom: BOUNDARIES[previewedBoundaries].maxZoom,
+          zoom: BOUNDARIES[previewedBoundaries].config.source.maxzoom,
         }));
       }
     }
   }, [viewport, previewedBoundaries]);
-
-  // When we transition from previewing boundaries to previewing layers (or the reverse), we toggle
-  // the boundaries on the map
-  useEffect(() => {
-    if (mapLoaded) {
-      if (previewedBoundaries) {
-        toggleBoundaries(map, BOUNDARIES[previewedBoundaries]);
-      } else {
-        toggleBoundaries(map, BOUNDARIES['no-boundaries']);
-      }
-    }
-  }, [previewedBoundaries, mapLoaded, map]);
 
   // Whenever the list of active layers is updated in the store, the internal state of the
   // component should also follow
@@ -248,6 +244,7 @@ const ExploreLayersTab = ({
               providers={{}}
               layers={[
                 ...(basemapLayerDef ? [basemapLayerDef] : []),
+                ...(previewedBoundaries ? [previewedBoundariesDef] : []),
                 ...(previewedLayerDef ? [previewedLayerDef] : []),
               ]}
             />

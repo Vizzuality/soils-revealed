@@ -6,14 +6,13 @@ import throttle from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
 import { useDesktop } from 'utils/hooks';
-import { toggleBasemap, toggleLabels, toggleRoads, toggleBoundaries } from 'utils/map';
+import { toggleBasemap, toggleLabels, toggleRoads } from 'utils/map';
 import {
   Map,
   LayerManager,
   Controls,
   Legend,
   BASEMAPS,
-  BOUNDARIES,
   LAYERS,
   mapStyle,
   getViewportFromBounds,
@@ -39,7 +38,6 @@ const Explore = ({
   basemapParams,
   roads,
   labels,
-  boundaries,
   activeDataLayers,
   activeLayersDef,
   activeLayersInteractiveIds,
@@ -97,18 +95,19 @@ const Explore = ({
       toggleBasemap(m, BASEMAPS[basemap]);
       toggleLabels(m, basemap, labels);
       toggleRoads(m, roads);
-      toggleBoundaries(m, BOUNDARIES[boundaries]);
     },
-    [basemap, labels, roads, boundaries]
+    [basemap, labels, roads]
   );
 
   const onClickMap = useCallback(
-    ({ lngLat, features }) => {
+    e => {
+      const { lngLat, features } = e;
+
       if (features.length) {
         setInteractiveFeaturesThrottled({
           lat: lngLat[1],
           lng: lngLat[0],
-          properties: features.map(feature => feature.properties),
+          properties: features.map(feature => ({ ...feature.properties, id: feature.id })),
         });
       } else {
         setInteractiveFeaturesThrottled(null);
@@ -139,15 +138,14 @@ const Explore = ({
     }
   }, [zoom, acceptableMinZoom, acceptableMaxZoom, updateZoom]);
 
-  // When the basemap, labels, roads or boundaries change, we update the map style
+  // When the basemap, labels or roads change, we update the map style
   useEffect(() => {
     if (map && mapLoaded) {
       toggleBasemap(map, BASEMAPS[basemap]);
       toggleLabels(map, basemap, labels);
       toggleRoads(map, roads);
-      toggleBoundaries(map, BOUNDARIES[boundaries]);
     }
-  }, [map, mapLoaded, basemap, labels, roads, boundaries]);
+  }, [map, mapLoaded, basemap, labels, roads]);
 
   // We zoom to the SOC layers's bounding box if it has any
   useEffect(() => {
@@ -250,7 +248,6 @@ Explore.propTypes = {
   basemapParams: PropTypes.object,
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
-  boundaries: PropTypes.string.isRequired,
   activeDataLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeLayersInteractiveIds: PropTypes.arrayOf(PropTypes.string).isRequired,

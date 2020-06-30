@@ -25,7 +25,9 @@ const ExploreInteractiveFeaturePopup = ({
     [selectedFeatureId, updateAreaInterest, onClose]
   );
 
-  const supportedLayer = !!BOUNDARIES[boundaries].interactiveFeatureId;
+  // TODO: this is temporal until the River basins and Political boundaries layers have a unique ID
+  // for each of their features
+  const supportedLayer = !!properties[0].id;
 
   return (
     <Popup
@@ -53,8 +55,8 @@ const ExploreInteractiveFeaturePopup = ({
                 options={[
                   { label: 'Select a geometry', value: '', disabled: true },
                   ...properties.map(prop => ({
-                    label: BOUNDARIES[boundaries].interactiveFeatureName(prop),
-                    value: `${BOUNDARIES[boundaries].interactiveFeatureId(prop)}`,
+                    label: BOUNDARIES[boundaries].config.interactiveFeatureName(prop),
+                    value: `${prop.id}`,
                   })),
                 ]}
                 value={selectedFeatureId ?? ''}
@@ -74,16 +76,18 @@ const ExploreInteractiveFeaturePopup = ({
           <div>
             <div className="label">{BOUNDARIES[boundaries].label}</div>
             <p className="mt-2 mb-0 font-weight-bold">
-              {BOUNDARIES[boundaries].interactiveFeatureName(properties[0])}
+              {BOUNDARIES[boundaries].config.interactiveFeatureName(properties[0])}
             </p>
-            <p className="mb-3">
-              {BOUNDARIES[boundaries].interactiveFeatureDescription(properties[0])}
-            </p>
+            {!!BOUNDARIES[boundaries].config.interactiveFeatureDescription && (
+              <p className="mb-3">
+                {BOUNDARIES[boundaries].config.interactiveFeatureDescription(properties[0])}
+              </p>
+            )}
             <button
               type="submit"
               className="btn btn-sm btn-primary btn-block "
               onClick={() => {
-                updateAreaInterest(BOUNDARIES[boundaries].interactiveFeatureId(properties[0]));
+                updateAreaInterest(properties[0].id);
                 onClose();
               }}
             >
