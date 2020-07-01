@@ -202,6 +202,16 @@ export const BOUNDARIES = {
               },
             },
           },
+          {
+            id: 'landforms-2',
+            type: 'line',
+            'source-layer': 'Physical',
+            paint: {
+              'line-width': 2,
+              'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
+              'line-color': '#000000',
+            },
+          },
         ],
       },
     },
@@ -417,6 +427,16 @@ export const BOUNDARIES = {
                 ],
                 type: 'categorical',
               },
+            },
+          },
+          {
+            id: 'biomes-2',
+            type: 'line',
+            'source-layer': 'Ecoregions',
+            paint: {
+              'line-width': 2,
+              'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
+              'line-color': '#000000',
             },
           },
         ],
