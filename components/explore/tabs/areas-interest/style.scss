@@ -1,0 +1,38 @@
+@import 'css/settings';
+
+.c-explore-areas-interest-tab {
+  width: rem(404);
+
+  .close-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: map-get($spacers, 3);
+    right: 0;
+    width: rem(40);
+    height: rem(40);
+    padding: 0;
+    border-radius: 100%;
+    transform: translateX(50%);
+    background: $body-bg;
+    z-index: 1; // Needed to be on top of the preview
+
+    .c-icon {
+      width: rem(10);
+      height: rem(10);
+
+      use {
+        fill: currentColor;
+      }
+    }
+
+    @include hover() {
+      background: $primary;
+    }
+  }
+
+  h3 {
+    @include font-size($font-size-l);
+  }
+}
