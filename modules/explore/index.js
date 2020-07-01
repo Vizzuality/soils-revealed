@@ -39,7 +39,7 @@ const selectors = {
           {
             source: boundaries,
             sourceLayer: BOUNDARIES[boundaries].config.render.layers[0]['source-layer'],
-            id: areaInterest,
+            id: areaInterest.id,
             state: { active: true },
           },
         ];

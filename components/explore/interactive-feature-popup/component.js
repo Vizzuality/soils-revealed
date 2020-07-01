@@ -19,10 +19,20 @@ const ExploreInteractiveFeaturePopup = ({
   const onSubmit = useCallback(
     e => {
       e.preventDefault();
-      updateAreaInterest(selectedFeatureId);
+      updateAreaInterest({
+        id: selectedFeatureId,
+        name: BOUNDARIES[boundaries].config.interactiveFeatureName(
+          properties.find(prop => {
+            if (typeof prop.id === 'number') {
+              return prop.id === +selectedFeatureId;
+            }
+            return prop.id === selectedFeatureId;
+          })
+        ),
+      });
       onClose();
     },
-    [selectedFeatureId, updateAreaInterest, onClose]
+    [properties, boundaries, selectedFeatureId, updateAreaInterest, onClose]
   );
 
   // TODO: this is temporal until the River basins and Political boundaries layers have a unique ID
@@ -87,7 +97,10 @@ const ExploreInteractiveFeaturePopup = ({
               type="submit"
               className="btn btn-sm btn-primary btn-block "
               onClick={() => {
-                updateAreaInterest(properties[0].id);
+                updateAreaInterest({
+                  id: properties[0].id,
+                  name: BOUNDARIES[boundaries].config.interactiveFeatureName(properties[0]),
+                });
                 onClose();
               }}
             >
