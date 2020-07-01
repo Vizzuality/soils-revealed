@@ -38,6 +38,7 @@ const Explore = ({
   basemapParams,
   roads,
   labels,
+  featureStates,
   activeDataLayers,
   activeLayersDef,
   activeLayersInteractiveIds,
@@ -216,6 +217,7 @@ const Explore = ({
             mapStyle={mapStyle}
             viewport={viewport}
             interactiveLayerIds={activeLayersInteractiveIds}
+            featureStates={featureStates}
             onViewportChange={onChangeViewport}
             onLoad={onLoadMap}
             onClick={onClickMap}
@@ -253,6 +255,7 @@ Explore.propTypes = {
   basemapParams: PropTypes.object,
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
+  featureStates: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeDataLayers: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeLayersInteractiveIds: PropTypes.arrayOf(PropTypes.string).isRequired,

@@ -4,6 +4,7 @@ import { deserialize, serialize } from 'utils/functions';
 import { selectQuery } from '../routing';
 import createMapSlice, * as mapModule from './map';
 import createAnalysisSlice, * as analysisModule from './analysis';
+import { BOUNDARIES } from 'components/map';
 
 // Common actions for the explore module
 const actions = {
@@ -30,6 +31,23 @@ const selectors = {
       })
   ),
   selectShowTour: state => state.explore.showTour,
+  selectFeatureStates: createSelector(
+    [mapModule.selectBoundaries, analysisModule.selectAreaInterest],
+    (boundaries, areaInterest) => {
+      if (areaInterest) {
+        return [
+          {
+            source: boundaries,
+            sourceLayer: BOUNDARIES[boundaries].config.render.layers[0]['source-layer'],
+            id: areaInterest,
+            state: { active: true },
+          },
+        ];
+      }
+
+      return [];
+    }
+  ),
 };
 
 const reducer = createReducer(

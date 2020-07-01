@@ -13,6 +13,7 @@ export default connect(
     basemapParams: mapSelectors.selectBasemapParams(state),
     roads: mapSelectors.selectRoads(state),
     labels: mapSelectors.selectLabels(state),
+    featureStates: exploreSelectors.selectFeatureStates(state),
     activeDataLayers: mapSelectors.selectActiveDataLayers(state),
     activeLayersDef: mapSelectors.selectActiveLayersDef(state),
     activeLayersInteractiveIds: mapSelectors.selectActiveLayersInteractiveIds(state),

@@ -13,7 +13,17 @@ const DEFAULT_VIEWPORT = {
 };
 
 const Comp = (
-  { className, isStatic, viewport, mapStyle, onLoad, onViewportChange, children, ...rest },
+  {
+    className,
+    isStatic,
+    viewport,
+    mapStyle,
+    featureStates,
+    onLoad,
+    onViewportChange,
+    children,
+    ...rest
+  },
   ref
 ) => {
   const mapContainer = useRef(null);
@@ -21,6 +31,7 @@ const Comp = (
   const [loaded, setLoaded] = useState(false);
   const [previousViewport, setPreviousViewport] = useState(viewport);
   const [internalViewport, setInternalViewport] = useState(viewport);
+  const previousFeatureStates = useRef(featureStates);
 
   const ReactMap = isStatic ? StaticMap : ReactMapGL;
   const inner = useMemo(() => {
@@ -65,6 +76,43 @@ const Comp = (
     }
   }, [viewport, previousViewport, setPreviousViewport, setInternalViewport]);
 
+  // This effect toggles on and off the feature states whenever they are updated
+  useEffect(() => {
+    if (map && loaded) {
+      if (featureStates !== previousFeatureStates.current) {
+        // First of all, we remove all of the previous feature states
+        previousFeatureStates.current.forEach(({ source, sourceLayer }) => {
+          const sourceObj = map.current.getMap().getSource(source);
+
+          if (sourceObj) {
+            map.current.getMap().removeFeatureState({
+              source,
+              sourceLayer,
+            });
+          }
+        });
+
+        // Then, we add the new ones
+        featureStates.forEach(({ source, sourceLayer, id, state }) => {
+          const sourceObj = map.current.getMap().getSource(source);
+
+          if (sourceObj) {
+            map.current.getMap().setFeatureState(
+              {
+                source,
+                sourceLayer,
+                id,
+              },
+              state
+            );
+          }
+        });
+
+        previousFeatureStates.current = featureStates;
+      }
+    }
+  }, [loaded, featureStates]);
+
   return (
     <div ref={mapContainer} className={['c-map', ...(className ? [className] : [])].join(' ')}>
       <ReactMap
@@ -99,6 +147,7 @@ Map.propTypes = {
     zoom: PropTypes.number.isRequired,
   }),
   mapStyle: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+  featureStates: PropTypes.arrayOf(PropTypes.object),
   children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
   onLoad: PropTypes.func,
   onViewportChange: PropTypes.func,
@@ -109,6 +158,7 @@ Map.defaultProps = {
   isStatic: false,
   viewport: DEFAULT_VIEWPORT,
   mapboxStyle: undefined,
+  featureStates: [],
   children: undefined,
   onLoad: undefined,
   onViewportChange: undefined,
