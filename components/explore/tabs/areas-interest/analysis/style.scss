@@ -82,4 +82,61 @@
       }
     }
   }
+
+  .recharts-responsive-container {
+    font-family: $font-family-2;
+
+    .recharts-yAxis {
+      .recharts-text {
+        @include font-size($font-size-xxxs);
+        fill: $primary;
+      }
+
+      .recharts-label {
+        @include font-size($font-size-xxs);
+        fill: $primary;
+      }
+    }
+
+    .recharts-xAxis {
+      .recharts-cartesian-axis-line {
+        stroke-width: rem(2);
+        stroke: $primary;
+      }
+
+      .recharts-cartesian-axis-tick-line {
+        stroke: $primary;
+      }
+
+      .recharts-text {
+        @include font-size($font-size-xxs);
+        fill: $primary;
+      }
+
+      .recharts-legend {
+        @include font-size($font-size-xxs);
+        fill: $primary;
+
+        rect {
+          fill: #dddedb;
+        }
+
+        line {
+          stroke-width: rem(2);
+          stroke: #8f3721;
+        }
+      }
+    }
+
+    .recharts-cartesian-grid {
+      stroke: rgba($primary, 0.2);
+    }
+
+    .recharts-line {
+      path {
+        stroke-width: rem(2);
+        stroke: #8f3721;
+      }
+    }
+  }
 }
