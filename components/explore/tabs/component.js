@@ -1,4 +1,4 @@
-import React, { useRef, useMemo, useState } from 'react';
+import React, { useRef, useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import Icon from 'components/icon';
@@ -8,7 +8,7 @@ import AreasInterestTab from './areas-interest';
 
 import './style.scss';
 
-const ExploreTabs = ({ onClickInfo }) => {
+const ExploreTabs = ({ areasInterest, updateAreasInterest, onClickInfo }) => {
   const rootRef = useRef(null);
   const areasBtnRef = useRef(null);
   const layersBtnRef = useRef(null);
@@ -22,6 +22,18 @@ const ExploreTabs = ({ onClickInfo }) => {
   ]);
   const [layersTooltipVisible, setLayersTooltipVisible] = useState(false);
   const [areasInterestTooltipVisible, setAreasInterestTooltipVisible] = useState(false);
+  const previousAreasInterest = useRef(areasInterest);
+
+  useEffect(() => {
+    if (areasInterest !== previousAreasInterest.current) {
+      if (areasInterest) {
+        setAreasInterestTooltipVisible(true);
+        setLayersTooltipVisible(false);
+      }
+
+      previousAreasInterest.current = areasInterest;
+    }
+  }, [areasInterest]);
 
   return (
     <>
@@ -40,7 +52,15 @@ const ExploreTabs = ({ onClickInfo }) => {
           visible={areasInterestTooltipVisible}
           hideOnClick={false}
           offset={`-${rootOffset} 7`}
-          content={<AreasInterestTab onClose={() => setAreasInterestTooltipVisible(false)} />}
+          content={
+            <AreasInterestTab
+              onClose={() => {
+                setAreasInterestTooltipVisible(false);
+                updateAreasInterest(null);
+              }}
+              onClickInfo={onClickInfo}
+            />
+          }
         >
           <button
             ref={areasBtnRef}
@@ -70,7 +90,10 @@ const ExploreTabs = ({ onClickInfo }) => {
             type="button"
             className="btn btn-primary btn-sm"
             onClick={() => {
-              if (!layersTooltipVisible) setAreasInterestTooltipVisible(false);
+              if (!layersTooltipVisible) {
+                setAreasInterestTooltipVisible(false);
+                updateAreasInterest(null);
+              }
               setLayersTooltipVisible(visible => !visible);
             }}
           >
@@ -84,7 +107,13 @@ const ExploreTabs = ({ onClickInfo }) => {
 };
 
 ExploreTabs.propTypes = {
+  areasInterest: PropTypes.object,
+  updateAreasInterest: PropTypes.func.isRequired,
   onClickInfo: PropTypes.func.isRequired,
+};
+
+ExploreTabs.defaultProps = {
+  areasInterest: null,
 };
 
 export default ExploreTabs;

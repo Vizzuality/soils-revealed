@@ -1,0 +1,85 @@
+@import 'css/settings';
+
+.c-areas-interest-tab-analysis {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    h4 {
+      font-size: $font-size-l;
+    }
+
+    .btn {
+      padding: 0;
+      border-radius: 100%;
+    }
+
+    .c-icon {
+      display: block;
+      width: rem(20);
+      height: rem(20);
+    }
+
+    .c-switch {
+      label {
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  section {
+    position: relative;
+    margin-top: map-get($spacers, 3);
+    padding: map-get($spacers, 3) 0;
+
+    &:before {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: -#{map-get($spacers, 3)};
+      width: calc(100% + #{2 * map-get($spacers, 3)});
+      height: rem(1);
+      background-color: $border-color-1;
+      content: '';
+    }
+  }
+
+  .soc-stock-switcher {
+    display: flex;
+    padding: 0;
+    border: rem(1) solid $primary;
+
+    .c-radio {
+      flex-grow: 1;
+      min-height: auto;
+      margin: rem(1);
+      padding: 0 map-get($spacers, 3);
+      font-family: $font-family-2;
+      @include font-size($font-size-xs);
+      color: $body-color;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: $line-height-base;
+      cursor: pointer;
+
+      &.-checked {
+        color: $white;
+        background-color: $primary;
+      }
+
+      input {
+        @include sr-only();
+      }
+
+      label {
+        cursor: pointer;
+
+        &:before,
+        &:after {
+          content: none;
+        }
+      }
+    }
+  }
+}

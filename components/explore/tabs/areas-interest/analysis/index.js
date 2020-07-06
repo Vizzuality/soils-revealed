@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
 
-import { analysisSelectors, analysisActions } from 'modules/explore';
+import { analysisSelectors, mapSelectors, mapActions } from 'modules/explore';
 import Component from './component';
 
 export default connect(
   state => ({
     areasInterest: analysisSelectors.selectAreaInterest(state),
+    legendLayers: mapSelectors.selectLegendDataLayers(state),
   }),
   {
-    updateAreasInterest: analysisActions.updateAreaInterest,
+    updateLayer: mapActions.updateLayer,
   }
 )(Component);

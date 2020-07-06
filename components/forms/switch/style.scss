@@ -20,4 +20,31 @@
       }
     }
   }
+
+  &.custom-switch.-label-left {
+    padding-left: 0;
+    padding-right: $custom-switch-width + $custom-control-gutter;
+
+    .custom-control-label {
+      &:before {
+        left: auto;
+        right: -($custom-switch-width + $custom-control-gutter);
+      }
+
+      &:after {
+        left: auto;
+        right: add(
+          -($custom-switch-width + $custom-control-gutter),
+          $custom-control-indicator-border-width * 2
+        );
+        transform: translateX($custom-control-indicator-size - $custom-switch-width);
+      }
+    }
+
+    .custom-control-input:checked ~ .custom-control-label {
+      &::after {
+        transform: none;
+      }
+    }
+  }
 }
