@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 
-import { analysisSelectors, analysisActions } from 'modules/explore';
+import { analysisSelectors, analysisActions, exploreSelectors } from 'modules/explore';
 import Component from './component';
 
 export default connect(
   state => ({
+    showTour: exploreSelectors.selectShowTour(state),
     areasInterest: analysisSelectors.selectAreaInterest(state),
   }),
   {
