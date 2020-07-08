@@ -385,6 +385,16 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
               </div>
             </TabList>
             <TabPanel className="react-tabs__tab-panel align-items-end">
+              <div className="select d-flex flex-column mr-auto">
+                <label htmlFor="legend-future-scenario">Scenario:</label>
+                <Select
+                  id="legend-future-scenario"
+                  className="mt-1"
+                  options={scenarioOptions}
+                  value={layer.extraParams.scenario}
+                  onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
+                />
+              </div>
               {Object.keys(layer.extraParams.config.futureYears).map(year => (
                 <Radio
                   key={year}
@@ -397,7 +407,9 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   {layer.extraParams.config.futureYears[year]}
                 </Radio>
               ))}
-              <div className="select d-flex flex-column ml-auto text-right">
+            </TabPanel>
+            <TabPanel className="react-tabs__tab-panel align-items-end">
+              <div className="select d-flex flex-column mr-auto">
                 <label htmlFor="legend-future-scenario">Scenario:</label>
                 <Select
                   id="legend-future-scenario"
@@ -407,8 +419,6 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
                 />
               </div>
-            </TabPanel>
-            <TabPanel className="react-tabs__tab-panel align-items-end">
               <div className="d-flex align-items-center">
                 <div className="select d-inline-block mr-4">
                   From:
@@ -426,16 +436,6 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                     onChange={({ value }) => onChangeParams(layerGroup.id, { year: +value })}
                   />
                 </div>
-              </div>
-              <div className="select d-flex flex-column ml-auto text-right">
-                <label htmlFor="legend-future-scenario">Scenario:</label>
-                <Select
-                  id="legend-future-scenario"
-                  className="mt-1"
-                  options={scenarioOptions}
-                  value={layer.extraParams.scenario}
-                  onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
-                />
               </div>
             </TabPanel>
           </Tabs>
