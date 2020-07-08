@@ -53,10 +53,10 @@ export const BOUNDARIES = {
     config: {
       type: 'vector',
       source: {
-        url: 'mapbox://tncsoilscience.1vbojeu3',
+        url: 'mapbox://tncsoilscience.a25wqweg',
         minzoom: 0,
         maxzoom: 22,
-        // promoteId: 'ne_id',
+        promoteId: 'id',
       },
       interactiveLayerIds: ['political-boundaries-3', 'political-boundaries-4'],
       interactiveFeatureName: properties => properties[`name_${properties.level}`],
@@ -121,6 +121,16 @@ export const BOUNDARIES = {
             paint: {
               'fill-opacity': 0,
               'fill-color': '#000000',
+            },
+          },
+          {
+            id: 'political-boundaries-5',
+            type: 'line',
+            'source-layer': 'Political',
+            paint: {
+              'line-width': 2,
+              'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
+              'line-color': '#000000',
             },
           },
         ],
@@ -299,10 +309,10 @@ export const BOUNDARIES = {
     config: {
       type: 'vector',
       source: {
-        url: 'mapbox://tncsoilscience.awn1h8qu',
+        url: 'mapbox://tncsoilscience.clphku2k',
         minzoom: 4,
         maxzoom: 22,
-        // promoteId: 'ne_id',
+        promoteId: 'id',
       },
       interactiveLayerIds: ['river-basins-3', 'river-basins-4'],
       interactiveFeatureName: properties =>
@@ -356,6 +366,16 @@ export const BOUNDARIES = {
             paint: {
               'fill-opacity': 0,
               'fill-color': '#000000',
+            },
+          },
+          {
+            id: 'river-basins-5',
+            type: 'line',
+            'source-layer': 'Hydrological',
+            paint: {
+              'line-width': 2,
+              'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
+              'line-color': '#000000',
             },
           },
         ],
