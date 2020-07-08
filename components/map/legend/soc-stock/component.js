@@ -385,7 +385,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
               </div>
             </TabList>
             <TabPanel className="react-tabs__tab-panel align-items-end">
-              <div className="select d-flex flex-column mr-auto">
+              <div className="select d-flex flex-column mr-auto js-soc-stock-scenario">
                 <label htmlFor="legend-future-scenario">Scenario:</label>
                 <Select
                   id="legend-future-scenario"
