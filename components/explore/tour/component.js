@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import Joyride from 'react-joyride';
 
 import { isFirstVisit } from 'utils/explore';
+import { getLayerExtraParams } from 'utils/map';
+import { LAYERS } from 'components/map';
 
 import './style.scss';
 
@@ -38,13 +40,15 @@ const STEPS = [
     disableBeacon: true,
     target: '.js-soc-stock-scenario',
     init: ({ updateLayer }) => {
-      // FIXME: this should not be hardcoded be come from the definition of the layer
+      // eslint-disable-next-line no-unused-vars
+      const { config, ...otherParams } = getLayerExtraParams(
+        { ...LAYERS['soc-stock'], id: 'soc-stock' },
+        { type: 'future' }
+      );
+
       updateLayer({
         id: 'soc-stock',
-        type: 'future',
-        mode: 'period',
-        scenario: '0',
-        year: 2030,
+        ...otherParams,
       });
 
       // We make sure the UI has had enough time to update
@@ -67,14 +71,15 @@ const STEPS = [
     disableBeacon: true,
     target: '.js-experimental-dataset-toggle',
     init: ({ updateLayer }) => {
-      // FIXME: this should not be hardcoded be come from the definition of the layer
+      // eslint-disable-next-line no-unused-vars
+      const { config, ...otherParams } = getLayerExtraParams(
+        { ...LAYERS['soc-stock'], id: 'soc-stock' },
+        { type: 'recent' }
+      );
+
       updateLayer({
         id: 'soc-stock',
-        type: 'recent',
-        mode: 'timeseries',
-        year: 2018,
-        year1: 2000,
-        year2: 2018,
+        ...otherParams,
       });
 
       // We make sure the UI has had enough time to update

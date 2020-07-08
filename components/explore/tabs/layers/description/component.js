@@ -43,40 +43,27 @@ const Description = ({ layers, layerId, onClickInfo }) => {
           onSelect={index => setSelectedTabIndex(index)}
         >
           <TabList>
-            <Tab>Historic</Tab>
-            <Tab>Recent</Tab>
-            <Tab>Future</Tab>
+            {layers[layerId].paramsConfig.settings.type.options.map(option => (
+              <Tab key={option.value}>{option.label}</Tab>
+            ))}
           </TabList>
-          <TabPanel>
-            {layers[layerId].description.historic}
-            <button
-              type="button"
-              className="btn btn-sm btn-link"
-              onClick={() => onClickInfo({ id: layerId, tab: 'historic' })}
-            >
-              <Icon name="info" /> More information
-            </button>
-          </TabPanel>
-          <TabPanel>
-            {layers[layerId].description.recent}
-            <button
-              type="button"
-              className="btn btn-sm btn-link"
-              onClick={() => onClickInfo({ id: layerId, tab: 'recent' })}
-            >
-              <Icon name="info" /> More information
-            </button>
-          </TabPanel>
-          <TabPanel>
-            {layers[layerId].description.future}
-            <button
-              type="button"
-              className="btn btn-sm btn-link"
-              onClick={() => onClickInfo({ id: layerId, tab: 'future' })}
-            >
-              <Icon name="info" /> More information
-            </button>
-          </TabPanel>
+          {layers[layerId].paramsConfig.settings.type.options.map(option => (
+            <TabPanel key={option.value}>
+              {layers[layerId].description[option.value]}
+              <button
+                type="button"
+                className="btn btn-sm btn-link"
+                onClick={() =>
+                  onClickInfo({
+                    id: layerId,
+                    tab: option.value,
+                  })
+                }
+              >
+                <Icon name="info" /> More information
+              </button>
+            </TabPanel>
+          ))}
         </Tabs>
       )}
     </div>

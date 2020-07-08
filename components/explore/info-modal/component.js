@@ -7,12 +7,6 @@ import Markdown from 'components/markdown';
 
 import './style.scss';
 
-const SOC_STOCK_TABS = {
-  historic: 'Historic',
-  recent: 'Recent',
-  future: 'Future',
-};
-
 const Row = ({ name, children }) => (
   <div className="row mb-2">
     <div className="col-3 pl-0">
@@ -113,17 +107,21 @@ const InfoModal = ({ layerId, params, layers, onClose }) => {
           {layerId === 'soc-stock' && (
             <Tabs
               className="info-modal-tabs"
-              selectedIndex={Object.keys(SOC_STOCK_TABS).indexOf(selectedTab)}
-              onSelect={index => setSelectedTab(Object.keys(SOC_STOCK_TABS)[index])}
+              selectedIndex={layer.paramsConfig.settings.type.options.findIndex(
+                option => option.value === selectedTab
+              )}
+              onSelect={index =>
+                setSelectedTab(layer.paramsConfig.settings.type.options[index].value)
+              }
             >
               <TabList>
-                {Object.keys(SOC_STOCK_TABS).map(key => (
-                  <Tab key={key}>{SOC_STOCK_TABS[key]}</Tab>
+                {layer.paramsConfig.settings.type.options.map(option => (
+                  <Tab key={option.value}>{option.label}</Tab>
                 ))}
               </TabList>
-              {Object.keys(SOC_STOCK_TABS).map(key => (
-                <TabPanel key={key}>
-                  <Content layer={layer} tab={key} />
+              {layer.paramsConfig.settings.type.options.map(option => (
+                <TabPanel key={option.value}>
+                  <Content layer={layer} tab={option.value} />
                 </TabPanel>
               ))}
             </Tabs>

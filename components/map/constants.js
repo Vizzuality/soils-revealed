@@ -538,28 +538,106 @@ export const LAYERS = {
     group: 'soc',
     attributions: [],
     paramsConfig: {
-      periods: {
-        historic: 'Historic',
-        current: 'Current',
-      },
-      years: [2000, 2018],
-      futureYears: {
-        2030: '2030',
-        2040: '2040',
-        2050: '2050',
-      },
-      scenarios: {
-        0: 'Default',
-      },
-      depths: {
-        0: '0-30 cm',
-        1: '0-100 cm',
-        2: '0-200 cm',
+      settings: {
+        type: {
+          options: [
+            {
+              label: 'Historic',
+              value: 'historic',
+              settings: {
+                mode: {
+                  options: [
+                    { label: 'Period', value: 'period' },
+                    { label: 'Change', value: 'change' },
+                  ],
+                  defaultOption: 'period',
+                },
+                depth: {
+                  options: [
+                    { label: '0-30 cm', value: '0' },
+                    { label: '0-100 cm', value: '1' },
+                    { label: '0-200 cm', value: '2' },
+                  ],
+                  defaultOption: '0',
+                },
+                period: {
+                  options: [
+                    { label: 'Historic', value: 'historic' },
+                    { label: 'Current', value: 'current' },
+                  ],
+                  defaultOption: 'historic',
+                },
+              },
+            },
+            {
+              label: 'Recent',
+              value: 'recent',
+              settings: {
+                mode: {
+                  options: [
+                    { label: 'Time Series', value: 'timeseries' },
+                    { label: 'Change', value: 'change' },
+                  ],
+                  defaultOption: 'timeseries',
+                },
+                depth: {
+                  options: [{ label: '0-30 cm', value: '0' }],
+                  defaultOption: '0',
+                },
+                year1: {
+                  options: [{ label: '2000', value: 2000 }],
+                  defaultOption: 2000,
+                },
+                year2: {
+                  options: [{ label: '2018', value: 2018 }],
+                  defaultOption: 2018,
+                },
+                year: {
+                  options: new Array(2018 - 2000 + 1).fill(null).map((_, index) => ({
+                    label: `${2000 + index}`,
+                    value: `${2000 + index}`,
+                  })),
+                  defaultOption: '2018',
+                },
+              },
+            },
+            {
+              label: 'Future',
+              value: 'future',
+              settings: {
+                mode: {
+                  options: [
+                    { label: 'Period', value: 'period' },
+                    { label: 'Change', value: 'change' },
+                  ],
+                  defaultOption: 'period',
+                },
+                depth: {
+                  options: [{ label: '0-30 cm', value: '0' }],
+                  defaultOption: '0',
+                },
+                scenario: {
+                  options: [{ label: 'Default', value: '0' }],
+                  defaultOption: '0',
+                },
+                year: {
+                  options: [
+                    { label: '2030', value: '2030' },
+                    { label: '2040', value: '2040' },
+                    { label: '2050', value: '2050' },
+                  ],
+                  defaultOption: '2030',
+                },
+              },
+            },
+          ],
+          defaultOption: 'recent',
+        },
       },
     },
     config: {
       type: 'raster',
-      // If you update the default params, remember to update the ones of getLayerExtraParams too
+      // If you update the default params, remember to update the ones of paramsConfig above too
       source: ({
         type = 'recent',
         mode = 'timeseries',
@@ -651,19 +729,88 @@ export const LAYERS = {
       [-53.628348965, -21.8323104794],
     ],
     paramsConfig: {
-      years: [1982, 2017],
-      depths: {
-        0: '0-5 cm',
-        1: '5-15 cm',
-        2: '15-30 cm',
-        3: '30-60 cm',
-        4: '60-100 cm',
-        5: '100-200 cm',
+      settings: {
+        type: {
+          options: [
+            {
+              label: 'concentration',
+              value: 'concentration',
+              settings: {
+                mode: {
+                  options: [
+                    { label: 'Time Series', value: 'timeseries' },
+                    { label: 'Change', value: 'change' },
+                  ],
+                  defaultOption: 'timeseries',
+                },
+                depth: {
+                  options: [
+                    { label: '0-5 cm', value: '0' },
+                    { label: '5-15 cm', value: '1' },
+                    { label: '15-30 cm', value: '2' },
+                    { label: '30-60 cm', value: '3' },
+                    { label: '60-100 cm', value: '4' },
+                    { label: '100-200 cm', value: '5' },
+                  ],
+                  defaultOption: '0',
+                },
+                year1: {
+                  options: [{ label: '1982', value: 1982 }],
+                  defaultOption: 1982,
+                },
+                year2: {
+                  options: [{ label: '2017', value: 2017 }],
+                  defaultOption: 2017,
+                },
+                year: {
+                  options: new Array(2017 - 1982 + 1).fill(null).map((_, index) => ({
+                    label: `${1982 + index}`,
+                    value: `${1982 + index}`,
+                  })),
+                  defaultOption: '2017',
+                },
+              },
+            },
+            {
+              label: 'stock',
+              value: 'stock',
+              settings: {
+                mode: {
+                  options: [
+                    { label: 'Time Series', value: 'timeseries' },
+                    { label: 'Change', value: 'change' },
+                  ],
+                  defaultOption: 'timeseries',
+                },
+                depth: {
+                  options: [{ label: '0-30 cm', value: '0' }],
+                  defaultOption: '0',
+                },
+                year1: {
+                  options: [{ label: '1982', value: 1982 }],
+                  defaultOption: 1982,
+                },
+                year2: {
+                  options: [{ label: '2017', value: 2017 }],
+                  defaultOption: 2017,
+                },
+                year: {
+                  options: new Array(2017 - 1982 + 1).fill(null).map((_, index) => ({
+                    label: `${1982 + index}`,
+                    value: `${1982 + index}`,
+                  })),
+                  defaultOption: '2017',
+                },
+              },
+            },
+          ],
+          defaultOption: 'concentration',
+        },
       },
     },
     config: {
       type: 'raster',
-      // If you update the default params, remember to update the ones of getLayerExtraParams too
+      // If you update the default params, remember to update the ones of paramsConfig above too
       source: ({
         type = 'concentration',
         depth = 0,

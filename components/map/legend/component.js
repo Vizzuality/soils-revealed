@@ -58,10 +58,7 @@ const Legend = ({
                   onClick={() =>
                     onClickInfo({
                       id: layer.id,
-                      tab:
-                        layer.id === 'soc-stock'
-                          ? layer.layers[0].extraParams?.type ?? 'recent'
-                          : null,
+                      tab: layer.id === 'soc-stock' ? layer.layers[0].extraParams.type : null,
                     })
                   }
                 >

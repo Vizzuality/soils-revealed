@@ -11,25 +11,21 @@ const TimeseriesSection = ({ legendLayers, updateLayer }) => {
     [legendLayers]
   );
 
-  const mode = useMemo(() => {
-    if (socLayerGroup.id !== 'soc-stock' || socLayerGroup.layers[0].extraParams.type === 'recent') {
-      return {
-        label: 'Time Series',
-        value: 'timeseries',
-      };
-    }
-
-    return {
-      label: 'Period',
-      value: 'period',
-    };
+  const modeOptions = useMemo(() => {
+    const typeOption = socLayerGroup.layers[0].extraParams.config.settings.type.options.find(
+      option => option.value === socLayerGroup.layers[0].extraParams.type
+    );
+    return typeOption.settings.mode.options;
   }, [socLayerGroup]);
 
   const onChangeMode = useCallback(() => {
-    const newMode = socLayerGroup.layers[0].extraParams.mode === mode.value ? 'change' : mode.value;
+    const newMode =
+      socLayerGroup.layers[0].extraParams.mode === modeOptions[0].value
+        ? modeOptions[1].value
+        : modeOptions[0].value;
 
     updateLayer({ id: socLayerGroup.id, mode: newMode });
-  }, [socLayerGroup, mode, updateLayer]);
+  }, [socLayerGroup, modeOptions, updateLayer]);
 
   const data = [
     { year: 1982, value: 42 },
@@ -48,10 +44,10 @@ const TimeseriesSection = ({ legendLayers, updateLayer }) => {
         onChangeParams={(id, params) => updateLayer({ id, ...params })}
       />
       <header className="mt-2">
-        <h4>{mode.label}</h4>
+        <h4>{modeOptions[0].label}</h4>
         <Switch
           id="analysis-timeseries-toggle"
-          checked={socLayerGroup.layers[0].extraParams.mode === mode.value}
+          checked={socLayerGroup.layers[0].extraParams.mode === modeOptions[0].value}
           onChange={onChangeMode}
           className="-label-left"
         >

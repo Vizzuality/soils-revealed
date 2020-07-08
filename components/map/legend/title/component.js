@@ -3,17 +3,6 @@ import PropTypes from 'prop-types';
 
 import { Dropdown } from 'components/forms';
 
-const SOC_EXPERIMENTAL_OPTIONS = [
-  {
-    label: 'stock',
-    value: 'stock',
-  },
-  {
-    label: 'concentration',
-    value: 'concentration',
-  },
-];
-
 const LegendTitle = ({ layerGroup, onChangeParams }) => {
   const layer = layerGroup.layers[0];
 
@@ -22,8 +11,10 @@ const LegendTitle = ({ layerGroup, onChangeParams }) => {
       <div className="c-map-legend-title">
         Soil organic carbon
         <Dropdown
-          options={SOC_EXPERIMENTAL_OPTIONS}
-          value={SOC_EXPERIMENTAL_OPTIONS.find(o => o.value === layer.extraParams.type)}
+          options={layer.extraParams.config.settings.type.options}
+          value={layer.extraParams.config.settings.type.options.find(
+            o => o.value === layer.extraParams.type
+          )}
           onChange={({ value }) => onChangeParams(layerGroup.id, { type: value })}
         />
       </div>

@@ -187,31 +187,28 @@ export const toggleRoads = (map, showRoads) => {
 };
 
 export const getLayerExtraParams = (layer, layerConfig) => {
-  if (layer.id === 'soc-experimental') {
-    // The default values must be in sync with the default params values of the source function
-    // of the layer in components/map/constants.js
+  if (layer.id === 'soc-experimental' || layer.id === 'soc-stock') {
     return {
       config: layer.paramsConfig,
-      type: layerConfig.type || 'concentration',
-      depth: layerConfig.depth || 0,
-      mode: layerConfig.mode || 'timeseries',
-      year: layerConfig.year || 2017,
-      year1: layerConfig.year1 || 1982,
-      year2: layerConfig.year2 || 2017,
-    };
-  } else if (layer.id === 'soc-stock') {
-    // The default values must be in sync with the default params values of the source function
-    // of the layer in components/map/constants.js
-    return {
-      config: layer.paramsConfig,
-      type: layerConfig.type || 'recent',
-      mode: layerConfig.mode || 'timeseries',
-      period: layerConfig.period || 'historic',
-      year: layerConfig.year || 2018,
-      year1: layerConfig.year1 || 2000,
-      year2: layerConfig.year2 || 2018,
-      scenario: layerConfig.scenario || '0',
-      depth: layerConfig.depth || 0,
+      // We only support two levels of nesting otherwise we'd need to recurse
+      ...Object.keys(layer.paramsConfig.settings).reduce((res, key) => {
+        const value = layerConfig[key] || layer.paramsConfig.settings[key].defaultOption;
+        const { settings } = layer.paramsConfig.settings[key].options.find(
+          option => option.value === value
+        );
+
+        return {
+          ...res,
+          [key]: value,
+          ...Object.keys(settings ?? {}).reduce(
+            (res2, key2) => ({
+              ...res2,
+              [key2]: layerConfig[key2] || settings[key2].defaultOption,
+            }),
+            {}
+          ),
+        };
+      }, {}),
     };
   }
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { LegendItemTypes, LegendItemTimeStep } from 'vizzuality-components';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
@@ -53,19 +53,47 @@ const LEGEND_ITEMS = {
 const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
   const layer = layerGroup.layers[0];
 
-  const depthOptions = Object.keys(layer.extraParams.config.depths).map(key => ({
-    label: layer.extraParams.config.depths[key],
-    value: key,
-  }));
+  const typeOptions = useMemo(() => layer.extraParams.config.settings.type.options, [layer]);
 
-  const yearOptions = Array(
-    layer.extraParams.config.years[1] - layer.extraParams.config.years[0] + 1
-  )
-    .fill(null)
-    .map((_, index) => ({
-      label: `${layer.extraParams.config.years[0] + index}`,
-      value: `${layer.extraParams.config.years[0] + index}`,
-    }));
+  const selectedTypeIndex = useMemo(
+    () => typeOptions.findIndex(option => option.value === layer.extraParams.type),
+    [layer, typeOptions]
+  );
+
+  const modeOptions = useMemo(
+    () =>
+      layer.extraParams.config.settings.type.options.find(
+        option => option.value === layer.extraParams.type
+      )?.settings.mode.options ?? [],
+    [layer]
+  );
+
+  const selectedModeIndex = useMemo(
+    () => modeOptions.findIndex(option => option.value === layer.extraParams.mode),
+    [layer, modeOptions]
+  );
+
+  const onChangeMode = useCallback(
+    index => {
+      const mode = modeOptions[index].value;
+      onChangeParams(layerGroup.id, { mode });
+    },
+    [modeOptions, layerGroup, onChangeParams]
+  );
+
+  // const depthOptions = Object.keys(layer.extraParams.config.depths).map(key => ({
+  //   label: layer.extraParams.config.depths[key],
+  //   value: key,
+  // }));
+
+  // const yearOptions = Array(
+  //   layer.extraParams.config.years[1] - layer.extraParams.config.years[0] + 1
+  // )
+  //   .fill(null)
+  //   .map((_, index) => ({
+  //     label: `${layer.extraParams.config.years[0] + index}`,
+  //     value: `${layer.extraParams.config.years[0] + index}`,
+  //   }));
 
   return (
     <div className="c-map-legend-soc-experimental">
@@ -81,31 +109,29 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
         <div className="unit">(t C/ha)</div>
       </div>
 
-      <Tabs
-        selectedIndex={layer.extraParams.mode === 'timeseries' ? 0 : 1}
-        onSelect={index =>
-          onChangeParams(layerGroup.id, { mode: index === 0 ? 'timeseries' : 'change' })
-        }
-      >
+      <Tabs selectedIndex={selectedModeIndex} onSelect={onChangeMode}>
         <TabList>
-          <Tab>Time Series</Tab>
-          <Tab>Change</Tab>
+          {modeOptions.map(option => (
+            <Tab key={option.value}>{option.label}</Tab>
+          ))}
           <div className="depth-dropdown">
-            {layer.extraParams.type === 'stock' && (
+            {typeOptions[selectedTypeIndex].settings.depth.options.length === 1 && (
               <>
                 Soil depth:
-                <span className="d-inline-block ml-1 font-weight-bold">0-30 cm</span>
+                <span className="d-inline-block ml-1 font-weight-bold">
+                  {typeOptions[selectedTypeIndex].settings.depth.options[0].label}
+                </span>
               </>
             )}
-            {layer.extraParams.type === 'concentration' && (
+            {typeOptions[selectedTypeIndex].settings.depth.options.length > 1 && (
               <>
                 <label htmlFor="legend-depth">Soil depth:</label>
                 <Select
                   id="legend-depth"
                   className="ml-2"
-                  options={depthOptions}
-                  value={`${layer.extraParams.depth}`}
-                  onChange={({ value }) => onChangeParams(layerGroup.id, { depth: +value })}
+                  options={typeOptions[selectedTypeIndex].settings.depth.options}
+                  value={layer.extraParams.depth}
+                  onChange={({ value }) => onChangeParams(layerGroup.id, { depth: value })}
                 />
               </>
             )}
@@ -118,11 +144,11 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
                 range: false,
                 interval: 'years',
                 dateFormat: 'YYYY',
-                minDate: `${layer.extraParams.config.years[0]}-01-01`,
-                maxDate: `${layer.extraParams.config.years[1]}-12-31`,
-                startDate: `${layer.extraParams.config.years[0]}-01-01`,
+                minDate: `${typeOptions[1].settings.year1.defaultOption}-01-01`,
+                maxDate: `${typeOptions[1].settings.year2.defaultOption}-12-31`,
+                startDate: `${typeOptions[1].settings.year1.defaultOption}-01-01`,
                 endDate: `${layer.extraParams.year}-01-01`,
-                trimEndDate: `${layer.extraParams.config.years[1]}-12-31`,
+                trimEndDate: `${typeOptions[1].settings.year2.defaultOption}-12-31`,
               },
             }}
             handleChange={dates => onChangeParams(layerGroup.id, { year: +dates[1].split('-')[0] })}
@@ -132,9 +158,9 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
           <div className="change-year d-inline-block mr-4">
             <label htmlFor="legend-from">From:</label>
             <Select
-              id="legend-from"
+              id="legend-recent-from"
               className="ml-2"
-              options={yearOptions.map(o => ({
+              options={typeOptions[selectedTypeIndex].settings.year.options.map(o => ({
                 ...o,
                 disabled: +o.value >= layer.extraParams.year2,
               }))}
@@ -145,9 +171,9 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
           <div className="change-year d-inline-block">
             <label htmlFor="legend-to">To:</label>
             <Select
-              id="legend-to"
+              id="legend-recent-to"
               className="ml-2"
-              options={yearOptions.map(o => ({
+              options={typeOptions[selectedTypeIndex].settings.year.options.map(o => ({
                 ...o,
                 disabled: +o.value <= layer.extraParams.year1,
               }))}
