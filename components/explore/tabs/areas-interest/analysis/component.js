@@ -35,44 +35,50 @@ const Analysis = ({ areasInterest, legendLayers, updateLayer, onClickInfo }) => 
 
   return (
     <div className="c-areas-interest-tab-analysis">
-      <h3 className="mb-4">{areasInterest.name ?? '−'}</h3>
-      <header>
-        {socLayerGroup.layers[0].name}
-        <button
-          type="button"
-          className="btn"
-          onClick={() =>
-            onClickInfo({
-              id: socLayerGroup.id,
-              tab:
-                socLayerGroup.id === 'soc-stock' ? socLayerGroup.layers[0].extraParams.type : null,
-            })
-          }
-        >
-          <Icon name="info" />
-        </button>
-      </header>
-      {socLayerGroup.id === 'soc-stock' && (
-        <div className="soc-stock-switcher mt-2">
-          {typeOptions.map(option => (
-            <Radio
-              key={option.value}
-              id={`analysis-soc-stock-${option.value}`}
-              name="analysis-soc-stock"
-              checked={option.value === socLayerGroup.layers[0].extraParams.type}
-              className={
-                option.value === socLayerGroup.layers[0].extraParams.type ? '-checked' : undefined
-              }
-              onChange={() => onChangeType(option.value)}
-            >
-              {option.label}
-            </Radio>
-          ))}
-        </div>
-      )}
-      {(socLayerGroup.id !== 'soc-stock' ||
-        socLayerGroup.layers[0].extraParams.type === 'recent') && <TimeseriesSection />}
-      <ChangeSection />
+      <div className="static-container">
+        <h3 className="mb-4">{areasInterest.name ?? '−'}</h3>
+        <header>
+          {socLayerGroup.layers[0].name}
+          <button
+            type="button"
+            className="btn"
+            onClick={() =>
+              onClickInfo({
+                id: socLayerGroup.id,
+                tab:
+                  socLayerGroup.id === 'soc-stock'
+                    ? socLayerGroup.layers[0].extraParams.type
+                    : null,
+              })
+            }
+          >
+            <Icon name="info" />
+          </button>
+        </header>
+      </div>
+      <div className="scrollable-container">
+        {socLayerGroup.id === 'soc-stock' && (
+          <div className="soc-stock-switcher mt-2">
+            {typeOptions.map(option => (
+              <Radio
+                key={option.value}
+                id={`analysis-soc-stock-${option.value}`}
+                name="analysis-soc-stock"
+                checked={option.value === socLayerGroup.layers[0].extraParams.type}
+                className={
+                  option.value === socLayerGroup.layers[0].extraParams.type ? '-checked' : undefined
+                }
+                onChange={() => onChangeType(option.value)}
+              >
+                {option.label}
+              </Radio>
+            ))}
+          </div>
+        )}
+        {(socLayerGroup.id !== 'soc-stock' ||
+          socLayerGroup.layers[0].extraParams.type === 'recent') && <TimeseriesSection />}
+        <ChangeSection />
+      </div>
     </div>
   );
 };

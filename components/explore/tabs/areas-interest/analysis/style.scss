@@ -1,6 +1,13 @@
 @import 'css/settings';
 
 .c-areas-interest-tab-analysis {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - #{map-get($spacers, 3) + rem(125)});
+  margin: #{-1 * map-get($spacers, 3)}; // This is needed so the separators take the full width
+  padding: map-get($spacers, 3);
+  overflow: hidden;
+
   header {
     display: flex;
     justify-content: space-between;
@@ -30,19 +37,46 @@
 
   section {
     position: relative;
-    margin-top: map-get($spacers, 3);
-    padding: map-get($spacers, 3) 0;
+    padding: map-get($spacers, 4) 0;
 
-    &:before {
+    &:last-of-type:after {
+      content: none;
+    }
+
+    &:after {
       display: block;
       position: absolute;
-      top: 0;
+      bottom: 0;
       left: -#{map-get($spacers, 3)};
       width: calc(100% + #{2 * map-get($spacers, 3)});
       height: rem(1);
       background-color: $border-color-1;
       content: '';
     }
+  }
+
+  .static-container {
+    flex-shrink: 0;
+    position: relative;
+    padding-bottom: map-get($spacers, 4);
+
+    &:after {
+      display: block;
+      position: absolute;
+      bottom: 0;
+      left: -#{map-get($spacers, 3)};
+      width: calc(100% + #{2 * map-get($spacers, 3)});
+      height: rem(1);
+      background-color: $border-color-1;
+      content: '';
+    }
+  }
+
+  .scrollable-container {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin: 0 #{-1 * map-get($spacers, 3)}; // This is needed so the separators take the full width
+    padding: 0 map-get($spacers, 3);
   }
 
   .soc-stock-switcher {
