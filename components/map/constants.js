@@ -50,6 +50,8 @@ export const BOUNDARIES = {
   'political-boundaries': {
     label: 'Political boundaries',
     noun: 'political boundary',
+    table: 'political_boundaries',
+    geoId: 'id',
     config: {
       type: 'vector',
       source: {
@@ -140,6 +142,8 @@ export const BOUNDARIES = {
   landforms: {
     label: 'Landforms',
     noun: 'landform',
+    table: 'landforms',
+    geoId: 'ne_id',
     config: {
       type: 'vector',
       source: {
@@ -306,6 +310,8 @@ export const BOUNDARIES = {
   'river-basins': {
     label: 'River basins',
     noun: 'river basin',
+    table: 'hydrological_basins',
+    geoId: 'id',
     config: {
       type: 'vector',
       source: {
@@ -385,6 +391,8 @@ export const BOUNDARIES = {
   biomes: {
     label: 'Biomes',
     noun: 'biome',
+    table: 'biomes',
+    geoId: 'eco_id',
     config: {
       type: 'vector',
       source: {

@@ -70,7 +70,8 @@ const Analysis = ({ areasInterest, legendLayers, updateLayer, onClickInfo }) => 
           ))}
         </div>
       )}
-      <TimeseriesSection />
+      {(socLayerGroup.id !== 'soc-stock' ||
+        socLayerGroup.layers[0].extraParams.type === 'recent') && <TimeseriesSection />}
       <ChangeSection />
     </div>
   );
