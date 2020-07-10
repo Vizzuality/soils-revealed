@@ -15,7 +15,7 @@ const LegendTitle = ({ layerGroup, onChangeParams }) => {
           value={layer.extraParams.config.settings.type.options.find(
             o => o.value === layer.extraParams.type
           )}
-          onChange={({ value }) => onChangeParams(layerGroup.id, { type: value })}
+          onChange={({ value }) => onChangeParams(layerGroup.id, { type: value, depth: 0 })}
         />
       </div>
     );
