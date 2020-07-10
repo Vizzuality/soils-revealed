@@ -117,6 +117,18 @@
     }
   }
 
+  .chart-intro {
+    margin: map-get($spacers, 2) 0 map-get($spacers, 4);
+    font-family: $font-family-2;
+    @include font-size($font-size-s);
+
+    .c-dropdown {
+      .target-button {
+        font-size: inherit;
+      }
+    }
+  }
+
   .recharts-responsive-container {
     font-family: $font-family-2;
 
