@@ -163,7 +163,7 @@
         @include font-size($font-size-xxs);
         fill: $primary;
 
-        rect {
+        rect.background {
           fill: #dddedb;
         }
 
@@ -174,7 +174,8 @@
       }
     }
 
-    .recharts-cartesian-grid {
+    .recharts-cartesian-grid,
+    .recharts-reference-line {
       stroke: rgba($primary, 0.2);
     }
 

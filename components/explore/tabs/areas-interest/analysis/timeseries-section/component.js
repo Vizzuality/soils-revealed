@@ -196,6 +196,7 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
                     return (
                       <g className="recharts-text recharts-legend">
                         <rect
+                          className="background"
                           width={100}
                           height={22}
                           x={viewBox.x}
