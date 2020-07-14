@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Icon from 'components/icon';
+import Home from './home';
 import Analysis from './analysis';
 
 import './style.scss';
@@ -11,16 +12,7 @@ const ExploreAreasInterestTab = ({ areasInterest, onClose, onClickInfo }) => (
     <button type="button" className="btn btn-outline-primary close-button" onClick={onClose}>
       <Icon name="close" />
     </button>
-    {!areasInterest && (
-      <>
-        <h3>Areas of interest</h3>
-        <div className="alert alert-primary" role="alert">
-          Coming soon!
-          <br />
-          This feature is currently under development.
-        </div>
-      </>
-    )}
+    {!areasInterest && <Home />}
     {!!areasInterest && <Analysis onClickInfo={onClickInfo} />}
   </div>
 );

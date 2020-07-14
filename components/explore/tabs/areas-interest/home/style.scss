@@ -1,0 +1,49 @@
+@import 'css/settings';
+
+.c-areas-interest-home {
+  input[type='search'] {
+    padding-left: 0;
+    padding-right: map-get($spacers, 4);
+    border: none;
+    border-bottom: rem(1) solid $primary;
+    border-radius: 0;
+    background-color: $body-bg;
+    background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkiIGhlaWdodD0iMTkiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMSAxKSIgc3Ryb2tlPSIjMUEyMDNDIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSI+PHBhdGggZD0iTTE2IDE2bC01LjA3NS01LjA3NSIvPjxjaXJjbGUgY3g9IjYuNCIgY3k9IjYuNCIgcj0iNi40Ii8+PC9nPjwvc3ZnPg==')
+      no-repeat center right;
+  }
+
+  .search-results {
+    max-height: rem(240);
+    margin: 0 #{-1 * map-get($spacers, 3)} map-get($spacers, 3);
+    padding: 0 map-get($spacers, 3);
+    overflow-y: auto;
+
+    .row {
+      padding: map-get($spacers, 1) 0;
+
+      > div:first-of-type {
+        display: flex;
+        align-items: center;
+        .btn-link {
+          padding: 0;
+          font-family: $font-family-1;
+          @include font-size($font-size-base);
+          letter-spacing: initial;
+          text-align: left;
+          text-transform: none;
+          text-decoration: underline;
+          color: $text-color-1;
+          border: 0;
+        }
+      }
+
+      > div:last-of-type {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        font-family: $font-family-2;
+        @include font-size($font-size-xxs);
+      }
+    }
+  }
+}

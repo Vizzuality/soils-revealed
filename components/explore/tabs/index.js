@@ -6,9 +6,9 @@ import Component from './component';
 export default connect(
   state => ({
     showTour: exploreSelectors.selectShowTour(state),
-    areasInterest: analysisSelectors.selectAreaInterest(state),
+    areaInterest: analysisSelectors.selectAreaInterest(state),
   }),
   {
-    updateAreasInterest: analysisActions.updateAreaInterest,
+    updateAreaInterest: analysisActions.updateAreaInterest,
   }
 )(Component);
