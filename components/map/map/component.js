@@ -69,6 +69,45 @@ const Comp = (
     [loaded, map.current, setInternalViewport, onViewportChange]
   );
 
+  const onChangeSource = useCallback(
+    (forceReload = false) => {
+      if (map && loaded) {
+        if (forceReload || featureStates !== previousFeatureStates.current) {
+          // First of all, we remove all of the previous feature states
+          previousFeatureStates.current.forEach(({ source, sourceLayer }) => {
+            const sourceObj = map.current.getMap().getSource(source);
+
+            if (sourceObj) {
+              map.current.getMap().removeFeatureState({
+                source,
+                sourceLayer,
+              });
+            }
+          });
+
+          // Then, we add the new ones
+          featureStates.forEach(({ source, sourceLayer, id, state }) => {
+            const sourceObj = map.current.getMap().getSource(source);
+
+            if (sourceObj) {
+              map.current.getMap().setFeatureState(
+                {
+                  source,
+                  sourceLayer,
+                  id,
+                },
+                state
+              );
+            }
+          });
+
+          previousFeatureStates.current = featureStates;
+        }
+      }
+    },
+    [loaded, featureStates]
+  );
+
   useEffect(() => {
     if (viewport !== previousViewport) {
       setInternalViewport(v => ({ ...v, ...viewport }));
@@ -78,40 +117,25 @@ const Comp = (
 
   // This effect toggles on and off the feature states whenever they are updated
   useEffect(() => {
+    onChangeSource();
+  }, [loaded, featureStates, onChangeSource]);
+
+  // This effects makes sure that if the sources change, we toggle on and off the feature states
+  useEffect(() => {
+    const callback = () => onChangeSource(true);
+
+    let mapRef;
     if (map && loaded) {
-      if (featureStates !== previousFeatureStates.current) {
-        // First of all, we remove all of the previous feature states
-        previousFeatureStates.current.forEach(({ source, sourceLayer }) => {
-          const sourceObj = map.current.getMap().getSource(source);
-
-          if (sourceObj) {
-            map.current.getMap().removeFeatureState({
-              source,
-              sourceLayer,
-            });
-          }
-        });
-
-        // Then, we add the new ones
-        featureStates.forEach(({ source, sourceLayer, id, state }) => {
-          const sourceObj = map.current.getMap().getSource(source);
-
-          if (sourceObj) {
-            map.current.getMap().setFeatureState(
-              {
-                source,
-                sourceLayer,
-                id,
-              },
-              state
-            );
-          }
-        });
-
-        previousFeatureStates.current = featureStates;
-      }
+      mapRef = map.current;
+      mapRef.getMap().on('sourcedata', callback);
     }
-  }, [loaded, featureStates]);
+
+    return () => {
+      if (mapRef && loaded) {
+        mapRef.getMap().off('sourcedata', callback);
+      }
+    };
+  }, [loaded, onChangeSource]);
 
   return (
     <div ref={mapContainer} className={['c-map', ...(className ? [className] : [])].join(' ')}>
