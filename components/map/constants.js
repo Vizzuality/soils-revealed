@@ -1,6 +1,11 @@
-export const mapStyle = 'mapbox://styles/tncsoilscience/ck9wlqrzv0kfq1jljzyls86g8';
+/**
+ * This file is both loaded by the front-end and the back-end (the internal API)
+ * This file must not import any external resource and must use a CommonJS module syntax
+ */
 
-export const BASEMAPS = {
+exports.mapStyle = 'mapbox://styles/tncsoilscience/ck9wlqrzv0kfq1jljzyls86g8';
+
+exports.BASEMAPS = {
   light: {
     label: 'Light',
     image: '/images/basemap-light.png',
@@ -43,7 +48,7 @@ export const BASEMAPS = {
   },
 };
 
-export const BOUNDARIES = {
+exports.BOUNDARIES = {
   'no-boundaries': {
     label: 'No boundaries',
   },
@@ -534,7 +539,7 @@ export const BOUNDARIES = {
   },
 };
 
-export const LAYERS = {
+exports.LAYERS = {
   'soc-stock': {
     label: 'Soil organic carbon stock',
     description: {
@@ -1714,13 +1719,13 @@ export const LAYERS = {
   },
 };
 
-export const LAYER_GROUPS = {
+exports.LAYER_GROUPS = {
   soc: 'Soil layers',
   'land-use': 'Land use',
   others: 'Other layers',
 };
 
-export const ATTRIBUTIONS = {
+exports.ATTRIBUTIONS = {
   rw:
     'Powered by <a href="https://resourcewatch.org/" target="_blank" rel="noopener noreferrer">Resource Watch</a>',
 };
