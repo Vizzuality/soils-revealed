@@ -62,6 +62,43 @@ export const selectDataLayers = () => LAYERS;
 
 export const selectActiveDataLayers = createSelector([selectLayers], layers => Object.keys(layers));
 
+export const selectSOCLayerId = createSelector([selectActiveDataLayers], activeDataLayers =>
+  activeDataLayers.indexOf('soc-stock') !== -1 ? 'soc-stock' : 'soc-experimental'
+);
+
+export const selectRankingBoundariesOptions = createSelector([selectSOCLayerId], socLayerId => {
+  let keys = Object.keys(BOUNDARIES).filter(key => key !== 'no-boundaries');
+
+  if (socLayerId !== 'soc-stock') {
+    keys = keys.filter(key => key !== 'political-boundaries');
+  }
+
+  return keys.map(key => ({
+    label:
+      key !== 'political-boundaries'
+        ? BOUNDARIES[key].noun.replace(/^\w/, c => c.toUpperCase())
+        : 'Country',
+    value: key,
+  }));
+});
+
+export const selectRankingBoundaries = createSelector(
+  [selectSOCLayerId, selectBoundaries],
+  (socLayerId, boundaries) => {
+    if (socLayerId !== 'soc-stock') {
+      if (boundaries === 'no-boundaries' || boundaries === 'political-boundaries') {
+        return 'landforms';
+      }
+    }
+
+    if (boundaries === 'no-boundaries') {
+      return 'political-boundaries';
+    }
+
+    return boundaries;
+  }
+);
+
 export const selectDataLayersByGroup = createSelector(
   [selectDataLayers, selectActiveDataLayers],
   (dataLayers, activeDataLayers) => {

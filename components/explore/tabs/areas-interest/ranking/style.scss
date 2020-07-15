@@ -1,0 +1,56 @@
+@import 'css/settings';
+
+.c-areas-interest-ranking {
+  .ranking {
+    margin: 0 #{-1 * map-get($spacers, 3)};
+    padding: 0 map-get($spacers, 3);
+    counter-reset: areas-interest-ranking;
+
+    .row {
+      padding: map-get($spacers, 1) 0;
+
+      > div:first-of-type {
+        display: flex;
+        align-items: center;
+
+        &:before {
+          flex-shrink: 0;
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          width: rem(25);
+          height: rem(25);
+          margin-right: map-get($spacers, 2);
+          background-color: #ffc112;
+          border: rem(2) solid $primary;
+          border-radius: 100%;
+          vertical-align: middle;
+          font-family: $font-family-2;
+          @include font-size($font-size-xxs);
+          counter-increment: areas-interest-ranking;
+          content: counter(areas-interest-ranking);
+        }
+
+        .btn-link {
+          padding: 0;
+          font-family: $font-family-1;
+          @include font-size($font-size-base);
+          letter-spacing: initial;
+          text-align: left;
+          text-transform: none;
+          text-decoration: underline;
+          color: $text-color-1;
+          border: 0;
+        }
+      }
+
+      > div:last-of-type {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+        font-family: $font-family-2;
+        @include font-size($font-size-xxs);
+      }
+    }
+  }
+}

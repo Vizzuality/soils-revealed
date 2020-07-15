@@ -1,18 +1,16 @@
 import { connect } from 'react-redux';
 
-import { mapSelectors, mapActions, analysisActions } from 'modules/explore';
+import { analysisActions, mapActions, mapSelectors } from 'modules/explore';
 import Component from './component';
 
 export default connect(
   state => ({
-    legendLayers: mapSelectors.selectLegendDataLayers(state),
     boundaries: mapSelectors.selectBoundaries(state),
     rankingBoundaries: mapSelectors.selectRankingBoundaries(state),
-    rankingBoundariesOptions: mapSelectors.selectRankingBoundariesOptions(state),
+    legendLayers: mapSelectors.selectLegendDataLayers(state),
   }),
   {
     updateBoundaries: mapActions.updateBoundaries,
     updateAreaInterest: analysisActions.updateAreaInterest,
-    updateLayer: mapActions.updateLayer,
   }
 )(Component);
