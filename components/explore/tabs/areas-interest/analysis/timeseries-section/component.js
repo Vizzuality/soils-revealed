@@ -1,42 +1,13 @@
-import React, { useMemo, useCallback, useReducer, useEffect, useState } from 'react';
+import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ResponsiveContainer, LineChart, XAxis, YAxis, CartesianGrid, Line, Label } from 'recharts';
 
 import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import LegendTitle from 'components/map/legend/title';
-import { BOUNDARIES } from 'components/map';
-import { fetchChartData } from './helpers';
-
-const dataReducer = (state, action) => {
-  switch (action.type) {
-    case 'FETCH_INIT':
-      return { ...state, loading: true, error: false, refetch: false };
-    case 'FETCH_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-        error: false,
-        data: action.payload,
-      };
-    case 'FETCH_FAILURE':
-      return { ...state, loading: false, error: true };
-
-    default:
-      return state;
-  }
-};
+import { useTimeseries } from './helpers';
 
 const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) => {
-  /**
-   * @type {[any, (action: any) => void]}
-   */
-  const [dataState, dataDispatch] = useReducer(dataReducer, {
-    loading: true,
-    error: false,
-    data: null,
-  });
-
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
     [legendLayers]
@@ -50,13 +21,18 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
     [socLayerGroup]
   );
 
-  const depthOption = useMemo(
+  const depthIndex = useMemo(
     () =>
-      typeOption.settings.depth.options.find(
+      typeOption.settings.depth.options.findIndex(
         option => option.value === socLayerGroup.layers[0].extraParams.depth
       ),
     [typeOption, socLayerGroup]
   );
+
+  const depthOption = useMemo(() => typeOption.settings.depth.options[depthIndex], [
+    typeOption,
+    depthIndex,
+  ]);
 
   const modeOptions = useMemo(() => {
     return typeOption.settings.mode.options;
@@ -84,13 +60,21 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
     [typeOption, year1Option]
   );
 
+  const { data, error } = useTimeseries(
+    socLayerGroup.id,
+    typeOption.value,
+    boundaries,
+    depthIndex,
+    areaInterest.id
+  );
+
   const chartData = useMemo(() => {
-    if (!dataState.data?.length) {
+    if (!data?.length) {
       return [];
     }
 
-    return dataState.data.filter(d => d.year >= +year1Option.value && d.year <= +year2Option.value);
-  }, [dataState, year1Option, year2Option]);
+    return data.filter(d => d.year >= +year1Option.value && d.year <= +year2Option.value);
+  }, [data, year1Option, year2Option]);
 
   const onChangeMode = useCallback(() => {
     const newMode =
@@ -100,27 +84,6 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
 
     updateLayer({ id: socLayerGroup.id, mode: newMode });
   }, [socLayerGroup, modeOptions, updateLayer]);
-
-  useEffect(() => {
-    dataDispatch({ type: 'FETCH_INIT' });
-
-    fetchChartData({
-      table: BOUNDARIES[boundaries].table,
-      geoId: BOUNDARIES[boundaries].geoId,
-      areaInterest,
-      depth: depthOption,
-      variable:
-        socLayerGroup.id === 'soc-stock' || socLayerGroup.layers[0].extraParams.type === 'stock'
-          ? 'stocks'
-          : 'concentration',
-      group:
-        socLayerGroup.id === 'soc-stock'
-          ? socLayerGroup.layers[0].extraParams.type
-          : 'experimental_dataset',
-    })
-      .then(data => dataDispatch({ type: 'FETCH_SUCCESS', payload: data }))
-      .catch(() => dataDispatch({ type: 'FETCH_FAILURE' }));
-  }, [boundaries, areaInterest, typeOption, depthOption, socLayerGroup]);
 
   useEffect(() => {
     setYear1Option(
@@ -153,22 +116,22 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
           Display on map
         </Switch>
       </header>
-      {!!dataState.error && (
+      {!!error && (
         <div className="alert alert-danger mt-2" role="alert">
           Unable to fetch the data.
         </div>
       )}
-      {!dataState.error && dataState.loading && (!dataState.data || dataState.data.length === 0) && (
+      {!error && !chartData && (
         <div className="mt-2 text-center">
           <LoadingSpinner transparent inline />
         </div>
       )}
-      {!dataState.error && !dataState.loading && (!dataState.data || dataState.data.length === 0) && (
+      {!error && chartData?.length === 0 && (
         <div className="alert alert-primary mt-2" role="alert">
           No data available.
         </div>
       )}
-      {!dataState.error && dataState.data?.length > 0 && (
+      {!error && chartData?.length > 0 && (
         <>
           <div className="chart-intro">
             Soil organic carbon from

@@ -25,19 +25,19 @@ const AreasInterestRanking = ({
     [socLayerGroup]
   );
 
-  const depthOption = useMemo(
+  const depthIndex = useMemo(
     () =>
-      typeOption.settings.depth.options.find(
+      typeOption.settings.depth.options.findIndex(
         option => option.value === socLayerGroup.layers[0].extraParams.depth
       ),
     [typeOption, socLayerGroup]
   );
 
   const { data: results } = useRanking(
-    rankingBoundaries,
+    socLayerGroup.id,
     socLayerGroup.layers[0].extraParams.type,
-    depthOption,
-    socLayerGroup.id
+    rankingBoundaries,
+    depthIndex
   );
 
   const onClickArea = useCallback(

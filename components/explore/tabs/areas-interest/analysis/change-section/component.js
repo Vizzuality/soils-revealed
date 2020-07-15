@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useReducer, useEffect } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   ResponsiveContainer,
@@ -13,38 +13,9 @@ import {
 
 import { Switch } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
-import { BOUNDARIES } from 'components/map';
-import { fetchChartData } from './helpers';
-
-const dataReducer = (state, action) => {
-  switch (action.type) {
-    case 'FETCH_INIT':
-      return { ...state, loading: true, error: false, refetch: false };
-    case 'FETCH_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-        error: false,
-        data: action.payload,
-      };
-    case 'FETCH_FAILURE':
-      return { ...state, loading: false, error: true };
-
-    default:
-      return state;
-  }
-};
+import { useChange } from './helpers';
 
 const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) => {
-  /**
-   * @type {[any, (action: any) => void]}
-   */
-  const [dataState, dataDispatch] = useReducer(dataReducer, {
-    loading: true,
-    error: false,
-    data: null,
-  });
-
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
     [legendLayers]
@@ -58,9 +29,9 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
     [socLayerGroup]
   );
 
-  const depthOption = useMemo(
+  const depthIndex = useMemo(
     () =>
-      typeOption.settings.depth.options.find(
+      typeOption.settings.depth.options.findIndex(
         option => option.value === socLayerGroup.layers[0].extraParams.depth
       ),
     [typeOption, socLayerGroup]
@@ -73,13 +44,21 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
     return typeOption.settings.mode.options;
   }, [socLayerGroup]);
 
+  const { data, error } = useChange(
+    socLayerGroup.id,
+    typeOption.value,
+    boundaries,
+    depthIndex,
+    areaInterest.id
+  );
+
   const chartData = useMemo(() => {
-    if (!dataState.data?.length) {
+    if (!data?.length) {
       return [];
     }
 
-    return dataState.data;
-  }, [dataState]);
+    return data;
+  }, [data]);
 
   const onChangeMode = useCallback(() => {
     const newMode =
@@ -89,27 +68,6 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
 
     updateLayer({ id: socLayerGroup.id, mode: newMode });
   }, [socLayerGroup, modeOptions, updateLayer]);
-
-  useEffect(() => {
-    dataDispatch({ type: 'FETCH_INIT' });
-
-    fetchChartData({
-      table: BOUNDARIES[boundaries].table,
-      geoId: BOUNDARIES[boundaries].geoId,
-      areaInterest,
-      depth: depthOption,
-      variable:
-        socLayerGroup.id === 'soc-stock' || socLayerGroup.layers[0].extraParams.type === 'stock'
-          ? 'stocks'
-          : 'concentration',
-      group:
-        socLayerGroup.id === 'soc-stock'
-          ? socLayerGroup.layers[0].extraParams.type
-          : 'experimental_dataset',
-    })
-      .then(data => dataDispatch({ type: 'FETCH_SUCCESS', payload: data }))
-      .catch(() => dataDispatch({ type: 'FETCH_FAILURE' }));
-  }, [boundaries, areaInterest, typeOption, depthOption, socLayerGroup]);
 
   return (
     <section>
@@ -124,17 +82,17 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
           Display on map
         </Switch>
       </header>
-      {!!dataState.error && (
+      {!!error && (
         <div className="alert alert-danger mt-2" role="alert">
           Unable to fetch the data.
         </div>
       )}
-      {!dataState.error && dataState.loading && (!dataState.data || dataState.data.length === 0) && (
+      {!error && !chartData && (
         <div className="mt-2 text-center">
           <LoadingSpinner transparent inline />
         </div>
       )}
-      {!dataState.error && !dataState.loading && (!dataState.data || dataState.data.length === 0) && (
+      {!error && chartData?.length === 0 && (
         <div className="alert alert-primary mt-2" role="alert">
           No data available.
         </div>
@@ -142,7 +100,7 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
       <div className="alert alert-warning mt-2" role="alert">
         This feature is currently under development.
       </div>
-      {!dataState.error && dataState.data?.length > 0 && (
+      {!error && chartData?.length > 0 && (
         <ResponsiveContainer width="100%" aspect={1.3}>
           <BarChart
             data={chartData}

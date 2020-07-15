@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import useSWR from 'swr';
 
 export const useDesktop = () => {
   const [isDesktop, setIsDesktop] = useState(true);
@@ -20,4 +21,20 @@ export const useDesktop = () => {
   }, []);
 
   return isDesktop;
+};
+
+export { default as useSWR } from 'swr';
+
+export const useStickySWR = (url, fetcher) => {
+  const res = useRef();
+  const { data, ...rest } = useSWR(url, fetcher);
+
+  if (data !== undefined) {
+    res.current = data;
+  }
+
+  return {
+    ...rest,
+    data: res.current,
+  };
 };
