@@ -91,10 +91,11 @@ const AreasInterestHome = ({
           value={search}
           onChange={({ target }) => setSearch(target.value)}
         />
-      </div>
-
-      <div className="alert alert-warning mb-3" role="alert">
-        This feature is currently under development.
+        {debouncedSearch.length > 0 && !error && results?.length > 0 && (
+          <div className="search-results-count">
+            {results.length} result{results.length > 1 ? 's' : ''}
+          </div>
+        )}
       </div>
 
       {debouncedSearch.length > 0 && !!error && (
