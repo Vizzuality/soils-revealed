@@ -11,8 +11,10 @@ import {
   ReferenceLine,
 } from 'recharts';
 
+import { slugify } from 'utils/functions';
 import { Switch } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
+import HintButton from 'components/hint-button';
 import { useChange } from './helpers';
 
 const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) => {
@@ -69,18 +71,38 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
     updateLayer({ id: socLayerGroup.id, mode: newMode });
   }, [socLayerGroup, modeOptions, updateLayer]);
 
+  const onClickDownload = useCallback(() => {
+    const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${slugify(areaInterest.name)}-change-data.json`;
+    a.click();
+  }, [data, areaInterest]);
+
   return (
     <section>
       <header>
         <h4>{modeOptions[1].label}</h4>
-        <Switch
-          id="analysis-timeseries-toggle"
-          checked={socLayerGroup.layers[0].extraParams.mode === modeOptions[1].value}
-          onChange={onChangeMode}
-          className="-label-left"
-        >
-          Display on map
-        </Switch>
+        <div className="d-flex align-items-center">
+          <Switch
+            id="analysis-timeseries-toggle"
+            checked={socLayerGroup.layers[0].extraParams.mode === modeOptions[1].value}
+            onChange={onChangeMode}
+            className="-label-left"
+          >
+            Display on map
+          </Switch>
+          <HintButton
+            icon="download"
+            className="ml-3"
+            onClick={onClickDownload}
+            disabled={!chartData || chartData.length === 0}
+          >
+            Download data
+          </HintButton>
+        </div>
       </header>
       {!!error && (
         <div className="alert alert-danger mt-2" role="alert">

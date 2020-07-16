@@ -33,6 +33,13 @@
         text-transform: uppercase;
       }
     }
+
+    .c-hint-button {
+      .c-icon {
+        width: rem(16);
+        height: rem(16);
+      }
+    }
   }
 
   section {

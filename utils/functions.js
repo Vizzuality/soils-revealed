@@ -1,3 +1,5 @@
+import { default as slugifyExt } from 'slugify';
+
 /**
  * Serialize some state as a base64 string
  * @param {any} state State to serialize
@@ -22,3 +24,9 @@ export const deserialize = (string, defaultState = {}) => {
     return defaultState;
   }
 };
+
+/**
+ * Return a slug based on a string
+ * @param {string} string String to slugify
+ */
+export const slugify = string => slugifyExt(string).toLowerCase();

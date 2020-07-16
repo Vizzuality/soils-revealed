@@ -2,8 +2,10 @@ import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { ResponsiveContainer, LineChart, XAxis, YAxis, CartesianGrid, Line, Label } from 'recharts';
 
+import { slugify } from 'utils/functions';
 import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
+import HintButton from 'components/hint-button';
 import LegendTitle from 'components/map/legend/title';
 import { useTimeseries } from './helpers';
 
@@ -85,6 +87,16 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
     updateLayer({ id: socLayerGroup.id, mode: newMode });
   }, [socLayerGroup, modeOptions, updateLayer]);
 
+  const onClickDownload = useCallback(() => {
+    const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${slugify(areaInterest.name)}-timeseries-data.json`;
+    a.click();
+  }, [data, areaInterest]);
+
   useEffect(() => {
     setYear1Option(
       typeOption.settings.year.options.find(
@@ -107,14 +119,24 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
       />
       <header className="mt-2">
         <h4>{modeOptions[0].label}</h4>
-        <Switch
-          id="analysis-timeseries-toggle"
-          checked={socLayerGroup.layers[0].extraParams.mode === modeOptions[0].value}
-          onChange={onChangeMode}
-          className="-label-left"
-        >
-          Display on map
-        </Switch>
+        <div className="d-flex align-items-center">
+          <Switch
+            id="analysis-timeseries-toggle"
+            checked={socLayerGroup.layers[0].extraParams.mode === modeOptions[0].value}
+            onChange={onChangeMode}
+            className="-label-left"
+          >
+            Display on map
+          </Switch>
+          <HintButton
+            icon="download"
+            className="ml-3"
+            onClick={onClickDownload}
+            disabled={!chartData || chartData.length === 0}
+          >
+            Download data
+          </HintButton>
+        </div>
       </header>
       {!!error && (
         <div className="alert alert-danger mt-2" role="alert">

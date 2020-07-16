@@ -62,6 +62,7 @@
     "react-select": "^3.1.0",
     "react-tabs": "^3.1.0",
     "recharts": "^1.8.5",
+    "slugify": "^1.4.4",
     "swr": "^0.2.3",
     "viewport-mercator-project": "6.1.1",
     "vizzuality-components": "^3.0.1"
