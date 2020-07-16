@@ -1,8 +1,8 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { Switch } from 'components/forms';
-import InfoButton from 'components/info-button';
+import HintButton from 'components/hint-button';
 import { LAYERS } from 'components/map';
 
 import './style.scss';
@@ -41,7 +41,10 @@ const ExploreExperimentalDatasetToggle = ({
         checked={isToggledOn}
         onChange={onChange}
       >
-        Experimental dataset <InfoButton>{LAYERS['soc-experimental'].description}</InfoButton>
+        Experimental dataset{' '}
+        <HintButton icon="info" size="large">
+          {LAYERS['soc-experimental'].description}
+        </HintButton>
       </Switch>
     </div>
   );
