@@ -7,7 +7,7 @@ export default connect(
   state => ({
     boundaries: mapSelectors.selectBoundaries(state),
     rankingBoundaries: mapSelectors.selectRankingBoundaries(state),
-    legendLayers: mapSelectors.selectLegendDataLayers(state),
+    socLayerState: mapSelectors.selectSOCLayerState(state),
   }),
   {
     updateBoundaries: mapActions.updateBoundaries,

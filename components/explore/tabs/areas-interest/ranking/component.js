@@ -8,34 +8,27 @@ import './style.scss';
 const AreasInterestRanking = ({
   boundaries,
   rankingBoundaries,
-  legendLayers,
+  socLayerState,
   updateBoundaries,
   updateAreaInterest,
 }) => {
-  const socLayerGroup = useMemo(
-    () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
-    [legendLayers]
-  );
-
   const typeOption = useMemo(
     () =>
-      socLayerGroup.layers[0].extraParams.config.settings.type.options.find(
-        option => option.value === socLayerGroup.layers[0].extraParams.type
+      socLayerState.config.settings.type.options.find(
+        option => option.value === socLayerState.type
       ),
-    [socLayerGroup]
+    [socLayerState]
   );
 
   const depthIndex = useMemo(
     () =>
-      typeOption.settings.depth.options.findIndex(
-        option => option.value === socLayerGroup.layers[0].extraParams.depth
-      ),
-    [typeOption, socLayerGroup]
+      typeOption.settings.depth.options.findIndex(option => option.value === socLayerState.depth),
+    [typeOption, socLayerState]
   );
 
   const { data: results, error } = useRanking(
-    socLayerGroup.id,
-    socLayerGroup.layers[0].extraParams.type,
+    socLayerState.id,
+    socLayerState.type,
     rankingBoundaries,
     depthIndex
   );
@@ -99,7 +92,7 @@ const AreasInterestRanking = ({
 AreasInterestRanking.propTypes = {
   boundaries: PropTypes.string.isRequired,
   rankingBoundaries: PropTypes.string.isRequired,
-  legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  socLayerState: PropTypes.object.isRequired,
   updateBoundaries: PropTypes.func.isRequired,
   updateAreaInterest: PropTypes.func.isRequired,
 };

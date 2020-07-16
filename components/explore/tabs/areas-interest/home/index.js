@@ -5,7 +5,7 @@ import Component from './component';
 
 export default connect(
   state => ({
-    legendLayers: mapSelectors.selectLegendDataLayers(state),
+    socLayerState: mapSelectors.selectSOCLayerState(state),
     boundaries: mapSelectors.selectBoundaries(state),
     rankingBoundaries: mapSelectors.selectRankingBoundaries(state),
     rankingBoundariesOptions: mapSelectors.selectRankingBoundariesOptions(state),

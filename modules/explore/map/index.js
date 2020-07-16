@@ -82,6 +82,17 @@ export const selectRankingBoundariesOptions = createSelector([selectSOCLayerId],
   }));
 });
 
+export const selectSOCLayerState = createSelector(
+  [selectDataLayers, selectSOCLayerId, selectLayers],
+  (dataLayers, socLayerId, layers) => {
+    return {
+      id: socLayerId,
+      label: dataLayers[socLayerId].label,
+      ...getLayerExtraParams({ id: socLayerId, ...dataLayers[socLayerId] }, layers[socLayerId]),
+    };
+  }
+);
+
 export const selectRankingBoundaries = createSelector(
   [selectSOCLayerId, selectBoundaries],
   (socLayerId, boundaries) => {

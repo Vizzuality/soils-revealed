@@ -10,27 +10,19 @@ import ChangeSection from './change-section';
 
 import './style.scss';
 
-const Analysis = ({ areasInterest, legendLayers, updateLayer, onClickInfo }) => {
-  const socLayerGroup = useMemo(
-    () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
-    [legendLayers]
-  );
-
-  const typeOptions = useMemo(
-    () => socLayerGroup.layers[0].extraParams.config.settings.type.options,
-    [socLayerGroup]
-  );
+const Analysis = ({ areasInterest, socLayerState, updateLayer, onClickInfo }) => {
+  const typeOptions = useMemo(() => socLayerState.config.settings.type.options, [socLayerState]);
 
   const onChangeType = useCallback(
     type => {
       // eslint-disable-next-line no-unused-vars
       const { config, ...otherParams } = getLayerExtraParams(
-        { ...LAYERS[socLayerGroup.id], id: socLayerGroup.id },
+        { ...LAYERS[socLayerState.id], id: socLayerState.id },
         { type }
       );
-      updateLayer({ id: socLayerGroup.id, type, ...otherParams });
+      updateLayer({ id: socLayerState.id, type, ...otherParams });
     },
-    [socLayerGroup, updateLayer]
+    [socLayerState, updateLayer]
   );
 
   return (
@@ -38,17 +30,14 @@ const Analysis = ({ areasInterest, legendLayers, updateLayer, onClickInfo }) => 
       <div className="static-container">
         <h3 className="mb-4">{areasInterest.name ?? '−'}</h3>
         <header>
-          {socLayerGroup.layers[0].name}
+          {socLayerState.label}
           <button
             type="button"
             className="btn"
             onClick={() =>
               onClickInfo({
-                id: socLayerGroup.id,
-                tab:
-                  socLayerGroup.id === 'soc-stock'
-                    ? socLayerGroup.layers[0].extraParams.type
-                    : null,
+                id: socLayerState.id,
+                tab: socLayerState.id === 'soc-stock' ? socLayerState.type : null,
               })
             }
           >
@@ -57,17 +46,15 @@ const Analysis = ({ areasInterest, legendLayers, updateLayer, onClickInfo }) => 
         </header>
       </div>
       <div className="scrollable-container">
-        {socLayerGroup.id === 'soc-stock' && (
+        {socLayerState.id === 'soc-stock' && (
           <div className="soc-stock-switcher mt-2">
             {typeOptions.map(option => (
               <Radio
                 key={option.value}
                 id={`analysis-soc-stock-${option.value}`}
                 name="analysis-soc-stock"
-                checked={option.value === socLayerGroup.layers[0].extraParams.type}
-                className={
-                  option.value === socLayerGroup.layers[0].extraParams.type ? '-checked' : undefined
-                }
+                checked={option.value === socLayerState.type}
+                className={option.value === socLayerState.type ? '-checked' : undefined}
                 onChange={() => onChangeType(option.value)}
               >
                 {option.label}
@@ -75,8 +62,9 @@ const Analysis = ({ areasInterest, legendLayers, updateLayer, onClickInfo }) => 
             ))}
           </div>
         )}
-        {(socLayerGroup.id !== 'soc-stock' ||
-          socLayerGroup.layers[0].extraParams.type === 'recent') && <TimeseriesSection />}
+        {(socLayerState.id !== 'soc-stock' || socLayerState.type === 'recent') && (
+          <TimeseriesSection />
+        )}
         <ChangeSection />
       </div>
     </div>
@@ -85,7 +73,7 @@ const Analysis = ({ areasInterest, legendLayers, updateLayer, onClickInfo }) => 
 
 Analysis.propTypes = {
   areasInterest: PropTypes.object.isRequired,
-  legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  socLayerState: PropTypes.object.isRequired,
   updateLayer: PropTypes.func.isRequired,
   onClickInfo: PropTypes.func.isRequired,
 };

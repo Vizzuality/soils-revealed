@@ -11,7 +11,7 @@ import Ranking from '../ranking';
 import './style.scss';
 
 const AreasInterestHome = ({
-  legendLayers,
+  socLayerState,
   boundaries,
   rankingBoundaries,
   rankingBoundariesOptions,
@@ -24,17 +24,12 @@ const AreasInterestHome = ({
 
   const { data: results, error } = useResults(debouncedSearch);
 
-  const socLayerGroup = useMemo(
-    () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
-    [legendLayers]
-  );
-
   const typeOption = useMemo(
     () =>
-      socLayerGroup.layers[0].extraParams.config.settings.type.options.find(
-        option => option.value === socLayerGroup.layers[0].extraParams.type
+      socLayerState.config.settings.type.options.find(
+        option => option.value === socLayerState.type
       ),
-    [socLayerGroup]
+    [socLayerState]
   );
 
   /**
@@ -63,12 +58,12 @@ const AreasInterestHome = ({
     type => {
       // eslint-disable-next-line no-unused-vars
       const { config, ...otherParams } = getLayerExtraParams(
-        { ...LAYERS[socLayerGroup.id], id: socLayerGroup.id },
+        { ...LAYERS[socLayerState.id], id: socLayerState.id },
         { type }
       );
-      updateLayer({ id: socLayerGroup.id, type, ...otherParams });
+      updateLayer({ id: socLayerState.id, type, ...otherParams });
     },
-    [socLayerGroup, updateLayer]
+    [socLayerState, updateLayer]
   );
 
   useEffect(() => {
@@ -125,10 +120,10 @@ const AreasInterestHome = ({
       {debouncedSearch.length === 0 && (
         <>
           <div className="ranking-filters">
-            {socLayerGroup.id === 'soc-stock' && (
+            {socLayerState.id === 'soc-stock' && (
               <>
                 <Dropdown
-                  options={socLayerGroup.layers[0].extraParams.config.settings.type.options}
+                  options={socLayerState.config.settings.type.options}
                   value={typeOption}
                   onChange={({ value }) => onChangeType(value)}
                 />
@@ -142,11 +137,11 @@ const AreasInterestHome = ({
                 />
               </>
             )}
-            {socLayerGroup.id !== 'soc-stock' && (
+            {socLayerState.id !== 'soc-stock' && (
               <>
                 Soil Organic Carbon
                 <Dropdown
-                  options={socLayerGroup.layers[0].extraParams.config.settings.type.options}
+                  options={socLayerState.config.settings.type.options}
                   value={typeOption}
                   onChange={({ value }) => onChangeType(value)}
                 />
@@ -169,7 +164,7 @@ const AreasInterestHome = ({
 };
 
 AreasInterestHome.propTypes = {
-  legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  socLayerState: PropTypes.object.isRequired,
   boundaries: PropTypes.string.isRequired,
   rankingBoundaries: PropTypes.string.isRequired,
   rankingBoundariesOptions: PropTypes.arrayOf(

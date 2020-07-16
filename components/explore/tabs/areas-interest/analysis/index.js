@@ -6,7 +6,7 @@ import Component from './component';
 export default connect(
   state => ({
     areasInterest: analysisSelectors.selectAreaInterest(state),
-    legendLayers: mapSelectors.selectLegendDataLayers(state),
+    socLayerState: mapSelectors.selectSOCLayerState(state),
   }),
   {
     updateLayer: mapActions.updateLayer,

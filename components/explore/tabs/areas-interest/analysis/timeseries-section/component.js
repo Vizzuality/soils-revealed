@@ -9,7 +9,13 @@ import HintButton from 'components/hint-button';
 import LegendTitle from 'components/map/legend/title';
 import { useTimeseries } from './helpers';
 
-const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) => {
+const TimeseriesSection = ({
+  legendLayers,
+  socLayerState,
+  boundaries,
+  areaInterest,
+  updateLayer,
+}) => {
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
     [legendLayers]
@@ -17,18 +23,16 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
 
   const typeOption = useMemo(
     () =>
-      socLayerGroup.layers[0].extraParams.config.settings.type.options.find(
-        option => option.value === socLayerGroup.layers[0].extraParams.type
+      socLayerState.config.settings.type.options.find(
+        option => option.value === socLayerState.type
       ),
-    [socLayerGroup]
+    [socLayerState]
   );
 
   const depthIndex = useMemo(
     () =>
-      typeOption.settings.depth.options.findIndex(
-        option => option.value === socLayerGroup.layers[0].extraParams.depth
-      ),
-    [typeOption, socLayerGroup]
+      typeOption.settings.depth.options.findIndex(option => option.value === socLayerState.depth),
+    [typeOption, socLayerState]
   );
 
   const depthOption = useMemo(() => typeOption.settings.depth.options[depthIndex], [
@@ -63,7 +67,7 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
   );
 
   const { data, error } = useTimeseries(
-    socLayerGroup.id,
+    socLayerState.id,
     typeOption.value,
     boundaries,
     depthIndex,
@@ -80,12 +84,10 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
 
   const onChangeMode = useCallback(() => {
     const newMode =
-      socLayerGroup.layers[0].extraParams.mode === modeOptions[0].value
-        ? modeOptions[1].value
-        : modeOptions[0].value;
+      socLayerState.mode === modeOptions[0].value ? modeOptions[1].value : modeOptions[0].value;
 
-    updateLayer({ id: socLayerGroup.id, mode: newMode });
-  }, [socLayerGroup, modeOptions, updateLayer]);
+    updateLayer({ id: socLayerState.id, mode: newMode });
+  }, [socLayerState, modeOptions, updateLayer]);
 
   const onClickDownload = useCallback(() => {
     const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
@@ -122,7 +124,7 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
         <div className="d-flex align-items-center">
           <Switch
             id="analysis-timeseries-toggle"
-            checked={socLayerGroup.layers[0].extraParams.mode === modeOptions[0].value}
+            checked={socLayerState.mode === modeOptions[0].value}
             onChange={onChangeMode}
             className="-label-left"
           >
@@ -213,9 +215,7 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
                       <g className="recharts-text recharts-label">
                         <text x={0} y={LINE_HEIGHT} transform="rotate(-90)" textAnchor="end">
                           Soil Organic Carbon{' '}
-                          {socLayerGroup.id !== 'soc-stock'
-                            ? socLayerGroup.layers[0].extraParams.type
-                            : `stock`}
+                          {socLayerState.id !== 'soc-stock' ? socLayerState.type : `stock`}
                         </text>
                         <text x={0} y={LINE_HEIGHT * 2} transform="rotate(-90)" textAnchor="end">
                           (t C/ha)
@@ -236,6 +236,7 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
 
 TimeseriesSection.propTypes = {
   legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  socLayerState: PropTypes.arrayOf(PropTypes.object).isRequired,
   boundaries: PropTypes.string.isRequired,
   areaInterest: PropTypes.object.isRequired,
   updateLayer: PropTypes.func.isRequired,

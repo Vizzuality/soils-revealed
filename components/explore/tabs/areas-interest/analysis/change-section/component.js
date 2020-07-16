@@ -17,37 +17,30 @@ import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
 import { useChange } from './helpers';
 
-const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) => {
-  const socLayerGroup = useMemo(
-    () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
-    [legendLayers]
-  );
-
+const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer }) => {
   const typeOption = useMemo(
     () =>
-      socLayerGroup.layers[0].extraParams.config.settings.type.options.find(
-        option => option.value === socLayerGroup.layers[0].extraParams.type
+      socLayerState.config.settings.type.options.find(
+        option => option.value === socLayerState.type
       ),
-    [socLayerGroup]
+    [socLayerState]
   );
 
   const depthIndex = useMemo(
     () =>
-      typeOption.settings.depth.options.findIndex(
-        option => option.value === socLayerGroup.layers[0].extraParams.depth
-      ),
-    [typeOption, socLayerGroup]
+      typeOption.settings.depth.options.findIndex(option => option.value === socLayerState.depth),
+    [typeOption, socLayerState]
   );
 
   const modeOptions = useMemo(() => {
-    const typeOption = socLayerGroup.layers[0].extraParams.config.settings.type.options.find(
-      option => option.value === socLayerGroup.layers[0].extraParams.type
+    const typeOption = socLayerState.config.settings.type.options.find(
+      option => option.value === socLayerState.type
     );
     return typeOption.settings.mode.options;
-  }, [socLayerGroup]);
+  }, [socLayerState]);
 
   const { data, error } = useChange(
-    socLayerGroup.id,
+    socLayerState.id,
     typeOption.value,
     boundaries,
     depthIndex,
@@ -64,12 +57,10 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
 
   const onChangeMode = useCallback(() => {
     const newMode =
-      socLayerGroup.layers[0].extraParams.mode === modeOptions[1].value
-        ? modeOptions[0].value
-        : modeOptions[1].value;
+      socLayerState.mode === modeOptions[1].value ? modeOptions[0].value : modeOptions[1].value;
 
-    updateLayer({ id: socLayerGroup.id, mode: newMode });
-  }, [socLayerGroup, modeOptions, updateLayer]);
+    updateLayer({ id: socLayerState.id, mode: newMode });
+  }, [socLayerState, modeOptions, updateLayer]);
 
   const onClickDownload = useCallback(() => {
     const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
@@ -88,7 +79,7 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
         <div className="d-flex align-items-center">
           <Switch
             id="analysis-timeseries-toggle"
-            checked={socLayerGroup.layers[0].extraParams.mode === modeOptions[1].value}
+            checked={socLayerState.mode === modeOptions[1].value}
             onChange={onChangeMode}
             className="-label-left"
           >
@@ -172,10 +163,7 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
                       </g>
                       <g className="recharts-text recharts-label">
                         <text x={viewBox.width} y={viewBox.y + LINE_HEIGHT + 30} textAnchor="end">
-                          SOC{' '}
-                          {socLayerGroup.id !== 'soc-stock'
-                            ? socLayerGroup.layers[0].extraParams.type
-                            : `stock`}{' '}
+                          SOC {socLayerState.id !== 'soc-stock' ? socLayerState.type : `stock`}{' '}
                           change
                         </text>
                         <text
@@ -230,7 +218,7 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
 };
 
 ChangeSection.propTypes = {
-  legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  socLayerState: PropTypes.object.isRequired,
   boundaries: PropTypes.string.isRequired,
   areaInterest: PropTypes.object.isRequired,
   updateLayer: PropTypes.func.isRequired,
