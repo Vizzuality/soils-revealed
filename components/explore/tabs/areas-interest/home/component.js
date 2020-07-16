@@ -22,7 +22,7 @@ const AreasInterestHome = ({
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
 
-  const { data: results } = useResults(debouncedSearch);
+  const { data: results, error } = useResults(debouncedSearch);
 
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
@@ -97,10 +97,16 @@ const AreasInterestHome = ({
         This feature is currently under development.
       </div>
 
-      {debouncedSearch.length > 0 && !!results && results.length === 0 && (
+      {debouncedSearch.length > 0 && !!error && (
+        <div className="alert alert-danger mt-2" role="alert">
+          Unable to get the results of your search.
+        </div>
+      )}
+
+      {debouncedSearch.length > 0 && !error && !!results && results.length === 0 && (
         <div className="search-results">No results.</div>
       )}
-      {debouncedSearch.length > 0 && results?.length > 0 && (
+      {debouncedSearch.length > 0 && !error && results?.length > 0 && (
         <div className="search-results">
           {results.map(result => (
             <div key={`${result.id}-${result.type}`} className="row">

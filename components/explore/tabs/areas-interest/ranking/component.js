@@ -33,7 +33,7 @@ const AreasInterestRanking = ({
     [typeOption, socLayerGroup]
   );
 
-  const { data: results } = useRanking(
+  const { data: results, error } = useRanking(
     socLayerGroup.id,
     socLayerGroup.layers[0].extraParams.type,
     rankingBoundaries,
@@ -55,10 +55,15 @@ const AreasInterestRanking = ({
 
   return (
     <div className="c-areas-interest-ranking">
-      {!!results && results.length === 0 && (
+      {!!error && (
+        <div className="alert alert-danger mt-4" role="alert">
+          Unable to fetch the data.
+        </div>
+      )}
+      {!error && !!results && results.length === 0 && (
         <div className="ranking py-5 text-center">No data.</div>
       )}
-      {results?.length > 0 && (
+      {!error && results?.length > 0 && (
         <div className="ranking">
           {results.map(result => {
             let value = result.value;
