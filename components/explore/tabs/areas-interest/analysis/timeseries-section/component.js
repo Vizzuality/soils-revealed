@@ -127,9 +127,7 @@ const TimeseriesSection = ({ legendLayers, boundaries, areaInterest, updateLayer
         </div>
       )}
       {!error && chartData?.length === 0 && (
-        <div className="alert alert-primary mt-2" role="alert">
-          No data available.
-        </div>
+        <div className="py-5 text-center">No data available.</div>
       )}
       {!error && chartData?.length > 0 && (
         <>

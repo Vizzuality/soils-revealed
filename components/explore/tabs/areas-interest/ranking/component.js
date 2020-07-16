@@ -61,7 +61,7 @@ const AreasInterestRanking = ({
         </div>
       )}
       {!error && !!results && results.length === 0 && (
-        <div className="ranking py-5 text-center">No data.</div>
+        <div className="ranking py-5 text-center">No data available.</div>
       )}
       {!error && results?.length > 0 && (
         <div className="ranking">

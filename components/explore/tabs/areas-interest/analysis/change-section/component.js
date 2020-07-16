@@ -93,9 +93,7 @@ const ChangeSection = ({ legendLayers, boundaries, areaInterest, updateLayer }) 
         </div>
       )}
       {!error && chartData?.length === 0 && (
-        <div className="alert alert-primary mt-2" role="alert">
-          No data available.
-        </div>
+        <div className="py-5 text-center">No data available.</div>
       )}
       <div className="alert alert-warning mt-2" role="alert">
         This feature is currently under development.
