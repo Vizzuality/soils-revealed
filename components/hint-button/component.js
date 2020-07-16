@@ -34,7 +34,7 @@ HintButton.propTypes = {
   size: PropTypes.oneOf(['inline', 'large']),
   className: PropTypes.string,
   onClick: PropTypes.func,
-  disabled: PropTypes.func,
+  disabled: PropTypes.bool,
   children: PropTypes.node.isRequired,
 };
 
