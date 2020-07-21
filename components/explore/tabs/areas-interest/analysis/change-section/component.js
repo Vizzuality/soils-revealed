@@ -9,6 +9,7 @@ import {
   Bar,
   Cell,
   ReferenceLine,
+  Tooltip,
 } from 'recharts';
 
 import { slugify } from 'utils/functions';
@@ -72,6 +73,9 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
     a.click();
   }, [data, areaInterest]);
 
+  // FIXME: unit for the SOC concentration of the experimental dataset should be different
+  const unit = 't C/ha';
+
   return (
     <section>
       <header>
@@ -118,9 +122,16 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
             margin={{ top: 0, right: 0, bottom: 35, left: 0 }}
             barCategoryGap={1}
           >
+            <Tooltip
+              labelFormatter={value => `${value} ${unit}`}
+              formatter={value => [
+                value < 0.01 ? '< 0.01' : /** @type {number} */ (value).toFixed(2),
+              ]}
+            />
             <XAxis
               dataKey="bin"
-              type="number"
+              // type="number"
+              minTickGap={20}
               padding={{ left: 20, right: 20 }}
               axisLine={false}
               tickLine={false}
@@ -171,7 +182,7 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
                           y={viewBox.y + LINE_HEIGHT * 2 + 30}
                           textAnchor="end"
                         >
-                          (t C/ha)
+                          ({unit})
                         </text>
                       </g>
                     </>
@@ -205,7 +216,7 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
               />
             </YAxis>
             <ReferenceLine x={0} strokeDasharray="5 5" />
-            <Bar dataKey="value" isAnimationActive={false}>
+            <Bar dataKey="value" isAnimationActive={false} unit="%">
               {chartData.map(d => (
                 <Cell key={d.bin} fill={d.bin > 0 ? '#31b8a8' : '#ae224a'} />
               ))}

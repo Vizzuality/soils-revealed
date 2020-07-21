@@ -1,6 +1,15 @@
 import React, { useMemo, useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { ResponsiveContainer, LineChart, XAxis, YAxis, CartesianGrid, Line, Label } from 'recharts';
+import {
+  ResponsiveContainer,
+  LineChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Line,
+  Label,
+  Tooltip,
+} from 'recharts';
 
 import { slugify } from 'utils/functions';
 import { Switch, Dropdown } from 'components/forms';
@@ -113,6 +122,9 @@ const TimeseriesSection = ({
     );
   }, [typeOption, setYear1Option, setYear2Option]);
 
+  // FIXME: unit for the SOC concentration of the experimental dataset should be different
+  const unit = 't C/ha';
+
   return (
     <section>
       <LegendTitle
@@ -172,6 +184,11 @@ const TimeseriesSection = ({
           </div>
           <ResponsiveContainer width="100%" aspect={1.3}>
             <LineChart data={chartData} margin={{ top: 0, right: 0, bottom: 45, left: 0 }}>
+              <Tooltip
+                formatter={value => [
+                  value < 0.01 ? '< 0.01' : /** @type {number} */ (value).toFixed(2),
+                ]}
+              />
               <CartesianGrid vertical={false} strokeDasharray="5 5" />
               <XAxis dataKey="year" padding={{ left: 20, right: 20 }}>
                 <Label
@@ -218,14 +235,20 @@ const TimeseriesSection = ({
                           {socLayerState.id !== 'soc-stock' ? socLayerState.type : `stock`}
                         </text>
                         <text x={0} y={LINE_HEIGHT * 2} transform="rotate(-90)" textAnchor="end">
-                          (t C/ha)
+                          ({unit})
                         </text>
                       </g>
                     );
                   }}
                 />
               </YAxis>
-              <Line dataKey="value" dot={false} strokeDasharray="5 5" isAnimationActive={false} />
+              <Line
+                dataKey="value"
+                dot={false}
+                strokeDasharray="5 5"
+                isAnimationActive={false}
+                unit={` ${unit}`}
+              />
             </LineChart>
           </ResponsiveContainer>
         </>

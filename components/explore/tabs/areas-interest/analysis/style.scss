@@ -138,6 +138,7 @@
 
   .recharts-responsive-container {
     font-family: $font-family-2;
+    overflow: hidden; // Prevent the tooltip from temporarily add scroll
 
     .recharts-yAxis {
       .recharts-text {
@@ -182,8 +183,13 @@
     }
 
     .recharts-cartesian-grid,
-    .recharts-reference-line {
+    .recharts-reference-line,
+    .recharts-tooltip-cursor:not(.recharts-rectangle) {
       stroke: rgba($primary, 0.2);
+    }
+
+    .recharts-tooltip-cursor.recharts-rectangle {
+      fill: rgba($primary, 0.1) !important;
     }
 
     .recharts-line {
@@ -191,6 +197,28 @@
         stroke-width: rem(2);
         stroke: #8f3721;
       }
+    }
+
+    .recharts-active-dot {
+      circle {
+        stroke: $body-bg;
+        fill: #8f3721;
+      }
+    }
+  }
+
+  .recharts-default-tooltip {
+    padding: map-get($spacers, 2) !important;
+    font-family: $font-family-2;
+    @include font-size($font-size-xxs);
+    border: rem(1) solid $primary !important;
+    background: $body-bg !important;
+    box-shadow: $box-shadow-1;
+
+    .recharts-tooltip-item {
+      padding: 0 !important;
+      color: $body-color !important;
+      font-weight: $font-weight-medium;
     }
   }
 }
