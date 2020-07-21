@@ -223,7 +223,14 @@ const TimeseriesSection = ({
                   }}
                 />
               </XAxis>
-              <YAxis dataKey="value" width={70} axisLine={false} tickLine={false}>
+              <YAxis
+                dataKey="value"
+                width={90}
+                axisLine={false}
+                tickLine={false}
+                domain={['auto', 'auto']}
+                tickFormatter={value => value.toFixed(2)}
+              >
                 <Label
                   position="insideTopRight"
                   content={() => {
