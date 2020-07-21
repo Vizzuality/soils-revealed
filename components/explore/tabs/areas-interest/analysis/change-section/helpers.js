@@ -6,6 +6,25 @@ export const useChange = (socLayerId, type, boundaries, depthIndex, areaInterest
   return useStickySWR(url, req =>
     fetch(req)
       .then(res => res.json())
-      .then(({ data }) => data)
+      // Here we remove the values on the sides that are very low so we don't loose space
+      // displaying bars of 1px high
+      // This calculation is not done on the server because we want to let the user download the
+      // raw data
+      .then(({ data }) => {
+        // The chart represents a normal distribution, so if we trim the values outside of 3
+        // standard deviations, it will still represent 99.7% of the values:
+        // https://en.wikipedia.org/wiki/Normal_distribution#Standard_deviation_and_coverage
+        // The details of the calculations can be found here:
+        // https://math.stackexchange.com/questions/857566/how-to-get-the-standard-deviation-of-a-given-histogram-image
+        const sum = data.reduce((res, { value }) => res + value, 0);
+        const mean = (1 / sum) * data.reduce((res, { bin, value }) => res + bin * value, 0);
+        const standardDeviation = Math.sqrt(
+          (1 / sum) * data.reduce((res, { bin, value }) => res + value * Math.pow(mean - bin, 2), 0)
+        );
+
+        return data.filter(
+          ({ bin }) => bin >= mean - 3 * standardDeviation && bin <= mean + 3 * standardDeviation
+        );
+      })
   );
 };
