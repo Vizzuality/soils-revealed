@@ -236,7 +236,7 @@ const TimeseriesSection = ({
 
 TimeseriesSection.propTypes = {
   legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
-  socLayerState: PropTypes.arrayOf(PropTypes.object).isRequired,
+  socLayerState: PropTypes.object.isRequired,
   boundaries: PropTypes.string.isRequired,
   areaInterest: PropTypes.object.isRequired,
   updateLayer: PropTypes.func.isRequired,
