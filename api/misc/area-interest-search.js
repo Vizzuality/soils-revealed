@@ -2,14 +2,50 @@ const axios = require('axios').default;
 
 module.exports = ({ params: { search } }, res) => {
   try {
-    const query = encodeURI(
-      `${
-        process.env.API_URL
-      }/sql?q=with a as (SELECT distinct(name_0) as name, id, 'political-boundaries' as type FROM political_boundaries_time_series UNION SELECT distinct(name_1) as name, id, 'political-boundaries' as type FROM political_boundaries_time_series UNION SELECT distinct(maj_name) as name, 1 as id, 'river-basins' as type FROM hydrological_basins_time_series UNION SELECT distinct(sub_name) as name, 1 as id, 'river-basins' as type FROM hydrological_basins_time_series UNION SELECT distinct(eco_name) as name, eco_id as id, 'biomes' as type FROM biomes_time_series UNION SELECT distinct(name) as name, ne_id as id, 'landforms' as type FROM landforms_time_series) SELECT name, id, type FROM a WHERE lower(name) like '${search.toLowerCase()}%'`
-    );
+    const query = `
+      with a as (
+        SELECT distinct(name_0) as name, id, 'political-boundaries' as type, depth, variable, group_type
+        FROM political_boundaries_time_series
+        WHERE level = 0
+
+        UNION
+
+        SELECT distinct(name_1) as name, id, 'political-boundaries' as type, depth, variable, group_type
+        FROM political_boundaries_time_series
+        WHERE level = 1
+
+        UNION
+
+        SELECT distinct(maj_name) as name, 1 as id, 'river-basins' as type, depth, variable, group_type
+        FROM hydrological_basins_time_series
+        WHERE level = 0
+
+        UNION
+
+        SELECT distinct(sub_name) as name, 1 as id, 'river-basins' as type, depth, variable, group_type
+        FROM hydrological_basins_time_series
+        WHERE level = 1
+
+        UNION
+
+        SELECT distinct(eco_name) as name, eco_id as id, 'biomes' as type, depth, variable, group_type
+        FROM biomes_time_series
+
+        UNION
+
+        SELECT distinct(name) as name, ne_id as id, 'landforms' as type, depth, variable, group_type
+        FROM landforms_time_series
+      )
+
+      SELECT name, id, type
+      FROM a
+      WHERE depth = '0-30' and variable = 'stocks' and group_type = 'historic' and lower(name) like '${search.toLowerCase()}%'
+    `;
+
+    const url = encodeURI(`${process.env.API_URL}/sql?q=${query}`);
 
     axios
-      .get(query, {
+      .get(url, {
         headers: { Accept: 'application/json' },
       })
       .then(({ data: { rows } }) =>
