@@ -66,6 +66,19 @@ const AreasInterestRanking = ({
             }
             value = Math.round(value * 10) / 10;
 
+            let unit = 't C/ha';
+            if (socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration') {
+              if (result.years) {
+                unit = 'mg C/kg';
+              } else {
+                unit = 'g C/kg';
+              }
+            } else {
+              if (result.years) {
+                unit = 'kg C/ha';
+              }
+            }
+
             return (
               <div key={result.id} className="row">
                 <div className="col-7">
@@ -78,7 +91,7 @@ const AreasInterestRanking = ({
                   </button>
                 </div>
                 <div className="col-5">
-                  {value} {result.years ? 'kg C/ha year' : 't C/ha'}
+                  {value} {result.years ? `${unit} year` : unit}
                 </div>
               </div>
             );

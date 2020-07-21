@@ -81,20 +81,6 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
     [modeOptions, layerGroup, onChangeParams]
   );
 
-  // const depthOptions = Object.keys(layer.extraParams.config.depths).map(key => ({
-  //   label: layer.extraParams.config.depths[key],
-  //   value: key,
-  // }));
-
-  // const yearOptions = Array(
-  //   layer.extraParams.config.years[1] - layer.extraParams.config.years[0] + 1
-  // )
-  //   .fill(null)
-  //   .map((_, index) => ({
-  //     label: `${layer.extraParams.config.years[0] + index}`,
-  //     value: `${layer.extraParams.config.years[0] + index}`,
-  //   }));
-
   return (
     <div className="c-map-legend-soc-experimental">
       <div className="gradient-container">
@@ -106,7 +92,9 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
             },
           }}
         />
-        <div className="unit">(t C/ha)</div>
+        <div className="unit">
+          ({layer.extraParams.type === 'concentration' ? 'g C/kg' : 't C/ha'})
+        </div>
       </div>
 
       <Tabs selectedIndex={selectedModeIndex} onSelect={onChangeMode}>

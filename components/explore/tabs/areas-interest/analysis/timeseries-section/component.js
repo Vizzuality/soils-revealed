@@ -122,8 +122,10 @@ const TimeseriesSection = ({
     );
   }, [typeOption, setYear1Option, setYear2Option]);
 
-  // FIXME: unit for the SOC concentration of the experimental dataset should be different
-  const unit = 't C/ha';
+  const unit =
+    socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration'
+      ? 'g C/kg'
+      : 't C/ha';
 
   return (
     <section>
