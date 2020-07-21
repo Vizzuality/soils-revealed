@@ -10,6 +10,7 @@ import {
   Cell,
   ReferenceLine,
   Tooltip,
+  Customized,
 } from 'recharts';
 
 import { slugify } from 'utils/functions';
@@ -119,7 +120,7 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
         <ResponsiveContainer width="100%" aspect={1.3}>
           <BarChart
             data={chartData}
-            margin={{ top: 0, right: 0, bottom: 35, left: 0 }}
+            margin={{ top: 0, right: 0, bottom: 45, left: 0 }}
             barCategoryGap={1}
           >
             <Tooltip
@@ -128,14 +129,7 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
                 value < 0.01 ? '< 0.01' : /** @type {number} */ (value).toFixed(2),
               ]}
             />
-            <XAxis
-              dataKey="bin"
-              // type="number"
-              minTickGap={20}
-              padding={{ left: 20, right: 20 }}
-              axisLine={false}
-              tickLine={false}
-            >
+            <XAxis dataKey="bin" minTickGap={20} tickMargin={10} axisLine={false} tickLine={false}>
               <Label
                 position="insideBottomLeft"
                 content={({ viewBox }) => {
@@ -146,13 +140,13 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
                         <rect
                           x={viewBox.x + 5}
                           width={12}
-                          y={viewBox.y + LINE_HEIGHT + 20}
+                          y={viewBox.y + LINE_HEIGHT + 30}
                           height={12}
                           fill="#ae224a"
                         />
                         <text
                           x={viewBox.x + 22}
-                          y={viewBox.y + LINE_HEIGHT + 30}
+                          y={viewBox.y + LINE_HEIGHT + 40}
                           textAnchor="start"
                         >
                           Loss
@@ -160,26 +154,26 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
                         <rect
                           x={viewBox.x + 75}
                           width={12}
-                          y={viewBox.y + LINE_HEIGHT + 20}
+                          y={viewBox.y + LINE_HEIGHT + 30}
                           height={12}
                           fill="#31b8a8"
                         />
                         <text
                           x={viewBox.x + 92}
-                          y={viewBox.y + LINE_HEIGHT + 30}
+                          y={viewBox.y + LINE_HEIGHT + 40}
                           textAnchor="start"
                         >
                           Gain
                         </text>
                       </g>
                       <g className="recharts-text recharts-label">
-                        <text x={viewBox.width} y={viewBox.y + LINE_HEIGHT + 30} textAnchor="end">
+                        <text x={viewBox.width} y={viewBox.y + LINE_HEIGHT + 40} textAnchor="end">
                           SOC {socLayerState.id !== 'soc-stock' ? socLayerState.type : `stock`}{' '}
                           change
                         </text>
                         <text
                           x={viewBox.width}
-                          y={viewBox.y + LINE_HEIGHT * 2 + 30}
+                          y={viewBox.y + LINE_HEIGHT * 2 + 40}
                           textAnchor="end"
                         >
                           ({unit})
@@ -216,9 +210,53 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
               />
             </YAxis>
             <ReferenceLine x={0} strokeDasharray="5 5" />
+            <Customized
+              component={({ xAxisMap, yAxisMap }) => {
+                const { scale, padding, x, y, width } = xAxisMap[0];
+                const { width: yAxisWidth } = yAxisMap[0];
+
+                return (
+                  <>
+                    {/* The pattern (dots) of the bars */}
+                    <defs>
+                      <pattern
+                        id="change-chart-bar-pattern"
+                        patternUnits="userSpaceOnUse"
+                        width="5"
+                        height="5"
+                      >
+                        <rect x="0" width="5" y="0" height="5" />
+                        <circle cx="2.5" cy="2.5" r="0.7" />
+                        <circle cx="0" cy="0" r="0.7" />
+                        <circle cx="0" cy="5" r="0.7" />
+                        <circle cx="5" cy="0" r="0.7" />
+                        <circle cx="5" cy="5" r="0.7" />
+                      </pattern>
+                    </defs>
+                    {/* The green and red bar above the ticks */}
+                    <g>
+                      <rect
+                        x={x + padding.left + yAxisWidth}
+                        width={scale(0) + scale.bandwidth() / 2 - x - padding.left - yAxisWidth}
+                        y={y + 2}
+                        height="4"
+                        fill="#ae224a"
+                      />
+                      <rect
+                        x={scale(0) + scale.bandwidth() / 2 + 1}
+                        width={width - scale(0) - scale.bandwidth() / 2 - padding.right - 1}
+                        y={y + 2}
+                        height="4"
+                        fill="#31b8a8"
+                      />
+                    </g>
+                  </>
+                );
+              }}
+            />
             <Bar dataKey="value" isAnimationActive={false} unit="%">
               {chartData.map(d => (
-                <Cell key={d.bin} fill={d.bin > 0 ? '#31b8a8' : '#ae224a'} />
+                <Cell key={d.bin} fill="url(#change-chart-bar-pattern)" />
               ))}
             </Bar>
           </BarChart>

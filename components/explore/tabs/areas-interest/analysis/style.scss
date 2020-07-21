@@ -199,10 +199,28 @@
       }
     }
 
+    .recharts-bar-rectangle {
+      path {
+        stroke-width: rem(1);
+        stroke: $black;
+      }
+    }
+
     .recharts-active-dot {
       circle {
         stroke: $body-bg;
         fill: #8f3721;
+      }
+    }
+
+    #change-chart-bar-pattern {
+      rect {
+        fill: $body-bg;
+      }
+
+      circle {
+        fill: $black;
+        stroke: none;
       }
     }
   }
