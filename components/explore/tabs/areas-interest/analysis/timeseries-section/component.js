@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useEffect, useState } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {
   ResponsiveContainer,
@@ -17,6 +17,8 @@ import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
 import LegendTitle from 'components/map/legend/title';
 import { useTimeseries } from './helpers';
+
+import './style.scss';
 
 const TimeseriesSection = ({
   legendLayers,
@@ -53,26 +55,20 @@ const TimeseriesSection = ({
     return typeOption.settings.mode.options;
   }, [typeOption]);
 
-  const [year1Option, setYear1Option] = useState(
-    typeOption.settings.year.options.find(
-      option => option.value === `${typeOption.settings.year1.defaultOption}`
-    )
+  const year1Option = useMemo(
+    () =>
+      typeOption.settings.year.options.find(
+        option => option.value === `${typeOption.settings.year1.defaultOption}`
+      ),
+    [typeOption]
   );
 
-  const [year2Option, setYear2Option] = useState(
-    typeOption.settings.year.options.find(
-      option => option.value === `${typeOption.settings.year2.defaultOption}`
-    )
-  );
-
-  const year1Options = useMemo(
-    () => typeOption.settings.year.options.filter(option => +option.value < +year2Option.value),
-    [typeOption, year2Option]
-  );
-
-  const year2Options = useMemo(
-    () => typeOption.settings.year.options.filter(option => +option.value > +year1Option.value),
-    [typeOption, year1Option]
+  const year2Option = useMemo(
+    () =>
+      typeOption.settings.year.options.find(
+        option => option.value === `${typeOption.settings.year2.defaultOption}`
+      ),
+    [typeOption]
   );
 
   const { data, error } = useTimeseries(
@@ -83,20 +79,17 @@ const TimeseriesSection = ({
     areaInterest.id
   );
 
-  const chartData = useMemo(() => {
-    if (!data?.length) {
-      return [];
-    }
-
-    return data.filter(d => d.year >= +year1Option.value && d.year <= +year2Option.value);
-  }, [data, year1Option, year2Option]);
-
   const onChangeMode = useCallback(() => {
     const newMode =
       socLayerState.mode === modeOptions[0].value ? modeOptions[1].value : modeOptions[0].value;
 
     updateLayer({ id: socLayerState.id, mode: newMode });
   }, [socLayerState, modeOptions, updateLayer]);
+
+  const onChangeDepth = useCallback(
+    ({ value }) => updateLayer({ id: socLayerState.id, depth: value }),
+    [socLayerState, updateLayer]
+  );
 
   const onClickDownload = useCallback(() => {
     const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
@@ -108,27 +101,13 @@ const TimeseriesSection = ({
     a.click();
   }, [data, areaInterest]);
 
-  useEffect(() => {
-    setYear1Option(
-      typeOption.settings.year.options.find(
-        option => option.value === `${typeOption.settings.year1.defaultOption}`
-      )
-    );
-
-    setYear2Option(
-      typeOption.settings.year.options.find(
-        option => option.value === `${typeOption.settings.year2.defaultOption}`
-      )
-    );
-  }, [typeOption, setYear1Option, setYear2Option]);
-
   const unit =
     socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration'
       ? 'g C/kg'
       : 't C/ha';
 
   return (
-    <section>
+    <section className="c-analysis-timeseries-section">
       <LegendTitle
         layerGroup={socLayerGroup}
         onChangeParams={(id, params) => updateLayer({ id, ...params })}
@@ -148,7 +127,7 @@ const TimeseriesSection = ({
             icon="download"
             className="ml-3"
             onClick={onClickDownload}
-            disabled={!chartData || chartData.length === 0}
+            disabled={!data || data.length === 0}
           >
             Download data
           </HintButton>
@@ -159,33 +138,36 @@ const TimeseriesSection = ({
           Unable to fetch the data.
         </div>
       )}
-      {!error && !chartData && (
+      {!error && !data && (
         <div className="mt-2 text-center">
           <LoadingSpinner transparent inline />
         </div>
       )}
-      {!error && chartData?.length === 0 && (
-        <div className="py-5 text-center">No data available.</div>
-      )}
-      {!error && chartData?.length > 0 && (
+      {!error && data?.length === 0 && <div className="py-5 text-center">No data available.</div>}
+      {!error && data?.length > 0 && (
         <>
           <div className="chart-intro">
-            Soil organic carbon from
-            <Dropdown
-              options={year1Options}
-              value={year1Option}
-              onChange={option => setYear1Option(option)}
-            />
-            to
-            <Dropdown
-              options={year2Options}
-              value={year2Option}
-              onChange={option => setYear2Option(option)}
-            />
-            at <strong>{depthOption.label} depth</strong>.
+            Soil organic carbon from <strong>{year1Option.label}</strong> to{' '}
+            <strong>{year2Option.label}</strong>
+            <br />
+            at
+            {typeOption.settings.depth.options.length > 1 && (
+              <Dropdown
+                options={typeOption.settings.depth.options}
+                value={depthOption}
+                onChange={onChangeDepth}
+              />
+            )}
+            {typeOption.settings.depth.options.length <= 1 && (
+              <>
+                {' '}
+                <strong>{depthOption.label}</strong>
+              </>
+            )}
+            .
           </div>
           <ResponsiveContainer width="100%" aspect={1.3}>
-            <LineChart data={chartData} margin={{ top: 0, right: 0, bottom: 45, left: 0 }}>
+            <LineChart data={data} margin={{ top: 0, right: 0, bottom: 45, left: 0 }}>
               <Tooltip
                 formatter={value => [
                   value < 0.01 ? '< 0.01' : /** @type {number} */ (value).toFixed(2),
@@ -201,7 +183,7 @@ const TimeseriesSection = ({
                       <g className="recharts-text recharts-legend">
                         <rect
                           className="background"
-                          width={100}
+                          width={47 + depthOption.label.length * 7}
                           height={22}
                           x={viewBox.x}
                           y={viewBox.y + LINE_HEIGHT + 35}
@@ -218,7 +200,7 @@ const TimeseriesSection = ({
                           y={viewBox.y + LINE_HEIGHT + 50}
                           textAnchor="start"
                         >
-                          0-30 cm
+                          {depthOption.label}
                         </text>
                       </g>
                     );
