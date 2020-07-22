@@ -23,6 +23,7 @@ const TimeseriesSection = ({
   socLayerState,
   boundaries,
   areaInterest,
+  compareAreaInterest,
   updateLayer,
 }) => {
   const socLayerGroup = useMemo(
@@ -74,7 +75,8 @@ const TimeseriesSection = ({
     typeOption.value,
     boundaries,
     depthIndex,
-    areaInterest.id
+    areaInterest.id,
+    compareAreaInterest?.id
   );
 
   const onChangeMode = useCallback(() => {
@@ -158,7 +160,11 @@ const TimeseriesSection = ({
             )}
             {typeOption.settings.depth.options.length <= 1 && <strong>{depthOption.label}</strong>}.
           </div>
-          <ResponsiveContainer width="100%" aspect={1.3}>
+          <ResponsiveContainer
+            width="100%"
+            aspect={1.3}
+            className={compareAreaInterest ? '-compare' : undefined}
+          >
             <LineChart data={data} margin={{ top: 0, right: 0, bottom: 45, left: 0 }}>
               <Tooltip
                 formatter={value => [
@@ -171,36 +177,85 @@ const TimeseriesSection = ({
                   position="insideBottomLeft"
                   content={({ viewBox }) => {
                     const LINE_HEIGHT = 16;
+
+                    let areaInterestName = areaInterest.name ?? '−';
+                    if (areaInterestName.length >= 12) {
+                      areaInterestName = `${areaInterestName.slice(0, 10)}…`;
+                    }
+
+                    let compareAreaInterestName = compareAreaInterest
+                      ? compareAreaInterest.name ?? '−'
+                      : null;
+                    if (compareAreaInterestName?.length >= 12) {
+                      compareAreaInterestName = `${compareAreaInterestName.slice(0, 10)}…`;
+                    }
+
                     return (
                       <g className="recharts-text recharts-legend">
-                        <rect
-                          className="background"
-                          width={47 + depthOption.label.length * 7}
-                          height={22}
-                          x={viewBox.x}
-                          y={viewBox.y + LINE_HEIGHT + 35}
-                        />
-                        <line
-                          x1={viewBox.x + 5}
-                          x2={viewBox.x + 35}
-                          y1={viewBox.y + LINE_HEIGHT + 46}
-                          y2={viewBox.y + LINE_HEIGHT + 46}
-                          strokeDasharray="5 5"
-                        />
-                        <text
-                          x={viewBox.x + 40}
-                          y={viewBox.y + LINE_HEIGHT + 50}
-                          textAnchor="start"
-                        >
-                          {depthOption.label}
-                        </text>
+                        {!compareAreaInterest && (
+                          <>
+                            <rect
+                              className="background"
+                              width={47 + depthOption.label.length * 7}
+                              height={22}
+                              x={viewBox.x}
+                              y={viewBox.y + LINE_HEIGHT + 35}
+                            />
+                            <line
+                              x1={viewBox.x + 5}
+                              x2={viewBox.x + 35}
+                              y1={viewBox.y + LINE_HEIGHT + 46}
+                              y2={viewBox.y + LINE_HEIGHT + 46}
+                              strokeDasharray="5 5"
+                            />
+                            <text
+                              x={viewBox.x + 40}
+                              y={viewBox.y + LINE_HEIGHT + 50}
+                              textAnchor="start"
+                            >
+                              {depthOption.label}
+                            </text>
+                          </>
+                        )}
+                        {!!compareAreaInterest && (
+                          <>
+                            <line
+                              x1={viewBox.x}
+                              x2={viewBox.x + 30}
+                              y1={viewBox.y + LINE_HEIGHT + 46}
+                              y2={viewBox.y + LINE_HEIGHT + 46}
+                              strokeDasharray="5 5"
+                            />
+                            <text
+                              x={viewBox.x + 35}
+                              y={viewBox.y + LINE_HEIGHT + 50}
+                              textAnchor="start"
+                            >
+                              <title>{areaInterest.name ?? '−'}</title>
+                              {areaInterestName}
+                            </text>
+                            <line
+                              x1={viewBox.x + 35 + areaInterestName.length * 10}
+                              x2={viewBox.x + 35 + areaInterestName.length * 10 + 30}
+                              y1={viewBox.y + LINE_HEIGHT + 46}
+                              y2={viewBox.y + LINE_HEIGHT + 46}
+                            />
+                            <text
+                              x={viewBox.x + 2 * 35 + areaInterestName.length * 10}
+                              y={viewBox.y + LINE_HEIGHT + 50}
+                              textAnchor="start"
+                            >
+                              <title>{compareAreaInterest.name ?? '−'}</title>
+                              {compareAreaInterestName}
+                            </text>
+                          </>
+                        )}
                       </g>
                     );
                   }}
                 />
               </XAxis>
               <YAxis
-                dataKey="value"
                 width={90}
                 axisLine={false}
                 tickLine={false}
@@ -232,6 +287,14 @@ const TimeseriesSection = ({
                 isAnimationActive={false}
                 unit={` ${unit}`}
               />
+              {compareAreaInterest && (
+                <Line
+                  dataKey="compareValue"
+                  dot={false}
+                  isAnimationActive={false}
+                  unit={` ${unit}`}
+                />
+              )}
             </LineChart>
           </ResponsiveContainer>
         </>
@@ -245,7 +308,12 @@ TimeseriesSection.propTypes = {
   socLayerState: PropTypes.object.isRequired,
   boundaries: PropTypes.string.isRequired,
   areaInterest: PropTypes.object.isRequired,
+  compareAreaInterest: PropTypes.object,
   updateLayer: PropTypes.func.isRequired,
+};
+
+TimeseriesSection.defaultProps = {
+  compareAreaInterest: null,
 };
 
 export default TimeseriesSection;

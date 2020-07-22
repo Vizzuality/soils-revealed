@@ -1,7 +1,16 @@
 import { useStickySWR } from 'utils/hooks';
 
-export const useTimeseries = (socLayerId, type, boundaries, depthIndex, areaInterestId) => {
-  const url = `/api/timeseries/${socLayerId}/${type}/${boundaries}/${depthIndex}/${areaInterestId}`;
+export const useTimeseries = (
+  socLayerId,
+  type,
+  boundaries,
+  depthIndex,
+  areaInterestId,
+  compareAreaInterestId
+) => {
+  const url = `/api/timeseries/${socLayerId}/${type}/${boundaries}/${depthIndex}/${areaInterestId}${
+    compareAreaInterestId ? `?compare=${compareAreaInterestId}` : ''
+  }`;
 
   return useStickySWR(url, req =>
     fetch(req)

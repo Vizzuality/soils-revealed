@@ -147,6 +147,28 @@
     font-family: $font-family-2;
     overflow: hidden; // Prevent the tooltip from temporarily add scroll
 
+    &.-compare {
+      .recharts-xAxis {
+        .recharts-legend {
+          line {
+            stroke: $primary;
+          }
+        }
+      }
+
+      .recharts-active-dot {
+        circle {
+          fill: $primary;
+        }
+      }
+
+      .recharts-line {
+        path {
+          stroke: $primary;
+        }
+      }
+    }
+
     .recharts-yAxis {
       .recharts-text {
         @include font-size($font-size-xxxs);
