@@ -24,9 +24,17 @@ export default exploreActions =>
     reducers: {
       updateAreaInterest(state, action) {
         state.areaInterest = action.payload;
+
+        if (action.payload === null) {
+          state.compareAreaInterest = null;
+        }
       },
       updateCompareAreaInterest(state, action) {
         state.compareAreaInterest = action.payload;
+      },
+      swapAndResetAreaInterest(state) {
+        state.areaInterest = state.compareAreaInterest;
+        state.compareAreaInterest = null;
       },
     },
     extraReducers: {

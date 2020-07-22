@@ -7,6 +7,7 @@
 
 $primary: #1a203c;
 $secondary: #d79b5c;
+$light: #f2f3ef;
 
 $text-color-1: $primary;
 $text-color-2: #fdddba;
@@ -14,13 +15,14 @@ $text-color-2: #fdddba;
 $theme-colors: (
   'primary': $primary,
   'secondary': $secondary,
+  'light': $light,
 );
 
 $border-color-1: #d8d8d8;
 
 // Body
 
-$body-bg: #f2f3ef;
+$body-bg: $light;
 $body-color: $text-color-1;
 
 $background-color-1: #f1b62f;

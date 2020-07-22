@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from 'react';
+import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { getLayerExtraParams } from 'utils/map';
@@ -14,10 +14,13 @@ import './style.scss';
 
 const Analysis = ({
   areasInterest,
+  compareAreaInterest,
   socLayerState,
   updateLayer,
   onClickInfo,
   onChangeVisibilityCloseBtn,
+  updateCompareAreaInterest,
+  swapAndResetAreaInterest,
 }) => {
   const [compareTooltipOpen, setCompareTooltipOpen] = useState(false);
 
@@ -46,35 +49,76 @@ const Analysis = ({
     onChangeVisibilityCloseBtn(true);
   }, [setCompareTooltipOpen, onChangeVisibilityCloseBtn]);
 
+  const onRemoveAreaInterest = useCallback(() => swapAndResetAreaInterest(), [
+    swapAndResetAreaInterest,
+  ]);
+
+  const onRemoveCompareAreaInterest = useCallback(() => updateCompareAreaInterest(null), [
+    updateCompareAreaInterest,
+  ]);
+
+  useEffect(() => {
+    if (compareAreaInterest) {
+      setCompareTooltipOpen(false);
+      onChangeVisibilityCloseBtn(true);
+    }
+  }, [compareAreaInterest, setCompareTooltipOpen, onChangeVisibilityCloseBtn]);
+
   return (
     <div className="c-areas-interest-tab-analysis">
       <div className="static-container">
         <div className="d-flex justify-content-between align-items-start">
-          <h3 className="mb-4">{areasInterest.name ?? '−'}</h3>
-          <Tooltip
-            trigger="manual"
-            placement="right-start"
-            visible={compareTooltipOpen}
-            hideOnClick={false}
-            appendTo={() => document.body}
-            popperOptions={{
-              modifiers: {
-                flip: { enabled: false },
-                preventOverflow: { boundariesElement: 'viewport' },
-              },
-            }}
-            offset="-24 30"
-            duration={0}
-            content={<Compare onClose={onCloseCompare} />}
-          >
-            <button
-              type="button"
-              className="d-shrink-0 ml-4 btn btn-sm btn-primary"
-              onClick={onClickCompare}
+          {!compareAreaInterest && <h3 className="mb-4">{areasInterest.name ?? '−'}</h3>}
+          {!!compareAreaInterest && (
+            <h3 className="mb-4">
+              <div>
+                {areasInterest.name ?? '−'}
+                <button
+                  type="button"
+                  className="ml-3 align-baseline btn btn-sm btn-light"
+                  onClick={onRemoveAreaInterest}
+                >
+                  Remove
+                </button>
+              </div>
+              <div className="mt-2">
+                {compareAreaInterest.name ?? '−'}
+                <button
+                  type="button"
+                  className="ml-3 align-baseline btn btn-sm btn-light"
+                  onClick={onRemoveCompareAreaInterest}
+                >
+                  Remove
+                </button>
+              </div>
+            </h3>
+          )}
+          {!compareAreaInterest && (
+            <Tooltip
+              trigger="manual"
+              placement="right-start"
+              visible={compareTooltipOpen}
+              hideOnClick={false}
+              appendTo={() => document.body}
+              popperOptions={{
+                modifiers: {
+                  flip: { enabled: false },
+                  preventOverflow: { boundariesElement: 'viewport' },
+                },
+              }}
+              offset="-24 30"
+              duration={0}
+              content={<Compare onClose={onCloseCompare} />}
             >
-              Compare
-            </button>
-          </Tooltip>
+              <button
+                type="button"
+                className="d-shrink-0 ml-4 btn btn-sm btn-primary"
+                onClick={onClickCompare}
+              >
+                Compare
+              </button>
+            </Tooltip>
+          )}
         </div>
         <header>
           {socLayerState.label}
@@ -120,10 +164,17 @@ const Analysis = ({
 
 Analysis.propTypes = {
   areasInterest: PropTypes.object.isRequired,
+  compareAreaInterest: PropTypes.object,
   socLayerState: PropTypes.object.isRequired,
   updateLayer: PropTypes.func.isRequired,
   onClickInfo: PropTypes.func.isRequired,
   onChangeVisibilityCloseBtn: PropTypes.func.isRequired,
+  updateCompareAreaInterest: PropTypes.func.isRequired,
+  swapAndResetAreaInterest: PropTypes.func.isRequired,
+};
+
+Analysis.defaultProps = {
+  compareAreaInterest: null,
 };
 
 export default Analysis;
