@@ -130,6 +130,10 @@
     @include font-size($font-size-s);
     line-height: 1.75;
 
+    strong {
+      font-weight: $font-weight-medium;
+    }
+
     .c-dropdown {
       line-height: 1.5;
 
