@@ -148,17 +148,11 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
               </>
             )}
             {areaInterest.name} has experienced a {data.average < 0 ? 'loss' : 'gain'} of soil
-            organic carbon, averaging {average} {unit} at
+            organic carbon, averaging {average} {unit} at{' '}
             {depthOptions.length > 1 && (
               <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
             )}
-            {depthOptions.length <= 1 && (
-              <>
-                {' '}
-                <strong>{depthOption.label}</strong>{' '}
-              </>
-            )}
-            depth.
+            {depthOptions.length <= 1 && <strong>{depthOption.label}</strong>} depth.
           </div>
           <ResponsiveContainer width="100%" aspect={1.3}>
             <BarChart

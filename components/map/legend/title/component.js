@@ -9,7 +9,7 @@ const LegendTitle = ({ layerGroup, onChangeParams }) => {
   if (layerGroup.id === 'soc-experimental') {
     return (
       <div className="c-map-legend-title">
-        Soil organic carbon
+        Soil organic carbon{' '}
         <Dropdown
           options={layer.extraParams.config.settings.type.options}
           value={layer.extraParams.config.settings.type.options.find(

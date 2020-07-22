@@ -18,8 +18,6 @@ import HintButton from 'components/hint-button';
 import LegendTitle from 'components/map/legend/title';
 import { useTimeseries } from './helpers';
 
-import './style.scss';
-
 const TimeseriesSection = ({
   legendLayers,
   socLayerState,
@@ -107,7 +105,7 @@ const TimeseriesSection = ({
       : 't C/ha';
 
   return (
-    <section className="c-analysis-timeseries-section">
+    <section>
       <LegendTitle
         layerGroup={socLayerGroup}
         onChangeParams={(id, params) => updateLayer({ id, ...params })}
@@ -150,7 +148,7 @@ const TimeseriesSection = ({
             Soil organic carbon from <strong>{year1Option.label}</strong> to{' '}
             <strong>{year2Option.label}</strong>
             <br />
-            at
+            at{' '}
             {typeOption.settings.depth.options.length > 1 && (
               <Dropdown
                 options={typeOption.settings.depth.options}
@@ -158,13 +156,7 @@ const TimeseriesSection = ({
                 onChange={onChangeDepth}
               />
             )}
-            {typeOption.settings.depth.options.length <= 1 && (
-              <>
-                {' '}
-                <strong>{depthOption.label}</strong>
-              </>
-            )}
-            .
+            {typeOption.settings.depth.options.length <= 1 && <strong>{depthOption.label}</strong>}.
           </div>
           <ResponsiveContainer width="100%" aspect={1.3}>
             <LineChart data={data} margin={{ top: 0, right: 0, bottom: 45, left: 0 }}>

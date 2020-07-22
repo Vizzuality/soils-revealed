@@ -52,6 +52,7 @@ const MapControlsSettings = ({
               {BASEMAPS[key].label}
               {BASEMAPS[key].params && (
                 <>
+                  {' '}
                   {Object.keys(BASEMAPS[key].params).map(param => (
                     <Dropdown
                       key={param}

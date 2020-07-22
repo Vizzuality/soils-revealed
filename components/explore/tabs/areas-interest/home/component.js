@@ -126,8 +126,8 @@ const AreasInterestHome = ({
                   options={socLayerState.config.settings.type.options}
                   value={typeOption}
                   onChange={({ value }) => onChangeType(value)}
-                />
-                Soil Organic Carbon change by
+                />{' '}
+                Soil Organic Carbon change by{' '}
                 <Dropdown
                   options={rankingBoundariesOptions}
                   value={rankingBoundariesOptions.find(
@@ -139,13 +139,13 @@ const AreasInterestHome = ({
             )}
             {socLayerState.id !== 'soc-stock' && (
               <>
-                Soil Organic Carbon
+                Soil Organic Carbon{' '}
                 <Dropdown
                   options={socLayerState.config.settings.type.options}
                   value={typeOption}
                   onChange={({ value }) => onChangeType(value)}
-                />
-                change by
+                />{' '}
+                change by{' '}
                 <Dropdown
                   options={rankingBoundariesOptions}
                   value={rankingBoundariesOptions.find(
