@@ -30,6 +30,7 @@
       > div:first-of-type {
         display: flex;
         align-items: center;
+
         .btn-link {
           padding: 0;
           font-family: $font-family-1;
@@ -40,6 +41,10 @@
           text-decoration: underline;
           color: $text-color-1;
           border: 0;
+
+          &[disabled] {
+            text-decoration: none;
+          }
         }
       }
 
@@ -49,6 +54,7 @@
         align-items: center;
         font-family: $font-family-2;
         @include font-size($font-size-xxs);
+        text-align: right;
       }
     }
   }

@@ -1,6 +1,6 @@
 const axios = require('axios').default;
 
-module.exports = ({ params: { search } }, res) => {
+module.exports = ({ params: { search }, query: { boundaries } }, res) => {
   try {
     const query = `
       with a as (
@@ -44,6 +44,8 @@ module.exports = ({ params: { search } }, res) => {
 
     const url = encodeURI(`${process.env.API_URL}/sql?q=${query}`);
 
+    const allowedBoundaries = boundaries ? boundaries.split(',') : [];
+
     axios
       .get(url, {
         headers: { Accept: 'application/json' },
@@ -52,6 +54,13 @@ module.exports = ({ params: { search } }, res) => {
         rows
           // TODO: We don't have IDs for the river basins for now
           .filter(({ type }) => type !== 'river-basins')
+          .filter(({ type }) => {
+            if (allowedBoundaries.length > 0) {
+              return allowedBoundaries.indexOf(type) !== -1;
+            }
+
+            return true;
+          })
           .sort((a, b) => a.name.localeCompare(b.name))
       )
       .then(data => {

@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   overflow: auto;
-  z-index: 9; // Needs to be below the z-index of the tooltip
+  z-index: 10; // Needs to be above the z-index of the tooltip
   background-color: rgba($primary, 0.7) !important;
   opacity: 0;
   transform: scale(1.15);

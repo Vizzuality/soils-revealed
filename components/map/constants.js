@@ -55,6 +55,7 @@ exports.BOUNDARIES = {
   'political-boundaries': {
     label: 'Political boundaries',
     noun: 'political boundary',
+    nounPlural: 'political boundaries',
     table: 'political_boundaries',
     geoId: 'id',
     config: {
@@ -147,6 +148,7 @@ exports.BOUNDARIES = {
   landforms: {
     label: 'Landforms',
     noun: 'landform',
+    nounPlural: 'landforms',
     table: 'landforms',
     geoId: 'ne_id',
     config: {
@@ -315,6 +317,7 @@ exports.BOUNDARIES = {
   'river-basins': {
     label: 'River basins',
     noun: 'river basin',
+    nounPlural: 'river basins',
     table: 'hydrological_basins',
     geoId: 'id',
     config: {
@@ -396,6 +399,7 @@ exports.BOUNDARIES = {
   biomes: {
     label: 'Biomes',
     noun: 'biome',
+    nounPlural: 'biomes',
     table: 'biomes',
     geoId: 'eco_id',
     config: {

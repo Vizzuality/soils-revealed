@@ -15,14 +15,20 @@ const AreasInterestHome = ({
   boundaries,
   rankingBoundaries,
   rankingBoundariesOptions,
+  comparing,
+  areaInterest,
   updateBoundaries,
   updateAreaInterest,
+  updateCompareAreaInterest,
   updateLayer,
 }) => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
 
-  const { data: results, error } = useResults(debouncedSearch);
+  const { data: results, error } = useResults(
+    debouncedSearch,
+    comparing ? [boundaries] : undefined
+  );
 
   const typeOption = useMemo(
     () =>
@@ -30,6 +36,11 @@ const AreasInterestHome = ({
         option => option.value === socLayerState.type
       ),
     [socLayerState]
+  );
+
+  const rankingBoundariesOption = useMemo(
+    () => rankingBoundariesOptions.find(option => option.value === rankingBoundaries),
+    [rankingBoundariesOptions, rankingBoundaries]
   );
 
   /**
@@ -46,12 +57,14 @@ const AreasInterestHome = ({
         updateBoundaries(result.type);
       }
 
-      updateAreaInterest({
+      const updateFunction = comparing ? updateCompareAreaInterest : updateAreaInterest;
+
+      updateFunction({
         id: result.id,
         name: result.name,
       });
     },
-    [boundaries, updateBoundaries, updateAreaInterest]
+    [boundaries, comparing, updateBoundaries, updateAreaInterest, updateCompareAreaInterest]
   );
 
   const onChangeType = useCallback(
@@ -76,13 +89,23 @@ const AreasInterestHome = ({
 
   return (
     <div className="c-areas-interest-home">
-      <h3>Areas of interest</h3>
+      <h3 className={comparing ? 'h4' : undefined}>
+        {comparing ? 'Compare with areas of interest' : 'Areas of interest'}
+      </h3>
       <div className="form-group mt-3">
         <input
           type="search"
-          aria-label="Search provinces, countries, biomes..."
+          aria-label={
+            comparing
+              ? ` Search ${BOUNDARIES[boundaries].nounPlural}...`
+              : 'Search provinces, countries, biomes...'
+          }
           className="form-control"
-          placeholder="Search provinces, countries, biomes..."
+          placeholder={
+            comparing
+              ? ` Search ${BOUNDARIES[boundaries].nounPlural}...`
+              : 'Search provinces, countries, biomes...'
+          }
           value={search}
           onChange={({ target }) => setSearch(target.value)}
         />
@@ -107,7 +130,12 @@ const AreasInterestHome = ({
           {results.map(result => (
             <div key={`${result.id}-${result.type}`} className="row">
               <div className="col-7">
-                <button type="button" className="btn btn-link" onClick={() => onClickArea(result)}>
+                <button
+                  type="button"
+                  className="btn btn-link"
+                  onClick={() => onClickArea(result)}
+                  disabled={result.id === areaInterest?.id}
+                >
                   {result.name}
                 </button>
               </div>
@@ -122,41 +150,53 @@ const AreasInterestHome = ({
           <div className="ranking-filters">
             {socLayerState.id === 'soc-stock' && (
               <>
-                <Dropdown
-                  options={socLayerState.config.settings.type.options}
-                  value={typeOption}
-                  onChange={({ value }) => onChangeType(value)}
-                />{' '}
+                {comparing ? (
+                  <strong>{typeOption.label}</strong>
+                ) : (
+                  <Dropdown
+                    options={socLayerState.config.settings.type.options}
+                    value={typeOption}
+                    onChange={({ value }) => onChangeType(value)}
+                  />
+                )}{' '}
                 Soil Organic Carbon change by{' '}
-                <Dropdown
-                  options={rankingBoundariesOptions}
-                  value={rankingBoundariesOptions.find(
-                    option => option.value === rankingBoundaries
-                  )}
-                  onChange={({ value }) => updateBoundaries(value)}
-                />
+                {comparing ? (
+                  <strong>{rankingBoundariesOption.label}</strong>
+                ) : (
+                  <Dropdown
+                    options={rankingBoundariesOptions}
+                    value={rankingBoundariesOption}
+                    onChange={({ value }) => updateBoundaries(value)}
+                  />
+                )}
               </>
             )}
             {socLayerState.id !== 'soc-stock' && (
               <>
                 Soil Organic Carbon{' '}
-                <Dropdown
-                  options={socLayerState.config.settings.type.options}
-                  value={typeOption}
-                  onChange={({ value }) => onChangeType(value)}
-                />{' '}
+                {comparing ? (
+                  <strong>{typeOption.label}</strong>
+                ) : (
+                  <Dropdown
+                    options={socLayerState.config.settings.type.options}
+                    value={typeOption}
+                    onChange={({ value }) => onChangeType(value)}
+                  />
+                )}{' '}
                 change by{' '}
-                <Dropdown
-                  options={rankingBoundariesOptions}
-                  value={rankingBoundariesOptions.find(
-                    option => option.value === rankingBoundaries
-                  )}
-                  onChange={({ value }) => updateBoundaries(value)}
-                />
+                {comparing ? (
+                  <strong>{rankingBoundariesOption.label}</strong>
+                ) : (
+                  <Dropdown
+                    options={rankingBoundariesOptions}
+                    value={rankingBoundariesOption}
+                    onChange={({ value }) => updateBoundaries(value)}
+                  />
+                )}
               </>
             )}
           </div>
-          <Ranking />
+          <Ranking onClickArea={onClickArea} />
         </>
       )}
     </div>
@@ -170,9 +210,17 @@ AreasInterestHome.propTypes = {
   rankingBoundariesOptions: PropTypes.arrayOf(
     PropTypes.shape({ label: PropTypes.string.isRequired, value: PropTypes.string.isRequired })
   ).isRequired,
+  comparing: PropTypes.bool,
+  areaInterest: PropTypes.object,
   updateBoundaries: PropTypes.func.isRequired,
   updateAreaInterest: PropTypes.func.isRequired,
+  updateCompareAreaInterest: PropTypes.func.isRequired,
   updateLayer: PropTypes.func.isRequired,
+};
+
+AreasInterestHome.defaultProps = {
+  areaInterest: null,
+  comparing: false,
 };
 
 export default AreasInterestHome;

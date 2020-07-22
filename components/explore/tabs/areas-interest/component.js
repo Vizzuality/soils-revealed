@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import Icon from 'components/icon';
@@ -7,15 +7,23 @@ import Analysis from './analysis';
 
 import './style.scss';
 
-const ExploreAreasInterestTab = ({ areasInterest, onClose, onClickInfo }) => (
-  <div className="c-explore-areas-interest-tab">
-    <button type="button" className="btn btn-outline-primary close-button" onClick={onClose}>
-      <Icon name="close" />
-    </button>
-    {!areasInterest && <Home />}
-    {!!areasInterest && <Analysis onClickInfo={onClickInfo} />}
-  </div>
-);
+const ExploreAreasInterestTab = ({ areasInterest, onClose, onClickInfo }) => {
+  const [showCloseBtn, setShowCloseBtn] = useState(true);
+
+  return (
+    <div className="c-explore-areas-interest-tab">
+      {showCloseBtn && (
+        <button type="button" className="btn btn-outline-primary close-button" onClick={onClose}>
+          <Icon name="close" />
+        </button>
+      )}
+      {!areasInterest && <Home />}
+      {!!areasInterest && (
+        <Analysis onClickInfo={onClickInfo} onChangeVisibilityCloseBtn={setShowCloseBtn} />
+      )}
+    </div>
+  );
+};
 
 ExploreAreasInterestTab.propTypes = {
   areasInterest: PropTypes.object,

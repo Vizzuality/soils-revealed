@@ -1,17 +1,11 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { useRanking } from './helpers';
 
 import './style.scss';
 
-const AreasInterestRanking = ({
-  boundaries,
-  rankingBoundaries,
-  socLayerState,
-  updateBoundaries,
-  updateAreaInterest,
-}) => {
+const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, onClickArea }) => {
   const typeOption = useMemo(
     () =>
       socLayerState.config.settings.type.options.find(
@@ -31,19 +25,6 @@ const AreasInterestRanking = ({
     socLayerState.type,
     rankingBoundaries,
     depthIndex
-  );
-
-  const onClickArea = useCallback(
-    result => {
-      if (boundaries !== result.type) {
-        updateBoundaries(result.type);
-      }
-      updateAreaInterest({
-        id: result.id,
-        name: result.name,
-      });
-    },
-    [boundaries, updateBoundaries, updateAreaInterest]
   );
 
   return (
@@ -86,6 +67,7 @@ const AreasInterestRanking = ({
                     type="button"
                     className="btn btn-link"
                     onClick={() => onClickArea(result)}
+                    disabled={result.id === areaInterest?.id}
                   >
                     {result.name}
                   </button>
@@ -103,11 +85,14 @@ const AreasInterestRanking = ({
 };
 
 AreasInterestRanking.propTypes = {
-  boundaries: PropTypes.string.isRequired,
+  areaInterest: PropTypes.object,
   rankingBoundaries: PropTypes.string.isRequired,
   socLayerState: PropTypes.object.isRequired,
-  updateBoundaries: PropTypes.func.isRequired,
-  updateAreaInterest: PropTypes.func.isRequired,
+  onClickArea: PropTypes.func.isRequired,
+};
+
+AreasInterestRanking.defaultProps = {
+  areaInterest: null,
 };
 
 export default AreasInterestRanking;
