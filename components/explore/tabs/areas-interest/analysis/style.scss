@@ -128,8 +128,11 @@
     margin: map-get($spacers, 2) 0 map-get($spacers, 4);
     font-family: $font-family-2;
     @include font-size($font-size-s);
+    line-height: 1.75;
 
     .c-dropdown {
+      line-height: 1.5;
+
       .target-button {
         font-size: inherit;
       }

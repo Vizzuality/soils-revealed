@@ -45,10 +45,13 @@ module.exports = ({ params: { layer, type, boundaries, depth, areaInterest } }, 
         const sumCounts = counts.reduce((res, count) => res + +count, 0);
         const values = counts.map(count => (+count / sumCounts) * 100);
 
-        return values.map((value, index) => ({
-          value,
-          bin: bins[index],
-        }));
+        return {
+          average: rows[0].mean_diff,
+          rows: values.map((value, index) => ({
+            value,
+            bin: bins[index],
+          })),
+        };
       })
       .then(data => {
         // We cache the result for 10 minutes
