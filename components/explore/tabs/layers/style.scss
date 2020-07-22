@@ -6,6 +6,7 @@
   align-items: stretch;
   width: rem(820);
   height: rem(580);
+  padding: map-get($spacers, 2) map-get($spacers, 3);
 
   .close-button {
     display: flex;
@@ -54,8 +55,8 @@
     .c-accordion {
       flex-grow: 1;
       flex-shrink: 1;
-      margin: 0 -#{map-get($spacers, 3)};
-      padding: 0 map-get($spacers, 3);
+      margin: 0 -#{map-get($spacers, 3)} 0 -#{2 * map-get($spacers, 3)};
+      padding: 0 map-get($spacers, 3) 0 #{2 * map-get($spacers, 3)};
       overflow: auto;
 
       .group-title {
@@ -64,8 +65,8 @@
     }
 
     .layer-row {
-      margin: 0 -#{map-get($spacers, 3)};
-      padding: #{map-get($spacers, 1) / 2} 0;
+      margin: 0 -#{map-get($spacers, 3)} 0 -#{2 * map-get($spacers, 3)};
+      padding: #{map-get($spacers, 1) / 2} 0 #{map-get($spacers, 1) / 2} #{map-get($spacers, 3)};
 
       &.-highlighted {
         background-color: $background-color-1;
@@ -90,14 +91,17 @@
 
   .preview {
     position: relative;
-    width: calc(50% + #{map-get($spacers, 3)} - #{map-get($spacers, 3) / 2});
+    width: calc(50% + #{2 * map-get($spacers, 3)} - #{map-get($spacers, 3) / 2});
     flex-shrink: 0;
-    margin: -#{map-get($spacers, 3)} -#{map-get($spacers, 3)} -#{map-get($spacers, 3)} 0;
+    margin: -#{map-get($spacers, 3) + map-get($spacers, 2)} -#{2 * map-get($spacers, 3)} -#{map-get(
+        $spacers,
+        3
+      ) + map-get($spacers, 2)} 0;
 
     h3 {
       display: inline-block;
       position: absolute;
-      top: map-get($spacers, 2);
+      top: 2 * map-get($spacers, 2);
       left: map-get($spacers, 2);
       padding: map-get($spacers, 1) map-get($spacers, 2);
       @include font-size($font-size-base);
@@ -116,6 +120,7 @@
       bottom: 0;
       left: 0;
       width: 100%;
+      padding-bottom: #{map-get($spacers, 2) + map-get($spacers, 3)};
     }
   }
 }
