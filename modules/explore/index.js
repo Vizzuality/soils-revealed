@@ -32,10 +32,14 @@ const selectors = {
   ),
   selectShowTour: state => state.explore.showTour,
   selectFeatureStates: createSelector(
-    [mapModule.selectBoundaries, analysisModule.selectAreaInterest],
-    (boundaries, areaInterest) => {
+    [
+      mapModule.selectBoundaries,
+      analysisModule.selectAreaInterest,
+      analysisModule.selectCompareAreaInterest,
+    ],
+    (boundaries, areaInterest, compareAreaInterest) => {
       if (areaInterest) {
-        return [
+        let res = [
           {
             source: boundaries,
             sourceLayer: BOUNDARIES[boundaries].config.render.layers[0]['source-layer'],
@@ -43,6 +47,17 @@ const selectors = {
             state: { active: true },
           },
         ];
+
+        if (compareAreaInterest) {
+          res.push({
+            source: boundaries,
+            sourceLayer: BOUNDARIES[boundaries].config.render.layers[0]['source-layer'],
+            id: compareAreaInterest.id,
+            state: { active: true },
+          });
+        }
+
+        return res;
       }
 
       return [];
