@@ -1,12 +1,11 @@
 import { connect } from 'react-redux';
 
-import { mapSelectors, mapActions, analysisSelectors } from 'modules/explore';
+import { mapSelectors, analysisSelectors, mapActions } from 'modules/explore';
 import Component from './component';
 
 export default connect(
   state => ({
     socLayerState: mapSelectors.selectSOCLayerState(state),
-    boundaries: mapSelectors.selectBoundaries(state),
     areaInterest: analysisSelectors.selectAreaInterest(state),
     compareAreaInterest: analysisSelectors.selectCompareAreaInterest(state),
   }),

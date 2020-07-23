@@ -204,6 +204,11 @@
           fill: #dddedb;
         }
 
+        rect.compare {
+          stroke-width: rem(1);
+          stroke: $black;
+        }
+
         line {
           stroke-width: rem(2);
           stroke: #8f3721;

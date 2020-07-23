@@ -14,12 +14,19 @@ import {
 } from 'recharts';
 
 import { slugify } from 'utils/functions';
-import { Switch, Dropdown } from 'components/forms';
+import { Switch } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
-import { useChange } from './helpers';
+import { useChange, getHumanReadableValue } from './helpers';
+import DynamicSentence from './dynamic-sentence';
 
-const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer }) => {
+const ChangeSection = ({
+  socLayerState,
+  boundaries,
+  areaInterest,
+  compareAreaInterest,
+  updateLayer,
+}) => {
   const typeOption = useMemo(
     () =>
       socLayerState.config.settings.type.options.find(
@@ -36,35 +43,13 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
 
   const modeOptions = typeOption.settings.mode.options;
 
-  const depthOptions = typeOption.settings.depth.options;
-  const depthOption = depthOptions[depthIndex];
-
-  const year1Option = useMemo(
-    () =>
-      socLayerState.id === 'soc-experimental' || socLayerState.type === 'recent'
-        ? typeOption.settings.year.options.find(
-            option => option.value === `${typeOption.settings.year1.defaultOption}`
-          )
-        : null,
-    [typeOption, socLayerState]
-  );
-
-  const year2Option = useMemo(
-    () =>
-      socLayerState.id === 'soc-experimental' || socLayerState.type === 'recent'
-        ? typeOption.settings.year.options.find(
-            option => option.value === `${typeOption.settings.year2.defaultOption}`
-          )
-        : null,
-    [typeOption, socLayerState]
-  );
-
   const { data, error } = useChange(
     socLayerState.id,
     typeOption.value,
     boundaries,
     depthIndex,
-    areaInterest.id
+    areaInterest.id,
+    compareAreaInterest?.id
   );
 
   const onChangeMode = useCallback(() => {
@@ -73,11 +58,6 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
 
     updateLayer({ id: socLayerState.id, mode: newMode });
   }, [socLayerState, modeOptions, updateLayer]);
-
-  const onChangeDepth = useCallback(
-    ({ value }) => updateLayer({ id: socLayerState.id, depth: value }),
-    [socLayerState, updateLayer]
-  );
 
   const onClickDownload = useCallback(() => {
     const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
@@ -93,15 +73,6 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
     socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration'
       ? 'g C/kg'
       : 't C/ha';
-
-  let average = data?.average ?? '−';
-  if (typeof average === 'number') {
-    if (Math.abs(average) < 0.01) {
-      average = '< 0.01';
-    } else {
-      average = Math.abs(average).toFixed(2);
-    }
-  }
 
   return (
     <section>
@@ -142,29 +113,22 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
       {!error && data?.rows?.length > 0 && (
         <>
           <div className="chart-intro">
-            {(socLayerState.id === 'soc-experimental' || socLayerState.type === 'recent') && (
-              <>
-                From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
-              </>
-            )}
-            {areaInterest.name} has experienced a {data.average < 0 ? 'loss' : 'gain'} of soil
-            organic carbon, averaging {average} {unit} at{' '}
-            {depthOptions.length > 1 && (
-              <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
-            )}
-            {depthOptions.length <= 1 && <strong>{depthOption.label}</strong>} depth.
+            <DynamicSentence data={data} unit={unit} />
           </div>
-          <ResponsiveContainer width="100%" aspect={1.3}>
+          <ResponsiveContainer
+            width="100%"
+            aspect={1.3}
+            className={compareAreaInterest ? '-compare' : undefined}
+          >
             <BarChart
               data={data.rows}
-              margin={{ top: 0, right: 0, bottom: 45, left: 0 }}
+              margin={{ top: 0, right: 0, bottom: compareAreaInterest ? 65 : 45, left: 0 }}
               barCategoryGap={1}
+              barGap={0}
             >
               <Tooltip
                 labelFormatter={value => `${value} ${unit}`}
-                formatter={value => [
-                  value < 0.01 ? '< 0.01' : /** @type {number} */ (value).toFixed(2),
-                ]}
+                formatter={value => [getHumanReadableValue(/** @type {number} */ (value))]}
               />
               <XAxis
                 dataKey="bin"
@@ -177,6 +141,19 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
                   position="insideBottomLeft"
                   content={({ viewBox }) => {
                     const LINE_HEIGHT = 16;
+
+                    let areaInterestName = areaInterest.name ?? '−';
+                    if (areaInterestName.length >= 12) {
+                      areaInterestName = `${areaInterestName.slice(0, 10)}…`;
+                    }
+
+                    let compareAreaInterestName = compareAreaInterest
+                      ? compareAreaInterest.name ?? '−'
+                      : null;
+                    if (compareAreaInterestName?.length >= 12) {
+                      compareAreaInterestName = `${compareAreaInterestName.slice(0, 10)}…`;
+                    }
+
                     return (
                       <>
                         <g className="recharts-text recharts-legend">
@@ -208,6 +185,41 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
                           >
                             Gain
                           </text>
+                          {compareAreaInterest && (
+                            <>
+                              <rect
+                                className="compare"
+                                x={viewBox.x + 5}
+                                width={17}
+                                y={viewBox.y + LINE_HEIGHT + 57}
+                                height={17}
+                                fill="url(#change-chart-bar-pattern)"
+                              />
+                              <text
+                                x={viewBox.x + 35}
+                                y={viewBox.y + LINE_HEIGHT + 70}
+                                textAnchor="start"
+                              >
+                                <title>{areaInterest.name ?? '−'}</title>
+                                {areaInterestName}
+                              </text>
+                              <rect
+                                className="compare"
+                                x={viewBox.x + 35 + areaInterestName.length * 10}
+                                width={17}
+                                y={viewBox.y + LINE_HEIGHT + 57}
+                                height={17}
+                              />
+                              <text
+                                x={viewBox.x + 65 + areaInterestName.length * 10}
+                                y={viewBox.y + LINE_HEIGHT + 70}
+                                textAnchor="start"
+                              >
+                                <title>{compareAreaInterest.name ?? '−'}</title>
+                                {compareAreaInterestName}
+                              </text>
+                            </>
+                          )}
                         </g>
                         <g className="recharts-text recharts-label">
                           <text x={viewBox.width} y={viewBox.y + LINE_HEIGHT + 40} textAnchor="end">
@@ -302,6 +314,13 @@ const ChangeSection = ({ socLayerState, boundaries, areaInterest, updateLayer })
                   <Cell key={d.bin} fill="url(#change-chart-bar-pattern)" />
                 ))}
               </Bar>
+              {compareAreaInterest && (
+                <Bar dataKey="compareValue" isAnimationActive={false} unit="%">
+                  {data.rows.map(d => (
+                    <Cell key={d.bin} />
+                  ))}
+                </Bar>
+              )}
             </BarChart>
           </ResponsiveContainer>
         </>
@@ -314,7 +333,12 @@ ChangeSection.propTypes = {
   socLayerState: PropTypes.object.isRequired,
   boundaries: PropTypes.string.isRequired,
   areaInterest: PropTypes.object.isRequired,
+  compareAreaInterest: PropTypes.object,
   updateLayer: PropTypes.func.isRequired,
+};
+
+ChangeSection.defaultProps = {
+  compareAreaInterest: null,
 };
 
 export default ChangeSection;

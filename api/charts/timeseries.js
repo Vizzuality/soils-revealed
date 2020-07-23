@@ -75,7 +75,7 @@ module.exports = async (
       });
     }
 
-    // We cache the result for 10 minutes
+    // We cache the results for 10 minutes
     res.set('Cache-Control', `public,max-age=${10 * 60}`);
     res.send({ data: resData });
   } catch (e) {
