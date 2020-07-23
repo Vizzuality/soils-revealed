@@ -65,9 +65,11 @@ const ChangeSection = ({
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${slugify(areaInterest.name)}-change-data.json`;
+    a.download = `${slugify(areaInterest.name)}-${
+      compareAreaInterest ? `${slugify(compareAreaInterest.name)}-` : ''
+    }change-data.json`;
     a.click();
-  }, [data, areaInterest]);
+  }, [data, areaInterest, compareAreaInterest]);
 
   const unit =
     socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration'

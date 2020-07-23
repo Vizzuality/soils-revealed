@@ -97,9 +97,11 @@ const TimeseriesSection = ({
 
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${slugify(areaInterest.name)}-timeseries-data.json`;
+    a.download = `${slugify(areaInterest.name)}-${
+      compareAreaInterest ? `${slugify(compareAreaInterest.name)}-` : ''
+    }timeseries-data.json`;
     a.click();
-  }, [data, areaInterest]);
+  }, [data, areaInterest, compareAreaInterest]);
 
   const unit =
     socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration'
