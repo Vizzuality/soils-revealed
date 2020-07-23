@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from 'recharts';
 
-import { slugify } from 'utils/functions';
+import { slugify, truncate } from 'utils/functions';
 import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
@@ -178,17 +178,10 @@ const TimeseriesSection = ({
                   content={({ viewBox }) => {
                     const LINE_HEIGHT = 16;
 
-                    let areaInterestName = areaInterest.name ?? '−';
-                    if (areaInterestName.length >= 12) {
-                      areaInterestName = `${areaInterestName.slice(0, 10)}…`;
-                    }
-
-                    let compareAreaInterestName = compareAreaInterest
-                      ? compareAreaInterest.name ?? '−'
+                    const areaInterestName = truncate(areaInterest.name ?? '−', 12);
+                    const compareAreaInterestName = compareAreaInterest
+                      ? truncate(compareAreaInterest.name ?? '−', 12)
                       : null;
-                    if (compareAreaInterestName?.length >= 12) {
-                      compareAreaInterestName = `${compareAreaInterestName.slice(0, 10)}…`;
-                    }
 
                     return (
                       <g className="recharts-text recharts-legend">

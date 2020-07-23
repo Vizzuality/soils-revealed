@@ -30,3 +30,32 @@ export const deserialize = (string, defaultState = {}) => {
  * @param {string} string String to slugify
  */
 export const slugify = string => slugifyExt(string).toLowerCase();
+
+/**
+ * Approximate or truncate the number so it is more readable
+ * @param {number} number Number to format
+ */
+export const getHumanReadableValue = number => {
+  if (number > 0 && number < 0.01) {
+    return '< 0.01';
+  }
+
+  if (number < 0 && number > -0.01) {
+    return '≈ 0';
+  }
+
+  return number.toFixed(2);
+};
+
+/**
+ * Truncate a string to a number of characters, adding an ellipsis at the end
+ * @param {string} str String to truncate
+ * @param {number} charLimit Character limit
+ */
+export const truncate = (str, charLimit) => {
+  if (str.length > charLimit) {
+    return `${str.slice(0, charLimit - 1)}…`;
+  }
+
+  return str;
+};

@@ -80,19 +80,3 @@ export const useChange = (
       })
   );
 };
-
-/**
- * Approximate or truncate the number so it is more readable
- * @param {number} number Number to format
- */
-export const getHumanReadableValue = number => {
-  if (number > 0 && number < 0.01) {
-    return '< 0.01';
-  }
-
-  if (number < 0 && number > -0.01) {
-    return '≈ 0';
-  }
-
-  return number.toFixed(2);
-};

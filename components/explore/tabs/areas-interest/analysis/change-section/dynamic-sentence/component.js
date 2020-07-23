@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { getHumanReadableValue } from '../helpers';
+import { getHumanReadableValue } from 'utils/functions';
 import { Dropdown } from 'components/forms';
 
 const DynamicSentence = ({

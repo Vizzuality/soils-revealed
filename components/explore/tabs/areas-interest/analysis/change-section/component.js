@@ -13,11 +13,11 @@ import {
   Customized,
 } from 'recharts';
 
-import { slugify } from 'utils/functions';
+import { slugify, getHumanReadableValue, truncate } from 'utils/functions';
 import { Switch } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
-import { useChange, getHumanReadableValue } from './helpers';
+import { useChange } from './helpers';
 import DynamicSentence from './dynamic-sentence';
 
 const ChangeSection = ({
@@ -142,17 +142,10 @@ const ChangeSection = ({
                   content={({ viewBox }) => {
                     const LINE_HEIGHT = 16;
 
-                    let areaInterestName = areaInterest.name ?? '−';
-                    if (areaInterestName.length >= 12) {
-                      areaInterestName = `${areaInterestName.slice(0, 10)}…`;
-                    }
-
-                    let compareAreaInterestName = compareAreaInterest
-                      ? compareAreaInterest.name ?? '−'
+                    const areaInterestName = truncate(areaInterest.name ?? '−', 12);
+                    const compareAreaInterestName = compareAreaInterest
+                      ? truncate(compareAreaInterest.name ?? '−', 12)
                       : null;
-                    if (compareAreaInterestName?.length >= 12) {
-                      compareAreaInterestName = `${compareAreaInterestName.slice(0, 10)}…`;
-                    }
 
                     return (
                       <>
