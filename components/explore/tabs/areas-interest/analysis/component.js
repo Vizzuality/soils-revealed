@@ -135,8 +135,6 @@ const Analysis = ({
             <Icon name="info" />
           </button>
         </header>
-      </div>
-      <div className="scrollable-container">
         {socLayerState.id === 'soc-stock' && (
           <div className="soc-stock-switcher mt-2">
             {typeOptions.map(option => (
@@ -153,6 +151,8 @@ const Analysis = ({
             ))}
           </div>
         )}
+      </div>
+      <div className="scrollable-container">
         {(socLayerState.id !== 'soc-stock' || socLayerState.type === 'recent') && (
           <TimeseriesSection />
         )}
