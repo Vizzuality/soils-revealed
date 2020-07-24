@@ -11,15 +11,20 @@ const ExploreInteractiveFeaturePopup = ({
   lng,
   properties,
   boundaries,
+  compareAreaInterest,
   onClose,
   updateAreaInterest,
+  updateCompareAreaInterest,
 }) => {
   const [selectedFeatureId, setSelectedFeatureId] = useState(null);
 
   const onSubmit = useCallback(
     e => {
       e.preventDefault();
-      updateAreaInterest({
+
+      const updater = compareAreaInterest ? updateCompareAreaInterest : updateAreaInterest;
+
+      updater({
         id: selectedFeatureId,
         name: BOUNDARIES[boundaries].config.interactiveFeatureName(
           properties.find(prop => {
@@ -32,7 +37,15 @@ const ExploreInteractiveFeaturePopup = ({
       });
       onClose();
     },
-    [properties, boundaries, selectedFeatureId, updateAreaInterest, onClose]
+    [
+      properties,
+      boundaries,
+      compareAreaInterest,
+      selectedFeatureId,
+      updateAreaInterest,
+      updateCompareAreaInterest,
+      onClose,
+    ]
   );
 
   // TODO: this is temporal until the River basins and Political boundaries layers have a unique ID
@@ -97,7 +110,11 @@ const ExploreInteractiveFeaturePopup = ({
               type="submit"
               className="btn btn-sm btn-primary btn-block "
               onClick={() => {
-                updateAreaInterest({
+                const updater = compareAreaInterest
+                  ? updateCompareAreaInterest
+                  : updateAreaInterest;
+
+                updater({
                   id: properties[0].id,
                   name: BOUNDARIES[boundaries].config.interactiveFeatureName(properties[0]),
                 });
@@ -118,8 +135,14 @@ ExploreInteractiveFeaturePopup.propTypes = {
   lng: PropTypes.number.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   boundaries: PropTypes.string.isRequired,
+  compareAreaInterest: PropTypes.object,
   onClose: PropTypes.func.isRequired,
   updateAreaInterest: PropTypes.func.isRequired,
+  updateCompareAreaInterest: PropTypes.func.isRequired,
+};
+
+ExploreInteractiveFeaturePopup.defaultProps = {
+  compareAreaInterest: null,
 };
 
 export default ExploreInteractiveFeaturePopup;
