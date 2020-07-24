@@ -56,7 +56,6 @@ const getTrimmedData = (data, xKey, yKey) => {
   );
 
   if (trimmedRows.length >= MIN_BIN_COUNT) {
-    console.log('DEVIATION', yKey);
     return trimmedRows;
   }
 
@@ -76,7 +75,6 @@ const getTrimmedData = (data, xKey, yKey) => {
   const minBinIndex = Math.max(0, closestToMeanBinIndex - (MIN_BIN_COUNT - 1) / 2);
   const maxBinIndex = Math.min(data.length - 1, closestToMeanBinIndex + (MIN_BIN_COUNT - 1) / 2);
 
-  console.log('MIN_BIN_COUNT', yKey, trimmedRows.length);
   return data.slice(minBinIndex, maxBinIndex + 1);
 };
 
