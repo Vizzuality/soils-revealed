@@ -81,7 +81,7 @@ const LEGEND_ITEMS = {
       { color: '#380E03', value: '200' },
     ],
     change: [
-      { color: '#B30200', value: '-80' },
+      { color: '#B30200', value: '-1.6' },
       { color: '#E34A33', value: '' },
       { color: '#FC8D59', value: '' },
       { color: '#FDCC8A', value: '' },
@@ -89,7 +89,7 @@ const LEGEND_ITEMS = {
       { color: '#A1DAB4', value: '' },
       { color: '#31B3BD', value: '' },
       { color: '#1C9099', value: '' },
-      { color: '#066C59', value: '80' },
+      { color: '#066C59', value: '1.6' },
     ],
   },
   future: {
