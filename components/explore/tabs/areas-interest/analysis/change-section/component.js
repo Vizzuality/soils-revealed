@@ -265,6 +265,9 @@ const ChangeSection = ({
                   const { scale, padding, x, y, width } = xAxisMap[0];
                   const { width: yAxisWidth } = yAxisMap[0];
 
+                  const showRedBar = scale(0) !== undefined || data.rows[0].bin < 0;
+                  const showGreenBar = scale(0) !== undefined || data.rows[0].bin > 0;
+
                   return (
                     <>
                       {/* The pattern (dots) of the bars */}
@@ -285,20 +288,38 @@ const ChangeSection = ({
                       </defs>
                       {/* The green and red bar above the ticks */}
                       <g>
-                        <rect
-                          x={x + padding.left + yAxisWidth}
-                          width={scale(0) + scale.bandwidth() / 2 - x - padding.left - yAxisWidth}
-                          y={y + 2}
-                          height="4"
-                          fill="#ae224a"
-                        />
-                        <rect
-                          x={scale(0) + scale.bandwidth() / 2 + 1}
-                          width={width - scale(0) - scale.bandwidth() / 2 - padding.right - 1}
-                          y={y + 2}
-                          height="4"
-                          fill="#31b8a8"
-                        />
+                        {showRedBar && (
+                          <rect
+                            x={x + padding.left + yAxisWidth}
+                            width={
+                              (scale(0) ?? width) +
+                              scale.bandwidth() / 2 -
+                              x -
+                              padding.left -
+                              yAxisWidth
+                            }
+                            y={y + 2}
+                            height="4"
+                            fill="#ae224a"
+                          />
+                        )}
+                        {showGreenBar && (
+                          <rect
+                            x={
+                              scale(0) === undefined
+                                ? x + padding.left + yAxisWidth
+                                : scale(0) + scale.bandwidth() / 2 + 1
+                            }
+                            width={
+                              scale(0) === undefined
+                                ? width + scale.bandwidth() / 2 - x - padding.left - yAxisWidth
+                                : width - scale(0) - scale.bandwidth() / 2 - padding.right - 1
+                            }
+                            y={y + 2}
+                            height="4"
+                            fill="#31b8a8"
+                          />
+                        )}
                       </g>
                     </>
                   );
