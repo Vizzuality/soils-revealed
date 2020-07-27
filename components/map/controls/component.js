@@ -15,6 +15,7 @@ const MapControls = ({
   basemapParams,
   roads,
   labels,
+  drawing,
   onChangeZoom,
   onChangeBasemap,
   onChangeBasemapParams,
@@ -64,7 +65,12 @@ const MapControls = ({
         </button>
       </div>
       <div className="group">
-        <button type="button" className="btn btn-primary btn-sm" onClick={onClickHelp}>
+        <button
+          type="button"
+          className="btn btn-primary btn-sm"
+          disabled={drawing}
+          onClick={onClickHelp}
+        >
           <Icon name="help" />
         </button>
       </div>
@@ -80,6 +86,7 @@ MapControls.propTypes = {
   basemapParams: PropTypes.object,
   roads: PropTypes.bool.isRequired,
   labels: PropTypes.bool.isRequired,
+  drawing: PropTypes.bool.isRequired,
   onChangeZoom: PropTypes.func.isRequired,
   onChangeBasemap: PropTypes.func.isRequired,
   onChangeBasemapParams: PropTypes.func.isRequired,

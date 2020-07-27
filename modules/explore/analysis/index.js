@@ -6,6 +6,8 @@ export const selectAreaInterest = state => state[SLICE_NAME].areaInterest;
 
 export const selectCompareAreaInterest = state => state[SLICE_NAME].compareAreaInterest;
 
+export const selectDrawing = state => state[SLICE_NAME].drawing;
+
 export const selectSerializedState = createSelector(
   [selectAreaInterest, selectCompareAreaInterest],
   (areaInterest, compareAreaInterest) => ({
@@ -20,6 +22,7 @@ export default exploreActions =>
     initialState: {
       areaInterest: null,
       compareAreaInterest: null,
+      drawing: false,
     },
     reducers: {
       updateAreaInterest(state, action) {
@@ -35,6 +38,9 @@ export default exploreActions =>
       swapAndResetAreaInterest(state) {
         state.areaInterest = state.compareAreaInterest;
         state.compareAreaInterest = null;
+      },
+      updateDrawing(state, action) {
+        state.drawing = action.payload;
       },
     },
     extraReducers: {

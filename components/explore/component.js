@@ -12,6 +12,7 @@ import {
   LayerManager,
   Controls,
   Legend,
+  DrawEditor,
   BASEMAPS,
   LAYERS,
   mapStyle,
@@ -23,6 +24,8 @@ import ExperimentalDatasetToggle from './experimental-dataset-toggle';
 import Attributions from './attributions';
 import InfoModal from './info-modal';
 import InteractiveFeaturePopup from './interactive-feature-popup';
+import DrawBoard from './draw-board';
+import MapContainer from './map-container';
 
 import './style.scss';
 
@@ -43,6 +46,7 @@ const Explore = ({
   activeLayersDef,
   activeLayersInteractiveIds,
   legendDataLayers,
+  drawing,
   serializedState,
   restoreState,
   updateZoom,
@@ -182,21 +186,24 @@ const Explore = ({
             params={infoLayer}
             onClose={() => setInfoLayer(null)}
           />
-          <Attributions />
-          <Tabs onClickInfo={setInfoLayer} />
-          <ExperimentalDatasetToggle />
-          <Legend
-            layers={legendDataLayers}
-            onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
-            onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
-            onClickInfo={setInfoLayer}
-            onClickRemove={removeLayer}
-            onChangeDate={(id, dates) =>
-              updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
-            }
-            onChangeLayersOrder={updateLayerOrder}
-            onChangeParams={(id, params) => updateLayer({ id, ...params })}
-          />
+          {drawing && <DrawBoard />}
+          {!drawing && <Attributions />}
+          {!drawing && <Tabs onClickInfo={setInfoLayer} />}
+          {!drawing && <ExperimentalDatasetToggle />}
+          {!drawing && (
+            <Legend
+              layers={legendDataLayers}
+              onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
+              onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
+              onClickInfo={setInfoLayer}
+              onClickRemove={removeLayer}
+              onChangeDate={(id, dates) =>
+                updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
+              }
+              onChangeLayersOrder={updateLayerOrder}
+              onChangeParams={(id, params) => updateLayer({ id, ...params })}
+            />
+          )}
           {/* Controls must be placed after the legend so they are visually on top (same z-index) */}
           <Controls
             zoom={zoom}
@@ -212,28 +219,37 @@ const Explore = ({
             onChangeRoads={updateRoads}
             onChangeLabels={updateLabels}
           />
-          <Map
-            ref={mapRef}
-            mapStyle={mapStyle}
-            viewport={viewport}
-            interactiveLayerIds={activeLayersInteractiveIds}
-            featureStates={featureStates}
-            onViewportChange={onChangeViewport}
-            onLoad={onLoadMap}
-            onClick={onClickMap}
-          >
-            {map => (
-              <>
-                {interactiveFeatures && (
-                  <InteractiveFeaturePopup
-                    {...interactiveFeatures}
-                    onClose={() => setInteractiveFeaturesThrottled(null)}
-                  />
-                )}
-                <LayerManager map={map} providers={{}} layers={activeLayersDef} />{' '}
-              </>
-            )}
-          </Map>
+          <MapContainer>
+            <Map
+              ref={mapRef}
+              mapStyle={mapStyle}
+              viewport={viewport}
+              interactiveLayerIds={drawing ? [] : activeLayersInteractiveIds}
+              featureStates={featureStates}
+              getCursor={({ isHovering, isDragging }) => {
+                if (drawing) return 'crosshair';
+                if (isHovering) return 'pointer';
+                if (isDragging) return 'grabbing';
+                return 'grab';
+              }}
+              onViewportChange={onChangeViewport}
+              onLoad={onLoadMap}
+              onClick={onClickMap}
+            >
+              {map => (
+                <>
+                  {drawing && <DrawEditor />}
+                  {interactiveFeatures && (
+                    <InteractiveFeaturePopup
+                      {...interactiveFeatures}
+                      onClose={() => setInteractiveFeaturesThrottled(null)}
+                    />
+                  )}
+                  <LayerManager map={map} providers={{}} layers={activeLayersDef} />{' '}
+                </>
+              )}
+            </Map>
+          </MapContainer>
         </>
       )}
       {!isDesktop && (
@@ -260,6 +276,7 @@ Explore.propTypes = {
   activeLayersDef: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeLayersInteractiveIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   legendDataLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
+  drawing: PropTypes.bool.isRequired,
   serializedState: PropTypes.string.isRequired,
   restoreState: PropTypes.func.isRequired,
   updateZoom: PropTypes.func.isRequired,

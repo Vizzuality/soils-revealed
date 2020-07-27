@@ -16,5 +16,6 @@ export default connect(
     updateAreaInterest: analysisActions.updateAreaInterest,
     updateCompareAreaInterest: analysisActions.updateCompareAreaInterest,
     updateLayer: mapActions.updateLayer,
+    updateDrawing: analysisActions.updateDrawing,
   }
 )(Component);

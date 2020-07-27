@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getLayerExtraParams } from 'utils/map';
 import Icon from 'components/icon';
 import { Radio } from 'components/forms';
-import { LAYERS } from 'components/map';
+import { LAYERS } from 'components/map/constants';
 import Tooltip from 'components/tooltip';
 import Compare from './compare';
 import TimeseriesSection from './timeseries-section';
@@ -13,7 +13,7 @@ import ChangeSection from './change-section';
 import './style.scss';
 
 const Analysis = ({
-  areasInterest,
+  areaInterest,
   compareAreaInterest,
   socLayerState,
   updateLayer,
@@ -68,11 +68,11 @@ const Analysis = ({
     <div className="c-areas-interest-tab-analysis">
       <div className="static-container">
         <div className="d-flex justify-content-between align-items-start">
-          {!compareAreaInterest && <h3 className="mb-4">{areasInterest.name ?? '−'}</h3>}
+          {!compareAreaInterest && <h3 className="mb-4">{areaInterest.name ?? '−'}</h3>}
           {!!compareAreaInterest && (
             <h3 className="mb-4">
               <div>
-                {areasInterest.name ?? '−'}
+                {areaInterest.name ?? '−'}
                 <button
                   type="button"
                   className="ml-3 align-baseline btn btn-sm btn-light"
@@ -163,7 +163,7 @@ const Analysis = ({
 };
 
 Analysis.propTypes = {
-  areasInterest: PropTypes.object.isRequired,
+  areaInterest: PropTypes.object.isRequired,
   compareAreaInterest: PropTypes.object,
   socLayerState: PropTypes.object.isRequired,
   updateLayer: PropTypes.func.isRequired,

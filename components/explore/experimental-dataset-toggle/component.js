@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { Switch } from 'components/forms';
 import HintButton from 'components/hint-button';
-import { LAYERS } from 'components/map';
+import { LAYERS } from 'components/map/constants';
 
 import './style.scss';
 

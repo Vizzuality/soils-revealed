@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
 import { getLayerExtraParams } from 'utils/map';
-import { BOUNDARIES, LAYERS } from 'components/map';
+import { BOUNDARIES, LAYERS } from 'components/map/constants';
 import { Dropdown } from 'components/forms';
 import { useResults } from './helpers';
 import Ranking from '../ranking';
@@ -21,6 +21,7 @@ const AreasInterestHome = ({
   updateAreaInterest,
   updateCompareAreaInterest,
   updateLayer,
+  updateDrawing,
 }) => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -199,6 +200,16 @@ const AreasInterestHome = ({
           <Ranking onClickArea={onClickArea} />
         </>
       )}
+      <div className="drawing-container text-center">
+        Or draw an area on the map
+        <button
+          type="button"
+          className="btn btn-primary d-block mt-3 mx-auto  py-2 px-5"
+          onClick={() => updateDrawing(true)}
+        >
+          Start drawing
+        </button>
+      </div>
     </div>
   );
 };
@@ -216,6 +227,7 @@ AreasInterestHome.propTypes = {
   updateAreaInterest: PropTypes.func.isRequired,
   updateCompareAreaInterest: PropTypes.func.isRequired,
   updateLayer: PropTypes.func.isRequired,
+  updateDrawing: PropTypes.func.isRequired,
 };
 
 AreasInterestHome.defaultProps = {

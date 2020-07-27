@@ -43,6 +43,16 @@ const ExploreTabs = ({ showTour, areaInterest, updateAreaInterest, onClickInfo }
     }
   }, [areaInterest]);
 
+  // When the user stops drawing, this component is mounted again so the areas of interest tooltip
+  // must be opened again if the user was analizing
+  // Ideally, the useState should be set to true instead of relying on a useEffect, but rootOffset
+  // must be computed first to properly position the tooltip
+  useEffect(() => {
+    if (areaInterest) {
+      setAreasInterestTooltipVisible(true);
+    }
+  }, [areaInterest, setAreasInterestTooltipVisible]);
+
   return (
     <>
       {layersTooltipVisible && (

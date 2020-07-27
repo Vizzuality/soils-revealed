@@ -24,6 +24,10 @@
       height: #{rem(25) + $btn-border-width * 2};
       padding: 0;
 
+      &[disabled] {
+        cursor: default;
+      }
+
       & + .btn:before {
         display: block;
         position: absolute;

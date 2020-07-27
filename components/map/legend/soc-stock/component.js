@@ -5,7 +5,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { Select, Radio } from 'components/forms';
 import { getLayerExtraParams } from 'utils/map';
-import { LAYERS } from 'components/map';
+import { LAYERS } from 'components/map/constants';
 
 import './style.scss';
 

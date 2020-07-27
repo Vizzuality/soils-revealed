@@ -1,0 +1,37 @@
+@import 'css/settings';
+
+.c-explore-drawing-board {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+
+  > * {
+    position: relative;
+    pointer-events: all;
+    z-index: 1;
+  }
+
+  .background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba($primary, 0.7);
+    mix-blend-mode: hard-light;
+    pointer-events: none;
+
+    &:after {
+      position: absolute;
+      top: map-get($spacers, 3);
+      left: map-get($spacers, 3);
+      width: calc(100vw - #{2 * map-get($spacers, 3)});
+      height: calc(100vh - #{2 * map-get($spacers, 3)});
+      background-color: grey;
+      content: '';
+    }
+  }
+}

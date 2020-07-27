@@ -2,7 +2,7 @@ import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
 import { getLayerSource, getLayerDef, getBoundariesDef, getLayerExtraParams } from 'utils/map';
-import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'components/map';
+import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'components/map/constants';
 
 export const SLICE_NAME = 'map';
 

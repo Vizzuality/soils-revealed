@@ -4,7 +4,7 @@ import Joyride from 'react-joyride';
 
 import { isFirstVisit } from 'utils/explore';
 import { getLayerExtraParams } from 'utils/map';
-import { LAYERS } from 'components/map';
+import { LAYERS } from 'components/map/constants';
 
 import './style.scss';
 

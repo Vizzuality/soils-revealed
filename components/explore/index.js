@@ -1,6 +1,12 @@
 import { connect } from 'react-redux';
 
-import { exploreSelectors, mapSelectors, exploreActions, mapActions } from 'modules/explore';
+import {
+  exploreSelectors,
+  mapSelectors,
+  exploreActions,
+  mapActions,
+  analysisSelectors,
+} from 'modules/explore';
 import Component from './component';
 
 export default connect(
@@ -19,6 +25,7 @@ export default connect(
     activeLayersInteractiveIds: mapSelectors.selectActiveLayersInteractiveIds(state),
     serializedState: exploreSelectors.selectSerializedState(state),
     legendDataLayers: mapSelectors.selectLegendDataLayers(state),
+    drawing: analysisSelectors.selectDrawing(state),
   }),
   {
     restoreState: exploreActions.restoreState,

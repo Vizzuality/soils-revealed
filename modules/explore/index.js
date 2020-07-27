@@ -4,7 +4,7 @@ import { deserialize, serialize } from 'utils/functions';
 import { selectQuery } from '../routing';
 import createMapSlice, * as mapModule from './map';
 import createAnalysisSlice, * as analysisModule from './analysis';
-import { BOUNDARIES } from 'components/map';
+import { BOUNDARIES } from 'components/map/constants';
 
 // Common actions for the explore module
 const actions = {
