@@ -35,6 +35,7 @@ const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
       const values = rows[0].mean_values
         .replace(/(\\n|\[|\])/g, '')
         .replace(/\s+/g, ' ')
+        .trim()
         .split(' ');
 
       return years.map((year, index) => ({

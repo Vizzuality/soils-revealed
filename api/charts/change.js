@@ -34,15 +34,19 @@ const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
       const bins = rows[0].bins
         .replace(/(\\n|\[|\])/g, '')
         .replace(/\s+/g, ' ')
+        .trim()
         .split(' ')
         .map(bin => +bin);
 
       const counts = rows[0].counts
         .replace(/(\\n|\[|\])/g, '')
         .replace(/\s+/g, ' ')
-        .split(' ');
-      const sumCounts = counts.reduce((res, count) => res + +count, 0);
-      const values = counts.map(count => (+count / sumCounts) * 100);
+        .trim()
+        .split(' ')
+        .map(count => +count);
+
+      const sumCounts = counts.reduce((res, count) => res + count, 0);
+      const values = counts.map(count => (count / sumCounts) * 100);
 
       return {
         average: rows[0].mean_diff,
