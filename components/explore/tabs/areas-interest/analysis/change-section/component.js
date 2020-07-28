@@ -235,7 +235,6 @@ const ChangeSection = ({
                 />
               </XAxis>
               <YAxis
-                dataKey="value"
                 // Can't be 0 otherwise the axis is not drawn
                 width={1}
                 axisLine={false}
