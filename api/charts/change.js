@@ -82,7 +82,7 @@ module.exports = async (
           ...(data.rows || []).map(r => r.bin),
           ...(compareData.rows || []).map(r => r.bin),
         ]),
-      ];
+      ].sort((a, b) => a - b);
 
       resData = {
         ...data,

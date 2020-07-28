@@ -118,7 +118,7 @@ export const useChange = (
 
         const bins = [
           ...new Set([...trimmedData.map(d => d.bin), ...trimmedCompareData.map(d => d.bin)]),
-        ];
+        ].sort((a, b) => a - b);
 
         // NOTE: the two datasets might not be centered on the same mean at all, so we could still
         // display a large number of bins/bars because the getTrimmedData only take into account

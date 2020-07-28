@@ -64,7 +64,10 @@ module.exports = async (
         areaInterest: compare,
       });
 
-      const years = [...new Set([...data.map(d => d.year), ...compareData.map(d => d.year)])];
+      const years = [...new Set([...data.map(d => d.year), ...compareData.map(d => d.year)])].sort(
+        (a, b) => a - b
+      );
+
       resData = years.map(year => {
         const dataPoint = data.find(d => d.year === year);
         const compareDataPoint = compareData.find(d => d.year === year);
