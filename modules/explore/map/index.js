@@ -69,9 +69,11 @@ export const selectSOCLayerId = createSelector([selectActiveDataLayers], activeD
 export const selectRankingBoundariesOptions = createSelector([selectSOCLayerId], socLayerId => {
   let keys = Object.keys(BOUNDARIES).filter(key => key !== 'no-boundaries');
 
-  if (socLayerId !== 'soc-stock') {
-    keys = keys.filter(key => key !== 'political-boundaries');
-  }
+  // FIXME: we shouldn't display a ranking of the countries for the experimental dataset as we
+  // only have one country
+  // if (socLayerId !== 'soc-stock') {
+  //   keys = keys.filter(key => key !== 'political-boundaries');
+  // }
 
   return keys.map(key => ({
     label:
@@ -96,10 +98,9 @@ export const selectSOCLayerState = createSelector(
 export const selectRankingBoundaries = createSelector(
   [selectSOCLayerId, selectBoundaries],
   (socLayerId, boundaries) => {
-    if (socLayerId !== 'soc-stock') {
-      if (boundaries === 'no-boundaries' || boundaries === 'political-boundaries') {
-        return 'landforms';
-      }
+    if (socLayerId !== 'soc-stock' && boundaries === 'no-boundaries') {
+      // We only have one country so we default to the Landforms instead of the Political boundaries
+      return 'landforms';
     }
 
     if (boundaries === 'no-boundaries') {
