@@ -11,6 +11,7 @@ const ExploreInteractiveFeaturePopup = ({
   lng,
   properties,
   boundaries,
+  areaInterest,
   compareAreaInterest,
   onClose,
   updateAreaInterest,
@@ -19,10 +20,10 @@ const ExploreInteractiveFeaturePopup = ({
   const [selectedFeatureId, setSelectedFeatureId] = useState(null);
 
   const onSubmit = useCallback(
-    e => {
-      e.preventDefault();
-
-      const updater = compareAreaInterest ? updateCompareAreaInterest : updateAreaInterest;
+    (updater, e) => {
+      if (e) {
+        e.preventDefault();
+      }
 
       updater({
         id: selectedFeatureId,
@@ -37,16 +38,33 @@ const ExploreInteractiveFeaturePopup = ({
       });
       onClose();
     },
-    [
-      properties,
-      boundaries,
-      compareAreaInterest,
-      selectedFeatureId,
-      updateAreaInterest,
-      updateCompareAreaInterest,
-      onClose,
-    ]
+    [properties, boundaries, selectedFeatureId, onClose]
   );
+
+  const onClickGo = useCallback(() => {
+    const updater = compareAreaInterest ? updateCompareAreaInterest : updateAreaInterest;
+
+    updater({
+      id: properties[0].id,
+      name: BOUNDARIES[boundaries].config.interactiveFeatureName(properties[0]),
+    });
+    onClose();
+  }, [
+    boundaries,
+    properties,
+    compareAreaInterest,
+    updateAreaInterest,
+    updateCompareAreaInterest,
+    onClose,
+  ]);
+
+  const onClickCompare = useCallback(() => {
+    updateCompareAreaInterest({
+      id: properties[0].id,
+      name: BOUNDARIES[boundaries].config.interactiveFeatureName(properties[0]),
+    });
+    onClose();
+  }, [boundaries, properties, updateCompareAreaInterest, onClose]);
 
   // TODO: this is temporal until the River basins and Political boundaries layers have a unique ID
   // for each of their features
@@ -70,7 +88,11 @@ const ExploreInteractiveFeaturePopup = ({
           </div>
         )}
         {supportedLayer && properties.length > 1 && (
-          <form onSubmit={onSubmit}>
+          <form
+            onSubmit={e =>
+              onSubmit(compareAreaInterest ? updateCompareAreaInterest : updateAreaInterest, e)
+            }
+          >
             <div className="form-group">
               <label htmlFor="map-interactive-feature">Select {BOUNDARIES[boundaries].noun}:</label>
               <Select
@@ -86,13 +108,25 @@ const ExploreInteractiveFeaturePopup = ({
                 onChange={({ value }) => setSelectedFeatureId(value)}
               />
             </div>
-            <button
-              type="submit"
-              className="btn btn-sm btn-primary btn-block"
-              disabled={!selectedFeatureId}
-            >
-              Go
-            </button>
+            <div className="d-flex justify-content-between">
+              <button
+                type="submit"
+                className="btn btn-sm btn-primary btn-block"
+                disabled={!selectedFeatureId}
+              >
+                Go
+              </button>
+              {!!areaInterest && !compareAreaInterest && (
+                <button
+                  type="button"
+                  className="btn btn-sm btn-primary ml-2"
+                  onClick={() => onSubmit(updateCompareAreaInterest)}
+                  disabled={!selectedFeatureId}
+                >
+                  Compare
+                </button>
+              )}
+            </div>
           </form>
         )}
         {supportedLayer && properties.length === 1 && (
@@ -106,23 +140,24 @@ const ExploreInteractiveFeaturePopup = ({
                 {BOUNDARIES[boundaries].config.interactiveFeatureDescription(properties[0])}
               </p>
             )}
-            <button
-              type="submit"
-              className="btn btn-sm btn-primary btn-block "
-              onClick={() => {
-                const updater = compareAreaInterest
-                  ? updateCompareAreaInterest
-                  : updateAreaInterest;
-
-                updater({
-                  id: properties[0].id,
-                  name: BOUNDARIES[boundaries].config.interactiveFeatureName(properties[0]),
-                });
-                onClose();
-              }}
-            >
-              Go
-            </button>
+            <div className="d-flex justify-content-between">
+              <button
+                type="button"
+                className="btn btn-sm btn-primary btn-block"
+                onClick={onClickGo}
+              >
+                Go
+              </button>
+              {!!areaInterest && !compareAreaInterest && (
+                <button
+                  type="button"
+                  className="btn btn-sm btn-primary ml-2"
+                  onClick={onClickCompare}
+                >
+                  Compare
+                </button>
+              )}
+            </div>
           </div>
         )}
       </div>
@@ -135,6 +170,7 @@ ExploreInteractiveFeaturePopup.propTypes = {
   lng: PropTypes.number.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
   boundaries: PropTypes.string.isRequired,
+  areaInterest: PropTypes.object,
   compareAreaInterest: PropTypes.object,
   onClose: PropTypes.func.isRequired,
   updateAreaInterest: PropTypes.func.isRequired,
@@ -142,6 +178,7 @@ ExploreInteractiveFeaturePopup.propTypes = {
 };
 
 ExploreInteractiveFeaturePopup.defaultProps = {
+  areaInterest: null,
   compareAreaInterest: null,
 };
 
