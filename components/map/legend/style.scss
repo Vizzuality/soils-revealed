@@ -129,10 +129,26 @@ li.vizzuality__c-legend-item {
       @include font-size($font-size-xxs);
       background-color: transparent;
 
+      .vizzuality__c-legend-type-basic {
+        .vizzuality__vertical {
+          column-count: 2;
+          column-gap: map-get($spacers, 3);
+
+          > * {
+            break-inside: avoid;
+          }
+        }
+      }
+
       .vizzuality__c-legend-item-basic {
-        align-items: center;
+        align-items: start;
         font-family: inherit;
         font-size: inherit;
+
+        .vizzuality__icon-square {
+          position: relative;
+          top: rem(2);
+        }
       }
 
       .vizzuality__c-legend-type-choropleth {
