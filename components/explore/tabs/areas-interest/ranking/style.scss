@@ -4,7 +4,6 @@
   .ranking {
     margin: 0 #{-1 * map-get($spacers, 3)};
     padding: 0 map-get($spacers, 3);
-    counter-reset: areas-interest-ranking;
 
     .row {
       padding: map-get($spacers, 1) 0;
@@ -13,7 +12,7 @@
         display: flex;
         align-items: center;
 
-        &:before {
+        .rank {
           flex-shrink: 0;
           display: inline-flex;
           justify-content: center;
@@ -27,8 +26,6 @@
           vertical-align: middle;
           font-family: $font-family-2;
           @include font-size($font-size-xxs);
-          counter-increment: areas-interest-ranking;
-          content: counter(areas-interest-ranking);
         }
 
         .btn-link {
@@ -55,6 +52,41 @@
         text-align: right;
         font-family: $font-family-2;
         @include font-size($font-size-xxs);
+      }
+    }
+
+    .control-buttons {
+      display: flex;
+      justify-content: center;
+      margin: map-get($spacers, 3) auto 0;
+
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: rem(25);
+        height: rem(25);
+        padding: 0;
+        border-radius: 100%;
+
+        &:first-of-type {
+          .c-icon {
+            transform: rotate(180deg);
+          }
+        }
+
+        &:last-of-type {
+          margin-left: map-get($spacers, 2);
+        }
+
+        .c-icon {
+          width: rem(10);
+          height: rem(10);
+
+          use {
+            fill: currentColor;
+          }
+        }
       }
     }
   }

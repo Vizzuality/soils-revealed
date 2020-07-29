@@ -1,11 +1,18 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import Icon from 'components/icon';
+import { Select } from 'components/forms';
 import { useRanking } from './helpers';
 
 import './style.scss';
 
+const RESULTS_PER_PAGE = 5;
+
 const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, onClickArea }) => {
+  const [pageIndex, setPageIndex] = useState(0);
+  const [order, setOrder] = useState('asc');
+
   const typeOption = useMemo(
     () =>
       socLayerState.config.settings.type.options.find(
@@ -24,8 +31,25 @@ const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, 
     socLayerState.id,
     socLayerState.type,
     rankingBoundaries,
-    depthIndex
+    depthIndex,
+    order
   );
+
+  const maxPageIndex = useMemo(() => {
+    if (!error && results?.length > 0) {
+      return Math.ceil(results.length / RESULTS_PER_PAGE);
+    }
+
+    return 0;
+  }, [error, results]);
+
+  const pageResults = useMemo(() => {
+    if (!error && results?.length > 0) {
+      return results.slice(pageIndex * RESULTS_PER_PAGE, (1 + pageIndex) * RESULTS_PER_PAGE);
+    }
+
+    return [];
+  }, [error, results, pageIndex]);
 
   return (
     <div className="c-areas-interest-ranking">
@@ -39,7 +63,20 @@ const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, 
       )}
       {!error && results?.length > 0 && (
         <div className="ranking">
-          {results.map(result => {
+          <Select
+            className="d-block w-100 mt-4 mb-3 text-center"
+            aria-label="Ranking sort order"
+            options={[
+              { label: 'Ascending ranking', value: 'asc' },
+              { label: 'Descending ranking', value: 'desc' },
+            ]}
+            value={order}
+            onChange={({ value }) => {
+              setPageIndex(0);
+              setOrder(value);
+            }}
+          />
+          {pageResults.map((result, index) => {
             let value = result.value;
             if (result.years) {
               value /= result.years[1] - result.years[0] + 1;
@@ -63,6 +100,7 @@ const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, 
             return (
               <div key={result.id} className="row">
                 <div className="col-7">
+                  <div className="rank">{pageIndex * RESULTS_PER_PAGE + index + 1}</div>
                   <button
                     type="button"
                     className="btn btn-link"
@@ -78,6 +116,26 @@ const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, 
               </div>
             );
           })}
+          <div className="control-buttons">
+            <button
+              type="button"
+              className="btn btn-primary"
+              aria-label="Previous results"
+              disabled={pageIndex === 0}
+              onClick={() => setPageIndex(index => index - 1)}
+            >
+              <Icon name="short-bottom-arrow" />
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              aria-label="Next results"
+              disabled={pageIndex === maxPageIndex}
+              onClick={() => setPageIndex(index => index + 1)}
+            >
+              <Icon name="short-bottom-arrow" />
+            </button>
+          </div>
         </div>
       )}
     </div>

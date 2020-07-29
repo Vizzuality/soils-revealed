@@ -2,7 +2,7 @@ const axios = require('axios').default;
 
 const { LAYERS } = require('../../components/map/constants');
 
-module.exports = ({ params: { layer, type, boundaries, depth } }, res) => {
+module.exports = ({ params: { layer, type, boundaries, depth, order } }, res) => {
   try {
     const groupType = layer === 'soc-stock' ? type : 'experimental_dataset';
     const variable = layer === 'soc-stock' || type === 'stock' ? 'stocks' : 'concentration';
@@ -10,12 +10,38 @@ module.exports = ({ params: { layer, type, boundaries, depth } }, res) => {
       .find(option => option.value === type)
       .settings.depth.options[depth].label.replace(/\scm/, '');
 
-    const query = encodeURI(
-      `${process.env.API_URL}/sql?q=with a as (SELECT id, name_0 as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth FROM political_boundaries_change WHERE level = 0 UNION SELECT 1 as id, maj_name as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth FROM hydrological_basins_change WHERE level = 0 UNION SELECT eco_id as id, eco_name as name, 'biomes' as type, mean_diff, years, group_type, variable, depth FROM biomes_change UNION SELECT ne_id as id, name as name, 'landforms' as type, mean_diff, years, group_type, variable, depth FROM landforms_change) SELECT id, name, mean_diff as value, years, variable, type FROM a WHERE group_type = '${groupType}' and variable = '${variable}' and depth = '${depthValue}' and type = '${boundaries}' ORDER BY value ASC LIMIT 5`
-    );
+    const query = `
+      with a as (
+        SELECT id, name_0 as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth
+        FROM political_boundaries_change
+        WHERE level = 0
+
+        UNION
+
+        SELECT 1 as id, maj_name as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth
+        FROM hydrological_basins_change
+        WHERE level = 0
+
+        UNION
+
+        SELECT eco_id as id, eco_name as name, 'biomes' as type, mean_diff, years, group_type, variable, depth
+        FROM biomes_change
+
+        UNION
+
+        SELECT ne_id as id, name as name, 'landforms' as type, mean_diff, years, group_type, variable, depth
+        FROM landforms_change
+      )
+
+      SELECT id, name, mean_diff as value, years, variable, type
+      FROM a
+      WHERE group_type = '${groupType}' and variable = '${variable}' and depth = '${depthValue}' and type = '${boundaries}' and mean_diff is not null ORDER BY value ${order} LIMIT 50
+    `;
+
+    const url = encodeURI(`${process.env.API_URL}/sql?q=${query}`);
 
     axios
-      .get(query, {
+      .get(url, {
         headers: { Accept: 'application/json' },
       })
       .then(({ data: { rows } }) =>

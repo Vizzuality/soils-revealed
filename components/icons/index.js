@@ -28,6 +28,10 @@ const Icons = () => (
         <title>Bottom arrow</title>
         <path d="M1 1l8 8 8-8" strokeWidth="2" fill="none" />
       </symbol>
+      <symbol id="icon-short-bottom-arrow" viewBox="0 0 9 7">
+        <title>Bottom arrow</title>
+        <path d="M.558.492L4.5 6.45 8.442.492z" />
+      </symbol>
       <symbol id="icon-climate-change" viewBox="0 0 20 24">
         <title>Climate change</title>
         <g fill="none">

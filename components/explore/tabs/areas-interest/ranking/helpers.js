@@ -1,7 +1,7 @@
 import { useStickySWR } from 'utils/hooks';
 
-export const useRanking = (socLayerId, type, boundaries, depthIndex) => {
-  const url = `/api/area-interest/ranking/${socLayerId}/${type}/${boundaries}/${depthIndex}`;
+export const useRanking = (socLayerId, type, boundaries, depthIndex, order) => {
+  const url = `/api/area-interest/ranking/${socLayerId}/${type}/${boundaries}/${depthIndex}/${order}`;
 
   return useStickySWR(url, req =>
     fetch(req)
