@@ -68,6 +68,7 @@ const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, 
       {!error && results?.length > 0 && (
         <div className="ranking">
           <Select
+            id="areas-interest-ranking"
             className="d-block w-100 mt-4 mb-3 text-center"
             aria-label="Ranking sort order"
             options={[
