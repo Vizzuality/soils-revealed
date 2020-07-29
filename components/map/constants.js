@@ -341,7 +341,7 @@ exports.BOUNDARIES = {
         },
         {
           name: 'Wetland',
-          color: '#7hhch0',
+          color: '#7bbcb0',
         },
         {
           name: 'Delta',
