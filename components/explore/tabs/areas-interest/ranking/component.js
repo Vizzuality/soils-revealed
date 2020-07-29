@@ -37,7 +37,11 @@ const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, 
 
   const maxPageIndex = useMemo(() => {
     if (!error && results?.length > 0) {
-      return Math.ceil(results.length / RESULTS_PER_PAGE);
+      return (
+        Math.floor(results.length / RESULTS_PER_PAGE) +
+        (results.length % RESULTS_PER_PAGE !== 0 ? 1 : 0) -
+        1
+      );
     }
 
     return 0;
