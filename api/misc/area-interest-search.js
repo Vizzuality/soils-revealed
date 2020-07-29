@@ -4,40 +4,40 @@ module.exports = ({ params: { search }, query: { boundaries } }, res) => {
   try {
     const query = `
       with a as (
-        SELECT distinct(name_0) as name, id, 'political-boundaries' as type, depth, variable, group_type
+        SELECT distinct(name_0) as name, id, 'political-boundaries' as type, depth, variable, group_type, level
         FROM political_boundaries_time_series
         WHERE level = 0
 
         UNION
 
-        SELECT distinct(name_1) as name, id, 'political-boundaries' as type, depth, variable, group_type
+        SELECT distinct(name_1) as name, id, 'political-boundaries' as type, depth, variable, group_type, level
         FROM political_boundaries_time_series
         WHERE level = 1
 
         UNION
 
-        SELECT distinct(maj_name) as name, 1 as id, 'river-basins' as type, depth, variable, group_type
+        SELECT distinct(maj_name) as name, 1 as id, 'river-basins' as type, depth, variable, group_type, level
         FROM hydrological_basins_time_series
         WHERE level = 0
 
         UNION
 
-        SELECT distinct(sub_name) as name, 1 as id, 'river-basins' as type, depth, variable, group_type
+        SELECT distinct(sub_name) as name, 1 as id, 'river-basins' as type, depth, variable, group_type, level
         FROM hydrological_basins_time_series
         WHERE level = 1
 
         UNION
 
-        SELECT distinct(eco_name) as name, eco_id as id, 'biomes' as type, depth, variable, group_type
+        SELECT distinct(eco_name) as name, eco_id as id, 'biomes' as type, depth, variable, group_type, 1 as level
         FROM biomes_time_series
 
         UNION
 
-        SELECT distinct(name) as name, ne_id as id, 'landforms' as type, depth, variable, group_type
+        SELECT distinct(name) as name, ne_id as id, 'landforms' as type, depth, variable, group_type, 1 as level
         FROM landforms_time_series
       )
 
-      SELECT name, id, type
+      SELECT name, id, type, level
       FROM a
       WHERE depth = '0-30' and variable = 'stocks' and group_type = 'historic' and lower(name) like '${search.toLowerCase()}%'
     `;

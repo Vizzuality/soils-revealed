@@ -63,6 +63,7 @@ const AreasInterestHome = ({
       updateFunction({
         id: result.id,
         name: result.name,
+        level: result.level,
       });
     },
     [boundaries, comparing, updateBoundaries, updateAreaInterest, updateCompareAreaInterest]

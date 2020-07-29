@@ -12,28 +12,28 @@ module.exports = ({ params: { layer, type, boundaries, depth, order } }, res) =>
 
     const query = `
       with a as (
-        SELECT id, name_0 as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth
+        SELECT id, name_0 as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth, level
         FROM political_boundaries_change
         WHERE level = 0
 
         UNION
 
-        SELECT 1 as id, maj_name as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth
+        SELECT 1 as id, maj_name as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth, level
         FROM hydrological_basins_change
         WHERE level = 0
 
         UNION
 
-        SELECT eco_id as id, eco_name as name, 'biomes' as type, mean_diff, years, group_type, variable, depth
+        SELECT eco_id as id, eco_name as name, 'biomes' as type, mean_diff, years, group_type, variable, depth, 1 as level
         FROM biomes_change
 
         UNION
 
-        SELECT ne_id as id, name as name, 'landforms' as type, mean_diff, years, group_type, variable, depth
+        SELECT ne_id as id, name as name, 'landforms' as type, mean_diff, years, group_type, variable, depth, 1 as level
         FROM landforms_change
       )
 
-      SELECT id, name, mean_diff as value, years, variable, type
+      SELECT id, name, mean_diff as value, years, variable, type, level
       FROM a
       WHERE group_type = '${groupType}' and variable = '${variable}' and depth = '${depthValue}' and type = '${boundaries}' and mean_diff is not null ORDER BY value ${order} LIMIT 50
     `;
@@ -46,7 +46,7 @@ module.exports = ({ params: { layer, type, boundaries, depth, order } }, res) =>
       })
       .then(({ data: { rows } }) =>
         rows
-          .map(({ id, name, value, type, years: rawYears }) => {
+          .map(({ id, name, value, type, years: rawYears, level }) => {
             let years = null;
             try {
               if (rawYears.length > 0) {
@@ -69,6 +69,7 @@ module.exports = ({ params: { layer, type, boundaries, depth, order } }, res) =>
               value,
               type,
               years,
+              level,
             };
           })
           // TODO: We don't have IDs for the river basins for now

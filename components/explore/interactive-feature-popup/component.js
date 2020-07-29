@@ -25,16 +25,19 @@ const ExploreInteractiveFeaturePopup = ({
         e.preventDefault();
       }
 
+      const selectedProperty = properties.find(prop => {
+        if (typeof prop.id === 'number') {
+          return prop.id === +selectedFeatureId;
+        }
+        return prop.id === selectedFeatureId;
+      });
+
       updater({
         id: selectedFeatureId,
-        name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(
-          properties.find(prop => {
-            if (typeof prop.id === 'number') {
-              return prop.id === +selectedFeatureId;
-            }
-            return prop.id === selectedFeatureId;
-          })
-        ),
+        name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(selectedProperty),
+        // FIXME: the landforms and biomes layers don't have a level property for the features
+        // The current layers only display the level 1
+        level: selectedProperty.level ?? 1,
       });
       onClose();
     },
@@ -47,6 +50,9 @@ const ExploreInteractiveFeaturePopup = ({
     updater({
       id: properties[0].id,
       name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(properties[0]),
+      // FIXME: the landforms and biomes layers don't have a level property for the features
+      // The current layers only display the level 1
+      level: properties[0].level ?? 1,
     });
     onClose();
   }, [
@@ -62,6 +68,9 @@ const ExploreInteractiveFeaturePopup = ({
     updateCompareAreaInterest({
       id: properties[0].id,
       name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(properties[0]),
+      // FIXME: the landforms and biomes layers don't have a level property for the features
+      // The current layers only display the level 1
+      level: properties[0].level ?? 1,
     });
     onClose();
   }, [boundaries, properties, updateCompareAreaInterest, onClose]);
