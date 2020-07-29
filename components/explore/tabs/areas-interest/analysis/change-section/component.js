@@ -260,6 +260,7 @@ const ChangeSection = ({
               </YAxis>
               <ReferenceLine x={0} strokeDasharray="5 5" />
               <Customized
+                key="red-green-bar"
                 component={({ xAxisMap, yAxisMap }) => {
                   const { scale, padding, x, y, width } = xAxisMap[0];
                   const { width: yAxisWidth } = yAxisMap[0];
