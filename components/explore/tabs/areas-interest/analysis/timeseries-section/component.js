@@ -73,7 +73,7 @@ const TimeseriesSection = ({
   const { data, error } = useTimeseries(
     socLayerState.id,
     typeOption.value,
-    boundaries,
+    boundaries.id,
     depthIndex,
     areaInterest.id,
     compareAreaInterest?.id
@@ -301,7 +301,7 @@ const TimeseriesSection = ({
 TimeseriesSection.propTypes = {
   legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   socLayerState: PropTypes.object.isRequired,
-  boundaries: PropTypes.string.isRequired,
+  boundaries: PropTypes.object.isRequired,
   areaInterest: PropTypes.object.isRequired,
   compareAreaInterest: PropTypes.object,
   updateLayer: PropTypes.func.isRequired,

@@ -16,6 +16,16 @@ import SOCStockLegend from './soc-stock';
 
 import './style.scss';
 
+// By default, LegendListItem passes all of its props to its children
+// As a result, when its disabled prop is set to true, the slider of the opacity button is also
+// disabled, which is not what we want
+// This component is then a small wrapper to omit the disabled prop
+const OpacityButton = props => {
+  // eslint-disable-next-line no-unused-vars, react/prop-types
+  const { disabled, ...rest } = props;
+  return <LegendItemButtonOpacity {...rest} />;
+};
+
 const Legend = ({
   layers,
   onClickToggleVisibility,
@@ -41,7 +51,7 @@ const Legend = ({
           title={<LegendTitle layerGroup={layer} onChangeParams={onChangeParams} />}
           toolbar={
             <LegendItemToolbar onChangeOpacity={(_, opacity) => onChangeOpacity(layer.id, opacity)}>
-              {!layer.readonly && <LegendItemButtonOpacity />}
+              {(!layer.readonly || !!layer.canChangeOpacity) && <OpacityButton />}
               {!layer.readonly && (
                 <button
                   type="button"

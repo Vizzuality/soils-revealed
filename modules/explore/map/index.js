@@ -21,11 +21,11 @@ export const selectBoundaries = state => state[SLICE_NAME].boundaries;
 export const selectLayers = state => state[SLICE_NAME].layers;
 
 export const selectBoundariesLayerDef = createSelector([selectBoundaries], boundaries => {
-  if (!BOUNDARIES[boundaries].config) {
+  if (!BOUNDARIES[boundaries.id].config) {
     return null;
   }
 
-  return getBoundariesDef(boundaries, BOUNDARIES[boundaries]);
+  return getBoundariesDef(boundaries.id, BOUNDARIES[boundaries.id], boundaries);
 });
 
 export const selectBasemapLayerDef = createSelector(
@@ -98,16 +98,16 @@ export const selectSOCLayerState = createSelector(
 export const selectRankingBoundaries = createSelector(
   [selectSOCLayerId, selectBoundaries],
   (socLayerId, boundaries) => {
-    if (socLayerId !== 'soc-stock' && boundaries === 'no-boundaries') {
+    if (socLayerId !== 'soc-stock' && boundaries.id === 'no-boundaries') {
       // We only have one country so we default to the Landforms instead of the Political boundaries
       return 'landforms';
     }
 
-    if (boundaries === 'no-boundaries') {
+    if (boundaries.id === 'no-boundaries') {
       return 'political-boundaries';
     }
 
-    return boundaries;
+    return boundaries.id;
   }
 );
 
@@ -165,6 +165,7 @@ export const selectLegendDataLayers = createSelector(
       visibility: layers[layer.id].visible,
       closeable: layer.id !== 'soc-experimental' && layer.id !== 'soc-stock',
       readonly: false,
+      canChangeOpacity: true,
       layers: [
         {
           name: layer.label,
@@ -184,19 +185,20 @@ export const selectLegendDataLayers = createSelector(
       ],
     }));
 
-    if (BOUNDARIES[boundaries].legend) {
+    if (BOUNDARIES[boundaries.id].legend) {
       layerGroups.unshift({
-        id: boundaries,
-        dataset: boundaries,
+        id: boundaries.id,
+        dataset: boundaries.id,
         visibility: true,
         closeable: false,
         readonly: true,
+        canChangeOpacity: true,
         layers: [
           {
-            name: BOUNDARIES[boundaries].label,
-            opacity: 1,
+            name: BOUNDARIES[boundaries.id].label,
+            opacity: boundaries.opacity ?? 1,
             order: 9999,
-            legendConfig: BOUNDARIES[boundaries].legend,
+            legendConfig: BOUNDARIES[boundaries.id].legend,
             timelineParams: undefined,
             extraParams: undefined,
           },
@@ -228,8 +230,8 @@ export const selectActiveLayersDef = createSelector(
 );
 
 export const selectActiveLayersInteractiveIds = createSelector([selectBoundaries], boundaries => {
-  if (BOUNDARIES[boundaries].config?.interactiveLayerIds) {
-    return BOUNDARIES[boundaries].config.interactiveLayerIds;
+  if (BOUNDARIES[boundaries.id].config?.interactiveLayerIds) {
+    return BOUNDARIES[boundaries.id].config.interactiveLayerIds;
   }
 
   return [];
@@ -259,7 +261,7 @@ export const selectAcceptableMinZoom = createSelector(
     Math.max(
       ...[
         BASEMAPS[basemap].minZoom,
-        BOUNDARIES[boundaries].config?.source.minzoom ?? -Infinity,
+        BOUNDARIES[boundaries.id].config?.source.minzoom ?? -Infinity,
         ...activeDataLayers.map(
           layerId => getLayerSource(layerId, dataLayers[layerId], layers[layerId]).minzoom
         ),
@@ -273,7 +275,7 @@ export const selectAcceptableMaxZoom = createSelector(
     Math.min(
       ...[
         BASEMAPS[basemap].maxZoom,
-        BOUNDARIES[boundaries].config?.source.maxzoom ?? Infinity,
+        BOUNDARIES[boundaries.id].config?.source.maxzoom ?? Infinity,
         // ...activeDataLayers.map(layerId => dataLayers[layerId].config.source.maxzoom),
         ...activeDataLayers.map(
           layerId => getLayerSource(layerId, dataLayers[layerId], layers[layerId]).maxzoom
@@ -320,7 +322,9 @@ export default exploreActions =>
       basemapParams: null,
       roads: false,
       labels: false,
-      boundaries: 'no-boundaries',
+      boundaries: {
+        id: 'no-boundaries',
+      },
       layers: {
         'soc-stock': {
           visible: true,

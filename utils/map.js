@@ -69,12 +69,13 @@ export const getLayerDef = (layerId, layer, layerSettings) => {
   };
 };
 
-export const getBoundariesDef = (boundariesId, boundaries) => ({
+export const getBoundariesDef = (boundariesId, boundaries, boundariesSettings) => ({
   id: boundariesId,
   type: boundaries.config.type,
   source: {
     ...boundaries.config.source,
   },
+  opacity: boundariesSettings.opacity ?? 1,
   render: boundaries.config.render,
 });
 

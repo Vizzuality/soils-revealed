@@ -28,7 +28,7 @@ const AreasInterestHome = ({
 
   const { data: results, error } = useResults(
     debouncedSearch,
-    comparing ? [boundaries] : undefined
+    comparing ? [boundaries.id] : undefined
   );
 
   const typeOption = useMemo(
@@ -54,8 +54,8 @@ const AreasInterestHome = ({
 
   const onClickArea = useCallback(
     result => {
-      if (boundaries !== result.type) {
-        updateBoundaries(result.type);
+      if (boundaries.id !== result.type) {
+        updateBoundaries({ id: result.type });
       }
 
       const updateFunction = comparing ? updateCompareAreaInterest : updateAreaInterest;
@@ -98,13 +98,13 @@ const AreasInterestHome = ({
           type="search"
           aria-label={
             comparing
-              ? ` Search ${BOUNDARIES[boundaries].nounPlural}...`
+              ? ` Search ${BOUNDARIES[boundaries.id].nounPlural}...`
               : 'Search provinces, countries, biomes...'
           }
           className="form-control"
           placeholder={
             comparing
-              ? ` Search ${BOUNDARIES[boundaries].nounPlural}...`
+              ? ` Search ${BOUNDARIES[boundaries.id].nounPlural}...`
               : 'Search provinces, countries, biomes...'
           }
           value={search}
@@ -167,7 +167,7 @@ const AreasInterestHome = ({
                   <Dropdown
                     options={rankingBoundariesOptions}
                     value={rankingBoundariesOption}
-                    onChange={({ value }) => updateBoundaries(value)}
+                    onChange={({ value }) => updateBoundaries({ id: value })}
                   />
                 )}
               </>
@@ -191,7 +191,7 @@ const AreasInterestHome = ({
                   <Dropdown
                     options={rankingBoundariesOptions}
                     value={rankingBoundariesOption}
-                    onChange={({ value }) => updateBoundaries(value)}
+                    onChange={({ value }) => updateBoundaries({ id: value })}
                   />
                 )}
               </>
@@ -216,7 +216,7 @@ const AreasInterestHome = ({
 
 AreasInterestHome.propTypes = {
   socLayerState: PropTypes.object.isRequired,
-  boundaries: PropTypes.string.isRequired,
+  boundaries: PropTypes.object.isRequired,
   rankingBoundaries: PropTypes.string.isRequired,
   rankingBoundariesOptions: PropTypes.arrayOf(
     PropTypes.shape({ label: PropTypes.string.isRequired, value: PropTypes.string.isRequired })

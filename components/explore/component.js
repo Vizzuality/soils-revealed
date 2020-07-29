@@ -14,6 +14,7 @@ import {
   Legend,
   DrawEditor,
   BASEMAPS,
+  BOUNDARIES,
   LAYERS,
   mapStyle,
   getViewportFromBounds,
@@ -58,6 +59,7 @@ const Explore = ({
   removeLayer,
   updateLayer,
   updateLayerOrder,
+  updateBoundaries,
 }) => {
   const isDesktop = useDesktop();
   const mapRef = useRef(null);
@@ -119,6 +121,15 @@ const Explore = ({
       }
     },
     [setInteractiveFeaturesThrottled]
+  );
+
+  const onChangeLayerSettings = useCallback(
+    obj => {
+      const isBoundariesLayer = Object.keys(BOUNDARIES).indexOf(obj.id) !== -1;
+      const updater = isBoundariesLayer ? updateBoundaries : updateLayer;
+      updater(obj);
+    },
+    [updateLayer, updateBoundaries]
   );
 
   // When the component is mounted, we restore its state from the URL
@@ -193,15 +204,19 @@ const Explore = ({
           {!drawing && (
             <Legend
               layers={legendDataLayers}
-              onChangeOpacity={(id, opacity) => updateLayer({ id, opacity })}
-              onClickToggleVisibility={(id, visible) => updateLayer({ id, visible })}
+              onChangeOpacity={(id, opacity) => onChangeLayerSettings({ id, opacity })}
+              onClickToggleVisibility={(id, visible) => onChangeLayerSettings({ id, visible })}
               onClickInfo={setInfoLayer}
               onClickRemove={removeLayer}
               onChangeDate={(id, dates) =>
-                updateLayer({ id, dateRange: [dates[0], dates[2]], currentDate: dates[1] })
+                onChangeLayerSettings({
+                  id,
+                  dateRange: [dates[0], dates[2]],
+                  currentDate: dates[1],
+                })
               }
               onChangeLayersOrder={updateLayerOrder}
-              onChangeParams={(id, params) => updateLayer({ id, ...params })}
+              onChangeParams={(id, params) => onChangeLayerSettings({ id, ...params })}
             />
           )}
           {/* Controls must be placed after the legend so they are visually on top (same z-index) */}
@@ -245,7 +260,7 @@ const Explore = ({
                       onClose={() => setInteractiveFeaturesThrottled(null)}
                     />
                   )}
-                  <LayerManager map={map} providers={{}} layers={activeLayersDef} />{' '}
+                  <LayerManager map={map} providers={{}} layers={activeLayersDef} />
                 </>
               )}
             </Map>
@@ -288,6 +303,7 @@ Explore.propTypes = {
   removeLayer: PropTypes.func.isRequired,
   updateLayer: PropTypes.func.isRequired,
   updateLayerOrder: PropTypes.func.isRequired,
+  updateBoundaries: PropTypes.func.isRequired,
 };
 
 Explore.defaultProps = {

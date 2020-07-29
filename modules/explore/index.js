@@ -41,8 +41,8 @@ const selectors = {
       if (areaInterest) {
         let res = [
           {
-            source: boundaries,
-            sourceLayer: BOUNDARIES[boundaries].config.render.layers[0]['source-layer'],
+            source: boundaries.id,
+            sourceLayer: BOUNDARIES[boundaries.id].config.render.layers[0]['source-layer'],
             id: areaInterest.id,
             state: { active: true },
           },
@@ -50,8 +50,8 @@ const selectors = {
 
         if (compareAreaInterest) {
           res.push({
-            source: boundaries,
-            sourceLayer: BOUNDARIES[boundaries].config.render.layers[0]['source-layer'],
+            source: boundaries.id,
+            sourceLayer: BOUNDARIES[boundaries.id].config.render.layers[0]['source-layer'],
             id: compareAreaInterest.id,
             state: { active: true },
           });

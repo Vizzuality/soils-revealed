@@ -46,7 +46,7 @@ const ChangeSection = ({
   const { data, error } = useChange(
     socLayerState.id,
     typeOption.value,
-    boundaries,
+    boundaries.id,
     depthIndex,
     areaInterest.id,
     compareAreaInterest?.id
@@ -346,7 +346,7 @@ const ChangeSection = ({
 
 ChangeSection.propTypes = {
   socLayerState: PropTypes.object.isRequired,
-  boundaries: PropTypes.string.isRequired,
+  boundaries: PropTypes.object.isRequired,
   areaInterest: PropTypes.object.isRequired,
   compareAreaInterest: PropTypes.object,
   updateLayer: PropTypes.func.isRequired,

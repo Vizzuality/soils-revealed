@@ -27,7 +27,7 @@ const ExploreInteractiveFeaturePopup = ({
 
       updater({
         id: selectedFeatureId,
-        name: BOUNDARIES[boundaries].config.interactiveFeatureName(
+        name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(
           properties.find(prop => {
             if (typeof prop.id === 'number') {
               return prop.id === +selectedFeatureId;
@@ -46,7 +46,7 @@ const ExploreInteractiveFeaturePopup = ({
 
     updater({
       id: properties[0].id,
-      name: BOUNDARIES[boundaries].config.interactiveFeatureName(properties[0]),
+      name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(properties[0]),
     });
     onClose();
   }, [
@@ -61,7 +61,7 @@ const ExploreInteractiveFeaturePopup = ({
   const onClickCompare = useCallback(() => {
     updateCompareAreaInterest({
       id: properties[0].id,
-      name: BOUNDARIES[boundaries].config.interactiveFeatureName(properties[0]),
+      name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(properties[0]),
     });
     onClose();
   }, [boundaries, properties, updateCompareAreaInterest, onClose]);
@@ -82,7 +82,7 @@ const ExploreInteractiveFeaturePopup = ({
       <div className="c-explore-interactive-feature-popup">
         {!supportedLayer && (
           <div>
-            <div className="label">{BOUNDARIES[boundaries].label}</div>
+            <div className="label">{BOUNDARIES[boundaries.id].label}</div>
             <p className="mt-2 mb-0 font-weight-bold">Coming soon!</p>
             <p>The analysis of this layer is not currently available.</p>
           </div>
@@ -94,13 +94,15 @@ const ExploreInteractiveFeaturePopup = ({
             }
           >
             <div className="form-group">
-              <label htmlFor="map-interactive-feature">Select {BOUNDARIES[boundaries].noun}:</label>
+              <label htmlFor="map-interactive-feature">
+                Select {BOUNDARIES[boundaries.id].noun}:
+              </label>
               <Select
                 id="map-interactive-feature"
                 options={[
                   { label: 'Select a geometry', value: '', disabled: true },
                   ...properties.map(prop => ({
-                    label: BOUNDARIES[boundaries].config.interactiveFeatureName(prop),
+                    label: BOUNDARIES[boundaries.id].config.interactiveFeatureName(prop),
                     value: `${prop.id}`,
                   })),
                 ]}
@@ -131,13 +133,13 @@ const ExploreInteractiveFeaturePopup = ({
         )}
         {supportedLayer && properties.length === 1 && (
           <div>
-            <div className="label">{BOUNDARIES[boundaries].label}</div>
+            <div className="label">{BOUNDARIES[boundaries.id].label}</div>
             <p className="mt-2 mb-0 font-weight-bold">
-              {BOUNDARIES[boundaries].config.interactiveFeatureName(properties[0])}
+              {BOUNDARIES[boundaries.id].config.interactiveFeatureName(properties[0])}
             </p>
-            {!!BOUNDARIES[boundaries].config.interactiveFeatureDescription && (
+            {!!BOUNDARIES[boundaries.id].config.interactiveFeatureDescription && (
               <p className="mb-3">
-                {BOUNDARIES[boundaries].config.interactiveFeatureDescription(properties[0])}
+                {BOUNDARIES[boundaries.id].config.interactiveFeatureDescription(properties[0])}
               </p>
             )}
             <div className="d-flex justify-content-between">
@@ -169,7 +171,7 @@ ExploreInteractiveFeaturePopup.propTypes = {
   lat: PropTypes.number.isRequired,
   lng: PropTypes.number.isRequired,
   properties: PropTypes.arrayOf(PropTypes.object).isRequired,
-  boundaries: PropTypes.string.isRequired,
+  boundaries: PropTypes.object.isRequired,
   areaInterest: PropTypes.object,
   compareAreaInterest: PropTypes.object,
   onClose: PropTypes.func.isRequired,

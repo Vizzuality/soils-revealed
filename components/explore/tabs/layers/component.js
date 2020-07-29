@@ -42,7 +42,7 @@ const ExploreLayersTab = ({
   const [previewedLayerId, setPreviewedLayerId] = useState(null);
   const [previewedBoundaries, setPreviewedBoundaries] = useState(null);
   const [activeLayersIds, setActiveLayersIds] = useState(activeLayers);
-  const [boundariesId, setBoundariesId] = useState(boundaries);
+  const [boundariesId, setBoundariesId] = useState(boundaries.id);
 
   const previewedLayerDef = useMemo(() => {
     if (!previewedLayerId) {
@@ -61,7 +61,7 @@ const ExploreLayersTab = ({
       return null;
     }
 
-    return getBoundariesDef(previewedBoundaries, BOUNDARIES[previewedBoundaries]);
+    return getBoundariesDef(previewedBoundaries, BOUNDARIES[previewedBoundaries], {});
   }, [previewedBoundaries]);
 
   const onLoadMap = useCallback(
@@ -76,7 +76,7 @@ const ExploreLayersTab = ({
 
   const onClickSave = useCallback(() => {
     updateActiveLayers(activeLayersIds);
-    updateBoundaries(boundariesId ?? 'no-boundaries');
+    updateBoundaries({ id: boundariesId ?? 'no-boundaries' });
     onClose();
   }, [activeLayersIds, boundariesId, updateActiveLayers, updateBoundaries, onClose]);
 
@@ -138,7 +138,7 @@ const ExploreLayersTab = ({
   // Whenever the boundaries are updated in the store, the internal state of the component should
   // also follow
   useEffect(() => {
-    setBoundariesId(boundaries);
+    setBoundariesId(boundaries.id);
   }, [boundaries]);
 
   // Whenever the user changes the basemap, we make sure to use the same here
@@ -259,7 +259,7 @@ const ExploreLayersTab = ({
 ExploreLayersTab.propTypes = {
   basemap: PropTypes.string.isRequired,
   bounds: PropTypes.arrayOf(PropTypes.array),
-  boundaries: PropTypes.string.isRequired,
+  boundaries: PropTypes.object.isRequired,
   basemapLayerDef: PropTypes.object,
   layersByGroup: PropTypes.object.isRequired,
   layers: PropTypes.object.isRequired,
