@@ -66,20 +66,11 @@ export const selectSOCLayerId = createSelector([selectActiveDataLayers], activeD
   activeDataLayers.indexOf('soc-stock') !== -1 ? 'soc-stock' : 'soc-experimental'
 );
 
-export const selectRankingBoundariesOptions = createSelector([selectSOCLayerId], socLayerId => {
+export const selectRankingBoundariesOptions = createSelector([], () => {
   let keys = Object.keys(BOUNDARIES).filter(key => key !== 'no-boundaries');
 
-  // FIXME: we shouldn't display a ranking of the countries for the experimental dataset as we
-  // only have one country
-  // if (socLayerId !== 'soc-stock') {
-  //   keys = keys.filter(key => key !== 'political-boundaries');
-  // }
-
   return keys.map(key => ({
-    label:
-      key !== 'political-boundaries'
-        ? BOUNDARIES[key].noun.replace(/^\w/, c => c.toUpperCase())
-        : 'Country',
+    label: BOUNDARIES[key].level0Noun.replace(/^\w/, c => c.toUpperCase()),
     value: key,
   }));
 });

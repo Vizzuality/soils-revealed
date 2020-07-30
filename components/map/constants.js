@@ -72,6 +72,7 @@ exports.BOUNDARIES = {
       },
       interactiveLayerIds: ['political-boundaries-3', 'political-boundaries-4'],
       interactiveFeatureName: properties => properties[`name_${properties.level}`],
+      interactiveFeatureParentName: properties => properties[`name_0`],
       render: {
         layers: [
           {
@@ -167,6 +168,7 @@ exports.BOUNDARIES = {
       },
       interactiveLayerIds: ['landforms-1'],
       interactiveFeatureName: properties => properties.name,
+      interactiveFeatureParentName: properties => properties.featurecla,
       interactiveFeatureDescription: properties => properties.featurecla,
       render: {
         layers: [
@@ -400,7 +402,8 @@ exports.BOUNDARIES = {
       },
       interactiveLayerIds: ['river-basins-3', 'river-basins-4'],
       interactiveFeatureName: properties =>
-        properties.level === 0 ? properties.maj_name : properties.sub_name,
+        properties[properties.level === 0 ? 'maj_name' : 'sub_name'],
+      interactiveFeatureParentName: properties => properties.maj_name,
       render: {
         layers: [
           {
@@ -486,6 +489,7 @@ exports.BOUNDARIES = {
       },
       interactiveLayerIds: ['biomes-1'],
       interactiveFeatureName: properties => properties.eco_name,
+      interactiveFeatureParentName: properties => properties.biome_name,
       interactiveFeatureDescription: properties => properties.biome_name,
       render: {
         layers: [

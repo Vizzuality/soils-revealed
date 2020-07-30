@@ -11,6 +11,8 @@ const RankingSection = ({ areaInterest, boundaries, updateCompareAreaInterest })
         id: result.id,
         name: result.name,
         level: result.level,
+        parentId: result.parentId,
+        parentName: result.parentName,
       });
     },
     [updateCompareAreaInterest]
@@ -29,8 +31,8 @@ const RankingSection = ({ areaInterest, boundaries, updateCompareAreaInterest })
           </>
         ) : (
           <>
-            in <strong>{areaInterest.name}</strong> by{' '}
-            <strong>{BOUNDARIES[boundaries.id].level1NounPlural}</strong>
+            by <strong>{BOUNDARIES[boundaries.id].level1Noun}</strong> in{' '}
+            <strong>{areaInterest.name}</strong>
           </>
         )}
         .

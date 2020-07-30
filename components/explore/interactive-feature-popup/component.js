@@ -38,6 +38,11 @@ const ExploreInteractiveFeaturePopup = ({
         // FIXME: the landforms and biomes layers don't have a level property for the features
         // The current layers only display the level 1
         level: selectedProperty.level ?? 1,
+        parentId: selectedProperty.level ?? 1 === 1 ? selectedProperty.parent_id : undefined,
+        parentName:
+          selectedProperty.level ?? 1 === 1
+            ? BOUNDARIES[boundaries.id].config.interactiveFeatureParentName(selectedProperty)
+            : undefined,
       });
       onClose();
     },
@@ -53,6 +58,11 @@ const ExploreInteractiveFeaturePopup = ({
       // FIXME: the landforms and biomes layers don't have a level property for the features
       // The current layers only display the level 1
       level: properties[0].level ?? 1,
+      parentId: properties[0].level ?? 1 === 1 ? properties[0].parent_id : undefined,
+      parentName:
+        properties[0].level ?? 1 === 1
+          ? BOUNDARIES[boundaries.id].config.interactiveFeatureParentName(properties[0])
+          : undefined,
     });
     onClose();
   }, [

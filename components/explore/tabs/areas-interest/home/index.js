@@ -14,7 +14,6 @@ export default connect(
   {
     updateBoundaries: mapActions.updateBoundaries,
     updateAreaInterest: analysisActions.updateAreaInterest,
-    updateCompareAreaInterest: analysisActions.updateCompareAreaInterest,
     updateLayer: mapActions.updateLayer,
     updateDrawing: analysisActions.updateDrawing,
   }
