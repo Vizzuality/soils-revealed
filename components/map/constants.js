@@ -143,7 +143,7 @@ exports.BOUNDARIES = {
             paint: {
               'line-width': 2,
               'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
-              'line-color': '#ffffff',
+              'line-color': '#000000',
             },
           },
         ],
@@ -298,7 +298,7 @@ exports.BOUNDARIES = {
             paint: {
               'line-width': 2,
               'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
-              'line-color': '#ffffff',
+              'line-color': '#000000',
             },
           },
         ],
@@ -462,7 +462,7 @@ exports.BOUNDARIES = {
             paint: {
               'line-width': 2,
               'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
-              'line-color': '#ffffff',
+              'line-color': '#000000',
             },
           },
         ],
@@ -603,7 +603,7 @@ exports.BOUNDARIES = {
             paint: {
               'line-width': 2,
               'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
-              'line-color': '#ffffff',
+              'line-color': '#000000',
             },
           },
         ],
