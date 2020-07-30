@@ -93,7 +93,7 @@ const ExploreTabs = ({ showTour, areaInterest, updateAreaInterest, onClickInfo }
             className="btn btn-primary btn-sm"
             onClick={() => {
               if (!areasInterestTooltipVisible) setLayersTooltipVisible(false);
-              setAreasInterestTooltipVisible(visible => !visible);
+              setAreasInterestTooltipVisible(true);
             }}
           >
             <Icon name="pin" />
@@ -120,7 +120,7 @@ const ExploreTabs = ({ showTour, areaInterest, updateAreaInterest, onClickInfo }
                 setAreasInterestTooltipVisible(false);
                 updateAreaInterest(null);
               }
-              setLayersTooltipVisible(visible => !visible);
+              setLayersTooltipVisible(true);
             }}
           >
             <Icon name="layers" />
