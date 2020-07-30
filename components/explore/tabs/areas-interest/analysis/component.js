@@ -9,6 +9,7 @@ import Tooltip from 'components/tooltip';
 import Compare from './compare';
 import TimeseriesSection from './timeseries-section';
 import ChangeSection from './change-section';
+import RankingSection from './ranking-section';
 
 import './style.scss';
 
@@ -157,6 +158,7 @@ const Analysis = ({
           <TimeseriesSection />
         )}
         <ChangeSection />
+        {areaInterest.level === 0 && !compareAreaInterest && <RankingSection />}
       </div>
     </div>
   );

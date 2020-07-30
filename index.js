@@ -76,7 +76,7 @@ app.prepare().then(() => {
   // Other data handlers
   server.get('/api/area-interest/search/:search', areaInterestSearch);
   server.get(
-    '/api/area-interest/ranking/:layer/:type/:boundaries/:depth/:order',
+    '/api/area-interest/ranking/:layer/:type/:depth/:boundaries/:level/:order',
     areaInterestRanking
   );
 

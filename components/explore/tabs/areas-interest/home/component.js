@@ -198,7 +198,7 @@ const AreasInterestHome = ({
               </>
             )}
           </div>
-          <Ranking onClickArea={onClickArea} />
+          <Ranking level={0} boundaries={rankingBoundaries} onClickArea={onClickArea} />
         </>
       )}
       <div className="drawing-container text-center">

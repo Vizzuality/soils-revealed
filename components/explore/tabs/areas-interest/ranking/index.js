@@ -5,6 +5,5 @@ import Component from './component';
 
 export default connect(state => ({
   areaInterest: analysisSelectors.selectAreaInterest(state),
-  rankingBoundaries: mapSelectors.selectRankingBoundaries(state),
   socLayerState: mapSelectors.selectSOCLayerState(state),
 }))(Component);

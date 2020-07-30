@@ -9,7 +9,14 @@ import './style.scss';
 
 const RESULTS_PER_PAGE = 5;
 
-const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, onClickArea }) => {
+const AreasInterestRanking = ({
+  areaInterest,
+  boundaries,
+  level,
+  within,
+  socLayerState,
+  onClickArea,
+}) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [order, setOrder] = useState('asc');
 
@@ -30,9 +37,11 @@ const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, 
   const { data: results, error } = useRanking(
     socLayerState.id,
     socLayerState.type,
-    rankingBoundaries,
+    boundaries,
     depthIndex,
-    order
+    level,
+    order,
+    within
   );
 
   const maxPageIndex = useMemo(() => {
@@ -149,13 +158,16 @@ const AreasInterestRanking = ({ areaInterest, rankingBoundaries, socLayerState, 
 
 AreasInterestRanking.propTypes = {
   areaInterest: PropTypes.object,
-  rankingBoundaries: PropTypes.string.isRequired,
+  boundaries: PropTypes.string.isRequired,
+  level: PropTypes.number.isRequired,
+  within: PropTypes.string,
   socLayerState: PropTypes.object.isRequired,
   onClickArea: PropTypes.func.isRequired,
 };
 
 AreasInterestRanking.defaultProps = {
   areaInterest: null,
+  within: null,
 };
 
 export default AreasInterestRanking;
