@@ -100,13 +100,13 @@ const AreasInterestHome = ({
           aria-label={
             comparing
               ? ` Search ${BOUNDARIES[boundaries.id].nounPlural}...`
-              : 'Search provinces, countries, biomes...'
+              : 'Search regions, countries, biomes...'
           }
           className="form-control"
           placeholder={
             comparing
               ? ` Search ${BOUNDARIES[boundaries.id].nounPlural}...`
-              : 'Search provinces, countries, biomes...'
+              : 'Search regions, countries, biomes...'
           }
           value={search}
           onChange={({ target }) => setSearch(target.value)}
