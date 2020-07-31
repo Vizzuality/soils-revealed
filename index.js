@@ -4,6 +4,10 @@ const ee = require('@google/earthengine');
 
 require('dotenv').config();
 
+// Validation
+const validation = require('./api/validation/middleware');
+const schemas = require('./api/validation/schemas');
+
 // Tiles server handlers
 const landCover = require('./api/tiles/land-cover');
 const socExperimentalTimeseries = require('./api/tiles/soc-experimental-timeseries');
@@ -52,31 +56,78 @@ app.prepare().then(() => {
 
   // Tiles server handlers
   if (geePrivateKey) {
-    server.get('/api/land-cover/:year/:z/:x/:y', landCover);
+    server.get(
+      '/api/land-cover/:year/:z/:x/:y',
+      validation(schemas.landCover, 'params'),
+      landCover
+    );
     server.get(
       '/api/soc-experimental/:type/:depth/timeseries/:year/:z/:x/:y',
+      validation(schemas.socExperimentalTimeseries, 'params'),
       socExperimentalTimeseries
     );
     server.get(
       '/api/soc-experimental/:type/:depth/change/:year1/:year2/:z/:x/:y',
+      validation(schemas.socExperimentalChange, 'params'),
       socExperimentalChange
     );
-    server.get('/api/soc-stock/historic/:depth/period/:period/:z/:x/:y', socStockHistoricPeriod);
-    server.get('/api/soc-stock/historic/:depth/change/:z/:x/:y', socStockHistoricChange);
-    server.get('/api/soc-stock/recent/timeseries/:year/:z/:x/:y', socStockRecentTimeseries);
-    server.get('/api/soc-stock/recent/change/:year1/:year2/:z/:x/:y', socStockRecentChange);
-    server.get('/api/soc-stock/future/:scenario/period/:year/:z/:x/:y', socStockFuturePeriod);
-    server.get('/api/soc-stock/future/:scenario/change/:year/:z/:x/:y', socStockFutureChange);
+    server.get(
+      '/api/soc-stock/historic/:depth/period/:period/:z/:x/:y',
+      validation(schemas.socStockHistoricPeriod, 'params'),
+      socStockHistoricPeriod
+    );
+    server.get(
+      '/api/soc-stock/historic/:depth/change/:z/:x/:y',
+      validation(schemas.socStockHistoricChange, 'params'),
+      socStockHistoricChange
+    );
+    server.get(
+      '/api/soc-stock/recent/timeseries/:year/:z/:x/:y',
+      validation(schemas.socStockRecentTimeseries, 'params'),
+      socStockRecentTimeseries
+    );
+    server.get(
+      '/api/soc-stock/recent/change/:year1/:year2/:z/:x/:y',
+      validation(schemas.socStockRecentChange, 'params'),
+      socStockRecentChange
+    );
+    server.get(
+      '/api/soc-stock/future/:scenario/period/:year/:z/:x/:y',
+      validation(schemas.socStockFuturePeriod, 'params'),
+      socStockFuturePeriod
+    );
+    server.get(
+      '/api/soc-stock/future/:scenario/change/:year/:z/:x/:y',
+      validation(schemas.socStockFutureChange, 'params'),
+      socStockFutureChange
+    );
   }
 
   // Chart data handlers
-  server.get('/api/timeseries/:layer/:type/:boundaries/:depth/:areaInterest', timeseriesChart);
-  server.get('/api/change/:layer/:type/:boundaries/:depth/:areaInterest', changeChart);
+  server.get(
+    '/api/timeseries/:layer/:type/:boundaries/:depth/:areaInterest',
+    validation(schemas.timeseriesChart, 'params'),
+    validation(schemas.timeseriesChartQuery, 'query'),
+    timeseriesChart
+  );
+  server.get(
+    '/api/change/:layer/:type/:boundaries/:depth/:areaInterest',
+    validation(schemas.changeChart, 'params'),
+    validation(schemas.changeChartQuery, 'query'),
+    changeChart
+  );
 
   // Other data handlers
-  server.get('/api/area-interest/search/:search', areaInterestSearch);
+  server.get(
+    '/api/area-interest/search/:search',
+    validation(schemas.areaInterestSearch, 'params'),
+    validation(schemas.areaInterestSearchQuery, 'query'),
+    areaInterestSearch
+  );
   server.get(
     '/api/area-interest/ranking/:layer/:type/:depth/:boundaries/:level/:order',
+    validation(schemas.areaInterestRanking, 'params'),
+    validation(schemas.areaInterestRankingQuery, 'query'),
     areaInterestRanking
   );
 

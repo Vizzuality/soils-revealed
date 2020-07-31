@@ -57,10 +57,8 @@ module.exports = ({ params: { type, depth, year1, year2, x, y, z } }, res) => {
         .first()
         .subtract(collection.filterDate(`${year1}-01-01`, `${year1}-12-31`).first())
         .divide(10)
-        .select(Number.isNaN(+depth) ? 'b1' : `b${+depth + 1}`)
+        .select(`b${+depth + 1}`)
         .sldStyle(CONCENTRATION_RAMP);
-    } else {
-      throw new Error('Unknown type');
     }
 
     image.getMap({}, async ({ formatTileUrl }) => {

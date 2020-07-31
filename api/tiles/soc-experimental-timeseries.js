@@ -47,10 +47,8 @@ module.exports = ({ params: { type, depth, year, x, y, z } }, res) => {
             .first()
         )
         .divide(10)
-        .select(Number.isNaN(+depth) ? 'b1' : `b${+depth + 1}`)
+        .select(`b${+depth + 1}`)
         .sldStyle(CONCENTRATION_RAMP);
-    } else {
-      throw new Error('Unknown type');
     }
 
     image.getMap({}, async ({ formatTileUrl }) => {
