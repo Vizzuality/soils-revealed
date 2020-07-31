@@ -195,7 +195,6 @@ module.exports = {
   areaInterestRankingQuery: Joi.object({
     within: Joi.number()
       .integer()
-      .min(0)
-      .required(),
+      .min(0),
   }),
 };
