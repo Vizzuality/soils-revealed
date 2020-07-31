@@ -1,4 +1,5 @@
 const ee = require('@google/earthengine');
+const axios = require('axios').default;
 
 const RAMP = `
   <RasterSymbolizer>
