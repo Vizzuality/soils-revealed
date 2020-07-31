@@ -44,7 +44,7 @@
     "deck.gl": "7.3.6",
     "express": "^4.17.1",
     "joi": "^17.1.1",
-    "layer-manager": "^3.0.4",
+    "layer-manager": "^3.0.7",
     "lodash": "^4.17.15",
     "luma.gl": "7.3.2",
     "moment": "^2.24.0",
