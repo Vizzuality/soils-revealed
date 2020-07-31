@@ -160,7 +160,7 @@ AreasInterestRanking.propTypes = {
   areaInterest: PropTypes.object,
   boundaries: PropTypes.string.isRequired,
   level: PropTypes.number.isRequired,
-  within: PropTypes.string,
+  within: PropTypes.number,
   socLayerState: PropTypes.object.isRequired,
   onClickArea: PropTypes.func.isRequired,
 };

@@ -27,7 +27,7 @@ const RankingSection = ({ areaInterest, boundaries, updateCompareAreaInterest })
         Soil organic carbon change{' '}
         {boundaries.id === 'landforms' ? (
           <>
-            by <strong>${areaInterest.name}</strong>
+            by <strong>{areaInterest.name}</strong>
           </>
         ) : (
           <>

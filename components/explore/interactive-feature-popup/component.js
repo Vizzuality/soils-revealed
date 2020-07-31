@@ -33,14 +33,12 @@ const ExploreInteractiveFeaturePopup = ({
       });
 
       updater({
-        id: selectedFeatureId,
+        id: +selectedFeatureId,
         name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(selectedProperty),
-        // FIXME: the landforms and biomes layers don't have a level property for the features
-        // The current layers only display the level 1
-        level: selectedProperty.level ?? 1,
-        parentId: selectedProperty.level ?? 1 === 1 ? selectedProperty.parent_id : undefined,
+        level: selectedProperty.level,
+        parentId: selectedProperty.level === 1 ? +selectedProperty.id_0 : undefined,
         parentName:
-          selectedProperty.level ?? 1 === 1
+          selectedProperty.level === 1
             ? BOUNDARIES[boundaries.id].config.interactiveFeatureParentName(selectedProperty)
             : undefined,
       });
@@ -53,14 +51,12 @@ const ExploreInteractiveFeaturePopup = ({
     const updater = compareAreaInterest ? updateCompareAreaInterest : updateAreaInterest;
 
     updater({
-      id: properties[0].id,
+      id: +properties[0].id,
       name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(properties[0]),
-      // FIXME: the landforms and biomes layers don't have a level property for the features
-      // The current layers only display the level 1
-      level: properties[0].level ?? 1,
-      parentId: properties[0].level ?? 1 === 1 ? properties[0].parent_id : undefined,
+      level: properties[0].level,
+      parentId: properties[0].level === 1 ? +properties[0].id_0 : undefined,
       parentName:
-        properties[0].level ?? 1 === 1
+        properties[0].level === 1
           ? BOUNDARIES[boundaries.id].config.interactiveFeatureParentName(properties[0])
           : undefined,
     });
@@ -76,18 +72,12 @@ const ExploreInteractiveFeaturePopup = ({
 
   const onClickCompare = useCallback(() => {
     updateCompareAreaInterest({
-      id: properties[0].id,
+      id: +properties[0].id,
       name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(properties[0]),
-      // FIXME: the landforms and biomes layers don't have a level property for the features
-      // The current layers only display the level 1
-      level: properties[0].level ?? 1,
+      level: properties[0].level,
     });
     onClose();
   }, [boundaries, properties, updateCompareAreaInterest, onClose]);
-
-  // TODO: this is temporal until the River basins and Political boundaries layers have a unique ID
-  // for each of their features
-  const supportedLayer = !!properties[0].id;
 
   return (
     <Popup
@@ -99,14 +89,7 @@ const ExploreInteractiveFeaturePopup = ({
       onClose={onClose}
     >
       <div className="c-explore-interactive-feature-popup">
-        {!supportedLayer && (
-          <div>
-            <div className="label">{BOUNDARIES[boundaries.id].label}</div>
-            <p className="mt-2 mb-0 font-weight-bold">Coming soon!</p>
-            <p>The analysis of this layer is not currently available.</p>
-          </div>
-        )}
-        {supportedLayer && properties.length > 1 && (
+        {properties.length > 1 && (
           <form
             onSubmit={e =>
               onSubmit(compareAreaInterest ? updateCompareAreaInterest : updateAreaInterest, e)
@@ -150,7 +133,7 @@ const ExploreInteractiveFeaturePopup = ({
             </div>
           </form>
         )}
-        {supportedLayer && properties.length === 1 && (
+        {properties.length === 1 && (
           <div>
             <div className="label">{BOUNDARIES[boundaries.id].label}</div>
             <p className="mt-2 mb-0 font-weight-bold">

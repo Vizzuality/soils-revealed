@@ -17,24 +17,28 @@ module.exports = (
       with a as (
         SELECT id, ${
           +level === 0 ? 'name_0' : 'name_1'
-        } as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth, level, name_0 as parent_name, -1 as parent_id
+        } as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth, level, name_0 as parent_name, id_0 as parent_id
         FROM political_boundaries_change
 
         UNION
 
-        SELECT 1 as id, ${
+        SELECT id, ${
           +level === 0 ? 'maj_name' : 'sub_name'
-        } as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth, level, maj_name as parent_name, -1 as parent_id
+        } as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth, level, maj_name as parent_name, id_0 as parent_id
         FROM hydrological_basins_change
 
         UNION
 
-        SELECT eco_id as id, eco_name as name, 'biomes' as type, mean_diff, years, group_type, variable, depth, 1 as level, biome_name as parent_name, -1 as parent_id
+        SELECT id, ${
+          +level === 0 ? 'biome_name' : 'eco_name'
+        } as name,'biomes' as type, mean_diff, years, group_type, variable, depth, level, biome_name as parent_name, id_0 as parent_id
         FROM biomes_change
 
         UNION
 
-        SELECT ne_id as id, name as name, 'landforms' as type, mean_diff, years, group_type, variable, depth, 1 as level, featurecla as parent_name, -1 as parent_id
+        SELECT id, ${
+          +level === 0 ? 'featurecla' : 'name'
+        } as name, 'landforms' as type, mean_diff, years, group_type, variable, depth, level, featurecla as parent_name, id_0 as parent_id
         FROM landforms_change
       )
 
@@ -52,48 +56,45 @@ module.exports = (
         headers: { Accept: 'application/json' },
       })
       .then(({ data: { rows } }) =>
-        rows
-          .map(
-            ({
+        rows.map(
+          ({
+            id,
+            name,
+            value,
+            type,
+            years: rawYears,
+            level,
+            parent_id: parentId,
+            parent_name: parentName,
+          }) => {
+            let years = null;
+            try {
+              if (rawYears.length > 0) {
+                years = rawYears
+                  .replace(/(\[|\]|')/g, '')
+                  .replace(/\s+/g, '')
+                  .split(',')
+                  .map(year => +year);
+
+                if (years.some(year => isNaN(year))) {
+                  years = null;
+                }
+              }
+              // eslint-disable-next-line no-empty
+            } catch (e) {}
+
+            return {
               id,
               name,
               value,
               type,
-              years: rawYears,
+              years,
               level,
-              parent_id: parentId,
-              parent_name: parentName,
-            }) => {
-              let years = null;
-              try {
-                if (rawYears.length > 0) {
-                  years = rawYears
-                    .replace(/(\[|\]|')/g, '')
-                    .replace(/\s+/g, '')
-                    .split(',')
-                    .map(year => +year);
-
-                  if (years.some(year => isNaN(year))) {
-                    years = null;
-                  }
-                }
-                // eslint-disable-next-line no-empty
-              } catch (e) {}
-
-              return {
-                id,
-                name,
-                value,
-                type,
-                years,
-                level,
-                parentId,
-                parentName,
-              };
-            }
-          )
-          // TODO: We don't have IDs for the river basins for now
-          .filter(({ type }) => type !== 'river-basins')
+              parentId,
+              parentName,
+            };
+          }
+        )
       )
       .then(data => {
         // We cache the result for 10 minutes

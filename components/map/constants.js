@@ -61,11 +61,10 @@ exports.BOUNDARIES = {
     level1Noun: 'region',
     level1NounPlural: 'regions',
     table: 'political_boundaries',
-    geoId: 'id',
     config: {
       type: 'vector',
       source: {
-        url: 'mapbox://tncsoilscience.a25wqweg',
+        url: 'mapbox://tncsoilscience.1i6058dp',
         minzoom: 0,
         maxzoom: 22,
         promoteId: 'id',
@@ -157,19 +156,20 @@ exports.BOUNDARIES = {
     level0Noun: 'landform',
     level0NounPlural: 'landforms',
     table: 'landforms',
-    geoId: 'ne_id',
     config: {
       type: 'vector',
       source: {
-        url: 'mapbox://tncsoilscience.5miu290t',
+        url: 'mapbox://tncsoilscience.4h7t6z6v',
         minzoom: 0,
         maxzoom: 22,
-        promoteId: 'ne_id',
+        promoteId: 'id',
       },
       interactiveLayerIds: ['landforms-1'],
-      interactiveFeatureName: properties => properties.name,
+      interactiveFeatureName: properties =>
+        properties[properties.level === 0 ? 'featurecla' : 'name'],
       interactiveFeatureParentName: properties => properties.featurecla,
-      interactiveFeatureDescription: properties => properties.featurecla,
+      interactiveFeatureDescription: properties =>
+        properties.level === 0 ? undefined : properties.featurecla,
       render: {
         layers: [
           {
@@ -391,11 +391,10 @@ exports.BOUNDARIES = {
     level1Noun: 'sub-basin',
     level1NounPlural: 'sub-basins',
     table: 'hydrological_basins',
-    geoId: 'id',
     config: {
       type: 'vector',
       source: {
-        url: 'mapbox://tncsoilscience.clphku2k',
+        url: 'mapbox://tncsoilscience.5fapdvhw',
         minzoom: 4,
         maxzoom: 22,
         promoteId: 'id',
@@ -478,19 +477,20 @@ exports.BOUNDARIES = {
     level1Noun: 'ecoregion',
     level1NounPlural: 'ecoregions',
     table: 'biomes',
-    geoId: 'eco_id',
     config: {
       type: 'vector',
       source: {
-        url: 'mapbox://tncsoilscience.9r6ytqyl',
+        url: 'mapbox://tncsoilscience.anw55qp7',
         minzoom: 0,
         maxzoom: 22,
-        promoteId: 'eco_id',
+        promoteId: 'id',
       },
       interactiveLayerIds: ['biomes-1'],
-      interactiveFeatureName: properties => properties.eco_name,
+      interactiveFeatureName: properties =>
+        properties[properties.level === 0 ? 'biome_name' : 'eco_name'],
       interactiveFeatureParentName: properties => properties.biome_name,
-      interactiveFeatureDescription: properties => properties.biome_name,
+      interactiveFeatureDescription: properties =>
+        properties.level === 0 ? undefined : properties.biome_name,
       render: {
         layers: [
           {

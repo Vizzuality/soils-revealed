@@ -29,7 +29,7 @@ const AnalysisCompare = ({
         {
           label:
             boundaries.id === 'landforms'
-              ? areaInterest.parentName
+              ? areaInterest[areaInterest.level === 0 ? 'name' : 'parentName']
               : `${BOUNDARIES[boundaries.id].level1Noun} in ${
                   areaInterest[areaInterest.level === 0 ? 'name' : 'parentName']
                 }`,

@@ -4,7 +4,6 @@ const { BOUNDARIES, LAYERS } = require('../../components/map/constants');
 
 const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
   const table = `${BOUNDARIES[boundaries].table}_change`;
-  const geoId = BOUNDARIES[boundaries].geoId;
 
   let query;
   if (layer === 'soc-stock') {
@@ -12,14 +11,14 @@ const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
       .find(option => option.value === type)
       .settings.depth.options[depth].label.replace(/\scm/, '');
 
-    query = `${process.env.API_URL}/sql?q=SELECT * FROM ${table} WHERE variable = 'stocks' AND depth = '${depthValue}' AND group_type = '${type}' AND ${geoId} = ${areaInterest}`;
+    query = `${process.env.API_URL}/sql?q=SELECT * FROM ${table} WHERE variable = 'stocks' AND depth = '${depthValue}' AND group_type = '${type}' AND id = ${areaInterest}`;
   } else {
     const variable = type === 'concentration' ? type : 'stocks';
     const depthValue = LAYERS['soc-experimental'].paramsConfig.settings.type.options
       .find(option => option.value === type)
       .settings.depth.options[depth].label.replace(/\scm/, '');
 
-    query = `${process.env.API_URL}/sql?q=SELECT * FROM ${table} WHERE variable = '${variable}' AND depth = '${depthValue}' AND group_type = 'experimental_dataset' AND ${geoId} = ${areaInterest}`;
+    query = `${process.env.API_URL}/sql?q=SELECT * FROM ${table} WHERE variable = '${variable}' AND depth = '${depthValue}' AND group_type = 'experimental_dataset' AND id = ${areaInterest}`;
   }
 
   return axios
