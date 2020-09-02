@@ -1,6 +1,7 @@
 @import 'css/settings';
 
 $background-height: 100vw * #{201 / 1204};
+$image-size: 180;
 
 .c-homepage-section-3 {
   position: relative;
@@ -28,51 +29,60 @@ $background-height: 100vw * #{201 / 1204};
     content: '';
   }
 
-  .image {
-    position: relative;
-    height: rem(100);
-    margin-bottom: map-get($spacers, 3);
-    background-image: url('/images/homepage-section-3-image.png');
-    background-size: cover;
-    background-position: top center;
-    background-repeat: no-repeat;
-    background-clip: content-box;
-
-    @include media-breakpoint-up(md, $grid-breakpoints) {
-      height: inherit;
-      margin-bottom: 0;
-      background-size: 0 0;
-    }
-
-    &:before {
-      @include media-breakpoint-up(md, $grid-breakpoints) {
-        display: block;
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: calc(100% - #{map-get($spacers, 2)});
-        height: 100%;
-        background-image: inherit;
-        background-size: cover;
-        background-position: top center;
-        background-repeat: no-repeat;
-        content: '';
-      }
-
-      @include media-breakpoint-up(lg, $grid-breakpoints) {
-        width: calc(100% - #{rem(40)});
-      }
-    }
-  }
-
   .intro {
     @include font-size($font-size-xl);
     line-height: 1.25;
   }
 
-  .text {
-    font-family: $font-family-2;
-    @include font-size($font-size-xs);
-    line-height: 2.1;
+  .images-container {
+    display: flex;
+    justify-content: space-between;
+
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      position: relative;
+      display: block;
+    }
+
+    > div {
+      flex-basis: calc((100% - #{2 * map-get($spacers, 3)}) / 3);
+      position: relative;
+      display: block;
+      margin-right: map-get($spacers, 3);
+      padding-top: calc((100% - #{2 * map-get($spacers, 3)}) / 3);
+
+      @include media-breakpoint-up(md, $grid-breakpoints) {
+        position: absolute;
+        top: calc(50% - #{rem($image-size / 2)});
+        right: 0;
+        width: rem($image-size);
+        height: rem($image-size);
+        margin-right: 0;
+        padding-top: 0;
+      }
+
+      &:first-of-type {
+        @include media-breakpoint-up(md, $grid-breakpoints) {
+          top: calc(50% - #{rem($image-size * 3 / 2) + map-get($spacers, 5)});
+        }
+      }
+
+      &:last-of-type {
+        margin-right: 0;
+
+        @include media-breakpoint-up(md, $grid-breakpoints) {
+          top: calc(50% + #{rem($image-size) / 2} + #{map-get($spacers, 5)});
+        }
+      }
+
+      img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+      }
+    }
   }
 }

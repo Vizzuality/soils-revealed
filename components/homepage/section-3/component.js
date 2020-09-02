@@ -11,19 +11,23 @@ const Section3 = ({ configuration }) => (
           <div className="section-title">{configuration.title}</div>
           <div className="section-description">{configuration.description}</div>
         </div>
-        <div className="col-sm-12 col-md-3 offset-md-2 image" />
-        <div className="col-sm-12 col-md-5">
+        <div className="col-sm-12 col-md-5 offset-md-2">
           <div className="row mb-4">
             <div className="col intro">
               But due to agriculture, the world’s soils have lost 116 billion tons of organic carbon
               or roughly a fourth of all carbon emitted by humans since the Industrial Revolution.
             </div>
           </div>
-          <div className="row">
-            <div className="col text">
-              That means more carbon in the atmosphere, less productive soil for crops to grow in,
-              and reduced ability for soil to retain water.
-            </div>
+        </div>
+        <div className="col-sm-12 col-md-3 images-container">
+          <div>
+            <img src="/images/homepage-section-3-image-1.jpeg" alt="Aerial view of a crop field" />
+          </div>
+          <div>
+            <img src="/images/homepage-section-3-image-2.jpeg" alt="Aerial view of a crop field" />
+          </div>
+          <div>
+            <img src="/images/homepage-section-3-image-3.jpeg" alt="Aerial view of a crop field" />
           </div>
         </div>
       </div>
