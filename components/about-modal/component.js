@@ -21,7 +21,7 @@ const AboutModal = ({ open, onClose }) => (
       action. Potential partners are encouraged to join this international effort to help gradually
       improve the platform.
     </p>
-    <p>The project involved collaboration with the following partners:</p>
+    <p>The project involves collaboration with the following partners:</p>
     <div className="container mt-3">
       <div className="row align-items-center text-center">
         <div className="col-6 col-md-3 pl-md-0 mb-4 mb-md-0">
@@ -50,10 +50,11 @@ const AboutModal = ({ open, onClose }) => (
     <p>
       The historic SOC changes in agricultural lands are derived from Sanderman et al. (2017) who
       used a data-driven statistical model and the HYDE v3.2 historic land-use dataset (Klein
-      Goldewijk et al., 2017). Recent changes in SOC stocks are assessed using actual soil carbon
-      data from national archives, a statistical space-time method for mapping SOC stocks, using
-      Argentina as a pilot region (Heuvelink et al., submitted). Future carbon changes are predicted
-      using scenarios from IPCC (2019).
+      Goldewijk et al., 2017). Recent changes in SOC stocks are assessed using a UNCCD modified IPCC
+      Tier 1 approach (UNCCD, 2018). They were also modelled using actual soil carbon data from
+      national archives, a statistical space-time method for mapping SOC stocks, using Argentina as
+      a pilot region (Heuvelink et al., 2020). Future carbon changes are predicted using scenarios
+      from IPCC (2019).
     </p>
   </Modal>
 );

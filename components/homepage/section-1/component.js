@@ -22,7 +22,7 @@ const Section1 = () => {
               <div className="col intro">
                 We’ve predicted the potential amount of carbon our soils could hold.
                 <br />
-                Using that, you can see the areas where our action can make the biggest impact.
+                Using that, you can see the areas where action can make the biggest impact.
               </div>
             </div>
             <div className="row">

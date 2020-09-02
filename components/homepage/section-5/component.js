@@ -16,8 +16,8 @@ const Section5 = ({ configuration }) => (
           <mark>
             significantly reduce the CO<sub>2</sub> concentration
           </mark>{' '}
-          in the atmosphere related to human activities. When realised, such an increase would help
-          to stabilise the climate and ensure food security.
+          in the atmosphere. When realised, such an increase would help to stabilise the climate and
+          ensure food security.
         </div>
       </div>
     </div>
