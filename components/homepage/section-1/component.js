@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { Link } from 'lib/routes';
-import Icon from 'components/icon';
 import AboutModal from 'components/about-modal';
 
 import './style.scss';
@@ -42,9 +41,9 @@ const Section1 = () => {
               </div>
             </div>
           </div>
-          <div className="text-center scroll-text">
-            Scroll to discover
-            <Icon name="bottom-arrow" />
+          <div className="scroll-text">
+            <img src="/images/shovel-arrow.svg" alt="Bottom arrow" />
+            <span className="text-left">Scroll to discover</span>
           </div>
         </div>
       </section>

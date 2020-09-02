@@ -36,7 +36,7 @@ $depth-visualization-offset: rem(100);
     position: absolute;
     left: rem($grid-gutter-width) / 2;
     bottom: rem(-50);
-    max-width: rem(100);
+    max-width: rem(120);
     font-family: $font-family-2;
     @include font-size($font-size-xxxs);
     font-weight: $font-weight-bold;
@@ -52,23 +52,16 @@ $depth-visualization-offset: rem(100);
 
     @include media-breakpoint-up(md, $grid-breakpoints) {
       display: flex;
-      flex-direction: row-reverse;
-      transform: translate(0, 100%);
+      flex-direction: row;
+      align-items: center;
+      transform: translate(#{-1 * rem(8)}, 100%);
     }
 
-    @include media-breakpoint-up(xl, $grid-breakpoints) {
+    img {
+      flex-shrink: 0;
       display: block;
-      transform: translate(-50%, 100%);
-    }
-
-    .c-icon {
-      display: block;
-      width: rem(16);
-      margin: 0 auto;
-
-      use {
-        stroke: $body-color;
-      }
+      width: rem(22);
+      margin-right: map-get($spacers, 3);
     }
   }
 }
