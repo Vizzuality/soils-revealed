@@ -36,4 +36,30 @@ $background-height: 100vw * #{124 / 1204};
       color: #742b19;
     }
   }
+
+  .image {
+    position: relative;
+    height: 50vw;
+
+    @include media-breakpoint-up(sm, $grid-breakpoints) {
+      height: rem(290);
+    }
+
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      height: rem(240);
+    }
+
+    @include media-breakpoint-up(lg, $grid-breakpoints) {
+      height: calc(#{rem(370)} - 1vw);
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      left: #{$grid-gutter-width / 2};
+      display: block;
+      max-width: calc(100% - #{$grid-gutter-width});
+      z-index: 1; // Needs to be on top of the next section
+    }
+  }
 }

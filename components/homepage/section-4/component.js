@@ -11,10 +11,12 @@ const Section4 = ({ configuration }) => (
           <div className="section-title">{configuration.title}</div>
           <div className="section-description">{configuration.description}</div>
         </div>
-        <div className="col-sm-12 col-md-8 offset-md-2 intro">
-          <mark>Carbon stored in soil can be maintained for thousands of years</mark> under natural
-          conditions. Upon disturbance and land use change, 30-80 % of the surficial carbon can be
-          emitted to the atmosphere. Judicious management can help prevent such losses.
+        <div className="col-sm-12 col-md-9 offset-md-2 intro">
+          That means more carbon in the atmosphere, less productive soil for crops to grow in, and
+          reduced ability for soil to retain water.
+        </div>
+        <div className="col-sm-12 col-md-9 offset-md-2 image">
+          <img src="/images/homepage-section-4-image.png" alt="Illustration of the soils layers" />
         </div>
       </div>
     </div>
