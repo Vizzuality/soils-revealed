@@ -23,7 +23,7 @@ const AboutModal = ({ open, onClose }) => (
     </p>
     <p>The project involved collaboration with the following partners:</p>
     <div className="container mt-3">
-      <div className="row align-items-center ">
+      <div className="row align-items-center text-center">
         <div className="col-6 col-md-3 pl-md-0 mb-4 mb-md-0">
           <a href="https://www.nature.org" target="_blank" rel="noopener noreferrer">
             <img src="/images/tnc-logo.svg" alt="The Nature Conservancy" />
@@ -40,8 +40,8 @@ const AboutModal = ({ open, onClose }) => (
           </a>
         </div>
         <div className="col-6 col-md-3 pr-md-0">
-          <a href="https://whrc.org" target="_blank" rel="noopener noreferrer">
-            <img src="/images/whrc-logo.svg" alt="Woods Hole Research Center" />
+          <a href="https://www.woodwellclimate.org/" target="_blank" rel="noopener noreferrer">
+            <img src="/images/wcrc-logo.png" alt="Woodwell Climate Research Center" />
           </a>
         </div>
       </div>
