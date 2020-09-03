@@ -337,11 +337,13 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
                 />
               </div>
-              {typeOptions[2].settings.year.options.map(option => (
+              {typeOptions[2].settings.year.options.map((option, index) => (
                 <Radio
                   key={option.value}
                   id={`legend-future-year-${option.value}`}
-                  className="mr-4"
+                  className={
+                    index !== typeOptions[2].settings.year.options.length - 1 ? 'mr-4' : undefined
+                  }
                   name="legend-future-year"
                   checked={layer.extraParams.year === option.value}
                   onChange={() => onChangeParams(layerGroup.id, { year: option.value })}

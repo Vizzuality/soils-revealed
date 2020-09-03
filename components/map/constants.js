@@ -764,16 +764,18 @@ exports.LAYERS = {
                   defaultOption: '0',
                 },
                 scenario: {
-                  options: [{ label: 'Default', value: '0' }],
-                  defaultOption: '0',
+                  // FIXME: add the real scenario options
+                  options: [{ label: 'Default', value: '10' }],
+                  defaultOption: '10',
                 },
                 year: {
                   options: [
-                    { label: '2030', value: '2030' },
-                    { label: '2040', value: '2040' },
-                    { label: '2050', value: '2050' },
+                    { label: '2023', value: '2023' },
+                    { label: '2028', value: '2028' },
+                    { label: '2033', value: '2033' },
+                    { label: '2038', value: '2038' },
                   ],
-                  defaultOption: '2030',
+                  defaultOption: '2023',
                 },
               },
             },
