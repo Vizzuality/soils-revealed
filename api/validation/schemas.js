@@ -96,18 +96,22 @@ module.exports = {
       .max(2018)
       .required(),
   }),
-  // FIXME: properly add validation
   socStockFuturePeriod: tileSchema.append({
-    scenario: Joi.string().required(),
+    scenario: Joi.string()
+      .valid('00', '01', '02', '03', '04', '10', '20', '21', '22')
+      .required(),
     year: Joi.number()
       .integer()
+      .valid(2023, 2028, 2033, 2038)
       .required(),
   }),
-  // FIXME: properly add validation
   socStockFutureChange: tileSchema.append({
-    scenario: Joi.string().required(),
+    scenario: Joi.string()
+      .valid('00', '01', '02', '03', '04', '10', '20', '21', '22')
+      .required(),
     year: Joi.number()
       .integer()
+      .valid(2023, 2028, 2033, 2038)
       .required(),
   }),
   timeseriesChart: Joi.object({

@@ -1,3 +1,61 @@
-module.exports = (_, res) => {
-  res.status(404).end();
+const ee = require('@google/earthengine');
+const axios = require('axios').default;
+
+const SCENARIOS = {
+  '00': 'crop_MGI',
+  '01': 'crop_I',
+  '02': 'crop_MG',
+  '03': 'grass_full',
+  '04': 'grass_part',
+  '10': 'rewilding',
+  '20': 'degradation_NoDeforestation',
+  '21': 'degradation_ForestToCrop',
+  '22': 'degradation_ForestToGrass',
+};
+
+const RAMP = `
+  <RasterSymbolizer>
+    <ColorMap extended="false" type="ramp">
+      <ColorMapEntry color="#E18D67" quantity="5" opacity="1" />
+      <ColorMapEntry color="#CB5A3A" quantity="20" />
+      <ColorMapEntry color="#9D4028" quantity="50" />
+      <ColorMapEntry color="#6D2410" quantity="75" />
+      <ColorMapEntry color="#380E03" quantity="200" />
+    </ColorMap>
+  </RasterSymbolizer>
+`;
+
+module.exports = ({ params: { scenario, year, x, y, z } }, res) => {
+  try {
+    const baseline = ee.Image(
+      ee
+        .ImageCollection('projects/soils-revealed/Recent/SOC_stocks')
+        .filterDate('2018-01-01', '2018-12-31')
+        .first()
+    );
+
+    const diff = ee.Image(
+      ee
+        .ImageCollection(`projects/soils-revealed/Future/scenario_${SCENARIOS[scenario]}_dSOC`)
+        .filterDate(`${year}-01-01`, `${year}-12-31`)
+        .first()
+    );
+
+    const image = baseline.add(diff.unmask()).sldStyle(RAMP);
+
+    image.getMap({}, async ({ formatTileUrl }) => {
+      const url = formatTileUrl(x, y, z);
+      const serverPromise = axios.get(url, {
+        headers: { Accept: 'image/*' },
+        responseType: 'arraybuffer',
+      });
+      await serverPromise.then(serverResponse => {
+        res.set('Content-Type', 'image/png');
+        res.set('Cache-Control', 'public,max-age=604800');
+        return res.send(Buffer.from(serverResponse.data));
+      });
+    });
+  } catch (e) {
+    res.status(404).end();
+  }
 };
