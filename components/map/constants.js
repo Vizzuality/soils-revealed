@@ -159,7 +159,7 @@ exports.BOUNDARIES = {
     config: {
       type: 'vector',
       source: {
-        url: 'mapbox://tncsoilscience.4h7t6z6v',
+        url: 'mapbox://tncsoilscience.9cvo99fs',
         minzoom: 0,
         maxzoom: 22,
         promoteId: 'id',
@@ -394,7 +394,7 @@ exports.BOUNDARIES = {
     config: {
       type: 'vector',
       source: {
-        url: 'mapbox://tncsoilscience.5fapdvhw',
+        url: 'mapbox://tncsoilscience.2p8sqycm',
         minzoom: 4,
         maxzoom: 22,
         promoteId: 'id',
@@ -480,7 +480,7 @@ exports.BOUNDARIES = {
     config: {
       type: 'vector',
       source: {
-        url: 'mapbox://tncsoilscience.anw55qp7',
+        url: 'mapbox://tncsoilscience.amy3t9i5',
         minzoom: 0,
         maxzoom: 22,
         promoteId: 'id',
