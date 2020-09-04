@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { Fragment, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
@@ -15,7 +15,29 @@ const Select = ({
 }) => {
   const onChangeSelect = useCallback(
     e => {
-      const option = options.find(option => option.value === e.target.selectedOptions[0].value);
+      const { value } = e.target.selectedOptions[0];
+
+      let option;
+      for (let i = 0, j = options.length; i < j; i++) {
+        const currentOption = options[i];
+
+        if (currentOption.value === value) {
+          option = currentOption;
+          break;
+        }
+
+        if (currentOption.options) {
+          for (let k = 0, l = currentOption.options.length; k < l; k++) {
+            const currentSubOption = currentOption.options[k];
+
+            if (currentSubOption.value === value) {
+              option = currentSubOption;
+              break;
+            }
+          }
+        }
+      }
+
       onChange(option);
     },
     [options, onChange]
@@ -32,9 +54,22 @@ const Select = ({
       onChange={onChangeSelect}
     >
       {options.map(option => (
-        <option key={option.value} value={option.value} disabled={option.disabled}>
-          {option.label}
-        </option>
+        <Fragment key={option.value ? option.value : option.label}>
+          {!option.options && (
+            <option value={option.value} disabled={option.disabled}>
+              {option.label}
+            </option>
+          )}
+          {!!option.options && (
+            <optgroup label={option.label}>
+              {option.options.map(subOption => (
+                <option key={subOption.value} value={subOption.value} disabled={subOption.disabled}>
+                  {subOption.label}
+                </option>
+              ))}
+            </optgroup>
+          )}
+        </Fragment>
       ))}
     </select>
   );
@@ -45,7 +80,14 @@ Select.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({
       label: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
+      value: PropTypes.string,
+      options: PropTypes.arrayOf(
+        PropTypes.shape({
+          label: PropTypes.string.isRequired,
+          value: PropTypes.string.isRequired,
+          disabled: PropTypes.bool,
+        })
+      ),
       disabled: PropTypes.bool,
     })
   ).isRequired,
