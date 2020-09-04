@@ -764,8 +764,54 @@ exports.LAYERS = {
                   defaultOption: '0',
                 },
                 scenario: {
-                  // FIXME: add the real scenario options
-                  options: [{ label: 'Default', value: '10' }],
+                  options: [
+                    {
+                      label: 'Improved agriculture',
+                      options: [
+                        {
+                          label: 'Cropland management: high organic inputs and minimum disturbance',
+                          value: '00',
+                        },
+                        { label: 'Cropland management: high organic inputs', value: '01' },
+                        { label: 'Cropland management: minimum disturbance', value: '02' },
+                        {
+                          label: 'Grassland management: sustainable pastures and adaptive grazing',
+                          value: '03',
+                        },
+                        {
+                          label:
+                            'Grassland management: sustainable pastures and low or medium intensity grazing',
+                          value: '04',
+                        },
+                      ],
+                    },
+                    {
+                      label: 'Restoration of natural vegetation',
+                      options: [
+                        {
+                          label: 'Cropland and grassland restoration',
+                          value: '10',
+                        },
+                      ],
+                    },
+                    {
+                      label: 'Degradation',
+                      options: [
+                        {
+                          label: 'Land degradation with no forest conversion',
+                          value: '20',
+                        },
+                        {
+                          label: 'Land degradation (including forest conversion to cropland)',
+                          value: '21',
+                        },
+                        {
+                          label: 'Land degradation (including forest conversion to pasture)',
+                          value: '22',
+                        },
+                      ],
+                    },
+                  ],
                   defaultOption: '10',
                 },
                 year: {

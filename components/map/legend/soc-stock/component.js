@@ -327,43 +327,39 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
               </div>
             </TabList>
             <TabPanel className="react-tabs__tab-panel align-items-end">
-              <div className="select d-flex flex-column mr-auto js-soc-stock-scenario">
-                <label htmlFor="legend-future-scenario">Scenario:</label>
+              <div className="select flex-shrink-1 overflow-hidden d-flex flex-column mr-auto js-soc-stock-scenario">
+                <label htmlFor="legend-future-scenario">Soil carbon futures:</label>
                 <Select
                   id="legend-future-scenario"
-                  className="mt-1"
+                  className="text-truncate mt-1"
                   options={typeOptions[2].settings.scenario.options}
                   value={layer.extraParams.scenario}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
                 />
               </div>
-              {typeOptions[2].settings.year.options.map((option, index) => (
-                <Radio
-                  key={option.value}
-                  id={`legend-future-year-${option.value}`}
-                  className={
-                    index !== typeOptions[2].settings.year.options.length - 1 ? 'mr-4' : undefined
-                  }
-                  name="legend-future-year"
-                  checked={layer.extraParams.year === option.value}
-                  onChange={() => onChangeParams(layerGroup.id, { year: option.value })}
-                >
-                  {option.label}
-                </Radio>
-              ))}
+              <div className="select flex-shrink-0 d-flex flex-column ml-4">
+                <label htmlFor="legend-future-year">Year:</label>
+                <Select
+                  id="legend-future-year"
+                  className="mt-1"
+                  options={typeOptions[2].settings.year.options}
+                  value={layer.extraParams.year}
+                  onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+                />
+              </div>
             </TabPanel>
             <TabPanel className="react-tabs__tab-panel align-items-end">
-              <div className="select d-flex flex-column mr-auto">
-                <label htmlFor="legend-future-scenario">Scenario:</label>
+              <div className="select flex-shrink-1 overflow-hidden d-flex flex-column mr-auto">
+                <label htmlFor="legend-future-scenario">Soil carbon futures:</label>
                 <Select
                   id="legend-future-scenario"
-                  className="mt-1"
+                  className="text-truncate mt-1"
                   options={typeOptions[2].settings.scenario.options}
                   value={layer.extraParams.scenario}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
                 />
               </div>
-              <div className="d-flex align-items-center">
+              <div className="flex-shrink-0 d-flex align-items-center ml-4">
                 <div className="select d-inline-block mr-4">
                   From:
                   <span className="d-inline-block ml-1 font-weight-bold">
