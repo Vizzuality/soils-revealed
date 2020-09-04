@@ -49,7 +49,11 @@ module.exports = (
     } ORDER BY value ${order} LIMIT 50
     `;
 
-    const url = encodeURI(`${process.env.API_URL}/sql?q=${query}`);
+    // Carto may incorrectly cache the data (the cache is not cleaned when data changes) so to avoid
+    // that, we send a dummy parameter (here `d`), which contains today's date
+    const url = encodeURI(
+      `${process.env.API_URL}/sql?q=${query}&d=${new Date().toISOString().split('T')[0]}`
+    );
 
     axios
       .get(url, {

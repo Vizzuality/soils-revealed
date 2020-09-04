@@ -57,7 +57,11 @@ module.exports = ({ params: { search }, query: { boundaries } }, res) => {
       WHERE depth = '0-30' and variable = 'stocks' and group_type = 'historic' and lower(name) like '${search.toLowerCase()}%'
     `;
 
-    const url = encodeURI(`${process.env.API_URL}/sql?q=${query}`);
+    // Carto may incorrectly cache the data (the cache is not cleaned when data changes) so to avoid
+    // that, we send a dummy parameter (here `d`), which contains today's date
+    const url = encodeURI(
+      `${process.env.API_URL}/sql?q=${query}&d=${new Date().toISOString().split('T')[0]}`
+    );
 
     const allowedBoundaries = boundaries ? boundaries.split(',') : [];
 

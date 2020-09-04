@@ -21,6 +21,10 @@ const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
     query = `${process.env.API_URL}/sql?q=SELECT * FROM ${table} WHERE variable = '${variable}' AND depth = '${depthValue}' AND group_type = 'experimental_dataset' AND id = ${areaInterest}`;
   }
 
+  // Carto may incorrectly cache the data (the cache is not cleaned when data changes) so to avoid
+  // that, we send a dummy parameter (here `d`), which contains today's date
+  query = `${query}&d=${new Date().toISOString().split('T')[0]}`;
+
   return axios
     .get(query, {
       headers: { Accept: 'application/json' },
