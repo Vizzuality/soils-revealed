@@ -910,7 +910,10 @@ exports.LAYERS = {
         license: 'CC BY 4.0',
         licenseLink: 'https://creativecommons.org/licenses/by/4.0/',
       },
-      future: {},
+      future: {
+        scenarios:
+          '### Cropland management: high organic inputs and minimum disturbance\nRepresents the combined impact of a shift from current management to cover crop, green manures or other higher residue return practices and shifting to no-till on all cropland areas.\n### Cropland management: high organic inputs\nRepresents a shift from current management to cover crop, green manures or other higher residue return practices on all cropland areas.\n### Cropland management: minimum disturbance\nRepresents a shift to no-till cropping on all cropland areas.\n### Grassland management: sustainable pastures and adaptive grazing\nOn managed pastures, this scenario represents a shift to sustainable management with light to moderate grazing together with at least one improvement to vegetative growth. On rangelands, this scenario represents a shift from current management defined by land degradation to high intensity grazing.\n### Grassland management: sustainable pastures and low or medium intensity grazing\nOn managed pastures, this scenario represents a shift to sustainable management with light to moderate grazing together with at least one improvement to vegetative growth. On rangelands, this scenario represents a shift from current management to low or medium intensity grazing, without significant management improvements.\n### Cropland and grassland restoration\nReversion of all crop and grazing land to non-degraded land under native vegetation.\n### Land degradation with no forest conversion\nAll grasslands shift from current condition to highly degraded state. All croplands shift to conventional tillage and low residue inputs.\n### Land degradation (including forest conversion to cropland)\nIn addition to further degradation of grasslands and cropland, forests are converted to conventionally managed low residue input cropping systems.\n### Land degradation (including forest conversion to pasture)\nIn addition to further degradation of grasslands and cropland, forests are converted to degraded grasslands.',
+      },
     },
   },
   'soc-experimental': {

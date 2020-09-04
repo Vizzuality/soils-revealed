@@ -44,6 +44,12 @@ const Content = ({ layer, tab }) => {
           {info.description && <Markdown content={info.description} />}
           {!info.description && '−'}
         </Row>
+        {tab === 'future' && (
+          <Row name="Soil carbon futures">
+            {info.scenarios && <Markdown content={info.scenarios} />}
+            {!info.scenarios && '−'}
+          </Row>
+        )}
         <Row name="Cautions">
           {info.cautions && <Markdown content={info.cautions} />}
           {!info.cautions && '−'}
