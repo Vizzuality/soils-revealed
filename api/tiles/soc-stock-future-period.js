@@ -34,12 +34,14 @@ module.exports = ({ params: { scenario, year, x, y, z } }, res) => {
         .first()
     );
 
-    const diff = ee.Image(
+    let diff = ee.Image(
       ee
         .ImageCollection(`projects/soils-revealed/Future/scenario_${SCENARIOS[scenario]}_dSOC`)
         .filterDate(`${year}-01-01`, `${year}-12-31`)
         .first()
     );
+
+    diff = diff.updateMask(diff.mask().gt(0.001));
 
     const image = baseline.add(diff.unmask()).sldStyle(RAMP);
 
