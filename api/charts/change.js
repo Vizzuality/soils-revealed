@@ -31,14 +31,14 @@ const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
       }
 
       const bins = rows[0].bins
-        .replace(/(\\n|\[|\])/g, '')
+        .replace(/(\\n|\[|\]|,)/g, '')
         .replace(/\s+/g, ' ')
         .trim()
         .split(' ')
         .map(bin => +bin);
 
       const counts = rows[0].counts
-        .replace(/(\\n|\[|\])/g, '')
+        .replace(/(\\n|\[|\]|,)/g, '')
         .replace(/\s+/g, ' ')
         .trim()
         .split(' ')

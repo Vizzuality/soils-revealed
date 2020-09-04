@@ -32,7 +32,7 @@ const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
 
       const years = JSON.parse(rows[0].years);
       const values = rows[0].mean_values
-        .replace(/(\\n|\[|\])/g, '')
+        .replace(/(\\n|\[|\]|,)/g, '')
         .replace(/\s+/g, ' ')
         .trim()
         .split(' ');
