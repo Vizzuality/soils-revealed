@@ -395,7 +395,7 @@ exports.BOUNDARIES = {
       type: 'vector',
       source: {
         url: 'mapbox://tncsoilscience.2p8sqycm',
-        minzoom: 4,
+        minzoom: 0,
         maxzoom: 22,
         promoteId: 'id',
       },
@@ -421,7 +421,7 @@ exports.BOUNDARIES = {
                 '#2b86a1',
               ],
               'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1, 22, 2],
-              'line-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0, 3, 0, 4, 1],
+              'line-opacity': ['interpolate', ['linear'], ['zoom'], 0, 0.1, 3, 0.5, 4, 1],
             },
           },
           {
