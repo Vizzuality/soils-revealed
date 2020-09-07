@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 import Icon from 'components/icon';
 import { Dropdown } from 'components/forms';
 import { BOUNDARIES } from 'components/map/constants';
+import { getViewportFromBounds, combineBounds } from 'components/map';
 import Ranking from '../../ranking';
 import { useResults } from './helpers';
 
@@ -14,9 +15,11 @@ const AnalysisCompare = ({
   boundaries,
   areaInterest,
   socLayerState,
+  viewport,
   updateCompareAreaInterest,
   updateDrawing,
   onClose,
+  updateViewport,
 }) => {
   const rankingOptions = useMemo(
     () =>
@@ -70,9 +73,29 @@ const AnalysisCompare = ({
         level: result.level,
         parentId: result.level === 1 ? result.parentId : undefined,
         parentName: result.level === 1 ? result.parentName : undefined,
+        bbox: result.bbox ? result.bbox : undefined,
       });
+
+      // We center the map and zoom on the area of interest
+      if (result.bbox) {
+        const boundsArr = [result.bbox];
+        if (areaInterest.bbox) {
+          boundsArr.push(areaInterest.bbox);
+        }
+
+        updateViewport(
+          getViewportFromBounds(
+            window.screen.availWidth,
+            window.screen.availHeight,
+            viewport,
+            combineBounds(...boundsArr),
+            // This formula prevents the area from being hidden below the analysis
+            { padding: 0.25 * Math.min(window.screen.availWidth, window.screen.availHeight) }
+          )
+        );
+      }
     },
-    [updateCompareAreaInterest]
+    [viewport, areaInterest, updateCompareAreaInterest, updateViewport]
   );
 
   useEffect(() => {
@@ -216,9 +239,11 @@ AnalysisCompare.propTypes = {
   boundaries: PropTypes.object.isRequired,
   areaInterest: PropTypes.object.isRequired,
   socLayerState: PropTypes.object.isRequired,
+  viewport: PropTypes.object.isRequired,
   updateCompareAreaInterest: PropTypes.func.isRequired,
   updateDrawing: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  updateViewport: PropTypes.func.isRequired,
 };
 
 export default AnalysisCompare;

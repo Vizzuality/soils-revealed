@@ -2,9 +2,16 @@ import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { BOUNDARIES } from 'components/map/constants';
+import { getViewportFromBounds, combineBounds } from 'components/map';
 import Ranking from '../../ranking';
 
-const RankingSection = ({ areaInterest, boundaries, updateCompareAreaInterest }) => {
+const RankingSection = ({
+  areaInterest,
+  boundaries,
+  viewport,
+  updateCompareAreaInterest,
+  updateViewport,
+}) => {
   const onClickArea = useCallback(
     result => {
       updateCompareAreaInterest({
@@ -13,9 +20,29 @@ const RankingSection = ({ areaInterest, boundaries, updateCompareAreaInterest })
         level: result.level,
         parentId: result.parentId,
         parentName: result.parentName,
+        bbox: result.bbox ? result.bbox : undefined,
       });
+
+      // We center the map and zoom on the area of interest
+      if (result.bbox) {
+        const boundsArr = [result.bbox];
+        if (areaInterest.bbox) {
+          boundsArr.push(areaInterest.bbox);
+        }
+
+        updateViewport(
+          getViewportFromBounds(
+            window.screen.availWidth,
+            window.screen.availHeight,
+            viewport,
+            combineBounds(...boundsArr),
+            // This formula prevents the area from being hidden below the analysis
+            { padding: 0.25 * Math.min(window.screen.availWidth, window.screen.availHeight) }
+          )
+        );
+      }
     },
-    [updateCompareAreaInterest]
+    [viewport, areaInterest, updateCompareAreaInterest, updateViewport]
   );
 
   return (
@@ -50,7 +77,9 @@ const RankingSection = ({ areaInterest, boundaries, updateCompareAreaInterest })
 RankingSection.propTypes = {
   areaInterest: PropTypes.object.isRequired,
   boundaries: PropTypes.object.isRequired,
+  viewport: PropTypes.object.isRequired,
   updateCompareAreaInterest: PropTypes.func.isRequired,
+  updateViewport: PropTypes.func.isRequired,
 };
 
 export default RankingSection;

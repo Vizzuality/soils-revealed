@@ -32,6 +32,15 @@ const ExploreInteractiveFeaturePopup = ({
         return prop.id === selectedFeatureId;
       });
 
+      let bbox;
+      if (selectedProperty.bbox) {
+        try {
+          bbox = JSON.parse(selectedProperty.bbox);
+          bbox = [bbox.slice(0, 2), bbox.slice(2, 4)];
+          // eslint-disable-next-line no-empty
+        } catch (e) {}
+      }
+
       updater({
         id: +selectedFeatureId,
         name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(selectedProperty),
@@ -41,6 +50,7 @@ const ExploreInteractiveFeaturePopup = ({
           selectedProperty.level === 1
             ? BOUNDARIES[boundaries.id].config.interactiveFeatureParentName(selectedProperty)
             : undefined,
+        bbox,
       });
       onClose();
     },
@@ -49,6 +59,15 @@ const ExploreInteractiveFeaturePopup = ({
 
   const onClickGo = useCallback(() => {
     const updater = compareAreaInterest ? updateCompareAreaInterest : updateAreaInterest;
+
+    let bbox;
+    if (properties[0].bbox) {
+      try {
+        bbox = JSON.parse(properties[0].bbox);
+        bbox = [bbox.slice(0, 2), bbox.slice(2, 4)];
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
+    }
 
     updater({
       id: +properties[0].id,
@@ -59,6 +78,7 @@ const ExploreInteractiveFeaturePopup = ({
         properties[0].level === 1
           ? BOUNDARIES[boundaries.id].config.interactiveFeatureParentName(properties[0])
           : undefined,
+      bbox,
     });
     onClose();
   }, [
@@ -71,10 +91,20 @@ const ExploreInteractiveFeaturePopup = ({
   ]);
 
   const onClickCompare = useCallback(() => {
+    let bbox;
+    if (properties[0].bbox) {
+      try {
+        bbox = JSON.parse(properties[0].bbox);
+        bbox = [bbox.slice(0, 2), bbox.slice(2, 4)];
+        // eslint-disable-next-line no-empty
+      } catch (e) {}
+    }
+
     updateCompareAreaInterest({
       id: +properties[0].id,
       name: BOUNDARIES[boundaries.id].config.interactiveFeatureName(properties[0]),
       level: properties[0].level,
+      bbox,
     });
     onClose();
   }, [boundaries, properties, updateCompareAreaInterest, onClose]);

@@ -17,32 +17,32 @@ module.exports = (
       with a as (
         SELECT id, ${
           +level === 0 ? 'name_0' : 'name_1'
-        } as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth, level, name_0 as parent_name, id_0 as parent_id
+        } as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth, level, name_0 as parent_name, id_0 as parent_id, bbox
         FROM political_boundaries_change
 
         UNION
 
         SELECT id, ${
           +level === 0 ? 'maj_name' : 'sub_name'
-        } as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth, level, maj_name as parent_name, id_0 as parent_id
+        } as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth, level, maj_name as parent_name, id_0 as parent_id, bbox
         FROM hydrological_basins_change
 
         UNION
 
         SELECT id, ${
           +level === 0 ? 'biome_name' : 'eco_name'
-        } as name,'biomes' as type, mean_diff, years, group_type, variable, depth, level, biome_name as parent_name, id_0 as parent_id
+        } as name,'biomes' as type, mean_diff, years, group_type, variable, depth, level, biome_name as parent_name, id_0 as parent_id, bbox
         FROM biomes_change
 
         UNION
 
         SELECT id, ${
           +level === 0 ? 'featurecla' : 'name'
-        } as name, 'landforms' as type, mean_diff, years, group_type, variable, depth, level, featurecla as parent_name, id_0 as parent_id
+        } as name, 'landforms' as type, mean_diff, years, group_type, variable, depth, level, featurecla as parent_name, id_0 as parent_id, bbox
         FROM landforms_change
       )
 
-      SELECT id, name, mean_diff as value, years, variable, type, level, parent_name, parent_id
+      SELECT id, name, mean_diff as value, years, variable, type, level, parent_name, parent_id, bbox
       FROM a
       WHERE level = ${level} and group_type = '${groupType}' and variable = '${variable}' and depth = '${depthValue}' and type = '${boundaries}' and mean_diff is not null${
       within ? ` and parent_id = ${within}` : ''
@@ -70,6 +70,7 @@ module.exports = (
             level,
             parent_id: parentId,
             parent_name: parentName,
+            bbox: serializedBbox,
           }) => {
             let years = null;
             try {
@@ -87,6 +88,13 @@ module.exports = (
               // eslint-disable-next-line no-empty
             } catch (e) {}
 
+            let bbox = null;
+            try {
+              bbox = JSON.parse(serializedBbox);
+              bbox = [bbox.slice(0, 2), bbox.slice(2, 4)];
+              // eslint-disable-next-line no-empty
+            } catch (e) {}
+
             return {
               id,
               name,
@@ -96,6 +104,7 @@ module.exports = (
               level,
               parentId,
               parentName,
+              bbox,
             };
           }
         )

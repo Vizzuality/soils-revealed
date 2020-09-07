@@ -4,6 +4,7 @@ import debounce from 'lodash/debounce';
 
 import { getLayerExtraParams } from 'utils/map';
 import { BOUNDARIES, LAYERS } from 'components/map/constants';
+import { getViewportFromBounds } from 'components/map';
 import { Dropdown } from 'components/forms';
 import { useResults } from './helpers';
 import Ranking from '../ranking';
@@ -16,10 +17,12 @@ const AreasInterestHome = ({
   rankingBoundaries,
   rankingBoundariesOptions,
   areaInterest,
+  viewport,
   updateBoundaries,
   updateAreaInterest,
   updateLayer,
   updateDrawing,
+  updateViewport,
 }) => {
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -59,9 +62,24 @@ const AreasInterestHome = ({
         level: result.level,
         parentId: result.level === 1 ? result.parentId : undefined,
         parentName: result.level === 1 ? result.parentName : undefined,
+        bbox: result.bbox ? result.bbox : undefined,
       });
+
+      // We center the map and zoom on the area of interest
+      if (result.bbox) {
+        updateViewport(
+          getViewportFromBounds(
+            window.screen.availWidth,
+            window.screen.availHeight,
+            viewport,
+            result.bbox,
+            // This formula prevents the area from being hidden below the analysis
+            { padding: 0.25 * Math.min(window.screen.availWidth, window.screen.availHeight) }
+          )
+        );
+      }
     },
-    [boundaries, updateBoundaries, updateAreaInterest]
+    [boundaries, viewport, updateBoundaries, updateAreaInterest, updateViewport]
   );
 
   const onChangeType = useCallback(
@@ -192,10 +210,12 @@ AreasInterestHome.propTypes = {
     PropTypes.shape({ label: PropTypes.string.isRequired, value: PropTypes.string.isRequired })
   ).isRequired,
   areaInterest: PropTypes.object,
+  viewport: PropTypes.object.isRequired,
   updateBoundaries: PropTypes.func.isRequired,
   updateAreaInterest: PropTypes.func.isRequired,
   updateLayer: PropTypes.func.isRequired,
   updateDrawing: PropTypes.func.isRequired,
+  updateViewport: PropTypes.func.isRequired,
 };
 
 AreasInterestHome.defaultProps = {
