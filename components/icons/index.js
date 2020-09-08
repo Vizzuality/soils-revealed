@@ -152,6 +152,17 @@ const Icons = () => (
           fill="#FFF"
         />
       </symbol>
+      <symbol id="icon-warning" viewBox="0 0 22 19">
+        <title>Warning</title>
+        <g fill="none" fillRule="evenodd">
+          <path d="M0-1h22v22H0z" />
+          <path
+            d="M.917 18.25h20.166L11 .833.917 18.25zm11-2.75h-1.834v-1.833h1.834V15.5zm0-3.667h-1.834V8.167h1.834v3.666z"
+            fill="#343233"
+            fillRule="nonzero"
+          />
+        </g>
+      </symbol>
     </defs>
   </svg>
 );

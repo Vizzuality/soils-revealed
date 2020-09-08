@@ -2,10 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Tooltip, { followCursor } from 'components/tooltip';
+import Icon from 'components/icon';
 
 import './style.scss';
 
-const MapContainer = ({ drawing, children }) => {
+const MapContainer = ({ drawing, drawingState, children }) => {
   const inner = <div className="c-explore-map-container">{children}</div>;
 
   if (drawing) {
@@ -22,7 +23,17 @@ const MapContainer = ({ drawing, children }) => {
         offset="0 40"
         content={
           <div className="c-explore-map-container-tooltip">
-            Click to add a point, and click the first one to close the shape
+            {drawingState === 'drawing' &&
+              'Click to add a point and close the shape to analyze it.'}
+            {drawingState === 'error' && (
+              <>
+                <Icon name="warning" className="d-block mx-auto mb-2" />
+                <p>
+                  The drawn area is either too small ({'<'} 1 sq km) or too big ({'>'} 1M sq km).
+                </p>
+                <p className="mb-0">Click to start a new one.</p>
+              </>
+            )}
           </div>
         }
       >
@@ -36,6 +47,7 @@ const MapContainer = ({ drawing, children }) => {
 
 MapContainer.propTypes = {
   drawing: PropTypes.bool.isRequired,
+  drawingState: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
 };
 

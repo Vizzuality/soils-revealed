@@ -6,5 +6,9 @@
 
   &-tooltip {
     max-width: rem(350);
+    font-family: $font-family-2;
+    @include font-size($font-size-xxs);
+    font-weight: $font-weight-medium;
+    text-align: center;
   }
 }

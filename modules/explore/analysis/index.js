@@ -7,6 +7,7 @@ export const selectAreaInterest = state => state[SLICE_NAME].areaInterest;
 export const selectCompareAreaInterest = state => state[SLICE_NAME].compareAreaInterest;
 
 export const selectDrawing = state => state[SLICE_NAME].drawing;
+export const selectDrawingState = state => state[SLICE_NAME].drawingState;
 
 export const selectSerializedState = createSelector(
   [selectAreaInterest, selectCompareAreaInterest],
@@ -23,6 +24,7 @@ export default exploreActions =>
       areaInterest: null,
       compareAreaInterest: null,
       drawing: false,
+      drawingState: 'drawing', // 'drawing' or 'error'
     },
     reducers: {
       updateAreaInterest(state, action) {
@@ -41,6 +43,13 @@ export default exploreActions =>
       },
       updateDrawing(state, action) {
         state.drawing = action.payload;
+
+        if (action.payload === false) {
+          state.drawingState = 'drawing';
+        }
+      },
+      updateDrawingState(state, action) {
+        state.drawingState = action.payload;
       },
     },
     extraReducers: {
