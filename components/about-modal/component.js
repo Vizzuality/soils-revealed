@@ -46,6 +46,16 @@ const AboutModal = ({ open, onClose }) => (
         </div>
       </div>
     </div>
+    <p className="mt-4">Designed and developed by:</p>
+    <div className="container mt-3">
+      <div className="row align-items-center text-center">
+        <div className="col-6 col-md-3 pl-md-0">
+          <a href="https://www.vizzuality.com/" target="_blank" rel="noopener noreferrer">
+            <img src="/images/vizzuality-logo.svg" alt="Vizzuality" />
+          </a>
+        </div>
+      </div>
+    </div>
     <h2 className="mt-5 mb-3">Methods in brief</h2>
     <p>
       The historic SOC changes in agricultural lands are derived from Sanderman et al. (2017) who
