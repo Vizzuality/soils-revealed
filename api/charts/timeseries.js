@@ -1,8 +1,14 @@
 const axios = require('axios').default;
 
 const { BOUNDARIES, LAYERS } = require('../../components/map/constants');
+const { parseTimeseriesData } = require('./helpers');
 
-const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
+module.exports = ({ layer, type, boundaries, depth, areaInterest }) => {
+  // There is no timeseries data for the historic and future sections
+  if (layer === 'soc-stock' && type !== 'recent') {
+    return Promise.resolve([]);
+  }
+
   const table = `${BOUNDARIES[boundaries].table}_time_series`;
 
   let query;
@@ -39,54 +45,9 @@ const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
         .replace(/(\\n|\[|\]|,)/g, '')
         .replace(/\s+/g, ' ')
         .trim()
-        .split(' ');
+        .split(' ')
+        .map(value => +value);
 
-      return years.map((year, index) => ({
-        year,
-        value: +values[index],
-      }));
+      return parseTimeseriesData(years, values);
     });
-};
-
-module.exports = async (
-  { params: { layer, type, boundaries, depth, areaInterest }, query: { compare } },
-  res
-) => {
-  try {
-    let resData;
-
-    const data = await fetchData({ layer, type, boundaries, depth, areaInterest });
-    resData = data;
-
-    if (compare) {
-      const compareData = await fetchData({
-        layer,
-        type,
-        boundaries,
-        depth,
-        areaInterest: compare,
-      });
-
-      const years = [...new Set([...data.map(d => d.year), ...compareData.map(d => d.year)])].sort(
-        (a, b) => a - b
-      );
-
-      resData = years.map(year => {
-        const dataPoint = data.find(d => d.year === year);
-        const compareDataPoint = compareData.find(d => d.year === year);
-        return {
-          year,
-          value: dataPoint ? dataPoint.value : null,
-          compareValue: compareDataPoint ? compareDataPoint.value : null,
-        };
-      });
-    }
-
-    // We cache the results for 10 minutes
-    res.set('Cache-Control', `public,max-age=${10 * 60}`);
-    res.send({ data: resData });
-  } catch (e) {
-    console.log(e);
-    res.status(404).end();
-  }
 };

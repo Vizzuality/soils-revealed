@@ -114,7 +114,7 @@ module.exports = {
       .valid(2023, 2028, 2033, 2038)
       .required(),
   }),
-  timeseriesChart: Joi.object({
+  charts: Joi.object({
     layer: Joi.string()
       .valid('soc-stock', 'soc-experimental')
       .required(),
@@ -129,40 +129,22 @@ module.exports = {
       .min(0)
       .max(5)
       .required(),
-    areaInterest: Joi.number()
-      .integer()
-      .min(0)
-      .required(),
   }),
-  timeseriesChartQuery: Joi.object({
-    compare: Joi.number()
-      .integer()
-      .min(0),
-  }),
-  changeChart: Joi.object({
-    layer: Joi.string()
-      .valid('soc-stock', 'soc-experimental')
+  chartsBody: Joi.object({
+    areaInterest: Joi.alternatives()
+      .try(
+        Joi.number()
+          .integer()
+          .min(0),
+        Joi.object()
+      )
       .required(),
-    type: Joi.string()
-      .valid('historic', 'recent', 'future', 'concentration', 'stock')
-      .required(),
-    boundaries: Joi.string()
-      .valid('political-boundaries', 'landforms', 'river-basins', 'biomes')
-      .required(),
-    depth: Joi.number()
-      .integer()
-      .min(0)
-      .max(5)
-      .required(),
-    areaInterest: Joi.number()
-      .integer()
-      .min(0)
-      .required(),
-  }),
-  changeChartQuery: Joi.object({
-    compare: Joi.number()
-      .integer()
-      .min(0),
+    compareAreaInterest: Joi.alternatives().try(
+      Joi.number()
+        .integer()
+        .min(0),
+      Joi.object()
+    ),
   }),
   areaInterestSearch: Joi.object({
     search: Joi.string().required(),

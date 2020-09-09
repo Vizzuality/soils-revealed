@@ -20,8 +20,7 @@ const socStockFuturePeriod = require('./api/tiles/soc-stock-future-period');
 const socStockFutureChange = require('./api/tiles/soc-stock-future-change');
 
 // Chart data handlers
-const timeseriesChart = require('./api/charts/timeseries');
-const changeChart = require('./api/charts/change');
+const charts = require('./api/charts');
 
 // Other data handlers
 const areaInterestSearch = require('./api/misc/area-interest-search');
@@ -53,6 +52,8 @@ try {
 
 app.prepare().then(() => {
   const server = express();
+
+  server.use(express.json());
 
   // Tiles server handlers
   if (geePrivateKey) {
@@ -104,17 +105,11 @@ app.prepare().then(() => {
   }
 
   // Chart data handlers
-  server.get(
-    '/api/timeseries/:layer/:type/:boundaries/:depth/:areaInterest',
-    validation(schemas.timeseriesChart, 'params'),
-    validation(schemas.timeseriesChartQuery, 'query'),
-    timeseriesChart
-  );
-  server.get(
-    '/api/change/:layer/:type/:boundaries/:depth/:areaInterest',
-    validation(schemas.changeChart, 'params'),
-    validation(schemas.changeChartQuery, 'query'),
-    changeChart
+  server.post(
+    '/api/charts/:layer/:type/:boundaries/:depth',
+    validation(schemas.charts, 'params'),
+    validation(schemas.chartsBody, 'body'),
+    charts
   );
 
   // Other data handlers

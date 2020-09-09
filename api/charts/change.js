@@ -1,8 +1,9 @@
 const axios = require('axios').default;
 
 const { BOUNDARIES, LAYERS } = require('../../components/map/constants');
+const { parseChangeData } = require('./helpers');
 
-const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
+module.exports = ({ layer, type, boundaries, depth, areaInterest }) => {
   const table = `${BOUNDARIES[boundaries].table}_change`;
 
   let query;
@@ -31,7 +32,10 @@ const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
     })
     .then(({ data: { rows } }) => {
       if (rows.length === 0) {
-        return {};
+        return {
+          average: null,
+          rows: [],
+        };
       }
 
       const bins = rows[0].bins
@@ -48,67 +52,6 @@ const fetchData = ({ layer, type, boundaries, depth, areaInterest }) => {
         .split(' ')
         .map(count => +count);
 
-      const sumCounts = counts.reduce((res, count) => res + count, 0);
-      const values = counts.map(count => (count / sumCounts) * 100);
-
-      return {
-        average: rows[0].mean_diff,
-        rows: values.map((value, index) => ({
-          value,
-          bin: bins[index],
-        })),
-      };
+      return parseChangeData(counts, bins, rows[0].mean_diff);
     });
-};
-
-module.exports = async (
-  { params: { layer, type, boundaries, depth, areaInterest }, query: { compare } },
-  res
-) => {
-  try {
-    let resData;
-
-    const data = await fetchData({ layer, type, boundaries, depth, areaInterest });
-    resData = data;
-
-    if (compare) {
-      const compareData = await fetchData({
-        layer,
-        type,
-        boundaries,
-        depth,
-        areaInterest: compare,
-      });
-
-      const bins = [
-        ...new Set([
-          ...(data.rows || []).map(r => r.bin),
-          ...(compareData.rows || []).map(r => r.bin),
-        ]),
-      ].sort((a, b) => a - b);
-
-      resData = {
-        ...data,
-        compareAverage: compareData.average,
-        rows: bins.map(bin => {
-          const dataPoint = data.rows ? data.rows.find(d => d.bin === bin) : null;
-          const compareDataPoint = compareData.rows
-            ? compareData.rows.find(d => d.bin === bin)
-            : null;
-          return {
-            bin,
-            value: dataPoint ? dataPoint.value : null,
-            compareValue: compareDataPoint ? compareDataPoint.value : null,
-          };
-        }),
-      };
-    }
-
-    // We cache the results for 10 minutes
-    res.set('Cache-Control', `public,max-age=${10 * 60}`);
-    res.send({ data: resData });
-  } catch (e) {
-    console.log(e);
-    res.status(404).end();
-  }
 };
