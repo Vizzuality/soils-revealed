@@ -16,12 +16,12 @@ import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
 import LegendTitle from 'components/map/legend/title';
-import { useTimeseries } from './helpers';
 
 const TimeseriesSection = ({
+  data,
+  error,
   legendLayers,
   socLayerState,
-  boundaries,
   areaInterest,
   compareAreaInterest,
   updateLayer,
@@ -68,15 +68,6 @@ const TimeseriesSection = ({
         option => option.value === `${typeOption.settings.year2.defaultOption}`
       ),
     [typeOption]
-  );
-
-  const { data, error } = useTimeseries(
-    socLayerState.id,
-    typeOption.value,
-    boundaries.id,
-    depthIndex,
-    areaInterest.id,
-    compareAreaInterest?.id
   );
 
   const onChangeMode = useCallback(() => {
@@ -299,15 +290,24 @@ const TimeseriesSection = ({
 };
 
 TimeseriesSection.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      year: PropTypes.number.isRequired,
+      value: PropTypes.number.isRequired,
+      compareValue: PropTypes.number,
+    })
+  ),
+  error: PropTypes.bool,
   legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   socLayerState: PropTypes.object.isRequired,
-  boundaries: PropTypes.object.isRequired,
   areaInterest: PropTypes.object.isRequired,
   compareAreaInterest: PropTypes.object,
   updateLayer: PropTypes.func.isRequired,
 };
 
 TimeseriesSection.defaultProps = {
+  data: null,
+  error: false,
   compareAreaInterest: null,
 };
 

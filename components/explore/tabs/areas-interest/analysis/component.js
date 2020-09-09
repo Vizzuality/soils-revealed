@@ -10,6 +10,7 @@ import Compare from './compare';
 import TimeseriesSection from './timeseries-section';
 import ChangeSection from './change-section';
 import RankingSection from './ranking-section';
+import { useChartsData } from './helpers';
 
 import './style.scss';
 
@@ -17,6 +18,7 @@ const Analysis = ({
   areaInterest,
   compareAreaInterest,
   socLayerState,
+  boundaries,
   updateLayer,
   onClickInfo,
   onChangeVisibilityCloseBtn,
@@ -26,6 +28,29 @@ const Analysis = ({
   const [compareTooltipOpen, setCompareTooltipOpen] = useState(false);
 
   const typeOptions = useMemo(() => socLayerState.config.settings.type.options, [socLayerState]);
+
+  const typeOption = useMemo(
+    () =>
+      socLayerState.config.settings.type.options.find(
+        option => option.value === socLayerState.type
+      ),
+    [socLayerState]
+  );
+
+  const depthIndex = useMemo(
+    () =>
+      typeOption.settings.depth.options.findIndex(option => option.value === socLayerState.depth),
+    [typeOption, socLayerState]
+  );
+
+  const { data, error } = useChartsData(
+    socLayerState.id,
+    typeOption.value,
+    boundaries.id,
+    depthIndex,
+    areaInterest.id,
+    compareAreaInterest?.id
+  );
 
   const onChangeType = useCallback(
     type => {
@@ -155,9 +180,9 @@ const Analysis = ({
       </div>
       <div className="scrollable-container">
         {(socLayerState.id !== 'soc-stock' || socLayerState.type === 'recent') && (
-          <TimeseriesSection />
+          <TimeseriesSection data={data?.timeseries} error={!!error} />
         )}
-        <ChangeSection />
+        <ChangeSection data={data?.change} error={!!error} />
         {areaInterest.level === 0 && !compareAreaInterest && <RankingSection />}
       </div>
     </div>
@@ -168,6 +193,7 @@ Analysis.propTypes = {
   areaInterest: PropTypes.object.isRequired,
   compareAreaInterest: PropTypes.object,
   socLayerState: PropTypes.object.isRequired,
+  boundaries: PropTypes.object.isRequired,
   updateLayer: PropTypes.func.isRequired,
   onClickInfo: PropTypes.func.isRequired,
   onChangeVisibilityCloseBtn: PropTypes.func.isRequired,

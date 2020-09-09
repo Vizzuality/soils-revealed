@@ -78,59 +78,40 @@ const getTrimmedData = (data, xKey, yKey) => {
   return data.slice(minBinIndex, maxBinIndex + 1);
 };
 
-export const useChange = (
-  socLayerId,
-  type,
-  boundaries,
-  depthIndex,
-  areaInterestId,
-  compareAreaInterestId
-) => {
-  const url = `/api/change/${socLayerId}/${type}/${boundaries}/${depthIndex}/${areaInterestId}${
-    compareAreaInterestId ? `?compare=${compareAreaInterestId}` : ''
-  }`;
+/**
+ * Parse the change data to reduce the number of bars
+ * @param {{ average: number, compareAverage?: number, rows: { bin: number, value: number, compareValue?: number }[] }} data Change data as coming from the API
+ * @param {boolean} isComparing Whether the data contains 2 areas being compared
+ */
+export const getParsedData = (data, isComparing) => {
+  if (!data) {
+    return data;
+  }
 
-  return useStickySWR(url, req =>
-    fetch(req)
-      .then(res => res.json())
-      // Here we remove the values on the sides that are very low so we don't loose space
-      // displaying bars of 1px high
-      // This calculation is not done on the server because we want to let the user download the
-      // raw data
-      .then(({ data }) => {
-        if (!data?.rows) {
-          return {
-            ...data,
-            rows: [],
-          };
-        }
+  const trimmedData = getTrimmedData(data.rows, 'bin', 'value');
 
-        const trimmedData = getTrimmedData(data.rows, 'bin', 'value');
+  if (!isComparing) {
+    return {
+      ...data,
+      rows: trimmedData,
+    };
+  }
 
-        if (!compareAreaInterestId) {
-          return {
-            ...data,
-            rows: trimmedData,
-          };
-        }
+  const trimmedCompareData = getTrimmedData(data.rows, 'bin', 'compareValue');
 
-        const trimmedCompareData = getTrimmedData(data.rows, 'bin', 'compareValue');
+  const bins = [
+    ...new Set([...trimmedData.map(d => d.bin), ...trimmedCompareData.map(d => d.bin)]),
+  ].sort((a, b) => a - b);
 
-        const bins = [
-          ...new Set([...trimmedData.map(d => d.bin), ...trimmedCompareData.map(d => d.bin)]),
-        ].sort((a, b) => a - b);
-
-        // NOTE: the two datasets might not be centered on the same mean at all, so we could still
-        // display a large number of bins/bars because the getTrimmedData only take into account
-        // one dataset at a time
-        return {
-          ...data,
-          rows: bins.map(bin => ({
-            bin,
-            value: trimmedData.find(d => d.bin === bin)?.value,
-            compareValue: trimmedCompareData.find(d => d.bin === bin)?.compareValue,
-          })),
-        };
-      })
-  );
+  // NOTE: the two datasets might not be centered on the same mean at all, so we could still
+  // display a large number of bins/bars because the getTrimmedData only take into account
+  // one dataset at a time
+  return {
+    ...data,
+    rows: bins.map(bin => ({
+      bin,
+      value: trimmedData.find(d => d.bin === bin)?.value,
+      compareValue: trimmedCompareData.find(d => d.bin === bin)?.compareValue,
+    })),
+  };
 };

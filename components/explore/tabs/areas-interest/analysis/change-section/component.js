@@ -17,12 +17,13 @@ import { slugify, getHumanReadableValue, truncate } from 'utils/functions';
 import { Switch } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
-import { useChange } from './helpers';
+import { getParsedData } from './helpers';
 import DynamicSentence from './dynamic-sentence';
 
 const ChangeSection = ({
+  data: rawData,
+  error,
   socLayerState,
-  boundaries,
   areaInterest,
   compareAreaInterest,
   updateLayer,
@@ -35,22 +36,12 @@ const ChangeSection = ({
     [socLayerState]
   );
 
-  const depthIndex = useMemo(
-    () =>
-      typeOption.settings.depth.options.findIndex(option => option.value === socLayerState.depth),
-    [typeOption, socLayerState]
-  );
-
   const modeOptions = typeOption.settings.mode.options;
 
-  const { data, error } = useChange(
-    socLayerState.id,
-    typeOption.value,
-    boundaries.id,
-    depthIndex,
-    areaInterest.id,
-    compareAreaInterest?.id
-  );
+  const data = useMemo(() => getParsedData(rawData, !!compareAreaInterest), [
+    rawData,
+    compareAreaInterest,
+  ]);
 
   const onChangeMode = useCallback(() => {
     const newMode =
@@ -346,14 +337,27 @@ const ChangeSection = ({
 };
 
 ChangeSection.propTypes = {
+  data: PropTypes.shape({
+    average: PropTypes.number,
+    compareAverage: PropTypes.number,
+    rows: PropTypes.arrayOf(
+      PropTypes.shape({
+        bin: PropTypes.number.isRequired,
+        value: PropTypes.number.isRequired,
+        compareValue: PropTypes.number,
+      })
+    ).isRequired,
+  }),
+  error: PropTypes.bool,
   socLayerState: PropTypes.object.isRequired,
-  boundaries: PropTypes.object.isRequired,
   areaInterest: PropTypes.object.isRequired,
   compareAreaInterest: PropTypes.object,
   updateLayer: PropTypes.func.isRequired,
 };
 
 ChangeSection.defaultProps = {
+  data: null,
+  error: false,
   compareAreaInterest: null,
 };
 
