@@ -1,6 +1,7 @@
 import { createSelector, createAsyncThunk, createReducer, createAction } from '@reduxjs/toolkit';
 
 import { deserialize, serialize } from 'utils/functions';
+import { getLayerDef, getAreaLayerDef } from 'utils/map';
 import { selectQuery } from '../routing';
 import createMapSlice, * as mapModule from './map';
 import createAnalysisSlice, * as analysisModule from './analysis';
@@ -38,8 +39,10 @@ const selectors = {
       analysisModule.selectCompareAreaInterest,
     ],
     (boundaries, areaInterest, compareAreaInterest) => {
-      if (areaInterest) {
-        let res = [
+      let res = [];
+
+      if (areaInterest?.id) {
+        res = [
           {
             source: boundaries.id,
             sourceLayer: BOUNDARIES[boundaries.id].config.render.layers[0]['source-layer'],
@@ -47,21 +50,47 @@ const selectors = {
             state: { active: true },
           },
         ];
-
-        if (compareAreaInterest) {
-          res.push({
-            source: boundaries.id,
-            sourceLayer: BOUNDARIES[boundaries.id].config.render.layers[0]['source-layer'],
-            id: compareAreaInterest.id,
-            state: { active: true },
-          });
-        }
-
-        return res;
       }
 
-      return [];
+      if (compareAreaInterest?.id) {
+        res.push({
+          source: boundaries.id,
+          sourceLayer: BOUNDARIES[boundaries.id].config.render.layers[0]['source-layer'],
+          id: compareAreaInterest.id,
+          state: { active: true },
+        });
+      }
+
+      return res;
     }
+  ),
+  selectActiveLayersDef: createSelector(
+    [
+      mapModule.selectBasemapLayerDef,
+      mapModule.selectBoundariesLayerDef,
+      mapModule.selectDataLayers,
+      mapModule.selectActiveDataLayers,
+      mapModule.selectLayers,
+      analysisModule.selectAreaInterest,
+      analysisModule.selectCompareAreaInterest,
+    ],
+    (
+      basemapLayerDef,
+      boundariesLayerDef,
+      dataLayers,
+      activeDataLayers,
+      layers,
+      areaInterest,
+      compareAreaInterest
+    ) => [
+      ...(areaInterest?.geo ? [getAreaLayerDef(areaInterest)] : []),
+      ...(compareAreaInterest?.geo ? [getAreaLayerDef(compareAreaInterest)] : []),
+      ...(boundariesLayerDef ? [boundariesLayerDef] : []),
+      ...activeDataLayers.map(layerId =>
+        getLayerDef(layerId, dataLayers[layerId], layers[layerId])
+      ),
+      ...(basemapLayerDef ? [basemapLayerDef] : []),
+    ]
   ),
 };
 

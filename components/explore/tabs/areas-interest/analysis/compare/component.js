@@ -40,7 +40,14 @@ const AnalysisCompare = ({
           level: 1,
           within: areaInterest[areaInterest.level === 0 ? 'id' : 'parentId'],
         },
-      ].filter(option => areaInterest.level === 0 || option.level === 1),
+      ].filter(option => {
+        // This case appears when the area of interest is an area drawn by the user
+        if (areaInterest.level === undefined || areaInterest.level === null) {
+          return option.level === 0;
+        } else {
+          return areaInterest.level === 0 || option.level === 1;
+        }
+      }),
     [areaInterest, boundaries]
   );
   const [search, setSearch] = useState('');

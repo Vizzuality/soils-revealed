@@ -1,7 +1,7 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
 import omit from 'lodash/omit';
 
-import { getLayerSource, getLayerDef, getBoundariesDef, getLayerExtraParams } from 'utils/map';
+import { getLayerSource, getBoundariesDef, getLayerExtraParams } from 'utils/map';
 import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'components/map/constants';
 
 export const SLICE_NAME = 'map';
@@ -203,21 +203,6 @@ export const selectLegendDataLayers = createSelector(
 
     return sortedLayerGroups;
   }
-);
-
-export const selectActiveLayersDef = createSelector(
-  [
-    selectBasemapLayerDef,
-    selectBoundariesLayerDef,
-    selectDataLayers,
-    selectActiveDataLayers,
-    selectLayers,
-  ],
-  (basemapLayerDef, boundariesLayerDef, dataLayers, activeDataLayers, layers) => [
-    ...(boundariesLayerDef ? [boundariesLayerDef] : []),
-    ...activeDataLayers.map(layerId => getLayerDef(layerId, dataLayers[layerId], layers[layerId])),
-    ...(basemapLayerDef ? [basemapLayerDef] : []),
-  ]
 );
 
 export const selectActiveLayersInteractiveIds = createSelector([selectBoundaries], boundaries => {

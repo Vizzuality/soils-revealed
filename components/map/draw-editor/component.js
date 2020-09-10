@@ -2,14 +2,17 @@ import React, { useCallback, useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Editor, DrawPolygonMode } from 'react-map-gl-draw';
 import getArea from '@turf/area';
+import getBbox from '@turf/bbox';
 
 const DrawEditor = ({
   areaInterest,
   drawingState,
+  boundaries,
   updateAreaInterest,
   updateCompareAreaInterest,
   updateDrawing,
   updateDrawingState,
+  updateBoundaries,
 }) => {
   const previousDrawingState = useRef(drawingState);
   const [mode] = useState(new DrawPolygonMode());
@@ -33,12 +36,16 @@ const DrawEditor = ({
         if (area < 1 || area > 1000000) {
           updateDrawingState('error');
         } else {
-          // FIXME: remove the alert and implement the complete analysis of a custom shape
-          alert(
-            'This feature is currently under development. You will be taken out of the drawing mode.'
-          );
-          // const updater = areaInterest ? updateCompareAreaInterest : updateAreaInterest;
-          // updater({ name: 'Custom area', geo: geojson });
+          let bbox = /** @type {any} */ (getBbox(geojson));
+          bbox = [bbox.slice(0, 2), bbox.slice(2, 4)];
+
+          const updater = areaInterest ? updateCompareAreaInterest : updateAreaInterest;
+          updater({ name: 'Custom area', geo: geojson, bbox });
+
+          if (boundaries.id === 'no-boundaries') {
+            updateBoundaries({ id: 'political-boundaries' });
+          }
+
           updateDrawing(false);
         }
       }
@@ -46,10 +53,12 @@ const DrawEditor = ({
     [
       areaInterest,
       drawingState,
+      boundaries,
       updateAreaInterest,
       updateCompareAreaInterest,
       updateDrawing,
       updateDrawingState,
+      updateBoundaries,
     ]
   );
 
@@ -90,10 +99,12 @@ const DrawEditor = ({
 DrawEditor.propTypes = {
   areaInterest: PropTypes.object,
   drawingState: PropTypes.string.isRequired,
+  boundaries: PropTypes.object.isRequired,
   updateAreaInterest: PropTypes.func.isRequired,
   updateCompareAreaInterest: PropTypes.func.isRequired,
   updateDrawing: PropTypes.func.isRequired,
   updateDrawingState: PropTypes.func.isRequired,
+  updateBoundaries: PropTypes.func.isRequired,
 };
 
 DrawEditor.defaultProps = {

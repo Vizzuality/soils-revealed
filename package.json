@@ -38,6 +38,7 @@
     "@seznam/compose-react-refs": "^1.0.4",
     "@tippy.js/react": "^3.1.1",
     "@turf/area": "^6.0.1",
+    "@turf/bbox": "^6.0.1",
     "@zeit/next-sass": "^1.0.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",

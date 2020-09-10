@@ -21,7 +21,7 @@ export default connect(
     labels: mapSelectors.selectLabels(state),
     featureStates: exploreSelectors.selectFeatureStates(state),
     activeDataLayers: mapSelectors.selectActiveDataLayers(state),
-    activeLayersDef: mapSelectors.selectActiveLayersDef(state),
+    activeLayersDef: exploreSelectors.selectActiveLayersDef(state),
     activeLayersInteractiveIds: mapSelectors.selectActiveLayersInteractiveIds(state),
     serializedState: exploreSelectors.selectSerializedState(state),
     legendDataLayers: mapSelectors.selectLegendDataLayers(state),

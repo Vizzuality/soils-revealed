@@ -79,6 +79,35 @@ export const getBoundariesDef = (boundariesId, boundaries, boundariesSettings) =
   render: boundaries.config.render,
 });
 
+export const getAreaLayerDef = area => {
+  if (!area?.geo) {
+    return null;
+  }
+
+  return {
+    id: 'custom-area-interest',
+    source: {
+      type: 'geojson',
+      data: area.geo,
+    },
+    type: 'geojson',
+    render: {
+      layers: [
+        {
+          type: 'line',
+          paint: {
+            'line-width': 2,
+            'line-opacity': 1,
+            'line-color': '#000000',
+          },
+        },
+      ],
+    },
+    opacity: 1,
+    visibility: true,
+  };
+};
+
 export const toggleBasemap = (map, basemap) => {
   const mapStyle = map.getStyle();
   const { layers } = mapStyle;

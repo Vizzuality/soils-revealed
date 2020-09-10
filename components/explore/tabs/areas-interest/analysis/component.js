@@ -48,8 +48,8 @@ const Analysis = ({
     typeOption.value,
     boundaries.id,
     depthIndex,
-    areaInterest.id,
-    compareAreaInterest?.id
+    areaInterest,
+    compareAreaInterest
   );
 
   const onChangeType = useCallback(
