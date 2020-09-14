@@ -26,6 +26,7 @@
           vertical-align: middle;
           font-family: $font-family-2;
           @include font-size($font-size-xxs);
+          font-weight: $font-weight-medium;
         }
 
         .btn-link {
