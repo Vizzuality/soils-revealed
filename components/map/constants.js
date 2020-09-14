@@ -263,7 +263,7 @@ exports.BOUNDARIES = {
             ],
             paint: {
               'line-opacity': 0.7,
-              'line-width': 2,
+              'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1, 3, 1, 5, 2],
               'line-color': {
                 default: '#000000',
                 property: 'featurecla',
@@ -572,7 +572,7 @@ exports.BOUNDARIES = {
             ],
             paint: {
               'line-opacity': 0.7,
-              'line-width': 2,
+              'line-width': ['interpolate', ['linear'], ['zoom'], 0, 1, 3, 1, 5, 2],
               'line-color': {
                 default: '#000000',
                 property: 'biome_name',
