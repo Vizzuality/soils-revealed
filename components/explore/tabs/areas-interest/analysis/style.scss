@@ -3,7 +3,7 @@
 .c-areas-interest-tab-analysis {
   display: flex;
   flex-direction: column;
-  max-height: calc(100vh - #{map-get($spacers, 3) + rem(125)});
+  max-height: calc(100vh - #{map-get($spacers, 3) + rem(65)});
   margin: #{-2 * map-get($spacers, 3)}; // This is needed so the separators take the full width
   padding: 2 * map-get($spacers, 3);
   overflow: hidden;
