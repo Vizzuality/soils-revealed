@@ -127,16 +127,71 @@ const ExploreInteractiveFeaturePopup = ({
           >
             <div className="form-group">
               <label htmlFor="map-interactive-feature">
-                Select {BOUNDARIES[boundaries.id].noun}:
+                Select a {BOUNDARIES[boundaries.id].noun}:
               </label>
               <Select
                 id="map-interactive-feature"
                 options={[
                   { label: 'Select a geometry', value: '', disabled: true },
-                  ...properties.map(prop => ({
-                    label: BOUNDARIES[boundaries.id].config.interactiveFeatureName(prop),
-                    value: `${prop.id}`,
-                  })),
+                  {
+                    label: BOUNDARIES[boundaries.id].level0Noun.replace(/^\w/, c =>
+                      c.toUpperCase()
+                    ),
+                    options: [
+                      ...properties
+                        .filter(property => property.level === 0)
+                        .map(prop => ({
+                          label: BOUNDARIES[boundaries.id].config.interactiveFeatureName(prop),
+                          value: `${prop.id}`,
+                        })),
+                    ],
+                  },
+                  ...(boundaries.id !== 'landforms'
+                    ? [
+                        {
+                          label: BOUNDARIES[boundaries.id].level1Noun.replace(/^\w/, c =>
+                            c.toUpperCase()
+                          ),
+                          options: [
+                            ...properties
+                              .filter(property => property.level === 1)
+                              .map(prop => ({
+                                label: BOUNDARIES[boundaries.id].config.interactiveFeatureName(
+                                  prop
+                                ),
+                                value: `${prop.id}`,
+                              })),
+                          ],
+                        },
+                      ]
+                    : []),
+                  ...(boundaries.id === 'landforms'
+                    ? [
+                        ...new Set(
+                          properties
+                            .filter(property => property.level === 1)
+                            .map(property =>
+                              BOUNDARIES[boundaries.id].config.interactiveFeatureParentName(
+                                property
+                              )
+                            )
+                        ),
+                      ].map(label => ({
+                        label,
+                        options: properties
+                          .filter(
+                            property =>
+                              property.level === 1 &&
+                              BOUNDARIES[boundaries.id].config.interactiveFeatureParentName(
+                                property
+                              ) === label
+                          )
+                          .map(prop => ({
+                            label: BOUNDARIES[boundaries.id].config.interactiveFeatureName(prop),
+                            value: `${prop.id}`,
+                          })),
+                      }))
+                    : []),
                 ]}
                 value={selectedFeatureId ?? ''}
                 onChange={({ value }) => setSelectedFeatureId(value)}
