@@ -19,8 +19,4 @@ body {
       color: $body-color;
     }
   }
-
-  &.btn-outline-secondary:not(:hover) {
-    color: $white;
-  }
 }
