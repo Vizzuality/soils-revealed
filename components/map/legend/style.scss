@@ -91,12 +91,6 @@ li.vizzuality__c-legend-item {
           box-shadow: $box-shadow-3;
         }
 
-        &:last-of-type:nth-of-type(3), // If we don't have the close button
-        &:first-of-type:last-of-type {
-          // If we have just one button (it's never the close button)
-          margin-right: rem(18 + 12); // 12px is the margin set by vizz-components
-        }
-
         &:nth-of-type(4) {
           position: relative;
 
