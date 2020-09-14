@@ -255,8 +255,7 @@ const TimeseriesSection = ({
                     return (
                       <g className="recharts-text recharts-label">
                         <text x={0} y={LINE_HEIGHT} transform="rotate(-90)" textAnchor="end">
-                          Soil Organic Carbon{' '}
-                          {socLayerState.id !== 'soc-stock' ? socLayerState.type : `stock`}
+                          SOC {socLayerState.id !== 'soc-stock' ? socLayerState.type : `stock`}
                         </text>
                         <text x={0} y={LINE_HEIGHT * 2} transform="rotate(-90)" textAnchor="end">
                           ({unit})
