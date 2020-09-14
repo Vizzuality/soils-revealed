@@ -71,6 +71,7 @@
 
         &:first-of-type {
           .c-icon {
+            top: rem(-1);
             transform: rotate(180deg);
           }
         }
@@ -80,6 +81,8 @@
         }
 
         .c-icon {
+          position: relative;
+          top: rem(1);
           width: rem(10);
           height: rem(10);
 
