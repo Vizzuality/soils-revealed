@@ -145,6 +145,7 @@ const Comp = (
         width="100%"
         height="100%"
         mapStyle={mapStyle}
+        asyncRender
         {...internalViewport}
         {...(isStatic
           ? {}
