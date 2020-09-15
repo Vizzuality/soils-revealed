@@ -1,15 +1,17 @@
 import { useState, useEffect, useRef } from 'react';
 import useExtSWR from 'swr';
 
-export const useDesktop = () => {
-  const [isDesktop, setIsDesktop] = useState(true);
+export const useDesktop = (minWidth = 992) => {
+  const [isDesktop, setIsDesktop] = useState(
+    typeof window !== 'undefined' ? window.screen.availWidth >= minWidth : true
+  );
 
   useEffect(() => {
     let mediaQueryList;
     const onChange = mediaQuery => setIsDesktop(mediaQuery.matches);
 
     if (typeof window !== 'undefined') {
-      mediaQueryList = window.matchMedia('(min-width: 992px)');
+      mediaQueryList = window.matchMedia(`(min-width: ${minWidth}px)`);
       mediaQueryList.addListener(onChange);
     }
 
@@ -18,7 +20,7 @@ export const useDesktop = () => {
         mediaQueryList.removeListener(onChange);
       }
     };
-  }, []);
+  }, [minWidth]);
 
   return isDesktop;
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Parallax } from 'react-scroll-parallax';
 
 import './style.scss';
 
@@ -16,7 +17,12 @@ const Section4 = ({ configuration }) => (
           reduced ability for soil to retain water.
         </div>
         <div className="col-sm-12 col-md-9 offset-md-2 image">
-          <img src="/images/homepage-section-4-image.png" alt="Illustration of the soils layers" />
+          <Parallax y={['100px', '-100px']}>
+            <img
+              src="/images/homepage-section-4-image.png"
+              alt="Illustration of the soils layers"
+            />
+          </Parallax>
         </div>
       </div>
     </div>

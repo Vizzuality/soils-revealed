@@ -66,12 +66,24 @@ $image-size: 180;
         }
       }
 
+      &:nth-of-type(2) {
+        @include media-breakpoint-up(md, $grid-breakpoints) {
+          z-index: 1;
+        }
+      }
+
       &:last-of-type {
         margin-right: 0;
 
         @include media-breakpoint-up(md, $grid-breakpoints) {
           top: calc(50% + #{rem($image-size) / 2} + #{map-get($spacers, 5)});
         }
+      }
+
+      .parallax-outer,
+      .parallax-inner {
+        width: 100%;
+        height: 100%;
       }
 
       img {

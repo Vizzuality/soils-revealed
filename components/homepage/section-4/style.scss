@@ -53,13 +53,17 @@ $background-height: 100vw * #{124 / 1204};
       height: calc(#{rem(370)} - 1vw);
     }
 
-    img {
+    .parallax-outer {
       position: absolute;
       top: 0;
       left: #{$grid-gutter-width / 2};
-      display: block;
       max-width: calc(100% - #{$grid-gutter-width});
       z-index: 1; // Needs to be on top of the next section
+
+      img {
+        display: block;
+        width: 100%;
+      }
     }
   }
 }

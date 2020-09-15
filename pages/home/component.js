@@ -1,5 +1,6 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
+import { ParallaxProvider } from 'react-scroll-parallax';
 
 import StaticPage from 'layout/static-page';
 import Section1 from 'components/homepage/section-1';
@@ -51,18 +52,20 @@ export const DEPTH_ITEMS = [
 
 const HomePage = () => (
   <StaticPage className="p-home">
-    <Section1 />
-    {/* The position of the DepthVisualization component cannot be changed. It needs to be here so
+    <ParallaxProvider>
+      <Section1 />
+      {/* The position of the DepthVisualization component cannot be changed. It needs to be here so
         it seems it belongs to the Section2 component (both the styles of Section1 and Section2 have
         hacks for it to work)
       */}
-    <DepthVisualization items={DEPTH_ITEMS} />
-    <Section2 configuration={DEPTH_ITEMS[0]} />
-    <Section3 configuration={DEPTH_ITEMS[1]} />
-    <Section4 configuration={DEPTH_ITEMS[2]} />
-    <Section5 configuration={DEPTH_ITEMS[3]} />
-    <Section6 configuration={DEPTH_ITEMS[4]} />
-    <Section7 configuration={DEPTH_ITEMS[5]} />
+      <DepthVisualization items={DEPTH_ITEMS} />
+      <Section2 configuration={DEPTH_ITEMS[0]} />
+      <Section3 configuration={DEPTH_ITEMS[1]} />
+      <Section4 configuration={DEPTH_ITEMS[2]} />
+      <Section5 configuration={DEPTH_ITEMS[3]} />
+      <Section6 configuration={DEPTH_ITEMS[4]} />
+      <Section7 configuration={DEPTH_ITEMS[5]} />
+    </ParallaxProvider>
   </StaticPage>
 );
 

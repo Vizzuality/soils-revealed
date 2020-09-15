@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Parallax } from 'react-scroll-parallax';
 
 import { Link } from 'lib/routes';
 import AboutModal from 'components/about-modal';
@@ -42,7 +43,9 @@ const Section1 = () => {
             </div>
           </div>
           <div className="scroll-text">
-            <img src="/images/shovel-arrow.svg" alt="Bottom arrow" />
+            <Parallax y={['20px', '-20px']}>
+              <img src="/images/shovel-arrow.svg" alt="Bottom arrow" />
+            </Parallax>
             <span className="text-left">Scroll to discover</span>
           </div>
         </div>
