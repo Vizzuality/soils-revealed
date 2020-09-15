@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import Icon from 'components/icon';
 import { Select } from 'components/forms';
+import NoDataMessage from 'components/explore/no-data-message';
 import { useRanking } from './helpers';
 
 import './style.scss';
@@ -71,9 +72,7 @@ const AreasInterestRanking = ({
           Unable to fetch the data.
         </div>
       )}
-      {!error && !!results && results.length === 0 && (
-        <div className="ranking py-5 text-center">No data available.</div>
-      )}
+      {!error && !!results && results.length === 0 && <NoDataMessage />}
       {!error && results?.length > 0 && (
         <div className="ranking">
           <Select

@@ -1,0 +1,13 @@
+@import 'css/settings';
+
+.c-explore-no-data-message {
+  padding: map-get($spacers, 5) 0;
+  text-align: center;
+
+  .c-icon {
+    display: block;
+    width: rem(70);
+    height: rem(70);
+    margin: 0 auto map-get($spacers, 2);
+  }
+}

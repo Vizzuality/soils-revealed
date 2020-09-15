@@ -16,6 +16,7 @@ import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
 import LegendTitle from 'components/map/legend/title';
+import NoDataMessage from 'components/explore/no-data-message';
 
 const TimeseriesSection = ({
   data,
@@ -136,7 +137,7 @@ const TimeseriesSection = ({
           <LoadingSpinner transparent inline />
         </div>
       )}
-      {!error && data?.length === 0 && <div className="py-5 text-center">No data available.</div>}
+      {!error && data?.length === 0 && <NoDataMessage />}
       {!error && data?.length > 0 && (
         <>
           <div className="chart-intro">

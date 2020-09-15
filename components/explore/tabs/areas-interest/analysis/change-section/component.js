@@ -17,6 +17,7 @@ import { slugify, getHumanReadableValue, truncate } from 'utils/functions';
 import { Switch } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
+import NoDataMessage from 'components/explore/no-data-message';
 import { getParsedData } from './helpers';
 import DynamicSentence from './dynamic-sentence';
 
@@ -100,9 +101,7 @@ const ChangeSection = ({
           <LoadingSpinner transparent inline />
         </div>
       )}
-      {!error && data?.rows?.length === 0 && (
-        <div className="py-5 text-center">No data available.</div>
-      )}
+      {!error && data?.rows?.length === 0 && <NoDataMessage />}
       {!error && data?.rows?.length > 0 && (
         <>
           <div className="chart-intro">
