@@ -5,7 +5,7 @@ import debounce from 'lodash/debounce';
 import throttle from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
-import { useDesktop } from 'utils/hooks';
+import { useHasMounted, useDesktop } from 'utils/hooks';
 import { toggleBasemap, toggleLabels, toggleRoads } from 'utils/map';
 import {
   Map,
@@ -61,6 +61,7 @@ const Explore = ({
   updateLayerOrder,
   updateBoundaries,
 }) => {
+  const hasMounted = useHasMounted();
   const isDesktop = useDesktop();
   const mapRef = useRef(null);
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -182,7 +183,11 @@ const Explore = ({
   // When the map layers are updated, we close the map's popup
   useEffect(() => {
     setInteractiveFeaturesThrottled(null);
-  }, [activeLayersDef]);
+  }, [activeLayersDef, setInteractiveFeaturesThrottled]);
+
+  if (!hasMounted) {
+    return null;
+  }
 
   return (
     <div

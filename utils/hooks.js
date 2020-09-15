@@ -25,6 +25,16 @@ export const useDesktop = (minWidth = 992) => {
   return isDesktop;
 };
 
+export const useHasMounted = () => {
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    setHasMounted(true);
+  }, []);
+
+  return hasMounted;
+};
+
 export const useSWR = (url, fetcher) => useExtSWR(url, fetcher, { revalidateOnFocus: false });
 
 export const useStickySWR = (url, fetcher) => {
