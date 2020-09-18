@@ -147,28 +147,6 @@
     font-family: $font-family-2;
     overflow: hidden; // Prevent the tooltip from temporarily add scroll
 
-    &.-compare {
-      .recharts-xAxis {
-        .recharts-legend {
-          line {
-            stroke: $primary;
-          }
-        }
-      }
-
-      .recharts-active-dot {
-        circle {
-          fill: $primary;
-        }
-      }
-
-      .recharts-line {
-        path {
-          stroke: $primary;
-        }
-      }
-    }
-
     .recharts-yAxis {
       .recharts-text {
         @include font-size($font-size-xxxs);
@@ -200,10 +178,6 @@
         @include font-size($font-size-xxs);
         fill: $primary;
 
-        rect.background {
-          fill: #dddedb;
-        }
-
         rect.compare {
           stroke-width: rem(1);
           stroke: $black;
@@ -211,7 +185,7 @@
 
         line {
           stroke-width: rem(2);
-          stroke: #8f3721;
+          stroke: $primary;
         }
       }
     }
@@ -229,7 +203,7 @@
     .recharts-line {
       path {
         stroke-width: rem(2);
-        stroke: #8f3721;
+        stroke: $primary;
       }
     }
 
@@ -243,7 +217,7 @@
     .recharts-active-dot {
       circle {
         stroke: $body-bg;
-        fill: #8f3721;
+        fill: $primary;
       }
     }
 

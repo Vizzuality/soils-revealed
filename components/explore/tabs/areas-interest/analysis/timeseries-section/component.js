@@ -171,11 +171,7 @@ const TimeseriesSection = ({
             )}
             {typeOption.settings.depth.options.length <= 1 && <strong>{depthOption.label}</strong>}.
           </div>
-          <ResponsiveContainer
-            width="100%"
-            aspect={1.3}
-            className={compareAreaInterest ? '-compare' : undefined}
-          >
+          <ResponsiveContainer width="100%" aspect={1.3}>
             <LineChart data={data} margin={{ top: 0, right: 0, bottom: 45, left: 0 }}>
               <Tooltip
                 formatter={value => [
@@ -198,19 +194,11 @@ const TimeseriesSection = ({
                       <g className="recharts-text recharts-legend">
                         {!compareAreaInterest && (
                           <>
-                            <rect
-                              className="background"
-                              width={47 + depthOption.label.length * 7}
-                              height={22}
-                              x={viewBox.x}
-                              y={viewBox.y + LINE_HEIGHT + 35}
-                            />
                             <line
                               x1={viewBox.x + 5}
                               x2={viewBox.x + 35}
                               y1={viewBox.y + LINE_HEIGHT + 46}
                               y2={viewBox.y + LINE_HEIGHT + 46}
-                              strokeDasharray="5 5"
                             />
                             <text
                               x={viewBox.x + 40}
@@ -228,7 +216,6 @@ const TimeseriesSection = ({
                               x2={viewBox.x + 30}
                               y1={viewBox.y + LINE_HEIGHT + 46}
                               y2={viewBox.y + LINE_HEIGHT + 46}
-                              strokeDasharray="5 5"
                             />
                             <text
                               x={viewBox.x + 35}
@@ -243,6 +230,7 @@ const TimeseriesSection = ({
                               x2={viewBox.x + 35 + areaInterestName.length * 10 + 30}
                               y1={viewBox.y + LINE_HEIGHT + 46}
                               y2={viewBox.y + LINE_HEIGHT + 46}
+                              strokeDasharray="5 5"
                             />
                             <text
                               x={viewBox.x + 2 * 35 + areaInterestName.length * 10}
@@ -283,17 +271,12 @@ const TimeseriesSection = ({
                   }}
                 />
               </YAxis>
-              <Line
-                dataKey="value"
-                dot={false}
-                strokeDasharray="5 5"
-                isAnimationActive={false}
-                unit={` ${unit}`}
-              />
+              <Line dataKey="value" dot={false} isAnimationActive={false} unit={` ${unit}`} />
               {compareAreaInterest && (
                 <Line
                   dataKey="compareValue"
                   dot={false}
+                  strokeDasharray="5 5"
                   isAnimationActive={false}
                   unit={` ${unit}`}
                 />
