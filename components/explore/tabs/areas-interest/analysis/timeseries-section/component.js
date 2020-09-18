@@ -32,6 +32,11 @@ const TimeseriesSection = ({
     [legendLayers]
   );
 
+  const typeOptions = useMemo(
+    () => socLayerGroup.layers[0].extraParams.config.settings.type.options,
+    [socLayerGroup]
+  );
+
   const typeOption = useMemo(
     () =>
       socLayerState.config.settings.type.options.find(
@@ -58,7 +63,7 @@ const TimeseriesSection = ({
   const year1Option = useMemo(
     () =>
       typeOption.settings.year.options.find(
-        option => option.value === `${typeOption.settings.year1.defaultOption}`
+        option => option.value === `${typeOption.settings.year1?.defaultOption}`
       ),
     [typeOption]
   );
@@ -66,7 +71,7 @@ const TimeseriesSection = ({
   const year2Option = useMemo(
     () =>
       typeOption.settings.year.options.find(
-        option => option.value === `${typeOption.settings.year2.defaultOption}`
+        option => option.value === `${typeOption.settings.year2?.defaultOption}`
       ),
     [typeOption]
   );
@@ -141,8 +146,20 @@ const TimeseriesSection = ({
       {!error && data?.length > 0 && (
         <>
           <div className="chart-intro">
-            Soil organic carbon from <strong>{year1Option.label}</strong> to{' '}
-            <strong>{year2Option.label}</strong>
+            Soil organic carbon from{' '}
+            <strong>
+              {socLayerState.type === 'future'
+                ? typeOptions[1].settings.year2.defaultOption
+                : year1Option.label}
+            </strong>{' '}
+            to{' '}
+            <strong>
+              {socLayerState.type === 'future'
+                ? typeOptions[2].settings.year.options[
+                    typeOptions[2].settings.year.options.length - 1
+                  ].label
+                : year2Option.label}
+            </strong>
             <br />
             at{' '}
             {typeOption.settings.depth.options.length > 1 && (

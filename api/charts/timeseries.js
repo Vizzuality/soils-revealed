@@ -3,9 +3,21 @@ const axios = require('axios').default;
 const { BOUNDARIES, LAYERS } = require('../../components/map/constants');
 const { parseTimeseriesData } = require('./helpers');
 
-module.exports = ({ layer, type, boundaries, depth, areaInterest }) => {
-  // There is no timeseries data for the historic and future sections
-  if (layer === 'soc-stock' && type !== 'recent') {
+const SCENARIOS = {
+  '00': 'crop_MGI',
+  '01': 'crop_I',
+  '02': 'crop_MG',
+  '03': 'grass_full',
+  '04': 'grass_part',
+  '10': 'rewilding',
+  '20': 'degradation_NoDeforestation',
+  '21': 'degradation_ForestToCrop',
+  '22': 'degradation_ForestToGrass',
+};
+
+module.exports = ({ layer, type, boundaries, depth, areaInterest, scenario }) => {
+  // There is no timeseries data for the historic section
+  if (layer === 'soc-stock' && type !== 'recent' && type !== 'future') {
     return Promise.resolve([]);
   }
 
@@ -17,7 +29,11 @@ module.exports = ({ layer, type, boundaries, depth, areaInterest }) => {
       .find(option => option.value === type)
       .settings.depth.options[depth].label.replace(/\scm/, '');
 
-    query = `${process.env.API_URL}/sql?q=SELECT * FROM ${table} WHERE variable = 'stocks' AND depth = '${depthValue}' AND group_type = '${type}' AND id = ${areaInterest}`;
+    query = `${
+      process.env.API_URL
+    }/sql?q=SELECT * FROM ${table} WHERE variable = 'stocks' AND depth = '${depthValue}' AND group_type = '${
+      type === 'future' ? SCENARIOS[scenario] : type
+    }' AND id = ${areaInterest}`;
   } else {
     const variable = type === 'concentration' ? type : 'stocks';
     const depthValue = LAYERS['soc-experimental'].paramsConfig.settings.type.options

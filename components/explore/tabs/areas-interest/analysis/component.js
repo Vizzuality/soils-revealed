@@ -180,7 +180,9 @@ const Analysis = ({
         )}
       </div>
       <div className="scrollable-container">
-        {(socLayerState.id !== 'soc-stock' || socLayerState.type === 'recent') && (
+        {(socLayerState.id !== 'soc-stock' ||
+          socLayerState.type === 'recent' ||
+          socLayerState.type === 'future') && (
           <TimeseriesSection data={data?.timeseries} error={!!error} />
         )}
         <ChangeSection data={data?.change} error={!!error} />

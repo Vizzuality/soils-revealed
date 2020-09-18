@@ -24,6 +24,7 @@ module.exports = async (
               boundaries,
               depth,
               areaInterest,
+              scenario,
             }),
             change: await getChangeData({ layer, type, boundaries, depth, areaInterest, scenario }),
           };
@@ -48,6 +49,7 @@ module.exports = async (
                 boundaries,
                 depth,
                 areaInterest: compareAreaInterest,
+                scenario,
               }),
               change: await getChangeData({
                 layer,
