@@ -112,7 +112,7 @@ const TimeseriesSection = ({
         onChangeParams={(id, params) => updateLayer({ id, ...params })}
       />
       <header className="mt-2">
-        <h4>{modeOptions[0].label}</h4>
+        <h4>Time Series</h4>
         <div className="d-flex align-items-center">
           <Switch
             id="analysis-timeseries-toggle"
