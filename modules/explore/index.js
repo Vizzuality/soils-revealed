@@ -57,7 +57,7 @@ const selectors = {
           source: boundaries.id,
           sourceLayer: BOUNDARIES[boundaries.id].config.render.layers[0]['source-layer'],
           id: compareAreaInterest.id,
-          state: { active: true },
+          state: { active: true, compare: true },
         });
       }
 

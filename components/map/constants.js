@@ -141,8 +141,45 @@ exports.BOUNDARIES = {
             'source-layer': 'Political',
             paint: {
               'line-width': 2,
-              'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
+              'line-opacity': [
+                'case',
+                [
+                  'boolean',
+                  [
+                    'all',
+                    ['boolean', ['feature-state', 'active'], false],
+                    ['!', ['boolean', ['feature-state', 'compare'], false]],
+                  ],
+                  false,
+                ],
+                1,
+                0,
+              ],
               'line-color': '#000000',
+            },
+          },
+          {
+            id: 'political-boundaries-6',
+            type: 'line',
+            'source-layer': 'Political',
+            paint: {
+              'line-width': 2,
+              'line-opacity': [
+                'case',
+                [
+                  'boolean',
+                  [
+                    'all',
+                    ['boolean', ['feature-state', 'active'], false],
+                    ['boolean', ['feature-state', 'compare'], false],
+                  ],
+                  false,
+                ],
+                1,
+                0,
+              ],
+              'line-color': '#000000',
+              'line-dasharray': [2.5, 2.5],
             },
           },
         ],
@@ -297,8 +334,45 @@ exports.BOUNDARIES = {
             'source-layer': 'Physical',
             paint: {
               'line-width': 2,
-              'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
+              'line-opacity': [
+                'case',
+                [
+                  'boolean',
+                  [
+                    'all',
+                    ['boolean', ['feature-state', 'active'], false],
+                    ['!', ['boolean', ['feature-state', 'compare'], false]],
+                  ],
+                  false,
+                ],
+                1,
+                0,
+              ],
               'line-color': '#000000',
+            },
+          },
+          {
+            id: 'landforms-4',
+            type: 'line',
+            'source-layer': 'Physical',
+            paint: {
+              'line-width': 2,
+              'line-opacity': [
+                'case',
+                [
+                  'boolean',
+                  [
+                    'all',
+                    ['boolean', ['feature-state', 'active'], false],
+                    ['boolean', ['feature-state', 'compare'], false],
+                  ],
+                  false,
+                ],
+                1,
+                0,
+              ],
+              'line-color': '#000000',
+              'line-dasharray': [2.5, 2.5],
             },
           },
         ],
@@ -460,8 +534,45 @@ exports.BOUNDARIES = {
             'source-layer': 'Hydrological',
             paint: {
               'line-width': 2,
-              'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
+              'line-opacity': [
+                'case',
+                [
+                  'boolean',
+                  [
+                    'all',
+                    ['boolean', ['feature-state', 'active'], false],
+                    ['!', ['boolean', ['feature-state', 'compare'], false]],
+                  ],
+                  false,
+                ],
+                1,
+                0,
+              ],
               'line-color': '#000000',
+            },
+          },
+          {
+            id: 'river-basins-6',
+            type: 'line',
+            'source-layer': 'Hydrological',
+            paint: {
+              'line-width': 2,
+              'line-opacity': [
+                'case',
+                [
+                  'boolean',
+                  [
+                    'all',
+                    ['boolean', ['feature-state', 'active'], false],
+                    ['boolean', ['feature-state', 'compare'], false],
+                  ],
+                  false,
+                ],
+                1,
+                0,
+              ],
+              'line-color': '#000000',
+              'line-dasharray': [2.5, 2.5],
             },
           },
         ],
@@ -602,8 +713,45 @@ exports.BOUNDARIES = {
             'source-layer': 'Ecoregions',
             paint: {
               'line-width': 2,
-              'line-opacity': ['case', ['boolean', ['feature-state', 'active'], false], 1, 0],
+              'line-opacity': [
+                'case',
+                [
+                  'boolean',
+                  [
+                    'all',
+                    ['boolean', ['feature-state', 'active'], false],
+                    ['!', ['boolean', ['feature-state', 'compare'], false]],
+                  ],
+                  false,
+                ],
+                1,
+                0,
+              ],
               'line-color': '#000000',
+            },
+          },
+          {
+            id: 'biomes-4',
+            type: 'line',
+            'source-layer': 'Ecoregions',
+            paint: {
+              'line-width': 2,
+              'line-opacity': [
+                'case',
+                [
+                  'boolean',
+                  [
+                    'all',
+                    ['boolean', ['feature-state', 'active'], false],
+                    ['boolean', ['feature-state', 'compare'], false],
+                  ],
+                  false,
+                ],
+                1,
+                0,
+              ],
+              'line-color': '#000000',
+              'line-dasharray': [2.5, 2.5],
             },
           },
         ],
