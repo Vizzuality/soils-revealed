@@ -108,6 +108,7 @@ app.prepare().then(() => {
   server.post(
     '/api/charts/:layer/:type/:boundaries/:depth',
     validation(schemas.charts, 'params'),
+    validation(schemas.chartsQuery, 'query'),
     validation(schemas.chartsBody, 'body'),
     charts
   );

@@ -2,12 +2,33 @@ const axios = require('axios').default;
 
 const { LAYERS } = require('../../components/map/constants');
 
+const SCENARIOS = {
+  '00': 'crop_MGI',
+  '01': 'crop_I',
+  '02': 'crop_MG',
+  '03': 'grass_full',
+  '04': 'grass_part',
+  '10': 'rewilding',
+  '20': 'degradation_NoDeforestation',
+  '21': 'degradation_ForestToCrop',
+  '22': 'degradation_ForestToGrass',
+};
+
 module.exports = (
-  { params: { layer, type, boundaries, depth, level, order, aggregation }, query: { within } },
+  {
+    params: { layer, type, boundaries, depth, level, order, aggregation },
+    query: { scenario, within },
+  },
   res
 ) => {
   try {
-    const groupType = layer === 'soc-stock' ? type : 'experimental_dataset';
+    let groupType;
+    if (layer === 'soc-stock') {
+      groupType = type === 'future' ? SCENARIOS[scenario] : type;
+    } else {
+      groupType = 'experimental_dataset';
+    }
+
     const variable = layer === 'soc-stock' || type === 'stock' ? 'stocks' : 'concentration';
     const depthValue = LAYERS[layer].paramsConfig.settings.type.options
       .find(option => option.value === type)

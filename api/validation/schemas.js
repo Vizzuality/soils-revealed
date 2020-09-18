@@ -130,6 +130,9 @@ module.exports = {
       .max(5)
       .required(),
   }),
+  chartsQuery: Joi.object({
+    scenario: Joi.string().valid('00', '01', '02', '03', '04', '10', '20', '21', '22'),
+  }),
   chartsBody: Joi.object({
     areaInterest: Joi.alternatives()
       .try(
@@ -182,6 +185,7 @@ module.exports = {
       .required(),
   }),
   areaInterestRankingQuery: Joi.object({
+    scenario: Joi.string().valid('00', '01', '02', '03', '04', '10', '20', '21', '22'),
     within: Joi.number()
       .integer()
       .min(0),

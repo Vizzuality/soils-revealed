@@ -63,8 +63,10 @@ const DynamicSentence = ({
             From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
           </>
         )}
-        {areaInterest.name} has experienced a {data.average < 0 ? 'loss' : 'gain'} of soil organic
-        carbon, averaging {getHumanReadableValue(data.average)} {unit} at{' '}
+        {areaInterest.name}{' '}
+        {socLayerState.type === 'future' ? 'would experience' : 'has experienced'} a{' '}
+        {data.average < 0 ? 'loss' : 'gain'} of soil organic carbon, averaging{' '}
+        {getHumanReadableValue(data.average)} {unit} at{' '}
         {depthOptions.length > 1 && (
           <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
         )}

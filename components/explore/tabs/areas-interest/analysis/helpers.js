@@ -6,9 +6,12 @@ export const useChartsData = (
   boundaries,
   depthIndex,
   areaInterest,
-  compareAreaInterest
+  compareAreaInterest,
+  scenario
 ) => {
-  const url = `/api/charts/${socLayerId}/${type}/${boundaries}/${depthIndex}/`;
+  const url = `/api/charts/${socLayerId}/${type}/${boundaries}/${depthIndex}/${
+    scenario ? `?scenario=${scenario}` : ''
+  }`;
 
   return useStickySWR(
     [

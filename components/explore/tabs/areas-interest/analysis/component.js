@@ -49,7 +49,8 @@ const Analysis = ({
     boundaries.id,
     depthIndex,
     areaInterest,
-    compareAreaInterest
+    compareAreaInterest,
+    socLayerState.scenario
   );
 
   const onChangeType = useCallback(

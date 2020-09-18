@@ -8,11 +8,12 @@ export const useRanking = (
   level,
   order,
   aggregation,
+  scenario,
   within
 ) => {
-  const url = `/api/area-interest/ranking/${socLayerId}/${type}/${depthIndex}/${boundaries}/${level}/${order}/${aggregation}${
-    within ? `?within=${within}` : ''
-  }`;
+  const url = `/api/area-interest/ranking/${socLayerId}/${type}/${depthIndex}/${boundaries}/${level}/${order}/${aggregation}?${
+    scenario ? `scenario=${scenario}&` : ''
+  }${within ? `within=${within}` : ''}`;
 
   return useStickySWR(url, req =>
     fetch(req)

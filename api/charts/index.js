@@ -4,7 +4,11 @@ const getChangeData = require('./change');
 const { combineTimeseriesData, combineChangeData } = require('./helpers');
 
 module.exports = async (
-  { params: { layer, type, boundaries, depth }, body: { areaInterest, compareAreaInterest } },
+  {
+    params: { layer, type, boundaries, depth },
+    query: { scenario },
+    body: { areaInterest, compareAreaInterest },
+  },
   res
 ) => {
   try {
@@ -12,10 +16,16 @@ module.exports = async (
 
     const data =
       typeof areaInterest === 'object'
-        ? await getOnTheFlyData({ layer, type, boundaries, depth, areaInterest })
+        ? await getOnTheFlyData({ layer, type, boundaries, depth, areaInterest, scenario })
         : {
-            timeseries: await getTimeseriesData({ layer, type, boundaries, depth, areaInterest }),
-            change: await getChangeData({ layer, type, boundaries, depth, areaInterest }),
+            timeseries: await getTimeseriesData({
+              layer,
+              type,
+              boundaries,
+              depth,
+              areaInterest,
+            }),
+            change: await getChangeData({ layer, type, boundaries, depth, areaInterest, scenario }),
           };
 
     resData = data;
@@ -29,6 +39,7 @@ module.exports = async (
               boundaries,
               depth,
               areaInterest: compareAreaInterest,
+              scenario,
             })
           : {
               timeseries: await getTimeseriesData({
@@ -44,6 +55,7 @@ module.exports = async (
                 boundaries,
                 depth,
                 areaInterest: compareAreaInterest,
+                scenario,
               }),
             };
 

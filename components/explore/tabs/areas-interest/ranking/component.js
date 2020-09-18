@@ -45,6 +45,7 @@ const AreasInterestRanking = ({
     level,
     order,
     aggregation,
+    socLayerState.scenario,
     within
   );
 
