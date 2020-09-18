@@ -177,6 +177,9 @@ module.exports = {
     order: Joi.string()
       .valid('asc', 'desc')
       .required(),
+    aggregation: Joi.string()
+      .valid('average', 'total')
+      .required(),
   }),
   areaInterestRankingQuery: Joi.object({
     within: Joi.number()

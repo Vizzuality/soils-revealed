@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import { getHumanReadableValue } from 'utils/functions';
 import Icon from 'components/icon';
 import { Select } from 'components/forms';
 import NoDataMessage from 'components/explore/no-data-message';
@@ -20,6 +21,7 @@ const AreasInterestRanking = ({
 }) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [order, setOrder] = useState('asc');
+  const [aggregation, setAggregation] = useState('average');
 
   const typeOption = useMemo(
     () =>
@@ -42,6 +44,7 @@ const AreasInterestRanking = ({
     depthIndex,
     level,
     order,
+    aggregation,
     within
   );
 
@@ -75,40 +78,69 @@ const AreasInterestRanking = ({
       {!error && !!results && results.length === 0 && <NoDataMessage />}
       {!error && results?.length > 0 && (
         <div className="ranking">
-          <Select
-            id="areas-interest-ranking"
-            className="d-block w-100 mt-4 mb-3 text-center"
-            aria-label="Ranking sort order"
-            options={[
-              { label: 'Ascending ranking', value: 'asc' },
-              { label: 'Descending ranking', value: 'desc' },
-            ]}
-            value={order}
-            onChange={({ value }) => {
-              setPageIndex(0);
-              setOrder(value);
-            }}
-          />
+          <div className="d-flex mt-4 mb-3">
+            <Select
+              id="areas-interest-ranking"
+              className="w-100 text-center"
+              aria-label="Ranking sort order"
+              options={[
+                { label: 'Ascending ranking', value: 'asc' },
+                { label: 'Descending ranking', value: 'desc' },
+              ]}
+              value={order}
+              onChange={({ value }) => {
+                setPageIndex(0);
+                setOrder(value);
+              }}
+            />
+            <Select
+              id="areas-interest-ranking"
+              className="w-100 ml-2 text-center"
+              aria-label="Ranking sort order"
+              options={[
+                { label: 'Average change', value: 'average' },
+                { label: 'Total change', value: 'total' },
+              ]}
+              value={aggregation}
+              onChange={({ value }) => {
+                setPageIndex(0);
+                setAggregation(value);
+              }}
+            />
+          </div>
           {pageResults.map((result, index) => {
             let value = result.value;
-            if (result.years) {
-              value /= result.years[1] - result.years[0] + 1;
-              value *= 1000;
-            }
-            value = Math.round(value * 10) / 10;
+            let unit;
 
-            let unit = 't C/ha';
-            if (socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration') {
+            if (aggregation === 'average') {
               if (result.years) {
-                unit = 'mg C/kg';
+                value /= result.years[1] - result.years[0] + 1;
+                value *= 1000;
+
+                if (
+                  socLayerState.id === 'soc-experimental' &&
+                  socLayerState.type === 'concentration'
+                ) {
+                  unit = 'mg C/kg';
+                } else {
+                  unit = 'kg C/ha';
+                }
               } else {
-                unit = 'g C/kg';
+                unit = 't C/ha';
               }
             } else {
-              if (result.years) {
-                unit = 'kg C/ha';
+              if (
+                socLayerState.id === 'soc-experimental' &&
+                socLayerState.type === 'concentration'
+              ) {
+                unit = 'g C/kg';
+              } else {
+                value /= 1000000;
+                unit = 'Mt C';
               }
             }
+
+            value = getHumanReadableValue(value);
 
             return (
               <div key={result.id} className="row">
@@ -124,7 +156,7 @@ const AreasInterestRanking = ({
                   </button>
                 </div>
                 <div className="col-5">
-                  {value} {result.years ? `${unit} year` : unit}
+                  {value} {aggregation === 'average' ? `${unit} year` : unit}
                 </div>
               </div>
             );

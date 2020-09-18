@@ -3,7 +3,7 @@ const axios = require('axios').default;
 const { LAYERS } = require('../../components/map/constants');
 
 module.exports = (
-  { params: { layer, type, boundaries, depth, level, order }, query: { within } },
+  { params: { layer, type, boundaries, depth, level, order, aggregation }, query: { within } },
   res
 ) => {
   try {
@@ -13,36 +13,42 @@ module.exports = (
       .find(option => option.value === type)
       .settings.depth.options[depth].label.replace(/\scm/, '');
 
+    const useMeanDiff = aggregation === 'average' || (layer !== 'soc-stock' && type !== 'stock');
+
     const query = `
       with a as (
         SELECT id, ${
           +level === 0 ? 'name_0' : 'name_1'
-        } as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth, level, name_0 as parent_name, id_0 as parent_id, bbox
+        } as name, 'political-boundaries' as type, mean_diff, years, group_type, variable, depth, level, name_0 as parent_name, id_0 as parent_id, bbox, area_ha * mean_diff as change
         FROM political_boundaries_change
 
         UNION
 
         SELECT id, ${
           +level === 0 ? 'maj_name' : 'sub_name'
-        } as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth, level, maj_name as parent_name, id_0 as parent_id, bbox
+        } as name, 'river-basins' as type, mean_diff, years, group_type, variable, depth, level, maj_name as parent_name, id_0 as parent_id, bbox, area_ha * mean_diff as change
         FROM hydrological_basins_change
 
         UNION
 
         SELECT id, ${
           +level === 0 ? 'biome_name' : 'eco_name'
-        } as name,'biomes' as type, mean_diff, years, group_type, variable, depth, level, biome_name as parent_name, id_0 as parent_id, bbox
+        } as name,'biomes' as type, mean_diff, years, group_type, variable, depth, level, biome_name as parent_name, id_0 as parent_id, bbox, area_ha * mean_diff as change
         FROM biomes_change
 
         UNION
 
         SELECT id, ${
           +level === 0 ? 'featurecla' : 'name'
-        } as name, 'landforms' as type, mean_diff, years, group_type, variable, depth, level, featurecla as parent_name, id_0 as parent_id, bbox
+        } as name, 'landforms' as type, mean_diff, years, group_type, variable, depth, level, featurecla as parent_name, id_0 as parent_id, bbox, area_ha * mean_diff as change
         FROM landforms_change
       )
 
-      SELECT id, name, mean_diff as value, years, variable, type, level, parent_name, parent_id, bbox
+      SELECT id, name, mean_diff${
+        useMeanDiff ? ' as value' : ''
+      }, years, variable, type, level, parent_name, parent_id, bbox, change${
+      !useMeanDiff ? ' as value' : ''
+    }
       FROM a
       WHERE level = ${level} and group_type = '${groupType}' and variable = '${variable}' and depth = '${depthValue}' and type = '${boundaries}' and mean_diff is not null${
       within ? ` and parent_id = ${within}` : ''

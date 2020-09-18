@@ -120,7 +120,7 @@ app.prepare().then(() => {
     areaInterestSearch
   );
   server.get(
-    '/api/area-interest/ranking/:layer/:type/:depth/:boundaries/:level/:order',
+    '/api/area-interest/ranking/:layer/:type/:depth/:boundaries/:level/:order/:aggregation',
     validation(schemas.areaInterestRanking, 'params'),
     validation(schemas.areaInterestRankingQuery, 'query'),
     areaInterestRanking
