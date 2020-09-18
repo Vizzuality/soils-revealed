@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { LegendItemTypes, LegendItemTimeStep } from 'vizzuality-components';
+import { LegendItemTypes } from 'vizzuality-components';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { Select, Radio } from 'components/forms';
@@ -342,24 +342,17 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                 </span>
               </div>
             </TabList>
-            <TabPanel>
-              <LegendItemTimeStep
-                activeLayer={{
-                  timelineParams: {
-                    range: false,
-                    interval: 'years',
-                    dateFormat: 'YYYY',
-                    minDate: `${typeOptions[1].settings.year1.defaultOption}-01-01`,
-                    maxDate: `${typeOptions[1].settings.year2.defaultOption}-12-31`,
-                    startDate: `${typeOptions[1].settings.year1.defaultOption}-01-01`,
-                    endDate: `${layer.extraParams.year}-01-01`,
-                    trimEndDate: `${typeOptions[1].settings.year2.defaultOption}-12-31`,
-                  },
-                }}
-                handleChange={dates =>
-                  onChangeParams(layerGroup.id, { year: +dates[1].split('-')[0] })
-                }
-              />
+            <TabPanel className="react-tabs__tab-panel align-items-end">
+              <div className="select d-flex flex-column">
+                <label htmlFor="legend-recent-year">Year:</label>
+                <Select
+                  id="legend-recent-year"
+                  className="mt-1"
+                  options={typeOptions[1].settings.year.options}
+                  value={layer.extraParams.year}
+                  onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+                />
+              </div>
             </TabPanel>
             <TabPanel>
               <div className="select d-inline-block mr-4">
