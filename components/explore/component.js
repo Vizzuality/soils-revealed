@@ -109,6 +109,11 @@ const Explore = ({
 
   const onClickMap = useCallback(
     e => {
+      // If the user click inside a <Select /> component, we exit
+      if (e.srcEvent.target.matches(`[class*='c-select']`)) {
+        return;
+      }
+
       const { lngLat, features } = e;
 
       if (features.length) {
