@@ -283,6 +283,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                     options={typeOptions[0].settings.depth.options}
                     value={layer.extraParams.depth}
                     onChange={({ value }) => onChangeParams(layerGroup.id, { depth: value })}
+                    overflow
                   />
                 </>
               </div>
@@ -351,6 +352,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   options={typeOptions[1].settings.year.options}
                   value={layer.extraParams.year}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+                  overflow
                 />
               </div>
             </TabPanel>
@@ -362,10 +364,11 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   className="ml-2"
                   options={typeOptions[1].settings.year.options.map(o => ({
                     ...o,
-                    disabled: +o.value >= layer.extraParams.year2,
+                    isDisabled: +o.value >= layer.extraParams.year2,
                   }))}
                   value={`${layer.extraParams.year1}`}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { year1: +value })}
+                  overflow
                 />
               </div>
               <div className="select d-inline-block">
@@ -375,10 +378,11 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   className="ml-2"
                   options={typeOptions[1].settings.year.options.map(o => ({
                     ...o,
-                    disabled: +o.value <= layer.extraParams.year1,
+                    isDisabled: +o.value <= layer.extraParams.year1,
                   }))}
                   value={`${layer.extraParams.year2}`}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { year2: +value })}
+                  overflow
                 />
               </div>
             </TabPanel>
@@ -413,14 +417,15 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
               </div>
             </TabList>
             <TabPanel className="react-tabs__tab-panel align-items-end">
-              <div className="select flex-shrink-1 overflow-hidden d-flex flex-column mr-auto js-soc-stock-scenario">
+              <div className="select flex-shrink-1 overflow-hidden mr-auto js-soc-stock-scenario">
                 <label htmlFor="legend-future-scenario">Soil carbon futures:</label>
                 <Select
                   id="legend-future-scenario"
-                  className="text-truncate mt-1"
+                  className="w-100 mt-1"
                   options={typeOptions[2].settings.scenario.options}
                   value={layer.extraParams.scenario}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
+                  overflow
                 />
               </div>
               <div className="select flex-shrink-0 d-flex flex-column ml-4">
@@ -431,18 +436,20 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   options={typeOptions[2].settings.year.options}
                   value={layer.extraParams.year}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+                  overflow
                 />
               </div>
             </TabPanel>
             <TabPanel className="react-tabs__tab-panel align-items-end">
-              <div className="select flex-shrink-1 overflow-hidden d-flex flex-column mr-auto">
+              <div className="select flex-shrink-1 overflow-hidden mr-auto">
                 <label htmlFor="legend-future-scenario">Soil carbon futures:</label>
                 <Select
                   id="legend-future-scenario"
-                  className="text-truncate mt-1"
+                  className="w-100 mt-1"
                   options={typeOptions[2].settings.scenario.options}
                   value={layer.extraParams.scenario}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
+                  overflow
                 />
               </div>
               <div className="flex-shrink-0 d-flex align-items-center ml-4">
@@ -460,6 +467,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                     options={typeOptions[2].settings.year.options}
                     value={layer.extraParams.year}
                     onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+                    overflow
                   />
                 </div>
               </div>

@@ -120,6 +120,7 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
                   options={typeOptions[selectedTypeIndex].settings.depth.options}
                   value={layer.extraParams.depth}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { depth: value })}
+                  overflow
                 />
               </>
             )}
@@ -134,6 +135,7 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
               options={typeOptions[1].settings.year.options}
               value={layer.extraParams.year}
               onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+              overflow
             />
           </div>
         </TabPanel>
@@ -145,10 +147,11 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
               className="ml-2"
               options={typeOptions[selectedTypeIndex].settings.year.options.map(o => ({
                 ...o,
-                disabled: +o.value >= layer.extraParams.year2,
+                isDisabled: +o.value >= layer.extraParams.year2,
               }))}
               value={`${layer.extraParams.year1}`}
               onChange={({ value }) => onChangeParams(layerGroup.id, { year1: +value })}
+              overflow
             />
           </div>
           <div className="change-year d-inline-block">
@@ -158,10 +161,11 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
               className="ml-2"
               options={typeOptions[selectedTypeIndex].settings.year.options.map(o => ({
                 ...o,
-                disabled: +o.value <= layer.extraParams.year1,
+                isDisabled: +o.value <= layer.extraParams.year1,
               }))}
               value={`${layer.extraParams.year2}`}
               onChange={({ value }) => onChangeParams(layerGroup.id, { year2: +value })}
+              overflow
             />
           </div>
         </TabPanel>

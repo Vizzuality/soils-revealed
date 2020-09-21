@@ -1,8 +1,126 @@
 @import 'css/settings';
 
-select.c-select {
-  width: auto;
-  vertical-align: baseline;
-  -moz-appearance: none;
-  -webkit-appearance: none;
+.c-select {
+  display: inline-block;
+
+  .c-select-menu {
+    position: relative;
+    top: rem(10);
+    left: 50%;
+
+    &__control {
+      min-height: 0;
+      height: $custom-select-height;
+      padding: $custom-select-padding-y $custom-select-padding-x $custom-select-padding-y
+        $custom-select-padding-x;
+      font-family: $custom-select-font-family;
+      @include font-size($custom-select-font-size);
+      font-weight: $custom-select-font-weight;
+      line-height: $custom-select-line-height;
+      color: $custom-select-color;
+      vertical-align: baseline;
+      background: none;
+      border: $custom-select-border-width solid $custom-select-border-color;
+      @include border-radius($custom-select-border-radius, 0);
+      @include box-shadow($custom-select-box-shadow);
+      appearance: none;
+
+      &:hover {
+        border-color: $custom-select-border-color;
+      }
+
+      &--is-focused {
+        border-color: $custom-select-focus-border-color;
+        outline: 0;
+        @if $enable-shadows {
+          box-shadow: $custom-select-box-shadow, $custom-select-focus-box-shadow;
+        } @else {
+          box-shadow: $custom-select-focus-box-shadow;
+        }
+      }
+
+      & + div {
+        z-index: 10;
+      }
+    }
+
+    &__indicator {
+      padding: 0;
+      color: $body-color;
+
+      > svg {
+        width: rem(17) !important;
+        height: rem(17) !important;
+      }
+    }
+
+    &__indicator-separator {
+      display: none;
+    }
+
+    &__value-container {
+      height: inherit;
+      padding: 0;
+    }
+
+    &__single-value {
+      position: static;
+      width: 100%;
+      max-width: none;
+      height: inherit;
+      color: $custom-select-color;
+      text-align: center;
+      transform: none;
+
+      & + input {
+        position: absolute; // Needed for Chrome otherwise the selected value is not showing
+      }
+    }
+
+    &__placeholder {
+      font-weight: $font-weight-normal;
+    }
+
+    &__menu {
+      margin: rem(-1) 0; // Needed to avoid a 2px border
+      border-radius: 0;
+      border: rem(1) solid $primary;
+      box-shadow: none;
+      background: $body-bg;
+    }
+
+    &__group-heading {
+      padding-left: map-get($spacers, 4);
+      font-family: $font-family-2;
+      @include font-size($font-size-xxs);
+      font-weight: $font-weight-medium;
+      text-transform: uppercase;
+      color: $body-color;
+    }
+
+    &__menu-list {
+      padding: 0;
+    }
+
+    &__option {
+      padding: map-get($spacers, 1) map-get($spacers, 2);
+      font-family: $font-family-2;
+      @include font-size($font-size-xxs);
+
+      &:active {
+        background-color: rgba($background-color-1, 0.25);
+      }
+
+      // Must be before &--is-selected
+      &--is-focused {
+        background-color: rgba($background-color-1, 0.25);
+      }
+
+      &--is-selected {
+        color: $body-color;
+        background: $background-color-1;
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
 }

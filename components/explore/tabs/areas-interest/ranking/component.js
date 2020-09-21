@@ -82,7 +82,7 @@ const AreasInterestRanking = ({
           <div className="d-flex mt-4 mb-3">
             <Select
               id="areas-interest-ranking"
-              className="w-100 text-center"
+              className="w-100"
               aria-label="Ranking sort order"
               options={[
                 { label: 'Ascending ranking', value: 'asc' },
@@ -96,7 +96,7 @@ const AreasInterestRanking = ({
             />
             <Select
               id="areas-interest-ranking"
-              className="w-100 ml-2 text-center"
+              className="w-100 ml-2"
               aria-label="Ranking sort order"
               options={[
                 { label: 'Average change', value: 'average' },

@@ -1,77 +1,58 @@
-import React, { Fragment, useCallback } from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import ReactSelect from 'react-select';
 
 import './style.scss';
 
 const Select = ({
   id,
   options,
-  defaultValue,
   value,
   onChange,
   disabled,
   'aria-label': ariaLabel,
   className,
+  overflow,
 }) => {
-  const onChangeSelect = useCallback(
-    e => {
-      const { value } = e.target.selectedOptions[0];
+  const selectedOption = useMemo(() => {
+    let option;
+    for (let i = 0, j = options.length; i < j; i++) {
+      const currentOption = options[i];
 
-      let option;
-      for (let i = 0, j = options.length; i < j; i++) {
-        const currentOption = options[i];
+      if (currentOption.value === value) {
+        option = currentOption;
+        break;
+      }
 
-        if (currentOption.value === value) {
-          option = currentOption;
-          break;
-        }
+      if (currentOption.options) {
+        for (let k = 0, l = currentOption.options.length; k < l; k++) {
+          const currentSubOption = currentOption.options[k];
 
-        if (currentOption.options) {
-          for (let k = 0, l = currentOption.options.length; k < l; k++) {
-            const currentSubOption = currentOption.options[k];
-
-            if (currentSubOption.value === value) {
-              option = currentSubOption;
-              break;
-            }
+          if (currentSubOption.value === value) {
+            option = currentSubOption;
+            break;
           }
         }
       }
+    }
 
-      onChange(option);
-    },
-    [options, onChange]
-  );
+    return option;
+  }, [options, value]);
 
   return (
-    <select
-      id={id}
-      className={['c-select', 'custom-select', ...(className ? [className] : [])].join(' ')}
-      disabled={disabled}
+    <ReactSelect
+      inputId={id}
       aria-label={ariaLabel}
-      defaultValue={defaultValue}
-      value={value}
-      onChange={onChangeSelect}
-    >
-      {options.map(option => (
-        <Fragment key={option.value ? option.value : option.label}>
-          {!option.options && (
-            <option value={option.value} disabled={option.disabled}>
-              {option.label}
-            </option>
-          )}
-          {!!option.options && (
-            <optgroup label={option.label}>
-              {option.options.map(subOption => (
-                <option key={subOption.value} value={subOption.value} disabled={subOption.disabled}>
-                  {subOption.label}
-                </option>
-              ))}
-            </optgroup>
-          )}
-        </Fragment>
-      ))}
-    </select>
+      options={options}
+      value={selectedOption}
+      onChange={onChange}
+      className={['c-select', ...(className ? [className] : [])].join(' ')}
+      classNamePrefix="c-select-menu"
+      isDisabled={disabled}
+      menuPlacement="auto"
+      isSearchable={false}
+      menuPosition={overflow ? 'fixed' : 'absolute'}
+    />
   );
 };
 
@@ -85,27 +66,27 @@ Select.propTypes = {
         PropTypes.shape({
           label: PropTypes.string.isRequired,
           value: PropTypes.string.isRequired,
-          disabled: PropTypes.bool,
+          isDisabled: PropTypes.bool,
         })
       ),
       disabled: PropTypes.bool,
     })
   ).isRequired,
-  defaultValue: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func,
   disabled: PropTypes.bool,
   'aria-label': PropTypes.string,
   className: PropTypes.string,
+  overflow: PropTypes.bool,
 };
 
 Select.defaultProps = {
-  defaultValue: undefined,
   value: undefined,
   onChange: () => null,
   disabled: false,
   'aria-label': null,
   className: undefined,
+  overflow: false,
 };
 
 export default Select;

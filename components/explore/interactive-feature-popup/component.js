@@ -132,7 +132,6 @@ const ExploreInteractiveFeaturePopup = ({
               <Select
                 id="map-interactive-feature"
                 options={[
-                  { label: 'Select a geometry', value: '', disabled: true },
                   {
                     label: BOUNDARIES[boundaries.id].level0Noun.replace(/^\w/, c =>
                       c.toUpperCase()
