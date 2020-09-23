@@ -264,7 +264,7 @@ const Explore = ({
               {map => (
                 <>
                   {drawing && <DrawEditor />}
-                  {interactiveFeatures && (
+                  {interactiveFeatures && !drawing && (
                     <InteractiveFeaturePopup
                       {...interactiveFeatures}
                       onClose={() => setInteractiveFeaturesThrottled(null)}
