@@ -6,6 +6,7 @@ import getBbox from '@turf/bbox';
 
 const DrawEditor = ({
   areaInterest,
+  compareAreaInterest,
   drawingState,
   boundaries,
   updateAreaInterest,
@@ -40,7 +41,8 @@ const DrawEditor = ({
           bbox = [bbox.slice(0, 2), bbox.slice(2, 4)];
 
           const updater = areaInterest ? updateCompareAreaInterest : updateAreaInterest;
-          updater({ name: 'Custom area', geo: geojson, bbox });
+          const areaIndex = areaInterest || compareAreaInterest ? 2 : 1;
+          updater({ name: `Custom area ${areaIndex}`, geo: geojson, bbox });
 
           if (boundaries.id === 'no-boundaries') {
             updateBoundaries({ id: 'political-boundaries' });
@@ -98,6 +100,7 @@ const DrawEditor = ({
 
 DrawEditor.propTypes = {
   areaInterest: PropTypes.object,
+  compareAreaInterest: PropTypes.object,
   drawingState: PropTypes.string.isRequired,
   boundaries: PropTypes.object.isRequired,
   updateAreaInterest: PropTypes.func.isRequired,
@@ -109,6 +112,7 @@ DrawEditor.propTypes = {
 
 DrawEditor.defaultProps = {
   areaInterest: null,
+  compareAreaInterest: null,
 };
 
 export default DrawEditor;
