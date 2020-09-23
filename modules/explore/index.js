@@ -83,8 +83,8 @@ const selectors = {
       areaInterest,
       compareAreaInterest
     ) => [
-      ...(areaInterest?.geo ? [getAreaLayerDef(areaInterest)] : []),
-      ...(compareAreaInterest?.geo ? [getAreaLayerDef(compareAreaInterest)] : []),
+      ...(areaInterest?.geo ? [getAreaLayerDef(areaInterest, false)] : []),
+      ...(compareAreaInterest?.geo ? [getAreaLayerDef(compareAreaInterest, true)] : []),
       ...(boundariesLayerDef ? [boundariesLayerDef] : []),
       ...activeDataLayers.map(layerId =>
         getLayerDef(layerId, dataLayers[layerId], layers[layerId])

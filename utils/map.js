@@ -79,13 +79,13 @@ export const getBoundariesDef = (boundariesId, boundaries, boundariesSettings) =
   render: boundaries.config.render,
 });
 
-export const getAreaLayerDef = area => {
+export const getAreaLayerDef = (area, compare) => {
   if (!area?.geo) {
     return null;
   }
 
   return {
-    id: 'custom-area-interest',
+    id: `custom-area-interest${compare ? '-compare' : ''}`,
     source: {
       type: 'geojson',
       data: area.geo,
@@ -99,6 +99,7 @@ export const getAreaLayerDef = area => {
             'line-width': 2,
             'line-opacity': 1,
             'line-color': '#000000',
+            ...(compare ? { 'line-dasharray': [2.5, 2.5] } : {}),
           },
           metadata: {
             position: 'top',
