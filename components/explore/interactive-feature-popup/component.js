@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { BOUNDARIES, Popup } from 'components/map';
 import { Select } from 'components/forms';
+import Icon from 'components/icon';
 
 import './style.scss';
 
@@ -119,6 +120,9 @@ const ExploreInteractiveFeaturePopup = ({
       onClose={onClose}
     >
       <div className="c-explore-interactive-feature-popup">
+        <button type="button" className="btn btn-outline-primary close-button" onClick={onClose}>
+          <Icon name="close" />
+        </button>
         {properties.length > 1 && (
           <form
             onSubmit={e =>

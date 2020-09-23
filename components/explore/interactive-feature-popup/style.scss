@@ -2,8 +2,9 @@
 
 .c-explore-interactive-feature-popup {
   position: relative;
+  width: rem(220);
+  padding: map-get($spacers, 2);
   @include font-size($font-size-s);
-  width: rem(200);
 
   label,
   .label {
@@ -13,5 +14,34 @@
   .c-select {
     display: block;
     width: 100%;
+  }
+
+  .close-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 0;
+    right: #{-1 * map-get($spacers, 3)};
+    width: rem(40);
+    height: rem(40);
+    padding: 0;
+    border-radius: 100%;
+    transform: translateX(50%);
+    background: $body-bg;
+    z-index: 1; // Needed to be on top of the preview
+
+    .c-icon {
+      width: rem(10);
+      height: rem(10);
+
+      use {
+        fill: currentColor;
+      }
+    }
+
+    @include hover() {
+      background: $primary;
+    }
   }
 }
