@@ -158,7 +158,7 @@ const AreasInterestRanking = ({
                     {result.name}
                   </button>
                 </div>
-                <div className="col-5">
+                <div className="col-5 text-right">
                   {value} {unit}
                 </div>
               </div>

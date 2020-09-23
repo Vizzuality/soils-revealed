@@ -47,10 +47,6 @@
       }
 
       > div:last-of-type {
-        display: flex;
-        justify-content: end;
-        align-items: center;
-        text-align: right;
         font-family: $font-family-2;
         @include font-size($font-size-xxs);
       }
