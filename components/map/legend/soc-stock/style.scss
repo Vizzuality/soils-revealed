@@ -121,6 +121,12 @@
         label {
           margin: 0;
         }
+
+        .scenario-select {
+          .c-select-menu__menu {
+            min-width: rem(395);
+          }
+        }
       }
     }
   }

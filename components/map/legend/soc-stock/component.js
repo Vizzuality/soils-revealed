@@ -421,7 +421,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                 <label htmlFor="legend-future-scenario">Soil carbon futures:</label>
                 <Select
                   id="legend-future-scenario"
-                  className="w-100 mt-1"
+                  className="scenario-select w-100 mt-1"
                   options={typeOptions[2].settings.scenario.options}
                   value={layer.extraParams.scenario}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
@@ -445,7 +445,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                 <label htmlFor="legend-future-scenario">Soil carbon futures:</label>
                 <Select
                   id="legend-future-scenario"
-                  className="w-100 mt-1"
+                  className="scenario-select w-100 mt-1"
                   options={typeOptions[2].settings.scenario.options}
                   value={layer.extraParams.scenario}
                   onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
