@@ -63,6 +63,9 @@ const DynamicSentence = ({
             From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
           </>
         )}
+        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' && (
+          <>Under this scenario, </>
+        )}
         {areaInterest.name}{' '}
         {socLayerState.type === 'future' ? 'would experience' : 'has experienced'} a{' '}
         {data.average < 0 ? 'loss' : 'gain'} of soil organic carbon, averaging{' '}
