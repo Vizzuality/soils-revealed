@@ -5,6 +5,7 @@ import { getLayerExtraParams } from 'utils/map';
 import Icon from 'components/icon';
 import { Radio } from 'components/forms';
 import { LAYERS } from 'components/map/constants';
+import LegendTitle from 'components/map/legend/title';
 import Tooltip from 'components/tooltip';
 import Compare from './compare';
 import TimeseriesSection from './timeseries-section';
@@ -19,6 +20,7 @@ const Analysis = ({
   compareAreaInterest,
   socLayerState,
   boundaries,
+  legendLayers,
   updateLayer,
   onClickInfo,
   onChangeVisibilityCloseBtn,
@@ -26,6 +28,11 @@ const Analysis = ({
   swapAndResetAreaInterest,
 }) => {
   const [compareTooltipOpen, setCompareTooltipOpen] = useState(false);
+
+  const socLayerGroup = useMemo(
+    () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
+    [legendLayers]
+  );
 
   const typeOptions = useMemo(() => socLayerState.config.settings.type.options, [socLayerState]);
 
@@ -148,7 +155,10 @@ const Analysis = ({
           )}
         </div>
         <header>
-          {socLayerState.label}
+          <LegendTitle
+            layerGroup={socLayerGroup}
+            onChangeParams={(id, params) => updateLayer({ id, ...params })}
+          />
           <button
             type="button"
             className="btn"
@@ -197,6 +207,7 @@ Analysis.propTypes = {
   compareAreaInterest: PropTypes.object,
   socLayerState: PropTypes.object.isRequired,
   boundaries: PropTypes.object.isRequired,
+  legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   updateLayer: PropTypes.func.isRequired,
   onClickInfo: PropTypes.func.isRequired,
   onChangeVisibilityCloseBtn: PropTypes.func.isRequired,

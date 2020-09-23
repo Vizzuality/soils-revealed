@@ -15,7 +15,6 @@ import { slugify, truncate } from 'utils/functions';
 import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
-import LegendTitle from 'components/map/legend/title';
 import NoDataMessage from 'components/explore/no-data-message';
 
 const TimeseriesSection = ({
@@ -107,10 +106,6 @@ const TimeseriesSection = ({
 
   return (
     <section>
-      <LegendTitle
-        layerGroup={socLayerGroup}
-        onChangeParams={(id, params) => updateLayer({ id, ...params })}
-      />
       <header className="mt-2">
         <h4>Time Series</h4>
         <div className="d-flex align-items-center">

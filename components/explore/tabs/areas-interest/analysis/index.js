@@ -9,6 +9,7 @@ export default connect(
     compareAreaInterest: analysisSelectors.selectCompareAreaInterest(state),
     socLayerState: mapSelectors.selectSOCLayerState(state),
     boundaries: mapSelectors.selectBoundaries(state),
+    legendLayers: mapSelectors.selectLegendDataLayers(state),
   }),
   {
     updateLayer: mapActions.updateLayer,
