@@ -140,7 +140,7 @@ const Analysis = ({
                   preventOverflow: { boundariesElement: 'viewport' },
                 },
               }}
-              offset="-24 30"
+              offset="-24, 30"
               duration={0}
               content={<Compare onClose={onCloseCompare} />}
             >

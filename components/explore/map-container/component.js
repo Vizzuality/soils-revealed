@@ -20,7 +20,7 @@ const MapContainer = ({ drawing, drawingState, children }) => {
         followCursor={true}
         plugins={[followCursor]}
         duration={0}
-        offset="0 40"
+        offset="0, 40"
         content={
           <div className="c-explore-map-container-tooltip">
             {drawingState === 'drawing' &&

@@ -23,33 +23,37 @@
     z-index: 2;
   }
 
-  & > .btn {
+  > div {
     flex-shrink: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    font-family: $font-family-1;
-    @include font-size($font-size-base);
-    letter-spacing: initial;
-    text-transform: none;
 
-    &[aria-expanded='true'] {
-      color: $body-color;
-      background-color: $body-bg;
-      border-color: $body-bg;
-    }
-
-    & + .btn {
+    & + div {
       margin-left: rem(1);
     }
 
-    .c-icon {
-      width: $font-size-base;
-      height: $font-size-base;
-      margin-right: map-get($spacers, 2);
-      vertical-align: sub;
+    & > .btn {
+      display: block;
+      padding-top: 0;
+      padding-bottom: 0;
+      font-family: $font-family-1;
+      @include font-size($font-size-base);
+      letter-spacing: initial;
+      text-transform: none;
 
-      use {
-        fill: currentColor;
+      &[aria-expanded='true'] {
+        color: $body-color;
+        background-color: $body-bg;
+        border-color: $body-bg;
+      }
+
+      .c-icon {
+        width: $font-size-base;
+        height: $font-size-base;
+        margin-right: map-get($spacers, 2);
+        vertical-align: sub;
+
+        use {
+          fill: currentColor;
+        }
       }
     }
   }

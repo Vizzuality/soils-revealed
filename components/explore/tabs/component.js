@@ -70,63 +70,67 @@ const ExploreTabs = ({ showTour, areaInterest, updateAreaInterest, onClickInfo }
         style={{ width: `${areasBtnWidth + layersBtnWidth}px` }}
         ref={rootRef}
       >
-        <Tooltip
-          trigger="manual"
-          placement="bottom-start"
-          visible={areasInterestTooltipVisible}
-          hideOnClick={false}
-          offset={`${!areaInterest ? 0 : -rootOffset} 7`}
-          duration={0}
-          content={
-            <AreasInterestTab
-              onClose={() => {
-                setAreasInterestTooltipVisible(false);
-                updateAreaInterest(null);
+        <div>
+          <Tooltip
+            trigger="manual"
+            placement="bottom-start"
+            visible={areasInterestTooltipVisible}
+            hideOnClick={false}
+            offset={`${!areaInterest ? 0 : -rootOffset}, 7`}
+            duration={0}
+            content={
+              <AreasInterestTab
+                onClose={() => {
+                  setAreasInterestTooltipVisible(false);
+                  updateAreaInterest(null);
+                }}
+                onClickInfo={onClickInfo}
+              />
+            }
+          >
+            <button
+              ref={areasBtnRef}
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={() => {
+                if (!areasInterestTooltipVisible) setLayersTooltipVisible(false);
+                setAreasInterestTooltipVisible(true);
               }}
-              onClickInfo={onClickInfo}
-            />
-          }
-        >
-          <button
-            ref={areasBtnRef}
-            type="button"
-            className="btn btn-primary btn-sm"
-            onClick={() => {
-              if (!areasInterestTooltipVisible) setLayersTooltipVisible(false);
-              setAreasInterestTooltipVisible(true);
-            }}
+            >
+              <Icon name="pin" />
+              Areas of interest
+            </button>
+          </Tooltip>
+        </div>
+        <div>
+          <Tooltip
+            trigger="manual"
+            placement="bottom-start"
+            visible={layersTooltipVisible}
+            hideOnClick={false}
+            offset={`-${areasBtnWidth}, 7`}
+            duration={0}
+            content={
+              <LayersTab onClickInfo={onClickInfo} onClose={() => setLayersTooltipVisible(false)} />
+            }
           >
-            <Icon name="pin" />
-            Areas of interest
-          </button>
-        </Tooltip>
-        <Tooltip
-          trigger="manual"
-          placement="bottom-start"
-          visible={layersTooltipVisible}
-          hideOnClick={false}
-          offset={`-${areasBtnWidth} 7`}
-          duration={0}
-          content={
-            <LayersTab onClickInfo={onClickInfo} onClose={() => setLayersTooltipVisible(false)} />
-          }
-        >
-          <button
-            ref={layersBtnRef}
-            type="button"
-            className="btn btn-primary btn-sm"
-            onClick={() => {
-              if (!layersTooltipVisible) {
-                setAreasInterestTooltipVisible(false);
-                updateAreaInterest(null);
-              }
-              setLayersTooltipVisible(true);
-            }}
-          >
-            <Icon name="layers" />
-            Map layers
-          </button>
-        </Tooltip>
+            <button
+              ref={layersBtnRef}
+              type="button"
+              className="btn btn-primary btn-sm"
+              onClick={() => {
+                if (!layersTooltipVisible) {
+                  setAreasInterestTooltipVisible(false);
+                  updateAreaInterest(null);
+                }
+                setLayersTooltipVisible(true);
+              }}
+            >
+              <Icon name="layers" />
+              Map layers
+            </button>
+          </Tooltip>
+        </div>
       </div>
     </>
   );
