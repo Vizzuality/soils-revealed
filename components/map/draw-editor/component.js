@@ -31,7 +31,7 @@ const DrawEditor = ({
         };
 
         // @ts-ignore
-        const area = getArea(geojson) / 1000000; // Area in sq km
+        const area = getArea(geojson) / 1000000; // Area in km²
 
         if (area < 1 || area > 1000000) {
           updateDrawingState('error');

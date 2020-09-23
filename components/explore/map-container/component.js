@@ -29,7 +29,7 @@ const MapContainer = ({ drawing, drawingState, children }) => {
               <>
                 <Icon name="warning" className="d-block mx-auto mb-2" />
                 <p>
-                  The drawn area is either too small ({'<'} 1 sq km) or too big ({'>'} 1M sq km).
+                  The drawn area is either too small ({'<'} 1 km²) or too big ({'>'} 1M km²).
                 </p>
                 <p className="mb-0">Click to start a new one.</p>
               </>
