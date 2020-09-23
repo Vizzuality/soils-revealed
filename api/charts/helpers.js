@@ -14,13 +14,15 @@ exports.parseTimeseriesData = (years, values) =>
  * @param {number[]} counts List of counts
  * @param {number[]} bins List of bins for each count
  * @param {number} average Mean difference
+ * @param {number} area Area of the geometry in hectares
  */
-exports.parseChangeData = (counts, bins, average) => {
+exports.parseChangeData = (counts, bins, average, area) => {
   const sumCounts = counts.reduce((res, count) => res + count, 0);
   const values = counts.map(count => (count / sumCounts) * 100);
 
   return {
     average,
+    total: area ? average * area : null,
     rows: values.map((value, index) => ({
       value,
       bin: bins[index],
@@ -62,6 +64,7 @@ exports.combineChangeData = (data, compareData) => {
   return {
     ...data,
     compareAverage: compareData.average,
+    compareTotal: compareData.total,
     rows: bins.map(bin => {
       const dataPoint = data.rows ? data.rows.find(d => d.bin === bin) : null;
       const compareDataPoint = compareData.rows ? compareData.rows.find(d => d.bin === bin) : null;

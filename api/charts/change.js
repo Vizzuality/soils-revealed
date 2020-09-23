@@ -68,6 +68,13 @@ module.exports = ({ layer, type, boundaries, depth, areaInterest, scenario }) =>
         .split(' ')
         .map(count => +count);
 
-      return parseChangeData(counts, bins, rows[0].mean_diff);
+      return parseChangeData(
+        counts,
+        bins,
+        rows[0].mean_diff,
+        // We don't want to compute a total change value for the concentration because the average
+        // value is not per ha
+        type === 'concentration' ? null : rows[0].area_ha
+      );
     });
 };

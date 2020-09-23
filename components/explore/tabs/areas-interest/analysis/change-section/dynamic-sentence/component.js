@@ -7,6 +7,8 @@ import { Dropdown } from 'components/forms';
 const DynamicSentence = ({
   data,
   unit,
+  totalUnit,
+  totalFormat,
   socLayerState,
   areaInterest,
   compareAreaInterest,
@@ -73,7 +75,14 @@ const DynamicSentence = ({
         {depthOptions.length > 1 && (
           <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
         )}
-        {depthOptions.length <= 1 && <strong>{depthOption.label}</strong>} depth.
+        {depthOptions.length <= 1 && <strong>{depthOption.label}</strong>} depth
+        {(socLayerState.id !== 'soc-experimental' || socLayerState.type !== 'concentration') && (
+          <>
+            , that amounts to a total of {getHumanReadableValue(totalFormat(data.total))}{' '}
+            {totalUnit}
+          </>
+        )}
+        .
       </>
     );
   }
@@ -166,6 +175,8 @@ const DynamicSentence = ({
 DynamicSentence.propTypes = {
   data: PropTypes.object.isRequired,
   unit: PropTypes.string.isRequired,
+  totalUnit: PropTypes.string.isRequired,
+  totalFormat: PropTypes.func.isRequired,
   socLayerState: PropTypes.object.isRequired,
   areaInterest: PropTypes.object.isRequired,
   compareAreaInterest: PropTypes.object,

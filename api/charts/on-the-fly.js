@@ -32,8 +32,8 @@ module.exports = ({ layer, type, depth, areaInterest }) => {
     .post(url, body, {
       headers: { Accept: 'application/json' },
     })
-    .then(({ data: { counts, bins, mean_diff, mean_years, mean_values } }) => ({
+    .then(({ data: { counts, bins, mean_diff, mean_years, mean_values, area_ha } }) => ({
       timeseries: parseTimeseriesData(mean_years, mean_values),
-      change: parseChangeData(counts, bins, mean_diff),
+      change: parseChangeData(counts, bins, mean_diff, area_ha),
     }));
 };

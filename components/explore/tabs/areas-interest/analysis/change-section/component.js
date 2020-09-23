@@ -105,7 +105,12 @@ const ChangeSection = ({
       {!error && data?.rows?.length > 0 && (
         <>
           <div className="chart-intro">
-            <DynamicSentence data={data} unit={unit} />
+            <DynamicSentence
+              data={data}
+              unit={unit}
+              totalUnit="Mt C"
+              totalFormat={value => value / 1000000}
+            />
           </div>
           <ResponsiveContainer
             width="100%"
