@@ -126,6 +126,8 @@ const AreasInterestRanking = ({
                 } else {
                   unit = 'kg C/ha';
                 }
+
+                unit = `${unit} year`;
               } else {
                 unit = 't C/ha';
               }
@@ -157,7 +159,7 @@ const AreasInterestRanking = ({
                   </button>
                 </div>
                 <div className="col-5">
-                  {value} {aggregation === 'average' ? `${unit} year` : unit}
+                  {value} {unit}
                 </div>
               </div>
             );
