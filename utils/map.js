@@ -100,6 +100,9 @@ export const getAreaLayerDef = area => {
             'line-opacity': 1,
             'line-color': '#000000',
           },
+          metadata: {
+            position: 'top',
+          },
         },
       ],
     },
