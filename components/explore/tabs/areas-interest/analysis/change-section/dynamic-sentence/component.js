@@ -112,8 +112,14 @@ const DynamicSentence = ({
             From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
           </>
         )}
-        {leadingArea} has experienced {percentage}% more soil carbon{' '}
-        {data.average < 0 ? 'loss' : 'gain'} than {secondaryArea}, at{' '}
+        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' && (
+          <>Under this scenario, </>
+        )}
+        {leadingArea}{' '}
+        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future'
+          ? 'would experience'
+          : 'has experienced'}{' '}
+        {percentage}% more soil carbon {data.average < 0 ? 'loss' : 'gain'} than {secondaryArea}, at{' '}
         {depthOptions.length > 1 && (
           <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
         )}
@@ -134,9 +140,22 @@ const DynamicSentence = ({
             From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
           </>
         )}
-        {areaInterest.name} has {data.average < 0 ? 'lost' : 'gained'}{' '}
+        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' && (
+          <>Under this scenario, </>
+        )}
+        {areaInterest.name}{' '}
+        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' ? (
+          <>would {data.average < 0 ? 'lose' : 'gain'}</>
+        ) : (
+          <>has {data.average < 0 ? 'lost' : 'gained'}</>
+        )}{' '}
         {getHumanReadableValue(Math.abs(data.average))} {unit} of soil organic carbon, while{' '}
-        {compareAreaInterest.name} has {data.compareAverage < 0 ? 'lost' : 'gained'}{' '}
+        {compareAreaInterest.name}{' '}
+        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' ? (
+          <>would {data.compareAverage < 0 ? 'lose' : 'gain'}</>
+        ) : (
+          <>has {data.compareAverage < 0 ? 'lost' : 'gained'}</>
+        )}{' '}
         {getHumanReadableValue(Math.abs(data.compareAverage))} {unit}, at{' '}
         {depthOptions.length > 1 && (
           <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
@@ -158,9 +177,21 @@ const DynamicSentence = ({
             From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
           </>
         )}
-        {leadingArea} has {leadingAverage < 0 ? 'lost' : 'gained'}{' '}
+        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' && (
+          <>Under this scenario, </>
+        )}
+        {leadingArea}{' '}
+        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' ? (
+          <>would {leadingAverage < 0 ? 'lose' : 'gain'}</>
+        ) : (
+          <>has {leadingAverage < 0 ? 'lost' : 'gained'}</>
+        )}{' '}
         {getHumanReadableValue(Math.abs(leadingAverage))} {unit} of soil organic carbon, while{' '}
-        {secondaryArea} has maintained its level, at{' '}
+        {secondaryArea}{' '}
+        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future'
+          ? 'would maintain'
+          : 'has maintained'}{' '}
+        its level, at{' '}
         {depthOptions.length > 1 && (
           <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
         )}
