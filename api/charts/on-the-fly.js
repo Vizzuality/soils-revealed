@@ -22,7 +22,7 @@ module.exports = ({ layer, type, depth, areaInterest }) => {
 
   const body = {
     dataset: layer === 'soc-stock' ? type : 'experimental',
-    variable: layer === 'soc-stock' ? 'stocks' : type,
+    variable: layer === 'soc-stock' || type === 'stock' ? 'stocks' : type,
     years: yearsValue,
     depth: depthValue,
     geometry: areaInterest,
@@ -32,7 +32,7 @@ module.exports = ({ layer, type, depth, areaInterest }) => {
     .post(url, body, {
       headers: { Accept: 'application/json' },
     })
-    .then(({ data: { counts, bins, mean_diff, mean_years, mean_values, area_ha } }) => ({
+    .then(({ data: { data: { counts, bins, mean_diff, mean_years, mean_values, area_ha } } }) => ({
       timeseries: parseTimeseriesData(mean_years, mean_values),
       change: parseChangeData(counts, bins, mean_diff, area_ha),
     }));
