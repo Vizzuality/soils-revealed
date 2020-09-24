@@ -72,6 +72,7 @@ const Explore = ({
     activeDataLayers.find(layer => LAYERS[layer].group === 'soc')
   );
   const [interactiveFeatures, setInteractiveFeatures] = useState(null);
+  const [showTour, setShowTour] = useState(false);
 
   // When the user clicks the popup's button that triggers its close, the map also receives the
   // event and it opens a new popup right after
@@ -138,6 +139,14 @@ const Explore = ({
     [updateLayer, updateBoundaries]
   );
 
+  // When the component is mounted, we check if the user landed on the page with a custom view
+  // If not, we display the Tour component
+  useEffect(() => {
+    if (window.location.search.length === 0) {
+      setShowTour(true);
+    }
+  }, [setShowTour]);
+
   // When the component is mounted, we restore its state from the URL
   useEffect(() => {
     restoreState();
@@ -201,7 +210,7 @@ const Explore = ({
     >
       {isDesktop && (
         <>
-          <Tour />
+          {showTour && <Tour />}
           <InfoModal
             layerId={infoLayer?.id}
             params={infoLayer}
