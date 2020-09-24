@@ -29,6 +29,7 @@ export default connect(
   }),
   {
     restoreState: exploreActions.restoreState,
+    resetState: exploreActions.resetState,
     updateZoom: mapActions.updateZoom,
     updateViewport: mapActions.updateViewport,
     updateBasemap: mapActions.updateBasemap,

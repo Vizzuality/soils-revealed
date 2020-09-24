@@ -6,6 +6,30 @@ import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'compon
 
 export const SLICE_NAME = 'map';
 
+const initialState = {
+  viewport: {
+    zoom: 2,
+    latitude: 0,
+    longitude: 0,
+    transitionDuration: 250,
+    bounds: null,
+  },
+  basemap: 'light',
+  basemapParams: null,
+  roads: false,
+  labels: false,
+  boundaries: {
+    id: 'no-boundaries',
+  },
+  layers: {
+    'soc-stock': {
+      visible: true,
+      opacity: 1,
+      order: 0,
+    },
+  },
+};
+
 export const selectViewport = state => state[SLICE_NAME].viewport;
 export const selectZoom = createSelector([selectViewport], viewport => viewport.zoom);
 export const selectCenter = createSelector([selectViewport], viewport => ({
@@ -286,29 +310,7 @@ export const selectSerializedState = createSelector(
 export default exploreActions =>
   createSlice({
     name: SLICE_NAME,
-    initialState: {
-      viewport: {
-        zoom: 2,
-        latitude: 0,
-        longitude: 0,
-        transitionDuration: 250,
-        bounds: null,
-      },
-      basemap: 'light',
-      basemapParams: null,
-      roads: false,
-      labels: false,
-      boundaries: {
-        id: 'no-boundaries',
-      },
-      layers: {
-        'soc-stock': {
-          visible: true,
-          opacity: 1,
-          order: 0,
-        },
-      },
-    },
+    initialState,
     reducers: {
       updateZoom(state, action) {
         state.viewport.zoom = action.payload;
@@ -406,5 +408,8 @@ export default exploreActions =>
           layers: stateToRestore.layers ?? state.layers,
         };
       },
+      [exploreActions.resetState]: () => ({
+        ...initialState,
+      }),
     },
   });

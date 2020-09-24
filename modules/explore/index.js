@@ -14,6 +14,7 @@ const actions = {
     const query = selectQuery(state);
     return deserialize(query.state);
   }),
+  resetState: createAction('explore/resetState'),
   updateShowTour: createAction('explore/updateShowTour'),
 };
 

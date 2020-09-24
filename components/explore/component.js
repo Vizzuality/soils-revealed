@@ -50,6 +50,7 @@ const Explore = ({
   drawing,
   serializedState,
   restoreState,
+  resetState,
   updateZoom,
   updateViewport,
   updateBasemap,
@@ -151,6 +152,11 @@ const Explore = ({
   useEffect(() => {
     restoreState();
   }, [restoreState]);
+
+  // When the component is unmounted, we reset the state
+  // This allows the user to have a clean state when they return to the explore page by navigating
+  // the pages (for example going to the homepage and coming back)
+  useEffect(() => () => resetState(), [resetState]);
 
   // Each time the serialized state of the component changes, we update the URL
   useEffect(() => {
@@ -313,6 +319,7 @@ Explore.propTypes = {
   drawing: PropTypes.bool.isRequired,
   serializedState: PropTypes.string.isRequired,
   restoreState: PropTypes.func.isRequired,
+  resetState: PropTypes.func.isRequired,
   updateZoom: PropTypes.func.isRequired,
   updateViewport: PropTypes.func.isRequired,
   updateBasemap: PropTypes.func.isRequired,
