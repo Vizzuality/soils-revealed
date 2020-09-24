@@ -870,7 +870,7 @@ exports.LAYERS = {
               settings: {
                 mode: {
                   options: [
-                    { label: 'Absolute value', value: 'timeseries' },
+                    { label: 'Period', value: 'timeseries' },
                     { label: 'Change', value: 'change' },
                   ],
                   defaultOption: 'timeseries',
@@ -1084,7 +1084,7 @@ exports.LAYERS = {
               settings: {
                 mode: {
                   options: [
-                    { label: 'Absolute value', value: 'timeseries' },
+                    { label: 'Period', value: 'timeseries' },
                     { label: 'Change', value: 'change' },
                   ],
                   defaultOption: 'timeseries',
@@ -1123,7 +1123,7 @@ exports.LAYERS = {
               settings: {
                 mode: {
                   options: [
-                    { label: 'Absolute value', value: 'timeseries' },
+                    { label: 'Period', value: 'timeseries' },
                     { label: 'Change', value: 'change' },
                   ],
                   defaultOption: 'timeseries',
