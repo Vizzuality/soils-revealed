@@ -33,7 +33,7 @@ module.exports = async (
 
     if (compareAreaInterest) {
       const compareData =
-        typeof areaInterest === 'object'
+        typeof compareAreaInterest === 'object'
           ? await getOnTheFlyData({
               layer,
               type,
