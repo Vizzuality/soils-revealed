@@ -23,6 +23,7 @@ import DynamicSentence from './dynamic-sentence';
 
 const ChangeSection = ({
   data: rawData,
+  loading,
   error,
   socLayerState,
   areaInterest,
@@ -96,13 +97,13 @@ const ChangeSection = ({
           Unable to fetch the data.
         </div>
       )}
-      {!error && !data?.rows && (
+      {loading && (
         <div className="mt-2 text-center">
           <LoadingSpinner transparent inline />
         </div>
       )}
-      {!error && data?.rows?.length === 0 && <NoDataMessage />}
-      {!error && data?.rows?.length > 0 && (
+      {!error && !loading && (!data || data.rows?.length === 0) && <NoDataMessage />}
+      {!error && !loading && data?.rows?.length > 0 && (
         <>
           <div className="chart-intro">
             <DynamicSentence
@@ -352,6 +353,7 @@ ChangeSection.propTypes = {
       })
     ).isRequired,
   }),
+  loading: PropTypes.bool,
   error: PropTypes.bool,
   socLayerState: PropTypes.object.isRequired,
   areaInterest: PropTypes.object.isRequired,
@@ -361,6 +363,7 @@ ChangeSection.propTypes = {
 
 ChangeSection.defaultProps = {
   data: null,
+  loading: false,
   error: false,
   compareAreaInterest: null,
 };

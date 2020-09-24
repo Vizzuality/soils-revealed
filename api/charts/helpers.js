@@ -3,11 +3,16 @@
  * @param {number[]} years List of years
  * @param {number[]} values List of mean values for each year
  */
-exports.parseTimeseriesData = (years, values) =>
-  years.map((year, index) => ({
+exports.parseTimeseriesData = (years, values) => {
+  if (values.every(v => v === null)) {
+    return null;
+  }
+
+  return years.map((year, index) => ({
     year,
     value: values[index],
   }));
+};
 
 /**
  * Parse the data of the change chart
@@ -17,6 +22,10 @@ exports.parseTimeseriesData = (years, values) =>
  * @param {number} area Area of the geometry in hectares
  */
 exports.parseChangeData = (counts, bins, average, area) => {
+  if (average === null) {
+    return null;
+  }
+
   const sumCounts = counts.reduce((res, count) => res + count, 0);
   const values = counts.map(count => (count / sumCounts) * 100);
 
@@ -36,6 +45,10 @@ exports.parseChangeData = (counts, bins, average, area) => {
  * @param {ReturnType<typeof exports.parseTimeseriesData>} compareData Compare timeseries data
  */
 exports.combineTimeseriesData = (data, compareData) => {
+  if (data === null || compareData === null) {
+    return null;
+  }
+
   const years = [...new Set([...data.map(d => d.year), ...compareData.map(d => d.year)])].sort(
     (a, b) => a - b
   );
@@ -57,6 +70,10 @@ exports.combineTimeseriesData = (data, compareData) => {
  * @param {ReturnType<typeof exports.parseChangeData>} compareData Compare change data
  */
 exports.combineChangeData = (data, compareData) => {
+  if (data === null || compareData === null) {
+    return null;
+  }
+
   const bins = [
     ...new Set([...(data.rows || []).map(r => r.bin), ...(compareData.rows || []).map(r => r.bin)]),
   ].sort((a, b) => a - b);

@@ -190,11 +190,11 @@ const Analysis = ({
         )}
       </div>
       <div className="scrollable-container">
-        <ChangeSection data={data?.change} error={!!error} />
+        <ChangeSection data={data?.change} loading={!data && !error} error={!!error} />
         {(socLayerState.id !== 'soc-stock' ||
           socLayerState.type === 'recent' ||
           socLayerState.type === 'future') && (
-          <TimeseriesSection data={data?.timeseries} error={!!error} />
+          <TimeseriesSection data={data?.timeseries} loading={!data && !error} error={!!error} />
         )}
         {areaInterest.level === 0 && !compareAreaInterest && <RankingSection />}
       </div>

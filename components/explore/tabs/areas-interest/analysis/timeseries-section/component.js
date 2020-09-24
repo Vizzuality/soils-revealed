@@ -19,6 +19,7 @@ import NoDataMessage from 'components/explore/no-data-message';
 
 const TimeseriesSection = ({
   data,
+  loading,
   error,
   legendLayers,
   socLayerState,
@@ -132,13 +133,13 @@ const TimeseriesSection = ({
           Unable to fetch the data.
         </div>
       )}
-      {!error && !data && (
+      {loading && (
         <div className="mt-2 text-center">
           <LoadingSpinner transparent inline />
         </div>
       )}
-      {!error && data?.length === 0 && <NoDataMessage />}
-      {!error && data?.length > 0 && (
+      {!error && !loading && (!data || data.length === 0) && <NoDataMessage />}
+      {!error && !loading && data?.length > 0 && (
         <>
           <div className="chart-intro">
             Soil organic carbon from{' '}
@@ -292,6 +293,7 @@ TimeseriesSection.propTypes = {
       compareValue: PropTypes.number,
     })
   ),
+  loading: PropTypes.bool,
   error: PropTypes.bool,
   legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   socLayerState: PropTypes.object.isRequired,
@@ -302,6 +304,7 @@ TimeseriesSection.propTypes = {
 
 TimeseriesSection.defaultProps = {
   data: null,
+  loading: false,
   error: false,
   compareAreaInterest: null,
 };
