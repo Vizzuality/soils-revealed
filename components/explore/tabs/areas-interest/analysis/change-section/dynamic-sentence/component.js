@@ -1,8 +1,7 @@
-import React, { useMemo, useCallback } from 'react';
+import { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
-import { getHumanReadableValue } from 'utils/functions';
-import { Dropdown } from 'components/forms';
+import { getSentence } from './helpers';
 
 const DynamicSentence = ({
   data,
@@ -56,151 +55,20 @@ const DynamicSentence = ({
     [socLayerState, updateLayer]
   );
 
-  // We're not comparing, we only show the info of the selected area
-  if (!compareAreaInterest) {
-    return (
-      <>
-        {(socLayerState.id === 'soc-experimental' || socLayerState.type === 'recent') && (
-          <>
-            From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
-          </>
-        )}
-        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' && (
-          <>Under this scenario, </>
-        )}
-        {areaInterest.name}{' '}
-        {socLayerState.type === 'future' ? 'would experience' : 'has experienced'} a{' '}
-        {data.average < 0 ? 'loss' : 'gain'} of soil organic carbon, averaging{' '}
-        {getHumanReadableValue(data.average)} {unit} at{' '}
-        {depthOptions.length > 1 && (
-          <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
-        )}
-        {depthOptions.length <= 1 && <strong>{depthOption.label}</strong>} depth
-        {(socLayerState.id !== 'soc-experimental' || socLayerState.type !== 'concentration') && (
-          <>
-            , that amounts to a total of {getHumanReadableValue(totalFormat(data.total))}{' '}
-            {totalUnit}
-          </>
-        )}
-        .
-      </>
-    );
-  }
-
-  // We're comparing and both areas have gained or lost carbon
-  if (
-    (data.average < 0 && data.compareAverage < 0) ||
-    (data.average > 0 && data.compareAverage > 0)
-  ) {
-    let percentage;
-    let leadingArea;
-    let secondaryArea;
-    if (Math.abs(data.average) > Math.abs(data.compareAverage)) {
-      percentage = getHumanReadableValue((data.average / data.compareAverage - 1) * 100);
-      leadingArea = areaInterest.name;
-      secondaryArea = compareAreaInterest.name;
-    } else {
-      percentage = getHumanReadableValue((data.compareAverage / data.average - 1) * 100);
-      leadingArea = compareAreaInterest.name;
-      secondaryArea = areaInterest.name;
-    }
-
-    return (
-      <>
-        {(socLayerState.id === 'soc-experimental' || socLayerState.type === 'recent') && (
-          <>
-            From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
-          </>
-        )}
-        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' && (
-          <>Under this scenario, </>
-        )}
-        {leadingArea}{' '}
-        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future'
-          ? 'would experience'
-          : 'has experienced'}{' '}
-        {percentage}% more soil carbon {data.average < 0 ? 'loss' : 'gain'} than {secondaryArea}, at{' '}
-        {depthOptions.length > 1 && (
-          <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
-        )}
-        {depthOptions.length <= 1 && <strong>{depthOption.label}</strong>} depth.
-      </>
-    );
-  }
-
-  // We're comparing and one area has gained carbon and the other has lost some
-  if (
-    (data.average < 0 && data.compareAverage > 0) ||
-    (data.average > 0 && data.compareAverage < 0)
-  ) {
-    return (
-      <>
-        {(socLayerState.id === 'soc-experimental' || socLayerState.type === 'recent') && (
-          <>
-            From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
-          </>
-        )}
-        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' && (
-          <>Under this scenario, </>
-        )}
-        {areaInterest.name}{' '}
-        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' ? (
-          <>would {data.average < 0 ? 'lose' : 'gain'}</>
-        ) : (
-          <>has {data.average < 0 ? 'lost' : 'gained'}</>
-        )}{' '}
-        {getHumanReadableValue(Math.abs(data.average))} {unit} of soil organic carbon, while{' '}
-        {compareAreaInterest.name}{' '}
-        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' ? (
-          <>would {data.compareAverage < 0 ? 'lose' : 'gain'}</>
-        ) : (
-          <>has {data.compareAverage < 0 ? 'lost' : 'gained'}</>
-        )}{' '}
-        {getHumanReadableValue(Math.abs(data.compareAverage))} {unit}, at{' '}
-        {depthOptions.length > 1 && (
-          <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
-        )}
-        {depthOptions.length <= 1 && <strong>{depthOption.label}</strong>} depth.
-      </>
-    );
-  }
-
-  if (data.average === 0 || data.compareAverage === 0) {
-    const leadingArea = data.average === 0 ? compareAreaInterest.name : areaInterest.name;
-    const secondaryArea = data.average === 0 ? areaInterest.name : compareAreaInterest.name;
-    const leadingAverage = data.average === 0 ? data.compareAverage : data.average;
-
-    return (
-      <>
-        {(socLayerState.id === 'soc-experimental' || socLayerState.type === 'recent') && (
-          <>
-            From <strong>{year1Option.value}</strong> to <strong>{year2Option.value}</strong>,{' '}
-          </>
-        )}
-        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' && (
-          <>Under this scenario, </>
-        )}
-        {leadingArea}{' '}
-        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future' ? (
-          <>would {leadingAverage < 0 ? 'lose' : 'gain'}</>
-        ) : (
-          <>has {leadingAverage < 0 ? 'lost' : 'gained'}</>
-        )}{' '}
-        {getHumanReadableValue(Math.abs(leadingAverage))} {unit} of soil organic carbon, while{' '}
-        {secondaryArea}{' '}
-        {socLayerState.id === 'soc-stock' && socLayerState.type === 'future'
-          ? 'would maintain'
-          : 'has maintained'}{' '}
-        its level, at{' '}
-        {depthOptions.length > 1 && (
-          <Dropdown options={depthOptions} value={depthOption} onChange={onChangeDepth} />
-        )}
-        {depthOptions.length <= 1 && <strong>{depthOption.label}</strong>} depth.
-      </>
-    );
-  }
-
-  return null;
+  return getSentence({
+    socLayerState,
+    year1Option,
+    year2Option,
+    depthOptions,
+    depthOption,
+    areaInterest,
+    compareAreaInterest,
+    data,
+    unit,
+    totalFormat,
+    totalUnit,
+    onChangeDepth,
+  });
 };
 
 DynamicSentence.propTypes = {
