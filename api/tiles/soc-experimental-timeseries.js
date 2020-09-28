@@ -33,10 +33,12 @@ module.exports = ({ params: { type, depth, year, x, y, z } }, res) => {
       image = ee
         .Image(
           ee
-            .ImageCollection('projects/soils-revealed/experimental-dataset/SOC_stock_0_30')
+            .ImageCollection('projects/soils-revealed/experimental-dataset/SOC_stock')
             .filterDate(`${year}-01-01`, `${year}-12-31`)
             .first()
         )
+        .divide(10)
+        .select('b1')
         .sldStyle(STOCK_RAMP);
     } else if (type === 'concentration') {
       image = ee

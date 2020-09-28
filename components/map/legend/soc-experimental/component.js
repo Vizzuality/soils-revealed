@@ -26,7 +26,7 @@ const LEGEND_ITEMS = {
   },
   change: {
     stock: [
-      { color: '#B30200', value: '-30' },
+      { color: '#B30200', value: '-20' },
       { color: '#E34A33', value: '' },
       { color: '#FC8D59', value: '' },
       { color: '#FDCC8A', value: '' },
@@ -34,7 +34,7 @@ const LEGEND_ITEMS = {
       { color: '#A1DAB4', value: '' },
       { color: '#31B3BD', value: '' },
       { color: '#1C9099', value: '' },
-      { color: '#066C59', value: '30' },
+      { color: '#066C59', value: '20' },
     ],
     concentration: [
       { color: '#B30200', value: '-5' },

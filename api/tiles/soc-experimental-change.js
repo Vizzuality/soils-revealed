@@ -4,15 +4,15 @@ const axios = require('axios').default;
 const STOCK_RAMP = `
   <RasterSymbolizer>
     <ColorMap extended="false" type="ramp">
-    <ColorMapEntry color="#B30200" quantity="-30" opacity="1" />
-    <ColorMapEntry color="#E34A33" quantity="-20" />
-    <ColorMapEntry color="#FC8D59" quantity="-10" />
-    <ColorMapEntry color="#FDCC8A" quantity="-5" />
-    <ColorMapEntry color="#FFFFCC" quantity="0" />
-    <ColorMapEntry color="#A1DAB4" quantity="5" />
-    <ColorMapEntry color="#31B3BD" quantity="10" />
-    <ColorMapEntry color="#1C9099" quantity="20" />
-    <ColorMapEntry color="#066C59" quantity="30" />
+      <ColorMapEntry color="#B30200" quantity="-20" opacity="1" />
+      <ColorMapEntry color="#E34A33" quantity="-15" />
+      <ColorMapEntry color="#FC8D59" quantity="-10" />
+      <ColorMapEntry color="#FDCC8A" quantity="-5" />
+      <ColorMapEntry color="#FFFFCC" quantity="0" />
+      <ColorMapEntry color="#A1DAB4" quantity="5" />
+      <ColorMapEntry color="#31B3BD" quantity="10" />
+      <ColorMapEntry color="#1C9099" quantity="15" />
+      <ColorMapEntry color="#066C59" quantity="20" />
     </ColorMap>
   </RasterSymbolizer>
 `;
@@ -39,13 +39,15 @@ module.exports = ({ params: { type, depth, year1, year2, x, y, z } }, res) => {
 
     if (type === 'stock') {
       const collection = ee.ImageCollection(
-        'projects/soils-revealed/experimental-dataset/SOC_stock_0_30'
+        'projects/soils-revealed/experimental-dataset/SOC_stock'
       );
 
       image = collection
         .filterDate(`${year2}-01-01`, `${year2}-12-31`)
         .first()
         .subtract(collection.filterDate(`${year1}-01-01`, `${year1}-12-31`).first())
+        .divide(10)
+        .select('b1')
         .sldStyle(STOCK_RAMP);
     } else if (type === 'concentration') {
       const collection = ee.ImageCollection(
