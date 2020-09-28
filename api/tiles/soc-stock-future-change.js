@@ -16,15 +16,15 @@ const SCENARIOS = {
 const CROP_GRASS_REWILDING_RAMP = `
   <RasterSymbolizer>
     <ColorMap extended="false" type="ramp">
-      <ColorMapEntry color="#B30200" quantity="-4" opacity="1" />
-      <ColorMapEntry color="#E34A33" quantity="-3" />
-      <ColorMapEntry color="#FC8D59" quantity="-2" />
-      <ColorMapEntry color="#FDCC8A" quantity="-1" />
+      <ColorMapEntry color="#B30200" quantity="-20" opacity="1" />
+      <ColorMapEntry color="#E34A33" quantity="-10" />
+      <ColorMapEntry color="#FC8D59" quantity="-5" />
+      <ColorMapEntry color="#FDCC8A" quantity="-2.5" />
       <ColorMapEntry color="#FFFFCC" quantity="0" />
-      <ColorMapEntry color="#A1DAB4" quantity="1" />
-      <ColorMapEntry color="#31B3BD" quantity="2" />
-      <ColorMapEntry color="#1C9099" quantity="3" />
-      <ColorMapEntry color="#066C59" quantity="4" />
+      <ColorMapEntry color="#A1DAB4" quantity="2.5" />
+      <ColorMapEntry color="#31B3BD" quantity="5" /
+      <ColorMapEntry color="#1C9099" quantity="10" />
+      <ColorMapEntry color="#066C59" quantity="20" />
     </ColorMap>
   </RasterSymbolizer>
 `;
