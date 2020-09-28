@@ -44,8 +44,10 @@ module.exports = ({ layer, type, boundaries, depth, areaInterest, scenario }) =>
   }
 
   // Carto may incorrectly cache the data (the cache is not cleaned when data changes) so to avoid
-  // that, we send a dummy parameter (here `d`), which contains today's date
-  query = `${query}&d=${new Date().toISOString().split('T')[0]}`;
+  // that, we send a dummy parameter (here `t`), which contains today's date
+  // In addition, we want to clean the cache each time we deploy, so we use another parameter, `d`,
+  // which contains the deployment key
+  query = `${query}&t=${new Date().toISOString().split('T')[0]}&d=${process.env.DEPLOYMENT_KEY}`;
 
   return axios
     .get(query, {

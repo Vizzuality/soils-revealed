@@ -43,8 +43,10 @@ jobs:
             nvm use
             echo '> Install dependencies'
             yarn install --frozen-lockfile
+            echo '> Generate a deployment key'
+            DEPLOYMENT_KEY=`date +%s`
             echo '> Create .env file'
-            echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY\nAPI_URL=$API_URL\nANALYSIS_API_URL=$ANALYSIS_API_URL" > .env
+            echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY\nAPI_URL=$API_URL\nANALYSIS_API_URL=$ANALYSIS_API_URL\nDEPLOYMENT_KEY=$DEPLOYMENT_KEY" > .env
             echo '> Create gee.key.json file'
             echo $GEE_KEY > gee.key.json
             echo '> Build the app'

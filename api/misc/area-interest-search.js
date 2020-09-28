@@ -58,9 +58,13 @@ module.exports = ({ params: { search }, query: { boundaries } }, res) => {
     `;
 
     // Carto may incorrectly cache the data (the cache is not cleaned when data changes) so to avoid
-    // that, we send a dummy parameter (here `d`), which contains today's date
+    // that, we send a dummy parameter (here `t`), which contains today's date
+    // In addition, we want to clean the cache each time we deploy, so we use another parameter,
+    // `d`, which contains the deployment key
     const url = encodeURI(
-      `${process.env.API_URL}/sql?q=${query}&d=${new Date().toISOString().split('T')[0]}`
+      `${process.env.API_URL}/sql?q=${query}&t=${new Date().toISOString().split('T')[0]}&d=${
+        process.env.DEPLOYMENT_KEY
+      }`
     );
 
     const allowedBoundaries = boundaries ? boundaries.split(',') : [];
