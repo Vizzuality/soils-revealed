@@ -32,28 +32,39 @@ const CROP_GRASS_REWILDING_RAMP = `
 const DEGRADATION_RAMP = `
   <RasterSymbolizer>
     <ColorMap extended="false" type="ramp">
-      <ColorMapEntry color="#B30200" quantity="-30" opacity="1" />
-      <ColorMapEntry color="#E34A33" quantity="-24" />
-      <ColorMapEntry color="#FC8D59" quantity="-18" />
-      <ColorMapEntry color="#FDCC8A" quantity="-8" />
+      <ColorMapEntry color="#B30200" quantity="-40" opacity="1" />
+      <ColorMapEntry color="#E34A33" quantity="-30" />
+      <ColorMapEntry color="#FC8D59" quantity="-20" />
+      <ColorMapEntry color="#FDCC8A" quantity="-10" />
       <ColorMapEntry color="#FFFFCC" quantity="0" />
-      <ColorMapEntry color="#A1DAB4" quantity="8" />
-      <ColorMapEntry color="#31B3BD" quantity="18" />
-      <ColorMapEntry color="#1C9099" quantity="24" />
-      <ColorMapEntry color="#066C59" quantity="30" />
+      <ColorMapEntry color="#A1DAB4" quantity="10" />
+      <ColorMapEntry color="#31B3BD" quantity="20" />
+      <ColorMapEntry color="#1C9099" quantity="30" />
+      <ColorMapEntry color="#066C59" quantity="40" />
     </ColorMap>
   </RasterSymbolizer>
 `;
 
 module.exports = ({ params: { scenario, year, x, y, z } }, res) => {
   try {
-    const image = ee
-      .Image(
-        ee
-          .ImageCollection(`projects/soils-revealed/Future/scenario_${SCENARIOS[scenario]}_dSOC`)
-          .filterDate(`${year}-01-01`, `${year}-12-31`)
-          .first()
-      )
+    let diff = ee.Image(
+      ee
+        .ImageCollection(`projects/soils-revealed/Future/scenario_${SCENARIOS[scenario]}_dSOC`)
+        .filterDate(`${year}-01-01`, `${year}-12-31`)
+        .first()
+    );
+    diff = diff.updateMask(diff.mask().gt(0.001));
+
+    const baseline = ee.Image(
+      ee
+        .ImageCollection('projects/soils-revealed/Recent/SOC_stocks')
+        .filterDate('2018-01-01', '2018-12-31')
+        .first()
+    );
+
+    const image = baseline
+      .multiply(0.0)
+      .add(diff.unmask())
       .sldStyle(scenario[0] === '2' ? DEGRADATION_RAMP : CROP_GRASS_REWILDING_RAMP);
 
     image.getMap({}, async ({ formatTileUrl }) => {
