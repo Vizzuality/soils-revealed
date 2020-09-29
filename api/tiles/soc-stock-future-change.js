@@ -22,7 +22,7 @@ const CROP_GRASS_REWILDING_RAMP = `
       <ColorMapEntry color="#FDCC8A" quantity="-2.5" />
       <ColorMapEntry color="#FFFFCC" quantity="0" />
       <ColorMapEntry color="#A1DAB4" quantity="2.5" />
-      <ColorMapEntry color="#31B3BD" quantity="5" /
+      <ColorMapEntry color="#31B3BD" quantity="5" />
       <ColorMapEntry color="#1C9099" quantity="10" />
       <ColorMapEntry color="#066C59" quantity="20" />
     </ColorMap>
