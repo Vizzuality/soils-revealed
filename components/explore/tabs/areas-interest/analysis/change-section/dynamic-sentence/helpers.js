@@ -9,7 +9,7 @@
 import React from 'react';
 import reactStringReplace from 'react-string-replace';
 
-import { getHumanReadableValue } from 'utils/functions';
+import { getFormattedValue, getHumanReadableValue } from 'utils/functions';
 import { Dropdown } from 'components/forms';
 
 // Helpers
@@ -116,7 +116,7 @@ const outcomes = [
       isFixedPeriodOfTime,
     ],
     template:
-      'From {year1} to {year2}, {area} has {participle} {average} {unit} of soil organic carbon, while {secondaryArea} has {secondaryParticiple} {secondaryAverage} {unit}, at {depth} depth.',
+      'From {year1} to {year2}, {area} has {participle} {average} {unit} of soil organic carbon, while {secondaryArea} has {secondaryParticiple} {secondaryAverage} {secondaryUnit}, at {depth} depth.',
   },
   {
     conditions: [
@@ -127,7 +127,7 @@ const outcomes = [
       isInFuture,
     ],
     template:
-      'Under this scenario, {area} would {verb} {average} {unit} of soil organic carbon, while {secondaryArea} would {secondaryVerb} {secondaryAverage} {unit}, at {depth} depth.',
+      'Under this scenario, {area} would {verb} {average} {unit} of soil organic carbon, while {secondaryArea} would {secondaryVerb} {secondaryAverage} {secondaryUnit}, at {depth} depth.',
   },
   {
     conditions: [
@@ -138,7 +138,7 @@ const outcomes = [
       not(isInFuture),
     ],
     template:
-      '{area} has {participle} {average} {unit} of soil organic carbon, while {secondaryArea} has {secondaryParticiple} {secondaryAverage} {unit}, at {depth} depth.',
+      '{area} has {participle} {average} {unit} of soil organic carbon, while {secondaryArea} has {secondaryParticiple} {secondaryAverage} {secondaryUnit}, at {depth} depth.',
   },
 ];
 
@@ -163,6 +163,7 @@ const getSentenceTemplate = params => {
  * @param {*} param0
  */
 const getTemplateParameters = ({
+  socLayerState,
   year1Option,
   year2Option,
   depthOptions,
@@ -170,9 +171,6 @@ const getTemplateParameters = ({
   areaInterest,
   compareAreaInterest,
   data,
-  unit,
-  totalFormat,
-  totalUnit,
   onChangeDepth,
 }) => {
   const areaInterestData = {
@@ -238,8 +236,29 @@ const getTemplateParameters = ({
       secondaryAreaInterestData
         ? getHumanReadableValue(Math.abs(secondaryAreaInterestData.average))
         : null,
-    total: () => getHumanReadableValue(totalFormat(leadingAreaInterestData.total)),
-    unit: () => unit,
+    total: () =>
+      getFormattedValue(
+        leadingAreaInterestData.total,
+        socLayerState.id,
+        socLayerState.type,
+        'analysis-change-total'
+      ).value,
+    unit: () =>
+      getFormattedValue(
+        leadingAreaInterestData.average,
+        socLayerState.id,
+        socLayerState.type,
+        'analysis-change-avg'
+      ).unit,
+    secondaryUnit: () =>
+      secondaryAreaInterestData
+        ? getFormattedValue(
+            secondaryAreaInterestData.average,
+            socLayerState.id,
+            socLayerState.type,
+            'analysis-change-avg'
+          ).unit
+        : null,
     // eslint-disable-next-line react/display-name
     depth: key =>
       depthOptions.length > 1 ? (
@@ -247,7 +266,13 @@ const getTemplateParameters = ({
       ) : (
         <strong key={key}>{depthOption.label}</strong>
       ),
-    totalUnit: () => totalUnit,
+    totalUnit: () =>
+      getFormattedValue(
+        leadingAreaInterestData.total,
+        socLayerState.id,
+        socLayerState.type,
+        'analysis-change-total'
+      ).unit,
     percentage: () =>
       secondaryAreaInterestData
         ? getHumanReadableValue(
@@ -259,7 +284,7 @@ const getTemplateParameters = ({
 
 /**
  * Return the dynamic sentence
- * @param  {{ socLayerState: any, year1Option: any, year2Option: any, depthOptions: any, depthOption: any, areaInterest: any, compareAreaInterest: any, data: any, unit: string, totalFormat: function, totalUnit: string, onChangeDepth: function }} params
+ * @param  {{ socLayerState: any, year1Option: any, year2Option: any, depthOptions: any, depthOption: any, areaInterest: any, compareAreaInterest: any, data: any, onChangeDepth: function }} params
  */
 export const getSentence = params => {
   const template = getSentenceTemplate(params);

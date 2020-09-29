@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import { getHumanReadableValue } from 'utils/functions';
+import { getFormattedValue } from 'utils/functions';
 import Icon from 'components/icon';
 import { Select } from 'components/forms';
 import NoDataMessage from 'components/explore/no-data-message';
@@ -110,40 +110,12 @@ const AreasInterestRanking = ({
             />
           </div>
           {pageResults.map((result, index) => {
-            let value = result.value;
-            let unit;
-
-            if (aggregation === 'average') {
-              if (result.years) {
-                value /= result.years[1] - result.years[0] + 1;
-                value *= 1000;
-
-                if (
-                  socLayerState.id === 'soc-experimental' &&
-                  socLayerState.type === 'concentration'
-                ) {
-                  unit = 'mg C/kg';
-                } else {
-                  unit = 'kg C/ha';
-                }
-
-                unit = `${unit} year`;
-              } else {
-                unit = 't C/ha';
-              }
-            } else {
-              if (
-                socLayerState.id === 'soc-experimental' &&
-                socLayerState.type === 'concentration'
-              ) {
-                unit = 'g C/kg';
-              } else {
-                value /= 1000000;
-                unit = 'Mt C';
-              }
-            }
-
-            value = getHumanReadableValue(value);
+            const { unit, value } = getFormattedValue(
+              result.value,
+              socLayerState.id,
+              socLayerState.type,
+              aggregation === 'average' ? 'ranking-avg' : 'ranking-total'
+            );
 
             return (
               <div key={result.id} className="row">

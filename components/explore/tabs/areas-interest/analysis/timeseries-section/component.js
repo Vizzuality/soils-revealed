@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from 'recharts';
 
-import { slugify, truncate } from 'utils/functions';
+import { slugify, truncate, getFormattedValue } from 'utils/functions';
 import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
@@ -100,10 +100,12 @@ const TimeseriesSection = ({
     a.click();
   }, [data, areaInterest, compareAreaInterest]);
 
-  const unit =
-    socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration'
-      ? 'g C/kg'
-      : 't C/ha';
+  const { unit } = getFormattedValue(
+    0,
+    socLayerState.id,
+    socLayerState.type,
+    'analysis-timeseries'
+  );
 
   return (
     <section>
@@ -170,9 +172,16 @@ const TimeseriesSection = ({
           <ResponsiveContainer width="100%" aspect={1.3}>
             <LineChart data={data} margin={{ top: 0, right: 0, bottom: 45, left: 0 }}>
               <Tooltip
-                formatter={value => [
-                  value < 0.01 ? '< 0.01' : /** @type {number} */ (value).toFixed(2),
-                ]}
+                formatter={value => {
+                  const { value: res } = getFormattedValue(
+                    /** @type {number} */ (value),
+                    socLayerState.id,
+                    socLayerState.type,
+                    'analysis-timeseries'
+                  );
+
+                  return [res];
+                }}
               />
               <CartesianGrid vertical={false} strokeDasharray="5 5" />
               <XAxis dataKey="year" padding={{ left: 20, right: 20 }}>
@@ -247,8 +256,18 @@ const TimeseriesSection = ({
                 width={90}
                 axisLine={false}
                 tickLine={false}
-                domain={['auto', 'auto']}
-                tickFormatter={value => value.toFixed(2)}
+                domain={[dataMin => Math.floor(dataMin - 1), dataMax => Math.ceil(dataMax + 1)]}
+                allowDecimals={false}
+                tickFormatter={value => {
+                  const { value: res } = getFormattedValue(
+                    /** @type {number} */ (value),
+                    socLayerState.id,
+                    socLayerState.type,
+                    'analysis-timeseries'
+                  );
+
+                  return res;
+                }}
               >
                 <Label
                   position="insideTopRight"

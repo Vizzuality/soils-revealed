@@ -13,7 +13,7 @@ import {
   Customized,
 } from 'recharts';
 
-import { slugify, getHumanReadableValue, truncate } from 'utils/functions';
+import { slugify, getHumanReadableValue, getFormattedValue, truncate } from 'utils/functions';
 import { Switch } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
@@ -64,10 +64,12 @@ const ChangeSection = ({
     a.click();
   }, [data, areaInterest, compareAreaInterest]);
 
-  const unit =
-    socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration'
-      ? 'g C/kg'
-      : 't C/ha';
+  const { unit } = getFormattedValue(
+    0,
+    socLayerState.id,
+    socLayerState.type,
+    'analysis-change-avg'
+  );
 
   return (
     <section>
@@ -106,12 +108,7 @@ const ChangeSection = ({
       {!error && !loading && data?.rows?.length > 0 && (
         <>
           <div className="chart-intro">
-            <DynamicSentence
-              data={data}
-              unit={unit}
-              totalUnit="Mt C"
-              totalFormat={value => value / 1000000}
-            />
+            <DynamicSentence data={data} />
           </div>
           <ResponsiveContainer
             width="100%"

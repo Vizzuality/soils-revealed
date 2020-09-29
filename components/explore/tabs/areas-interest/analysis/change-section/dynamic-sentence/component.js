@@ -5,9 +5,6 @@ import { getSentence } from './helpers';
 
 const DynamicSentence = ({
   data,
-  unit,
-  totalUnit,
-  totalFormat,
   socLayerState,
   areaInterest,
   compareAreaInterest,
@@ -64,18 +61,12 @@ const DynamicSentence = ({
     areaInterest,
     compareAreaInterest,
     data,
-    unit,
-    totalFormat,
-    totalUnit,
     onChangeDepth,
   });
 };
 
 DynamicSentence.propTypes = {
   data: PropTypes.object.isRequired,
-  unit: PropTypes.string.isRequired,
-  totalUnit: PropTypes.string.isRequired,
-  totalFormat: PropTypes.func.isRequired,
   socLayerState: PropTypes.object.isRequired,
   areaInterest: PropTypes.object.isRequired,
   compareAreaInterest: PropTypes.object,
