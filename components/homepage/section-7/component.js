@@ -20,8 +20,8 @@ const Section7 = ({ configuration }) => {
               <div className="section-description">{configuration.description}</div>
             </div>
             <div className="col-sm-12 col-md-8 offset-md-2 text-center intro">
-              Check out our map with a complete set of different layers and estimations for the past
-              and for future scenarios.
+              Check out our maps with soil organic carbon predictions and trends for the past and
+              for future scenarios.
             </div>
           </div>
           <div className="row">

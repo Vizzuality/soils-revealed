@@ -6,7 +6,7 @@ const HeadComponent = ({ title: customTitle, description: customDescription }) =
   const title = customTitle ? `${customTitle} | Soils Revealed` : 'Soils Revealed';
   const description = customDescription
     ? customDescription
-    : 'Soils Revealed platform is an interface that allows direct visualization and analysis of soil organic carbon (SOC) change and shows predictions for future changes, in order to achieve a sustainable ecosystem management.';
+    : 'Soils Revealed platform lets you see past soil organic carbon losses and opportunities for future gains, to manage soil health that helps mitigate climate change, promote clean water and biodiversity.';
   const imageUrl = 'https://soilsrevealed.org/images/social-media-card.png'; // A complete URL is required by at least Twitter
 
   return (

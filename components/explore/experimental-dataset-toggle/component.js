@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { Switch } from 'components/forms';
 import HintButton from 'components/hint-button';
-import { LAYERS } from 'components/map/constants';
 
 import './style.scss';
 
@@ -43,7 +42,8 @@ const ExploreExperimentalDatasetToggle = ({
       >
         Experimental dataset{' '}
         <HintButton icon="info" size="large">
-          {LAYERS['soc-experimental'].description}
+          For Argentina, you can look at soil organic carbon changes over the years 1982 to 2017, as
+          derived from over 5,000 country-wide soil measurements.
         </HintButton>
       </Switch>
     </div>

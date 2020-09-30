@@ -38,21 +38,19 @@ const Section6 = ({ configuration }) => (
             <TabPanel>
               Soil use and management have a direct effect on climate change by altering emissions
               of greenhouse gases to the atmosphere. Judicious land management can reduce these
-              emissions and thereby remove CO<sub>2</sub> from the atmosphere by storing it in the
-              soil.
+              emissions and remove CO<sub>2</sub> from the atmosphere by storing it in the soil.
             </TabPanel>
             <TabPanel>
               World food crisis looms if greenhouse gas emissions go unchecked. The impacts of
-              climate change on land will increase food prices and risk widespread food instability.
-              But there are solutions, including maintaining or improving soil carbon stocks in
-              terrestrial systems through sustainable land management can mitigate some of these
-              impacts.
+              climate change on land will increase food prices and cause widespread food
+              instability. But there are solutions, including maintaining or improving soil organic
+              carbon stocks in terrestrial systems through sustainable land management.
             </TabPanel>
             <TabPanel>
               Restorative land use and management practices have many additional benefits to
-              enhancing soil carbon. These include reduction in sedimentation of waterways and
-              reservoirs, biodegradation of pollutants and ultimately improvement in the quality of
-              groundwater, rivers and oceans.
+              enhancing soil organic carbon. These include reduction in sedimentation of waterways
+              and reservoirs, biodegradation of pollutants and ultimately improvement in the quality
+              of groundwater, rivers and oceans.
             </TabPanel>
           </div>
         </div>

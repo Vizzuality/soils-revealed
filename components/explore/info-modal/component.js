@@ -26,15 +26,22 @@ const Content = ({ layer, tab }) => {
 
   return (
     <>
-      <div className="intro mb-5">{(tab ? layer.description[tab] : layer.description) ?? '−'}</div>
+      <div className="intro mb-5">
+        {tab ? (
+          <Markdown content={layer.description[tab] ?? '−'} />
+        ) : (
+          <Markdown content={layer.description ?? '−'} />
+        )}
+      </div>
       <div className="container">
         <Row name="Dataset">
-          {info.dataset && info.downloadLink && (
+          {info.datasetName && info.downloadLink && (
             <a href={info.downloadLink} target="_blank" rel="noopener noreferrer">
               {info.datasetName}
             </a>
           )}
-          {(!info.dataset || !info.downloadLink) && '−'}
+          {info.datasetName && !info.downloadLink && info.datasetName}
+          {!info.datasetName && !info.downloadLink && '−'}
         </Row>
         <Row name="Function">{info.function ?? '−'}</Row>
         <Row name="Geographic coverage">{info.geoCoverage ?? '−'}</Row>
@@ -44,18 +51,12 @@ const Content = ({ layer, tab }) => {
           {info.description && <Markdown content={info.description} />}
           {!info.description && '−'}
         </Row>
-        {tab === 'future' && (
-          <Row name="Soil carbon futures">
-            {info.scenarios && <Markdown content={info.scenarios} />}
-            {!info.scenarios && '−'}
-          </Row>
-        )}
         <Row name="Cautions">
           {info.cautions && <Markdown content={info.cautions} />}
           {!info.cautions && '−'}
         </Row>
         <Row name="Sources">
-          {info.sources && (
+          {info.sources && Array.isArray(info.sources) && (
             <ul>
               {info.sources.map(source => (
                 <li key={source}>
@@ -64,6 +65,7 @@ const Content = ({ layer, tab }) => {
               ))}
             </ul>
           )}
+          {info.sources && !Array.isArray(info.sources) && info.sources}
           {!info.sources && '−'}
         </Row>
         <Row name="Citation">
