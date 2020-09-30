@@ -21,7 +21,7 @@ const AreasInterestRanking = ({
 }) => {
   const [pageIndex, setPageIndex] = useState(0);
   const [order, setOrder] = useState('asc');
-  const [aggregation, setAggregation] = useState('average');
+  const [aggregation, setAggregation] = useState('total');
 
   const typeOption = useMemo(
     () =>
@@ -75,6 +75,15 @@ const AreasInterestRanking = ({
     setPageIndex(0);
   }, [boundaries, socLayerState.type, setPageIndex]);
 
+  // When the SOC layer changes or its type, we set the default aggregation
+  useEffect(() => {
+    if (socLayerState.id === 'soc-experimental' && socLayerState.type === 'concentration') {
+      setAggregation('average');
+    } else {
+      setAggregation('total');
+    }
+  }, [socLayerState, setAggregation]);
+
   return (
     <div className="c-areas-interest-ranking">
       {!!error && (
@@ -106,7 +115,10 @@ const AreasInterestRanking = ({
               aria-label="Ranking sort order"
               options={[
                 { label: 'Average change', value: 'average' },
-                { label: 'Total change', value: 'total' },
+                ...(socLayerState.id === 'soc-experimental' &&
+                socLayerState.type === 'concentration'
+                  ? []
+                  : [{ label: 'Total change', value: 'total' }]),
               ]}
               value={aggregation}
               onChange={({ value }) => {
