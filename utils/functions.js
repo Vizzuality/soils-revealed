@@ -26,6 +26,24 @@ export const deserialize = (string, defaultState = {}) => {
 };
 
 /**
+ * Reduce the precision of a number
+ * @param {number} value Value for which we want to reduce the precision
+ * @param {number} sigDigitsCount Number of significant digits to use
+ */
+export const reducePrecision = (value, sigDigitsCount) => {
+  const power = Math.floor(Math.log10(Math.abs(value)));
+  const integerDigitsCount = power + 1;
+
+  if (sigDigitsCount > integerDigitsCount) {
+    return value.toFixed(sigDigitsCount - integerDigitsCount);
+  }
+
+  const factor = Math.pow(10, integerDigitsCount - sigDigitsCount);
+
+  return (Math.round(value / factor) * factor).toFixed(0);
+};
+
+/**
  * Return a slug based on a string
  * @param {string} string String to slugify
  */
@@ -49,7 +67,7 @@ export const getHumanReadableValue = number => {
   }
 
   // Return the number with 2 or 3 significant digits depending on the first non-0 digit
-  return number.toPrecision(+`${number}`.replace(/0|\.|-/g, '')[0] >= 5 ? 2 : 3);
+  return reducePrecision(number, +`${number}`.replace(/0|\.|-/g, '')[0] >= 5 ? 2 : 3);
 };
 
 /**
