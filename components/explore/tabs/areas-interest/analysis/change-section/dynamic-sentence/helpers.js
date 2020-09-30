@@ -22,36 +22,104 @@ export const isFixedPeriodOfTime = ({ socLayerState }) =>
 export const isInFuture = ({ socLayerState }) =>
   socLayerState.id === 'soc-stock' && socLayerState.type === 'future';
 export const canShowTotalChange = ({ socLayerState }) =>
-  socLayerState.id !== 'soc-experimental' || socLayerState.type !== 'concentration';
+  socLayerState.id !== 'soc-experimental' || socLayerState.type !== 'concentration'; // We also use this condition to check if the change is per unit area
+export const isSignificantChange = ({ data }) => Math.abs(data.average) > 0.01;
 export const hasOneAreaKeptLevel = ({ data }) => data.average === 0 || data.compareAverage === 0;
 export const bothAreasLostOrGained = ({ data }) =>
   (data.average < 0 && data.compareAverage < 0) || (data.average > 0 && data.compareAverage > 0);
+export const bothAreasInsignificantChange = ({ data }) =>
+  Math.abs(data.average) <= 0.01 && Math.abs(data.compareAverage) <= 0.01;
 
 // Outcomes
 const outcomes = [
   // Single area
   {
-    conditions: [not(isComparing), isFixedPeriodOfTime, canShowTotalChange],
+    conditions: [not(isComparing), isFixedPeriodOfTime, canShowTotalChange, isSignificantChange],
     template:
       'From {year1} to {year2}, {area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, that amounts to a total of {total} {totalUnit}.',
   },
   {
-    conditions: [not(isComparing), isFixedPeriodOfTime, not(canShowTotalChange)],
+    conditions: [
+      not(isComparing),
+      isFixedPeriodOfTime,
+      canShowTotalChange,
+      not(isSignificantChange),
+    ],
+    template:
+      'From {year1} to {year2}, {area} has not experienced a significant loss or gain of soil organic carbon per unit area at {depth} depth, while the total {noun} amounts to {total} {totalUnit}.',
+  },
+  {
+    conditions: [
+      not(isComparing),
+      isFixedPeriodOfTime,
+      not(canShowTotalChange),
+      isSignificantChange,
+    ],
     template:
       'From {year1} to {year2}, {area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth.',
   },
   {
-    conditions: [not(isComparing), not(isFixedPeriodOfTime), isInFuture, canShowTotalChange],
+    conditions: [
+      not(isComparing),
+      isFixedPeriodOfTime,
+      not(canShowTotalChange),
+      not(isSignificantChange),
+    ],
+    template:
+      'From {year1} to {year2}, {area} has not experienced a significant loss or gain of soil organic carbon at {depth} depth.',
+  },
+  {
+    conditions: [
+      not(isComparing),
+      not(isFixedPeriodOfTime),
+      isInFuture,
+      canShowTotalChange,
+      isSignificantChange,
+    ],
     template:
       'Under this scenario, {area} would experience a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, that would amount to a total of {total} {totalUnit}.',
   },
   {
-    conditions: [not(isComparing), not(isFixedPeriodOfTime), isInFuture, not(canShowTotalChange)],
+    conditions: [
+      not(isComparing),
+      not(isFixedPeriodOfTime),
+      isInFuture,
+      canShowTotalChange,
+      not(isSignificantChange),
+    ],
+    template:
+      'Under this scenario, {area} would not experience a significant loss or gain of soil organic carbon per unit area at {depth} depth, while the total {noun} would amount to {total} {totalUnit}.',
+  },
+  {
+    conditions: [
+      not(isComparing),
+      not(isFixedPeriodOfTime),
+      isInFuture,
+      not(canShowTotalChange),
+      isSignificantChange,
+    ],
     template:
       'Under this scenario, {area} would experience a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth.',
   },
   {
-    conditions: [not(isComparing), not(isFixedPeriodOfTime), not(isInFuture), canShowTotalChange],
+    conditions: [
+      not(isComparing),
+      not(isFixedPeriodOfTime),
+      isInFuture,
+      not(canShowTotalChange),
+      not(isSignificantChange),
+    ],
+    template:
+      'Under this scenario, {area} would not experience a significant loss or gain of soil organic carbon at {depth} depth.',
+  },
+  {
+    conditions: [
+      not(isComparing),
+      not(isFixedPeriodOfTime),
+      not(isInFuture),
+      canShowTotalChange,
+      isSignificantChange,
+    ],
     template:
       '{area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, that amounts to a total of {total} {totalUnit}.',
   },
@@ -60,10 +128,33 @@ const outcomes = [
       not(isComparing),
       not(isFixedPeriodOfTime),
       not(isInFuture),
+      canShowTotalChange,
+      not(isSignificantChange),
+    ],
+    template:
+      '{area} has not experienced a significant loss or gain of soil organic carbon per unit area at {depth} depth, while the total {noun} amounts to {total} {totalUnit}.',
+  },
+  {
+    conditions: [
+      not(isComparing),
+      not(isFixedPeriodOfTime),
+      not(isInFuture),
       not(canShowTotalChange),
+      isSignificantChange,
     ],
     template:
       '{area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth.',
+  },
+  {
+    conditions: [
+      not(isComparing),
+      not(isFixedPeriodOfTime),
+      not(isInFuture),
+      not(canShowTotalChange),
+      not(isSignificantChange),
+    ],
+    template:
+      '{area} has not experienced a significant loss or gain of soil organic carbon at {depth} depth.',
   },
   // Comparing areas
   {
@@ -82,7 +173,94 @@ const outcomes = [
       '{area} has {participle} {average} {unit} of soil organic carbon, while {secondaryArea} has maintained its level, at {depth} depth.',
   },
   {
-    conditions: [isComparing, not(hasOneAreaKeptLevel), bothAreasLostOrGained, isFixedPeriodOfTime],
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasInsignificantChange,
+      isFixedPeriodOfTime,
+      canShowTotalChange,
+    ],
+    template:
+      'From {year1} to {year2}, neither {area} nor {secondaryArea} have experienced a significant loss or gain of soil organic carbon per unit area at {depth} depth.',
+  },
+  {
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasInsignificantChange,
+      isFixedPeriodOfTime,
+      not(canShowTotalChange),
+    ],
+    template:
+      'From {year1} to {year2}, neither {area} nor {secondaryArea} have experienced a significant loss or gain of soil organic carbon at {depth} depth.',
+  },
+  {
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasInsignificantChange,
+      not(isFixedPeriodOfTime),
+      isInFuture,
+      canShowTotalChange,
+    ],
+    template:
+      'Under this scenario, neither {area} nor {secondaryArea} would experience a significant loss or gain of soil organic carbon per unit area at {depth} depth.',
+  },
+  {
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasInsignificantChange,
+      not(isFixedPeriodOfTime),
+      isInFuture,
+      not(canShowTotalChange),
+    ],
+    template:
+      'Under this scenario, neither {area} nor {secondaryArea} would experience a significant loss or gain of soil organic carbon at {depth} depth.',
+  },
+  {
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasInsignificantChange,
+      not(isFixedPeriodOfTime),
+      not(isInFuture),
+      canShowTotalChange,
+    ],
+    template:
+      'Neither {area} nor {secondaryArea} have experienced a significant loss or gain of soil organic carbon per unit area at {depth} depth.',
+  },
+  {
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasInsignificantChange,
+      not(isFixedPeriodOfTime),
+      not(isInFuture),
+      not(canShowTotalChange),
+    ],
+    template:
+      'Neither {area} nor {secondaryArea} have experienced a significant loss or gain of soil organic carbon at {depth} depth.',
+  },
+  {
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasLostOrGained,
+      isFixedPeriodOfTime,
+      canShowTotalChange,
+    ],
+    template:
+      'From {year1} to {year2}, {area} has experienced {percentage}% more soil carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
+  },
+  {
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasLostOrGained,
+      isFixedPeriodOfTime,
+      not(canShowTotalChange),
+    ],
     template:
       'From {year1} to {year2}, {area} has experienced {percentage}% more soil carbon {noun} than {secondaryArea}, at {depth} depth.',
   },
@@ -93,6 +271,19 @@ const outcomes = [
       bothAreasLostOrGained,
       not(isFixedPeriodOfTime),
       isInFuture,
+      canShowTotalChange,
+    ],
+    template:
+      'Under this scenario, {area} would experience {percentage}% more soil carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
+  },
+  {
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasLostOrGained,
+      not(isFixedPeriodOfTime),
+      isInFuture,
+      not(canShowTotalChange),
     ],
     template:
       'Under this scenario, {area} would experience {percentage}% more soil carbon {noun} than {secondaryArea}, at {depth} depth.',
@@ -104,6 +295,19 @@ const outcomes = [
       bothAreasLostOrGained,
       not(isFixedPeriodOfTime),
       not(isInFuture),
+      canShowTotalChange,
+    ],
+    template:
+      '{area} has experienced {percentage}% more soil carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
+  },
+  {
+    conditions: [
+      isComparing,
+      not(hasOneAreaKeptLevel),
+      bothAreasLostOrGained,
+      not(isFixedPeriodOfTime),
+      not(isInFuture),
+      not(canShowTotalChange),
     ],
     template:
       '{area} has experienced {percentage}% more soil carbon {noun} than {secondaryArea}, at {depth} depth.',
