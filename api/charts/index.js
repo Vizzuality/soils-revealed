@@ -31,7 +31,7 @@ module.exports = async (
 
     resData = data;
 
-    if (compareAreaInterest) {
+    if (compareAreaInterest !== null && compareAreaInterest !== undefined) {
       const compareData =
         typeof compareAreaInterest === 'object'
           ? await getOnTheFlyData({
