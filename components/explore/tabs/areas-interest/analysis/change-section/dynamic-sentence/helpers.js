@@ -251,7 +251,7 @@ const outcomes = [
       canShowTotalChange,
     ],
     template:
-      'From {year1} to {year2}, {area} has experienced {percentage}% more soil carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
+      'From {year1} to {year2}, {area} has experienced {percentage}% more soil organic carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
   },
   {
     conditions: [
@@ -262,7 +262,7 @@ const outcomes = [
       not(canShowTotalChange),
     ],
     template:
-      'From {year1} to {year2}, {area} has experienced {percentage}% more soil carbon {noun} than {secondaryArea}, at {depth} depth.',
+      'From {year1} to {year2}, {area} has experienced {percentage}% more soil organic carbon {noun} than {secondaryArea}, at {depth} depth.',
   },
   {
     conditions: [
@@ -274,7 +274,7 @@ const outcomes = [
       canShowTotalChange,
     ],
     template:
-      'Under this scenario, {area} would experience {percentage}% more soil carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
+      'Under this scenario, {area} would experience {percentage}% more soil organic carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
   },
   {
     conditions: [
@@ -286,7 +286,7 @@ const outcomes = [
       not(canShowTotalChange),
     ],
     template:
-      'Under this scenario, {area} would experience {percentage}% more soil carbon {noun} than {secondaryArea}, at {depth} depth.',
+      'Under this scenario, {area} would experience {percentage}% more soil organic carbon {noun} than {secondaryArea}, at {depth} depth.',
   },
   {
     conditions: [
@@ -298,7 +298,7 @@ const outcomes = [
       canShowTotalChange,
     ],
     template:
-      '{area} has experienced {percentage}% more soil carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
+      '{area} has experienced {percentage}% more soil organic carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
   },
   {
     conditions: [
@@ -310,7 +310,7 @@ const outcomes = [
       not(canShowTotalChange),
     ],
     template:
-      '{area} has experienced {percentage}% more soil carbon {noun} than {secondaryArea}, at {depth} depth.',
+      '{area} has experienced {percentage}% more soil organic carbon {noun} than {secondaryArea}, at {depth} depth.',
   },
   {
     conditions: [
