@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import { getFormattedValue } from 'utils/functions';
@@ -68,6 +68,12 @@ const AreasInterestRanking = ({
 
     return [];
   }, [error, results, pageIndex]);
+
+  // When the SOC layer's type option or the boundaries layer change, we need to reset the ranking
+  // to the first page
+  useEffect(() => {
+    setPageIndex(0);
+  }, [boundaries, socLayerState.type, setPageIndex]);
 
   return (
     <div className="c-areas-interest-ranking">
