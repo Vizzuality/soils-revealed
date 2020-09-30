@@ -86,19 +86,25 @@ const Comp = (
           });
 
           // Then, we add the new ones
-          featureStates.forEach(({ source, sourceLayer, id, state }) => {
-            const sourceObj = map.current.getMap().getSource(source);
+          // NOTE: the code is wrapped in a requestAnimationFrame callback to work around an issue
+          // where Mapbox incorrectly updates the feature states
+          // An example of of this is when a highlighted geometry switches from a dashed stroke to
+          // a full one (the update is not carried by Mapbox without the workaround)
+          requestAnimationFrame(() => {
+            featureStates.forEach(({ source, sourceLayer, id, state }) => {
+              const sourceObj = map.current.getMap().getSource(source);
 
-            if (sourceObj) {
-              map.current.getMap().setFeatureState(
-                {
-                  source,
-                  sourceLayer,
-                  id,
-                },
-                state
-              );
-            }
+              if (sourceObj) {
+                map.current.getMap().setFeatureState(
+                  {
+                    source,
+                    sourceLayer,
+                    id,
+                  },
+                  state
+                );
+              }
+            });
           });
 
           previousFeatureStates.current = featureStates;
