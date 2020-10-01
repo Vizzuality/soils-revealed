@@ -86,11 +86,7 @@ const Comp = (
           });
 
           // Then, we add the new ones
-          // NOTE: the code is wrapped in a requestAnimationFrame callback to work around an issue
-          // where Mapbox incorrectly updates the feature states
-          // An example of of this is when a highlighted geometry switches from a dashed stroke to
-          // a full one (the update is not carried by Mapbox without the workaround)
-          requestAnimationFrame(() => {
+          const setFeatureStates = () => {
             featureStates.forEach(({ source, sourceLayer, id, state }) => {
               const sourceObj = map.current.getMap().getSource(source);
 
@@ -105,7 +101,21 @@ const Comp = (
                 );
               }
             });
-          });
+          };
+
+          // NOTE: the code is wrapped in a requestAnimationFrame callback to work around an issue
+          // where Mapbox incorrectly updates the feature states
+          // An example of of this is when a highlighted geometry switches from a dashed stroke to
+          // a full one (the update is not carried by Mapbox without the workaround)
+          if (forceReload) {
+            // Nevertheless, the requestAnimationFrame technique is only useful when we
+            // actually want to update the feature states. If this function is called because the
+            // source data has changed (e.g. tiles are loaded), the highlighted areas will flash
+            // during seconds. In this case, we simply set the features states synchronously.
+            setFeatureStates();
+          } else {
+            requestAnimationFrame(setFeatureStates);
+          }
 
           previousFeatureStates.current = featureStates;
         }
