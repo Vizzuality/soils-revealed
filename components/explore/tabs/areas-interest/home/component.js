@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 import { getLayerExtraParams } from 'utils/map';
 import { BOUNDARIES, LAYERS } from 'components/map/constants';
 import { getViewportFromBounds } from 'components/map';
+import LoadingSpinner from 'components/loading-spinner';
 import { Dropdown } from 'components/forms';
 import { useResults } from './helpers';
 import Ranking from '../ranking';
@@ -129,6 +130,11 @@ const AreasInterestHome = ({
 
       {debouncedSearch.length > 0 && !error && !!results && results.length === 0 && (
         <div className="search-results">No results.</div>
+      )}
+      {debouncedSearch.length > 0 && !error && !results && (
+        <div className="search-results text-center">
+          <LoadingSpinner transparent inline />
+        </div>
       )}
       {debouncedSearch.length > 0 && !error && results?.length > 0 && (
         <div className="search-results">
