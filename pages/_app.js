@@ -1,17 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
 
+import { Router } from 'lib/routes';
 import createStore from 'lib/store';
 import { updateRoute } from 'modules/routing';
+import { logPageView } from 'utils/analytics';
+import CookiesNotice from 'components/cookies-notice';
+import Analytics from 'components/analytics';
 
 import 'css/index.scss';
 
 const SoilsRevealedApp = ({ Component, pageProps, store }) => {
+  useEffect(() => {
+    Router.onRouteChangeComplete = () => logPageView();
+  }, []);
+
   return (
     <Provider store={store}>
+      {/* The cookies notice must be the first element on the page */}
+      <CookiesNotice />
       <Component {...pageProps} />
+      <Analytics />
     </Provider>
   );
 };

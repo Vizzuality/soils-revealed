@@ -19,12 +19,13 @@ jobs:
           API_URL: http://35.233.41.65/user/skydipper/api/v2
           ANALYSIS_API_URL: https://soilsrevealed.org/api/v1/analysis
           GEE_KEY: ${{ secrets.GEE_KEY }}
+          GOOGLE_ANALYTICS_KEY:
         with:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
-          envs: NODE_PORT,MAPBOX_API_KEY,API_URL,ANALYSIS_API_URL,GEE_KEY
+          envs: NODE_PORT,MAPBOX_API_KEY,API_URL,ANALYSIS_API_URL,GEE_KEY,GOOGLE_ANALYTICS_KEY
           script: |
             echo '> Source nvm'
             export NVM_DIR=~/.nvm
@@ -46,7 +47,7 @@ jobs:
             echo '> Generate a deployment key'
             DEPLOYMENT_KEY=`date +%s`
             echo '> Create .env file'
-            echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY\nAPI_URL=$API_URL\nANALYSIS_API_URL=$ANALYSIS_API_URL\nDEPLOYMENT_KEY=$DEPLOYMENT_KEY" > .env
+            echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY\nAPI_URL=$API_URL\nANALYSIS_API_URL=$ANALYSIS_API_URL\nDEPLOYMENT_KEY=$DEPLOYMENT_KEY\nGOOGLE_ANALYTICS_KEY=$GOOGLE_ANALYTICS_KEY" > .env
             echo '> Create gee.key.json file'
             echo $GEE_KEY > gee.key.json
             echo '> Build the app'
