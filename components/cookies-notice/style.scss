@@ -1,0 +1,18 @@
+@import 'css/settings';
+
+.c-cookies-notice {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  @include font-size($font-size-s);
+  color: $white;
+  background: $primary;
+  box-shadow: 0 rem(-2) rem(5) 0 rgba($black, 0.3);
+  z-index: 10;
+
+  a {
+    color: currentColor;
+    text-decoration: underline;
+  }
+}

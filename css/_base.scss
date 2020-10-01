@@ -12,6 +12,12 @@ body {
     min-width: rem(190);
   }
 
+  &.btn-fixed-width-md {
+    @include media-breakpoint-up(md, $grid-breakpoints) {
+      min-width: rem(190);
+    }
+  }
+
   &.btn-secondary {
     color: $body-color;
 
