@@ -36,7 +36,7 @@ const outcomes = [
   {
     conditions: [not(isComparing), isFixedPeriodOfTime, canShowTotalChange, isSignificantChange],
     template:
-      'From {year1} to {year2}, {area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, that amounts to a total of {total} {totalUnit}.',
+      'From {year1} to {year2}, {area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, which amounts to a total of {total} {totalUnit}.',
   },
   {
     conditions: [
@@ -77,7 +77,7 @@ const outcomes = [
       isSignificantChange,
     ],
     template:
-      'Under this scenario, {area} would experience a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, that would amount to a total of {total} {totalUnit}.',
+      'Under this scenario, {area} would experience a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth over 20 years until 2038, which would amount to a total of {total} {totalUnit}.',
   },
   {
     conditions: [
@@ -88,7 +88,7 @@ const outcomes = [
       not(isSignificantChange),
     ],
     template:
-      'Under this scenario, {area} would not experience a significant loss or gain of soil organic carbon per unit area at {depth} depth, while the total {noun} would amount to {total} {totalUnit}.',
+      'Under this scenario, {area} would not experience a significant loss or gain of soil organic carbon per unit area at {depth} depth over 20 years until 2038, while the total {noun} would amount to {total} {totalUnit}.',
   },
   {
     conditions: [
@@ -99,7 +99,7 @@ const outcomes = [
       isSignificantChange,
     ],
     template:
-      'Under this scenario, {area} would experience a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth.',
+      'Under this scenario, {area} would experience a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth over 20 years until 2038.',
   },
   {
     conditions: [
@@ -110,7 +110,7 @@ const outcomes = [
       not(isSignificantChange),
     ],
     template:
-      'Under this scenario, {area} would not experience a significant loss or gain of soil organic carbon at {depth} depth.',
+      'Under this scenario, {area} would not experience a significant loss or gain of soil organic carbon at {depth} depth over 20 years until 2038.',
   },
   {
     conditions: [
@@ -121,7 +121,7 @@ const outcomes = [
       isSignificantChange,
     ],
     template:
-      '{area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, that amounts to a total of {total} {totalUnit}.',
+      '{area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, which amounts to a total of {total} {totalUnit}.',
   },
   {
     conditions: [
@@ -165,7 +165,7 @@ const outcomes = [
   {
     conditions: [isComparing, hasOneAreaKeptLevel, not(isFixedPeriodOfTime), isInFuture],
     template:
-      'Under this scenario, {area} would {verb} {average} {unit} of soil organic carbon, while {secondaryArea} would maintain its level, at {depth} depth.',
+      'Under this scenario, {area} would {verb} {average} {unit} of soil organic carbon, while {secondaryArea} would maintain its level, at {depth} depth and over 20 years until 2038.',
   },
   {
     conditions: [isComparing, hasOneAreaKeptLevel, not(isFixedPeriodOfTime), not(isInFuture)],
@@ -204,7 +204,7 @@ const outcomes = [
       canShowTotalChange,
     ],
     template:
-      'Under this scenario, neither {area} nor {secondaryArea} would experience a significant loss or gain of soil organic carbon per unit area at {depth} depth.',
+      'Under this scenario, neither {area} nor {secondaryArea} would experience a significant loss or gain of soil organic carbon per unit area at {depth} depth over 20 years until 2038.',
   },
   {
     conditions: [
@@ -216,7 +216,7 @@ const outcomes = [
       not(canShowTotalChange),
     ],
     template:
-      'Under this scenario, neither {area} nor {secondaryArea} would experience a significant loss or gain of soil organic carbon at {depth} depth.',
+      'Under this scenario, neither {area} nor {secondaryArea} would experience a significant loss or gain of soil organic carbon at {depth} depth over 20 years until 2038.',
   },
   {
     conditions: [
@@ -274,7 +274,7 @@ const outcomes = [
       canShowTotalChange,
     ],
     template:
-      'Under this scenario, {area} would experience {percentage}% more soil organic carbon {noun} per unit area than {secondaryArea}, at {depth} depth.',
+      'Under this scenario, {area} would experience {percentage}% more soil organic carbon {noun} per unit area than {secondaryArea}, at {depth} depth and over 20 years until 2038.',
   },
   {
     conditions: [
@@ -286,7 +286,7 @@ const outcomes = [
       not(canShowTotalChange),
     ],
     template:
-      'Under this scenario, {area} would experience {percentage}% more soil organic carbon {noun} than {secondaryArea}, at {depth} depth.',
+      'Under this scenario, {area} would experience {percentage}% more soil organic carbon {noun} than {secondaryArea}, at {depth} depth and over 20 years until 2038.',
   },
   {
     conditions: [
@@ -331,7 +331,7 @@ const outcomes = [
       isInFuture,
     ],
     template:
-      'Under this scenario, {area} would {verb} {average} {unit} of soil organic carbon, while {secondaryArea} would {secondaryVerb} {secondaryAverage} {secondaryUnit}, at {depth} depth.',
+      'Under this scenario, {area} would {verb} {average} {unit} of soil organic carbon, while {secondaryArea} would {secondaryVerb} {secondaryAverage} {secondaryUnit}, at {depth} depth and over 20 years until 2038.',
   },
   {
     conditions: [
