@@ -70,7 +70,10 @@ const ExploreTabs = ({ showTour, areaInterest, updateAreaInterest, onClickInfo }
         style={{ width: `${areasBtnWidth + layersBtnWidth}px` }}
         ref={rootRef}
       >
-        <div>
+        {/* The width on this div is necessary to fix a bug in Safari where the button would have
+        a margin on its right when this component would re-render (typipally when clicking a ranking
+        item) */}
+        <div style={areasBtnWidth !== 0 ? { width: `${areasBtnWidth}px` } : undefined}>
           <Tooltip
             trigger="manual"
             placement="bottom-start"
