@@ -150,7 +150,7 @@ const AreasInterestHome = ({
                   {result.name}
                 </button>
               </div>
-              <div className="col-5">{BOUNDARIES[result.type].label}</div>
+              <div className="col-5 text-right">{BOUNDARIES[result.type].label}</div>
             </div>
           ))}
         </div>
