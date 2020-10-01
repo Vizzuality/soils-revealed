@@ -134,12 +134,14 @@ export const getFormattedValue = (value, layer, layerType, section) => {
         ]);
 
         const [prefix, pow] = factors.find(
-          ([, pow]) => Math.abs(value) / Math.pow(10, pow) > 1 || pow === 0
+          // The value we receive is in tons, so we need to multiply it by 10⁶
+          ([, pow]) => Math.abs(value * Math.pow(10, 6)) / Math.pow(10, pow) > 1 || pow === 0
         );
 
         return {
           unit: `${prefix}g C`,
-          value: getHumanReadableValue(value / Math.pow(10, pow)),
+          // The value we receive is in tons, so we need to multiply it by 10⁶
+          value: getHumanReadableValue((value * Math.pow(10, 6)) / Math.pow(10, pow)),
         };
       },
     },
