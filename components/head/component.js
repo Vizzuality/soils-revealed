@@ -21,6 +21,13 @@ const HeadComponent = ({ title: customTitle, description: customDescription }) =
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={imageUrl} />
+      <link rel="manifest" href="manifest.json" />
+      <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
+      <meta name="msapplication-TileColor" content="#ffffff" />
+      <meta name="msapplication-config" content="/browserconfig.xml" />
+      <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+      <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+      <link rel="shortcut icon" href="/favicon.ico" />
     </Head>
   );
 };
