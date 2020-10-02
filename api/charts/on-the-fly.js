@@ -3,7 +3,19 @@ const axios = require('axios').default;
 const { LAYERS } = require('../../components/map/constants');
 const { parseTimeseriesData, parseChangeData } = require('./helpers');
 
-module.exports = ({ layer, type, depth, areaInterest }) => {
+const SCENARIOS = {
+  '00': 'crop_MGI',
+  '01': 'crop_I',
+  '02': 'crop_MG',
+  '03': 'grass_full',
+  '04': 'grass_part',
+  '10': 'rewilding',
+  '20': 'degradation_NoDeforestation',
+  '21': 'degradation_ForestToCrop',
+  '22': 'degradation_ForestToGrass',
+};
+
+module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
   const url = `${process.env.ANALYSIS_API_URL}`;
 
   const yearSetting = LAYERS[layer].paramsConfig.settings.type.options.find(
@@ -20,8 +32,15 @@ module.exports = ({ layer, type, depth, areaInterest }) => {
     .find(option => option.value === type)
     .settings.depth.options[depth].label.replace(/\scm/, '');
 
+  let dataset;
+  if (layer !== 'soc-stock') {
+    dataset = 'experimental';
+  } else {
+    dataset = type === 'future' ? SCENARIOS[scenario] : type;
+  }
+
   const body = {
-    dataset: layer === 'soc-stock' ? type : 'experimental',
+    dataset,
     variable: layer === 'soc-stock' || type === 'stock' ? 'stocks' : type,
     years: yearsValue,
     depth: depthValue,

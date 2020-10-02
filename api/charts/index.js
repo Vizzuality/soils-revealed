@@ -16,7 +16,7 @@ module.exports = async (
 
     const data =
       typeof areaInterest === 'object'
-        ? await getOnTheFlyData({ layer, type, depth, areaInterest })
+        ? await getOnTheFlyData({ layer, type, depth, areaInterest, scenario })
         : {
             timeseries: await getTimeseriesData({
               layer,
@@ -39,6 +39,7 @@ module.exports = async (
               type,
               depth,
               areaInterest: compareAreaInterest,
+              scenario,
             })
           : {
               timeseries: await getTimeseriesData({
