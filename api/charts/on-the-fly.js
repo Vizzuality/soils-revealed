@@ -24,9 +24,23 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
 
   const yearOptions = yearSetting ? yearSetting.options : null;
 
-  const yearsValue = !yearOptions
-    ? ['NoLU', '2010'] // Historic
-    : [yearOptions[0].value, yearOptions[yearOptions.length - 1].value];
+  let yearsValue;
+  if (!yearOptions) {
+    yearsValue = ['NoLU', '2010']; // Historic
+  } else {
+    if (type !== 'future') {
+      yearsValue = [yearOptions[0].value, yearOptions[yearOptions.length - 1].value];
+    } else {
+      const recentYearOptions = LAYERS['soc-stock'].paramsConfig.settings.type.options.find(
+        option => option.value === 'recent'
+      ).settings.year.options;
+
+      yearsValue = [
+        recentYearOptions[recentYearOptions.length - 1].value,
+        yearOptions[yearOptions.length - 1].value,
+      ];
+    }
+  }
 
   const depthValue = LAYERS[layer].paramsConfig.settings.type.options
     .find(option => option.value === type)
