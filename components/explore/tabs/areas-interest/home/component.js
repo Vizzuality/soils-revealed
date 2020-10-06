@@ -67,7 +67,13 @@ const AreasInterestHome = ({
       });
 
       // We center the map and zoom on the area of interest
-      if (result.bbox) {
+      // This does not always apply to the experimental dataset as some areas would zoom out of
+      // Argentina (landforms and biomes)
+      if (
+        result.bbox &&
+        (socLayerState.id === 'soc-stock' ||
+          (boundaries.id !== 'landforms' && boundaries.id !== 'biomes'))
+      ) {
         updateViewport(
           getViewportFromBounds(
             window.screen.availWidth,
@@ -80,7 +86,7 @@ const AreasInterestHome = ({
         );
       }
     },
-    [boundaries, viewport, updateBoundaries, updateAreaInterest, updateViewport]
+    [boundaries, viewport, socLayerState, updateBoundaries, updateAreaInterest, updateViewport]
   );
 
   const onChangeType = useCallback(
