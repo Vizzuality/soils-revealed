@@ -36,7 +36,7 @@ const outcomes = [
   {
     conditions: [not(isComparing), isFixedPeriodOfTime, canShowTotalChange, isSignificantChange],
     template:
-      'From {year1} to {year2}, {area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, which amounts to a total of {total} {totalUnit}.',
+      'From {year1} to {year2}, {area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, which amounts to a total {noun} of {total} {totalUnit}.',
   },
   {
     conditions: [
@@ -77,7 +77,7 @@ const outcomes = [
       isSignificantChange,
     ],
     template:
-      'Under this scenario, {area} would experience a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth over 20 years until 2038, which would amount to a total of {total} {totalUnit}.',
+      'Under this scenario, {area} would experience a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth over 20 years until 2038, which would amount to a total {noun} of {total} {totalUnit}.',
   },
   {
     conditions: [
@@ -121,7 +121,7 @@ const outcomes = [
       isSignificantChange,
     ],
     template:
-      '{area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, which amounts to a total of {total} {totalUnit}.',
+      '{area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth, which amounts to a total {noun} of {total} {totalUnit}.',
   },
   {
     conditions: [
@@ -430,19 +430,14 @@ const getTemplateParameters = ({
     secondaryVerb: () => (secondaryAreaInterestData?.average < 0 ? 'lose' : 'gain'),
     participle: () => (leadingAreaInterestData.average < 0 ? 'lost' : 'gained'),
     secondaryParticiple: () => (secondaryAreaInterestData?.average < 0 ? 'lost' : 'gained'),
-    average: () =>
-      getHumanReadableValue(
-        isComparing({ compareAreaInterest })
-          ? Math.abs(leadingAreaInterestData.average)
-          : leadingAreaInterestData.average
-      ),
+    average: () => getHumanReadableValue(Math.abs(leadingAreaInterestData.average)),
     secondaryAverage: () =>
       secondaryAreaInterestData
         ? getHumanReadableValue(Math.abs(secondaryAreaInterestData.average))
         : null,
     total: () =>
       getFormattedValue(
-        leadingAreaInterestData.total,
+        Math.abs(leadingAreaInterestData.total),
         socLayerState.id,
         socLayerState.type,
         'analysis-change-total'
