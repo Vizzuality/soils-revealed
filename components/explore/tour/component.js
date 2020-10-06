@@ -91,8 +91,8 @@ const STEPS = [
           <div className="mb-1">3/4</div>Machine learning dataset.
         </h1>
         <p>
-          Explore a new kind of dataset to predict continuous fields of soils properties at X depth
-          regions. Currently available in some regions.
+          Explore an alternative approach to soil organic carbon change that uses a machine learning
+          model based on ground samples. Currently only available for Argentina.
         </p>
       </div>
     ),
@@ -107,7 +107,7 @@ const STEPS = [
         </h1>
         <p>
           Check out the main areas where organic carbon has more impact and browse through soil,
-          land, and other different kinds of layers.
+          land, and other relevant layers.
         </p>
       </div>
     ),
