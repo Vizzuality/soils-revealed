@@ -1164,7 +1164,7 @@ exports.LAYERS = {
               },
             },
           ],
-          defaultOption: 'concentration',
+          defaultOption: 'stock',
         },
       },
     },
@@ -1172,7 +1172,7 @@ exports.LAYERS = {
       type: 'raster',
       // If you update the default params, remember to update the ones of paramsConfig above too
       source: ({
-        type = 'concentration',
+        type = 'stock',
         depth = 0,
         mode = 'timeseries',
         year = 2017,
