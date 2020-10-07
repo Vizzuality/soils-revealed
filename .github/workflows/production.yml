@@ -19,7 +19,7 @@ jobs:
           API_URL: http://35.233.41.65/user/skydipper/api/v2
           ANALYSIS_API_URL: https://soilsrevealed.org/api/v1/analysis
           GEE_KEY: ${{ secrets.GEE_KEY }}
-          GOOGLE_ANALYTICS_KEY:
+          GOOGLE_ANALYTICS_KEY: UA-179817360-1
         with:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
