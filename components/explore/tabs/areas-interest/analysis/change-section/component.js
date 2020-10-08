@@ -20,6 +20,7 @@ import HintButton from 'components/hint-button';
 import NoDataMessage from 'components/explore/no-data-message';
 import { getParsedData } from './helpers';
 import DynamicSentence from './dynamic-sentence';
+import Warning from './warning';
 
 const ChangeSection = ({
   data: rawData,
@@ -110,6 +111,7 @@ const ChangeSection = ({
           <div className="chart-intro">
             <DynamicSentence data={data} />
           </div>
+          <Warning className="mb-4" />
           <ResponsiveContainer
             width="100%"
             aspect={1.3}

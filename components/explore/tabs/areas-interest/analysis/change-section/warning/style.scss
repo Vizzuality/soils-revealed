@@ -1,0 +1,34 @@
+@import 'css/settings';
+
+.c-change-section-warning {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: map-get($spacers, 2) map-get($spacers, 3);
+  background: $warning;
+
+  .c-icon {
+    position: relative;
+    flex-shrink: 0;
+    width: rem(25);
+    height: rem(22);
+    margin-right: map-get($spacers, 4);
+  }
+
+  .text {
+    position: relative;
+    margin-left: map-get($spacers, 2);
+    @include font-size($font-size-s);
+    line-height: 1.25;
+
+    &:before {
+      position: absolute;
+      top: rem(3);
+      left: #{-1 * map-get($spacers, 3)};
+      width: rem(1);
+      height: calc(100% - #{rem(6)});
+      background-color: $primary;
+      content: '';
+    }
+  }
+}

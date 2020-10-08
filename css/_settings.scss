@@ -8,6 +8,7 @@
 $primary: #1a203c;
 $secondary: #fdddba;
 $light: #f2f3ef;
+$warning: #ffc112;
 
 $text-color-1: $primary;
 $text-color-2: $secondary;
@@ -16,6 +17,7 @@ $theme-colors: (
   'primary': $primary,
   'secondary': $secondary,
   'light': $light,
+  'warning': $warning,
 );
 
 $border-color-1: #d8d8d8;
