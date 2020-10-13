@@ -56,7 +56,7 @@ const outcomes = [
       isSignificantChange,
     ],
     template:
-      'From {year1} to {year2}, {area} has experienced a {noun} of soil organic carbon, averaging {average} {unit} at {depth} depth.',
+      'From {year1} to {year2}, the soil organic carbon concentration of {area} {participle2} on average with {average} {unit} at {depth} depth.',
   },
   {
     conditions: [
@@ -429,6 +429,7 @@ const getTemplateParameters = ({
     verb: () => (leadingAreaInterestData.average < 0 ? 'lose' : 'gain'),
     secondaryVerb: () => (secondaryAreaInterestData?.average < 0 ? 'lose' : 'gain'),
     participle: () => (leadingAreaInterestData.average < 0 ? 'lost' : 'gained'),
+    participle2: () => (leadingAreaInterestData.average < 0 ? 'decreased' : 'increased'),
     secondaryParticiple: () => (secondaryAreaInterestData?.average < 0 ? 'lost' : 'gained'),
     average: () => getHumanReadableValue(Math.abs(leadingAreaInterestData.average)),
     secondaryAverage: () =>

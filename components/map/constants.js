@@ -1059,7 +1059,6 @@ exports.LAYERS = {
         citation:
           'ESA, 2017. Land Cover CCI. PRODUCT USER GUIDE VERSION 2.0.\n\nIIASA/FAO, 2012. Global Agro-ecological Zones (GAEZ v3.0). IIASA, Laxenburg, Austria and FAO, Rome, Italy. [http://www.gaez.iiasa.ac.at/docs/GAEZ_User_Guide.pdf](http://www.gaez.iiasa.ac.at/docs/GAEZ_User_Guide.pdf)\n\nUNCCD, 2018. Default data: methods and interpretation. A guidance document for 2018 UNCCD reporting. United Nations Convention to Combat Desertification (UNCCD), Bonn, Germany.',
         license: 'CC BY 4.0',
-        licenseLink: 'https://creativecommons.org/licenses/by/4.0/',
       },
       future: {
         datasetName: 'Soil organic carbon futures',
@@ -1079,7 +1078,7 @@ exports.LAYERS = {
     },
   },
   'soc-experimental': {
-    label: 'Soil organic carbon experimental dataset',
+    label: 'Soil organic carbon experimental approach',
     description:
       'These maps display soil organic carbon in Argentina in any year between 1982 and 2017. You can toggle between soil organic carbon concentration and soil organic carbon stock, as well as between soil organic carbon maps for any given year and change maps between years. Selecting “Change” will display where Argentina has experienced a gain in soil organic carbon and which parts a loss for a chosen time period. To produce these maps, we used a novel machine learning algorithm based on field samples to map soil organic carbon over space and time.\n\nA global implementation of this approach is in process. If you would like to join this effort, please [contact us](mailto:soilsrevealed@tnc.org), and join our growing partnership.',
     group: 'soc',
@@ -1219,7 +1218,6 @@ exports.LAYERS = {
       citation:
         'Heuvelink, G.B.M., M.E. Angelini, L. Poggio,  Z. Bai, N.H. Batjes, H. Van Den Bosch, D. Bossio, S. Estella, J. Lehmann, G.F. Olmedo and J. Sanderman (2020). [Machine learning in space and time for modelling soil organic carbon change](https://onlinelibrary.wiley.com/doi/full/10.1111/ejss.12998). European Journal of Soil Science doi: 10.1111/ejss.12998.',
       license: 'CC BY 4.0',
-      licenseLink: 'https://creativecommons.org/licenses/by/4.0/',
     },
   },
   'land-cover': {
@@ -1453,7 +1451,6 @@ exports.LAYERS = {
       citation:
         'Use the following credit when these data are displayed:  \nSource: Hansen/UMD/Google/USGS/NASA\n\nUse the following credit when these data are cited:  \nHansen, M. C., P. V. Potapov, R. Moore, M. Hancher, S. A. Turubanova, A. Tyukavina, D. Thau, S. V. Stehman, S. J. Goetz, T. R. Loveland, A. Kommareddy, A. Egorov, L. Chini, C. O. Justice, and J. R. G. Townshend. 2013. “High-Resolution Global Maps of 21st-Century Forest Cover Change.” _Science_ 342 (15 November): 850–53. Data available on-line from: http://earthenginepartners.appspot.com/science-2013-global-forest.',
       license: 'CC BY 4.0',
-      licenseLink: 'http://creativecommons.org/licenses/by/4.0/',
     },
   },
   cropland: {
@@ -1739,7 +1736,6 @@ exports.LAYERS = {
       citation:
         'Corbane, Christina; Florczyk, Aneta; Pesaresi, Martino; Politis, Panagiotis; Syrris, Vasileios (2018): GHS built-up grid, derived from Landsat, multitemporal (1975-1990-2000-2014), R2018A. European Commission, Joint Research Centre (JRC) doi: 10.2905/jrc-ghsl-10007 PID: http://data.europa.eu/89h/jrc-ghsl-10007.',
       license: 'Creative Commons Attribution 4.0 International',
-      licenseLink: 'https://creativecommons.org/licenses/by/4.0/',
     },
   },
   population: {
@@ -1898,7 +1894,6 @@ exports.LAYERS = {
       sources: ['Woodwell Climate Research Center'],
       citation: 'Woodwell Climate Research Center. Unpublished data.',
       license: 'Creative Commons CC BY 4.0',
-      licenseLink: 'https://creativecommons.org/licenses/by/4.0/',
     },
   },
   'biodiversity-intactness': {
@@ -1999,7 +1994,6 @@ exports.LAYERS = {
       citation:
         'Newbold, Tim, Lawrence N. Hudson, Andrew P. Arnell, Sara Contu, et al. 2016. "Dataset: Global Map of the Biodiversity Intactness Index." In Tim Newbold et al., "Has Land Use Pushed Territorial Biodiversity beyond the Planetary Boundary? A Global Assessment." Science 353 (2016): 288-89. [http://dx.doi.org/10.5519/0009936](http://dx.doi.org/10.5519/0009936).',
       license: 'Creative Commons Attribution 4.0 International',
-      licenseLink: 'https://creativecommons.org/licenses/by/4.0/',
     },
   },
   'erosion-risk': {
@@ -2063,7 +2057,6 @@ exports.LAYERS = {
       sources: ['World Resources Institute (WRI)'],
       citation: 'World Resources Institute. 2016. "Erosion." Global Forest Watch Water.',
       license: 'Creative Commons Attribution 4.0 International',
-      licenseLink: 'https://creativecommons.org/licenses/by/4.0/',
     },
   },
 };

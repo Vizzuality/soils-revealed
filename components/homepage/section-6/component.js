@@ -14,7 +14,7 @@ const Section6 = ({ configuration }) => (
           <div className="section-title">{configuration.title}</div>
           <div className="section-description">{configuration.description}</div>
         </div>
-        <div className="col-sm-12 col-md-8 offset-md-2 tab-intro">Main challenges:</div>
+        <div className="col-sm-12 col-md-8 offset-md-2 tab-intro">Main benefits:</div>
       </div>
       <Tabs>
         <div className="row mb-4">

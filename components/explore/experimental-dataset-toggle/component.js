@@ -40,10 +40,13 @@ const ExploreExperimentalDatasetToggle = ({
         checked={isToggledOn}
         onChange={onChange}
       >
-        Experimental dataset{' '}
+        Experimental approach{' '}
         <HintButton icon="info" size="large">
-          For Argentina, you can look at soil organic carbon changes over the years 1982 to 2017, as
-          derived from over 5,000 country-wide soil measurements.
+          For Argentina, you can view an alternative, innovative approach to map soil organic carbon
+          change. This differs from the other maps by using a machine learning model calibrated on
+          5,000 ground samples across Argentina over four decades allowing better understanding of
+          soil organic carbon changes over time. We imagine that this approach will provide
+          inspiration for conducting similar analyses for the globe.
         </HintButton>
       </Switch>
     </div>
