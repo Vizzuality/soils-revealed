@@ -21,13 +21,13 @@ const CONCENTRATION_RAMP = `
   <RasterSymbolizer>
     <ColorMap extended="false" type="ramp">
       <ColorMapEntry color="#B30200" quantity="-5" opacity="1" />
-      <ColorMapEntry color="#E34A33" quantity="-4" />
+      <ColorMapEntry color="#E34A33" quantity="-3.75" />
       <ColorMapEntry color="#FC8D59" quantity="-2.5" />
-      <ColorMapEntry color="#FDCC8A" quantity="-1" />
+      <ColorMapEntry color="#FDCC8A" quantity="-1.25" />
       <ColorMapEntry color="#FFFFCC" quantity="0" />
-      <ColorMapEntry color="#A1DAB4" quantity="1" />
+      <ColorMapEntry color="#A1DAB4" quantity="1.25" />
       <ColorMapEntry color="#31B3BD" quantity="2.5" />
-      <ColorMapEntry color="#1C9099" quantity="4" />
+      <ColorMapEntry color="#1C9099" quantity="3.75" />
       <ColorMapEntry color="#066C59" quantity="5" />
     </ColorMap>
   </RasterSymbolizer>

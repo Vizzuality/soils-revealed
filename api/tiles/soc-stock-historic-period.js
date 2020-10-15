@@ -20,33 +20,39 @@ const RAMP = {
   0: `
     <RasterSymbolizer>
       <ColorMap extended="false" type="ramp">
-        <ColorMapEntry color="#E18D67" quantity="5" opacity="1" />
-        <ColorMapEntry color="#CB5A3A" quantity="20" />
-        <ColorMapEntry color="#9D4028" quantity="50" />
-        <ColorMapEntry color="#6D2410" quantity="75" />
-        <ColorMapEntry color="#380E03" quantity="200" />
+        <ColorMapEntry color="#FFD0BB" quantity="0" opacity="1" />
+        <ColorMapEntry color="#FFB492" quantity="20" />
+        <ColorMapEntry color="#E18D67" quantity="40" />
+        <ColorMapEntry color="#B74829" quantity="60" />
+        <ColorMapEntry color="#903116" quantity="80" />
+        <ColorMapEntry color="#631E0B" quantity="100" />
+        <ColorMapEntry color="#2A0A02" quantity="120" />
       </ColorMap>
     </RasterSymbolizer>
   `,
   1: `
     <RasterSymbolizer>
       <ColorMap extended="false" type="ramp">
-        <ColorMapEntry color="#E18D67" quantity="20" opacity="1" />
-        <ColorMapEntry color="#CB5A3A" quantity="40" />
-        <ColorMapEntry color="#9D4028" quantity="80" />
-        <ColorMapEntry color="#6D2410" quantity="160" />
-        <ColorMapEntry color="#380E03" quantity="300" />
+        <ColorMapEntry color="#FFD0BB" quantity="0" opacity="1" />
+        <ColorMapEntry color="#FFB492" quantity="50" />
+        <ColorMapEntry color="#E18D67" quantity="100" />
+        <ColorMapEntry color="#B74829" quantity="150" />
+        <ColorMapEntry color="#903116" quantity="200" />
+        <ColorMapEntry color="#631E0B" quantity="250" />
+        <ColorMapEntry color="#2A0A02" quantity="300" />
       </ColorMap>
     </RasterSymbolizer>
   `,
   2: `
     <RasterSymbolizer>
       <ColorMap extended="false" type="ramp">
-        <ColorMapEntry color="#E18D67" quantity="20" opacity="1" />
-        <ColorMapEntry color="#CB5A3A" quantity="40" />
-        <ColorMapEntry color="#9D4028" quantity="80" />
-        <ColorMapEntry color="#6D2410" quantity="160" />
-        <ColorMapEntry color="#380E03" quantity="400" />
+        <ColorMapEntry color="#FFD0BB" quantity="0" opacity="1" />
+        <ColorMapEntry color="#FFB492" quantity="80" />
+        <ColorMapEntry color="#E18D67" quantity="160" />
+        <ColorMapEntry color="#B74829" quantity="240" />
+        <ColorMapEntry color="#903116" quantity="320" />
+        <ColorMapEntry color="#631E0B" quantity="400" />
+        <ColorMapEntry color="#2A0A02" quantity="480" />
       </ColorMap>
     </RasterSymbolizer>
   `,

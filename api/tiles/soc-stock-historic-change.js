@@ -21,13 +21,13 @@ const RAMP = {
     <RasterSymbolizer>
       <ColorMap extended="false" type="ramp">
         <ColorMapEntry color="#B30200" quantity="-30" opacity="1" />
-        <ColorMapEntry color="#E34A33" quantity="-20" />
-        <ColorMapEntry color="#FC8D59" quantity="-10" />
-        <ColorMapEntry color="#FDCC8A" quantity="-5" />
+        <ColorMapEntry color="#E34A33" quantity="-22.5" />
+        <ColorMapEntry color="#FC8D59" quantity="-15" />
+        <ColorMapEntry color="#FDCC8A" quantity="-7.5" />
         <ColorMapEntry color="#FFFFCC" quantity="0" />
-        <ColorMapEntry color="#A1DAB4" quantity="5" />
-        <ColorMapEntry color="#31B3BD" quantity="10" />
-        <ColorMapEntry color="#1C9099" quantity="20" />
+        <ColorMapEntry color="#A1DAB4" quantity="7.5" />
+        <ColorMapEntry color="#31B3BD" quantity="15" />
+        <ColorMapEntry color="#1C9099" quantity="22.5" />
         <ColorMapEntry color="#066C59" quantity="30" />
       </ColorMap>
     </RasterSymbolizer>
@@ -36,13 +36,13 @@ const RAMP = {
     <RasterSymbolizer>
       <ColorMap extended="false" type="ramp">
         <ColorMapEntry color="#B30200" quantity="-60" opacity="1" />
-        <ColorMapEntry color="#E34A33" quantity="-40" />
-        <ColorMapEntry color="#FC8D59" quantity="-20" />
-        <ColorMapEntry color="#FDCC8A" quantity="-10" />
+        <ColorMapEntry color="#E34A33" quantity="-45" />
+        <ColorMapEntry color="#FC8D59" quantity="-30" />
+        <ColorMapEntry color="#FDCC8A" quantity="-15" />
         <ColorMapEntry color="#FFFFCC" quantity="0" />
-        <ColorMapEntry color="#A1DAB4" quantity="10" />
-        <ColorMapEntry color="#31B3BD" quantity="20" />
-        <ColorMapEntry color="#1C9099" quantity="40" />
+        <ColorMapEntry color="#A1DAB4" quantity="15" />
+        <ColorMapEntry color="#31B3BD" quantity="30" />
+        <ColorMapEntry color="#1C9099" quantity="45" />
         <ColorMapEntry color="#066C59" quantity="60" />
       </ColorMap>
     </RasterSymbolizer>
@@ -51,13 +51,13 @@ const RAMP = {
     <RasterSymbolizer>
       <ColorMap extended="false" type="ramp">
         <ColorMapEntry color="#B30200" quantity="-120" opacity="1" />
-        <ColorMapEntry color="#E34A33" quantity="-60" />
-        <ColorMapEntry color="#FC8D59" quantity="-30" />
-        <ColorMapEntry color="#FDCC8A" quantity="-10" />
+        <ColorMapEntry color="#E34A33" quantity="-90" />
+        <ColorMapEntry color="#FC8D59" quantity="-60" />
+        <ColorMapEntry color="#FDCC8A" quantity="-30" />
         <ColorMapEntry color="#FFFFCC" quantity="0" />
-        <ColorMapEntry color="#A1DAB4" quantity="10" />
-        <ColorMapEntry color="#31B3BD" quantity="30" />
-        <ColorMapEntry color="#1C9099" quantity="60" />
+        <ColorMapEntry color="#A1DAB4" quantity="30" />
+        <ColorMapEntry color="#31B3BD" quantity="60" />
+        <ColorMapEntry color="#1C9099" quantity="90" />
         <ColorMapEntry color="#066C59" quantity="120" />
       </ColorMap>
     </RasterSymbolizer>

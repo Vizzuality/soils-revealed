@@ -4,15 +4,15 @@ const axios = require('axios').default;
 const RAMP = `
   <RasterSymbolizer>
     <ColorMap extended="false" type="ramp">
-    <ColorMapEntry color="#B30200" quantity="-1.6" opacity="1" />
-    <ColorMapEntry color="#E34A33" quantity="-0.8" />
-    <ColorMapEntry color="#FC8D59" quantity="-0.4" />
-    <ColorMapEntry color="#FDCC8A" quantity="-0.2" />
-    <ColorMapEntry color="#FFFFCC" quantity="0" />
-    <ColorMapEntry color="#A1DAB4" quantity="0.2" />
-    <ColorMapEntry color="#31B3BD" quantity="0.4" />
-    <ColorMapEntry color="#1C9099" quantity="0.8" />
-    <ColorMapEntry color="#066C59" quantity="1.6" />
+      <ColorMapEntry color="#B30200" quantity="-1.0" opacity="1" />
+      <ColorMapEntry color="#E34A33" quantity="-0.75" />
+      <ColorMapEntry color="#FC8D59" quantity="-0.5" />
+      <ColorMapEntry color="#FDCC8A" quantity="-0.25" />
+      <ColorMapEntry color="#FFFFCC" quantity="0" />
+      <ColorMapEntry color="#A1DAB4" quantity="0.25" />
+      <ColorMapEntry color="#31B3BD" quantity="0.50" />
+      <ColorMapEntry color="#1C9099" quantity="0.75" />
+      <ColorMapEntry color="#066C59" quantity="1.0" />
     </ColorMap>
   </RasterSymbolizer>
 `;
