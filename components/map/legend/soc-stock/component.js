@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { LegendItemTypes } from 'vizzuality-components';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { Select, Radio } from 'components/forms';
 import { getLayerExtraParams } from 'utils/map';
 import { LAYERS } from 'components/map/constants';
+import GradientBar from 'components/map/legend/gradient-bar';
 
 import './style.scss';
 
@@ -268,13 +268,8 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
         </TabList>
         <TabPanel>
           <div className="gradient-container">
-            <LegendItemTypes
-              activeLayer={{
-                legendConfig: {
-                  type: 'gradient',
-                  items: LEGEND_ITEMS.historic[layer.extraParams.depth][layer.extraParams.mode],
-                },
-              }}
+            <GradientBar
+              items={LEGEND_ITEMS.historic[layer.extraParams.depth][layer.extraParams.mode]}
             />
             <div className="unit">(t C/ha)</div>
           </div>
@@ -330,14 +325,7 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
         </TabPanel>
         <TabPanel>
           <div className="gradient-container">
-            <LegendItemTypes
-              activeLayer={{
-                legendConfig: {
-                  type: 'gradient',
-                  items: LEGEND_ITEMS.recent[layer.extraParams.mode],
-                },
-              }}
-            />
+            <GradientBar items={LEGEND_ITEMS.recent[layer.extraParams.mode]} />
             <div className="unit">(t C/ha)</div>
           </div>
 
@@ -400,16 +388,12 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
         </TabPanel>
         <TabPanel>
           <div className="gradient-container">
-            <LegendItemTypes
-              activeLayer={{
-                legendConfig: {
-                  type: 'gradient',
-                  items:
-                    layer.extraParams.mode === 'period'
-                      ? LEGEND_ITEMS.future.period
-                      : LEGEND_ITEMS.future.change[layer.extraParams.scenario],
-                },
-              }}
+            <GradientBar
+              items={
+                layer.extraParams.mode === 'period'
+                  ? LEGEND_ITEMS.future.period
+                  : LEGEND_ITEMS.future.change[layer.extraParams.scenario]
+              }
             />
             <div className="unit">(t C/ha)</div>
           </div>

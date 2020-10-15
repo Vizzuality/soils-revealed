@@ -1,0 +1,49 @@
+@import 'css/settings';
+
+.c-map-legend-gradient-bar {
+  .gradient {
+    height: rem(12);
+    margin-bottom: map-get($spacers, 1);
+  }
+
+  .ticks {
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      width: rem(1);
+      height: rem(3);
+      background-color: $primary;
+    }
+  }
+
+  .values {
+    display: flex;
+    justify-content: space-between;
+    height: #{$font-size-xxs * $line-height-base};
+    font-family: $font-family-2;
+    @include font-size($font-size-xxs);
+
+    > div {
+      position: relative;
+
+      &:first-of-type:before {
+        transform: none;
+      }
+
+      &:last-of-type:before {
+        left: auto;
+        right: 0;
+        transform: none;
+      }
+
+      &:before {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateX(-50%);
+        content: attr(data-value);
+      }
+    }
+  }
+}

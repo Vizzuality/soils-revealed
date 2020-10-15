@@ -1,9 +1,9 @@
 import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { LegendItemTypes } from 'vizzuality-components';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { Select } from 'components/forms';
+import GradientBar from 'components/map/legend/gradient-bar';
 
 import './style.scss';
 
@@ -88,14 +88,7 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
   return (
     <div className="c-map-legend-soc-experimental">
       <div className="gradient-container">
-        <LegendItemTypes
-          activeLayer={{
-            legendConfig: {
-              type: 'gradient',
-              items: LEGEND_ITEMS[layer.extraParams.mode][layer.extraParams.type],
-            },
-          }}
-        />
+        <GradientBar items={LEGEND_ITEMS[layer.extraParams.mode][layer.extraParams.type]} />
         <div className="unit">
           ({layer.extraParams.type === 'concentration' ? 'g C/kg' : 't C/ha'})
         </div>

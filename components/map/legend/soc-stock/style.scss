@@ -38,7 +38,12 @@
       flex-grow: 1;
     }
 
+    .c-map-legend-gradient-bar {
+      flex-grow: 1;
+    }
+
     .unit {
+      flex-shrink: 0;
       position: relative;
       top: -#{rem(3)};
       margin-left: map-get($spacers, 1);
