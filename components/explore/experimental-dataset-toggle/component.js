@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 
+import { logEvent } from 'utils/analytics';
 import { Switch } from 'components/forms';
 import HintButton from 'components/hint-button';
 
@@ -17,6 +18,8 @@ const ExploreExperimentalDatasetToggle = ({
   const isToggledOn = activeLayers.indexOf('soc-experimental') !== -1;
 
   const onChange = useCallback(() => {
+    logEvent('Experimental dataset', `toggles ${isToggledOn ? 'off' : 'on'}`);
+
     const socLayers = layersByGroup.soc.layers.map(layer => layer.id);
     updateActiveLayers([
       ...activeLayers.filter(activeLayer => socLayers.indexOf(activeLayer) === -1),
