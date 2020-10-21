@@ -7,6 +7,11 @@
   color: $white;
   background: rgba($primary, 0.8);
 
+  a {
+    color: currentColor;
+    text-decoration: underline;
+  }
+
   .description-tabs {
     > .react-tabs__tab-list {
       display: flex;
@@ -27,6 +32,20 @@
           border-top-color: $white;
         }
       }
+    }
+  }
+
+  .description {
+    > p:first-of-type {
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 5;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    > p:not(:first-of-type) {
+      display: none;
     }
   }
 

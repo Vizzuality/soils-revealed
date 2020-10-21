@@ -4,6 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
 import { logEvent } from 'utils/analytics';
 import Icon from 'components/icon';
+import Markdown from 'components/markdown';
 
 import './style.scss';
 
@@ -39,7 +40,9 @@ const Description = ({ layers, layerId, onClickInfo }) => {
     <div className="c-layers-tab-description">
       {layerId !== 'soc-stock' && (
         <>
-          {layers[layerId].description}
+          <div className="description">
+            <Markdown content={layers[layerId].description ?? '−'} />
+          </div>
           <button
             type="button"
             className="btn btn-sm btn-link"
@@ -61,7 +64,9 @@ const Description = ({ layers, layerId, onClickInfo }) => {
           </TabList>
           {layers[layerId].paramsConfig.settings.type.options.map(option => (
             <TabPanel key={option.value}>
-              {layers[layerId].description[option.value]}
+              <div className="description">
+                <Markdown content={layers[layerId].description[option.value] ?? '−'} />
+              </div>
               <button
                 type="button"
                 className="btn btn-sm btn-link"
