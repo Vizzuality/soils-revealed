@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+import { logEvent } from 'utils/analytics';
 import Icon from 'components/icon';
 
 import './style.scss';
@@ -9,6 +10,18 @@ import './style.scss';
 const Description = ({ layers, layerId, onClickInfo }) => {
   const [previousLayerId, setPreviousLayerId] = useState(layerId);
   const [selectedTabIndex, setSelectedTabIndex] = useState(1); // The tab 1 is the Recent one
+
+  const onClickTab = useCallback(
+    index => {
+      logEvent(
+        'Map layers',
+        'Preview',
+        `${layers[layerId].label} (${layers[layerId].paramsConfig.settings.type.options[index].label})`
+      );
+      setSelectedTabIndex(index);
+    },
+    [layers, layerId, setSelectedTabIndex]
+  );
 
   // Whenever the layer ID changes, we reset the selected tab
   useEffect(() => {
@@ -30,18 +43,17 @@ const Description = ({ layers, layerId, onClickInfo }) => {
           <button
             type="button"
             className="btn btn-sm btn-link"
-            onClick={() => onClickInfo({ id: layerId })}
+            onClick={() => {
+              logEvent('Map layers', 'more information', layers[layerId].label);
+              onClickInfo({ id: layerId });
+            }}
           >
             <Icon name="info" /> More information
           </button>
         </>
       )}
       {layerId === 'soc-stock' && (
-        <Tabs
-          className="description-tabs"
-          selectedIndex={selectedTabIndex}
-          onSelect={index => setSelectedTabIndex(index)}
-        >
+        <Tabs className="description-tabs" selectedIndex={selectedTabIndex} onSelect={onClickTab}>
           <TabList>
             {layers[layerId].paramsConfig.settings.type.options.map(option => (
               <Tab key={option.value}>{option.label}</Tab>
@@ -53,12 +65,17 @@ const Description = ({ layers, layerId, onClickInfo }) => {
               <button
                 type="button"
                 className="btn btn-sm btn-link"
-                onClick={() =>
+                onClick={() => {
+                  logEvent(
+                    'Map layers',
+                    'more information',
+                    `${layers[layerId].label} (${option.label})`
+                  );
                   onClickInfo({
                     id: layerId,
                     tab: option.value,
-                  })
-                }
+                  });
+                }}
               >
                 <Icon name="info" /> More information
               </button>

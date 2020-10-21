@@ -2,6 +2,7 @@ import React, { useRef, useCallback, useState, useMemo, useEffect } from 'react'
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
+import { logEvent } from 'utils/analytics';
 import { toggleBasemap, getLayerDef, getBoundariesDef } from 'utils/map';
 import Icon from 'components/icon';
 import {
@@ -75,10 +76,16 @@ const ExploreLayersTab = ({
   const onChangeViewport = useCallback(debounce(setViewport, 500), [setViewport]);
 
   const onClickSave = useCallback(() => {
+    logEvent(
+      'Map layers',
+      'Save',
+      activeLayersIds.map(layerId => layers[layerId].label).join(', ')
+    );
+
     updateActiveLayers(activeLayersIds);
     updateBoundaries({ id: boundariesId ?? 'no-boundaries' });
     onClose();
-  }, [activeLayersIds, boundariesId, updateActiveLayers, updateBoundaries, onClose]);
+  }, [layers, activeLayersIds, boundariesId, updateActiveLayers, updateBoundaries, onClose]);
 
   // When a layer is previewed we make sure the zoom is within the zoom range of the layer or else
   // we update it

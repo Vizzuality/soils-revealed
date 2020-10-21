@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+import { logEvent } from 'utils/analytics';
 import Modal from 'components/modal';
 import Markdown from 'components/markdown';
 
@@ -118,9 +119,14 @@ const InfoModal = ({ layerId, params, layers, onClose }) => {
               selectedIndex={layer.paramsConfig.settings.type.options.findIndex(
                 option => option.value === selectedTab
               )}
-              onSelect={index =>
-                setSelectedTab(layer.paramsConfig.settings.type.options[index].value)
-              }
+              onSelect={index => {
+                logEvent(
+                  'Map layers',
+                  'more information',
+                  `${layers[layerId].label} (${layer.paramsConfig.settings.type.options[index].label})`
+                );
+                setSelectedTab(layer.paramsConfig.settings.type.options[index].value);
+              }}
             >
               <TabList>
                 {layer.paramsConfig.settings.type.options.map(option => (

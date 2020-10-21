@@ -1,6 +1,7 @@
 import React, { useRef, useMemo, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { logEvent } from 'utils/analytics';
 import Icon from 'components/icon';
 import Tooltip from 'components/tooltip';
 import LayersTab from './layers';
@@ -122,6 +123,8 @@ const ExploreTabs = ({ showTour, areaInterest, updateAreaInterest, onClickInfo }
               type="button"
               className="btn btn-primary btn-sm"
               onClick={() => {
+                logEvent('Map layers', 'clicks on "map layers"');
+
                 if (!layersTooltipVisible) {
                   setAreasInterestTooltipVisible(false);
                   updateAreaInterest(null);
