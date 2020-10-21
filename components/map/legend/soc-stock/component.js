@@ -2,6 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+import { logEvent } from 'utils/analytics';
 import { Select, Radio } from 'components/forms';
 import { getLayerExtraParams } from 'utils/map';
 import { LAYERS } from 'components/map/constants';
@@ -226,6 +227,12 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
 
   const onChangeType = useCallback(
     index => {
+      logEvent(
+        'Legend',
+        'interacts with legend "soil organic carbon stock"',
+        `Clicks on ${typeOptions[index].label}`
+      );
+
       const type = typeOptions[index].value;
       // eslint-disable-next-line no-unused-vars
       const { config, ...otherParams } = getLayerExtraParams(
@@ -252,6 +259,12 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
 
   const onChangeMode = useCallback(
     index => {
+      logEvent(
+        'Legend',
+        'interacts with legend "soil organic carbon stock"',
+        `Clicks on "${modeOptions[index].label}"`
+      );
+
       const mode = modeOptions[index].value;
       onChangeParams(layerGroup.id, { mode });
     },
@@ -287,7 +300,14 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                     className="ml-2"
                     options={typeOptions[0].settings.depth.options}
                     value={layer.extraParams.depth}
-                    onChange={({ value }) => onChangeParams(layerGroup.id, { depth: value })}
+                    onChange={({ value }) => {
+                      logEvent(
+                        'Legend',
+                        'interacts with legend "soil organic carbon stock"',
+                        'Changes soil depth'
+                      );
+                      onChangeParams(layerGroup.id, { depth: value });
+                    }}
                     overflow
                   />
                 </>
@@ -301,7 +321,14 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   className="mr-4"
                   name="legend-historic-period"
                   checked={layer.extraParams.period === option.value}
-                  onChange={() => onChangeParams(layerGroup.id, { period: option.value })}
+                  onChange={() => {
+                    logEvent(
+                      'Legend',
+                      'interacts with legend "soil organic carbon stock"',
+                      `Changes "year" in "${layer.extraParams.config.settings.type.options[0].label}"`
+                    );
+                    onChangeParams(layerGroup.id, { period: option.value });
+                  }}
                 >
                   {option.label}
                 </Radio>
@@ -349,7 +376,14 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   className="mt-1"
                   options={typeOptions[1].settings.year.options}
                   value={layer.extraParams.year}
-                  onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+                  onChange={({ value }) => {
+                    logEvent(
+                      'Legend',
+                      'interacts with legend "soil organic carbon stock"',
+                      `Changes "year" in "${layer.extraParams.config.settings.type.options[1].label}"`
+                    );
+                    onChangeParams(layerGroup.id, { year: value });
+                  }}
                   overflow
                 />
               </div>
@@ -365,7 +399,14 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                     isDisabled: +o.value >= layer.extraParams.year2,
                   }))}
                   value={`${layer.extraParams.year1}`}
-                  onChange={({ value }) => onChangeParams(layerGroup.id, { year1: +value })}
+                  onChange={({ value }) => {
+                    logEvent(
+                      'Legend',
+                      'interacts with legend "soil organic carbon stock"',
+                      `Changes "year" in "${layer.extraParams.config.settings.type.options[1].label}"`
+                    );
+                    onChangeParams(layerGroup.id, { year1: +value });
+                  }}
                   overflow
                 />
               </div>
@@ -379,7 +420,14 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                     isDisabled: +o.value <= layer.extraParams.year1,
                   }))}
                   value={`${layer.extraParams.year2}`}
-                  onChange={({ value }) => onChangeParams(layerGroup.id, { year2: +value })}
+                  onChange={({ value }) => {
+                    logEvent(
+                      'Legend',
+                      'interacts with legend "soil organic carbon stock"',
+                      `Changes "year" in "${layer.extraParams.config.settings.type.options[1].label}"`
+                    );
+                    onChangeParams(layerGroup.id, { year2: +value });
+                  }}
                   overflow
                 />
               </div>
@@ -418,7 +466,14 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   className="scenario-select w-100 mt-1"
                   options={typeOptions[2].settings.scenario.options}
                   value={layer.extraParams.scenario}
-                  onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
+                  onChange={({ value }) => {
+                    logEvent(
+                      'Legend',
+                      'interacts with legend "soil organic carbon stock"',
+                      'Changes "soil carbon futures"'
+                    );
+                    onChangeParams(layerGroup.id, { scenario: value });
+                  }}
                   overflow
                 />
               </div>
@@ -429,7 +484,14 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   className="mt-1"
                   options={typeOptions[2].settings.year.options}
                   value={layer.extraParams.year}
-                  onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+                  onChange={({ value }) => {
+                    logEvent(
+                      'Legend',
+                      'interacts with legend "soil organic carbon stock"',
+                      `Changes "year" in "${layer.extraParams.config.settings.type.options[2].label}"`
+                    );
+                    onChangeParams(layerGroup.id, { year: value });
+                  }}
                   overflow
                 />
               </div>
@@ -442,7 +504,14 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                   className="scenario-select w-100 mt-1"
                   options={typeOptions[2].settings.scenario.options}
                   value={layer.extraParams.scenario}
-                  onChange={({ value }) => onChangeParams(layerGroup.id, { scenario: value })}
+                  onChange={({ value }) => {
+                    logEvent(
+                      'Legend',
+                      'interacts with legend "soil organic carbon stock"',
+                      'Changes "soil carbon futures"'
+                    );
+                    onChangeParams(layerGroup.id, { scenario: value });
+                  }}
                   overflow
                 />
               </div>
@@ -460,7 +529,14 @@ const SOCStockLegend = ({ layerGroup, onChangeParams }) => {
                     className="ml-2"
                     options={typeOptions[2].settings.year.options}
                     value={layer.extraParams.year}
-                    onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+                    onChange={({ value }) => {
+                      logEvent(
+                        'Legend',
+                        'interacts with legend "soil organic carbon stock"',
+                        `Changes "year" in "${layer.extraParams.config.settings.type.options[2].label}"`
+                      );
+                      onChangeParams(layerGroup.id, { year: value });
+                    }}
                     overflow
                   />
                 </div>

@@ -2,6 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 
+import { logEvent } from 'utils/analytics';
 import { Select } from 'components/forms';
 import GradientBar from 'components/map/legend/gradient-bar';
 
@@ -79,6 +80,12 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
 
   const onChangeMode = useCallback(
     index => {
+      logEvent(
+        'Legend',
+        'interacts with legend "experimental dataset"',
+        `Clicks on "${modeOptions[index].label}"`
+      );
+
       const mode = modeOptions[index].value;
       onChangeParams(layerGroup.id, { mode });
     },
@@ -116,7 +123,14 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
                   className="ml-2"
                   options={typeOptions[selectedTypeIndex].settings.depth.options}
                   value={layer.extraParams.depth}
-                  onChange={({ value }) => onChangeParams(layerGroup.id, { depth: value })}
+                  onChange={({ value }) => {
+                    logEvent(
+                      'Legend',
+                      'interacts with legend "experimental dataset"',
+                      'Changes "soil depth"'
+                    );
+                    onChangeParams(layerGroup.id, { depth: value });
+                  }}
                   overflow
                 />
               </>
@@ -131,7 +145,14 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
               className="mt-1"
               options={typeOptions[1].settings.year.options}
               value={layer.extraParams.year}
-              onChange={({ value }) => onChangeParams(layerGroup.id, { year: value })}
+              onChange={({ value }) => {
+                logEvent(
+                  'Legend',
+                  'interacts with legend "experimental dataset"',
+                  `Changes year in "${modeOptions[selectedModeIndex].label}"`
+                );
+                onChangeParams(layerGroup.id, { year: value });
+              }}
               overflow
             />
           </div>
@@ -147,7 +168,14 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
                 isDisabled: +o.value >= layer.extraParams.year2,
               }))}
               value={`${layer.extraParams.year1}`}
-              onChange={({ value }) => onChangeParams(layerGroup.id, { year1: +value })}
+              onChange={({ value }) => {
+                logEvent(
+                  'Legend',
+                  'interacts with legend "experimental dataset"',
+                  `Changes year in "${modeOptions[selectedModeIndex].label}"`
+                );
+                onChangeParams(layerGroup.id, { year1: +value });
+              }}
               overflow
             />
           </div>
@@ -161,7 +189,14 @@ const SOCExperimentalLegend = ({ layerGroup, onChangeParams }) => {
                 isDisabled: +o.value <= layer.extraParams.year1,
               }))}
               value={`${layer.extraParams.year2}`}
-              onChange={({ value }) => onChangeParams(layerGroup.id, { year2: +value })}
+              onChange={({ value }) => {
+                logEvent(
+                  'Legend',
+                  'interacts with legend "experimental dataset"',
+                  `Changes year in "${modeOptions[selectedModeIndex].label}"`
+                );
+                onChangeParams(layerGroup.id, { year2: +value });
+              }}
               overflow
             />
           </div>
