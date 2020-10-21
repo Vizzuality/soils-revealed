@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 
 import { Link } from 'lib/routes';
+import { logEvent } from 'utils/analytics';
 import AboutModal from 'components/about-modal';
 
 import './style.scss';
 
 const Section7 = ({ configuration }) => {
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
+
+  const onClickExplore = useCallback(() => {
+    logEvent('Homepage', 'click on calls to action buttons', 'explore map (bottom of page)');
+  }, []);
+
+  const onClickAbout = useCallback(() => {
+    logEvent('Homepage', 'click on calls to action buttons', 'about us (bottom of page)');
+    setAboutModalOpen(true);
+  }, [setAboutModalOpen]);
 
   return (
     <>
@@ -27,14 +37,16 @@ const Section7 = ({ configuration }) => {
           <div className="row">
             <div className="col-sm-12 col-md-4 offset-md-2 text-center text-md-right mb-3">
               <Link route="explore">
-                <a className="btn btn-secondary btn-fixed-width">Explore map</a>
+                <a className="btn btn-secondary btn-fixed-width" onClick={onClickExplore}>
+                  Explore map
+                </a>
               </Link>
             </div>
             <div className="col-sm-12 col-md-4 text-center text-md-left">
               <button
                 type="button"
                 className="btn btn-outline-secondary btn-fixed-width"
-                onClick={() => setAboutModalOpen(true)}
+                onClick={onClickAbout}
               >
                 About us
               </button>
