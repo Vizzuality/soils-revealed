@@ -5,6 +5,7 @@ import debounce from 'lodash/debounce';
 import throttle from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
+import { logEvent } from 'utils/analytics';
 import { useHasMounted, useDesktop } from 'utils/hooks';
 import { toggleBasemap, toggleLabels, toggleRoads } from 'utils/map';
 import {
@@ -204,6 +205,13 @@ const Explore = ({
   useEffect(() => {
     setInteractiveFeaturesThrottled(null);
   }, [activeLayersDef, setInteractiveFeaturesThrottled]);
+
+  // When the user triggered the drawing mode, we send an analytics event
+  useEffect(() => {
+    if (drawing) {
+      logEvent('Areas of interest', 'draw', 'clicks on "start drawing"');
+    }
+  }, [drawing]);
 
   if (!hasMounted) {
     return null;

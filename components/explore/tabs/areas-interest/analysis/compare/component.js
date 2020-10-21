@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
+import { logEvent } from 'utils/analytics';
 import Icon from 'components/icon';
 import { Dropdown } from 'components/forms';
 import { BOUNDARIES } from 'components/map/constants';
@@ -74,6 +75,14 @@ const AnalysisCompare = ({
 
   const onClickArea = useCallback(
     result => {
+      logEvent(
+        'Areas of interest',
+        'comparison',
+        `comparison completed ${areaInterest.name} - ${result.name} (${
+          BOUNDARIES[result.type].label
+        })`
+      );
+
       updateCompareAreaInterest({
         id: result.id,
         name: result.name,
@@ -112,6 +121,13 @@ const AnalysisCompare = ({
       setDebouncedSearch('');
     }
   }, [search, updateSearch, setDebouncedSearch]);
+
+  // When search results are presented to the user, we send an analytics event
+  useEffect(() => {
+    if (debouncedSearch.length > 0 && !error && results?.length > 0) {
+      logEvent('Areas of interest', 'search completed', debouncedSearch);
+    }
+  }, [debouncedSearch, error, results]);
 
   // Whenever the area of interest is changed, we need to make sure the selected ranking option
   // still makes sense

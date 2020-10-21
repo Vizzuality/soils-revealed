@@ -97,6 +97,8 @@ const ExploreTabs = ({ showTour, areaInterest, updateAreaInterest, onClickInfo }
               type="button"
               className="btn btn-primary btn-sm"
               onClick={() => {
+                logEvent('Areas of interest', 'Clicks on "areas of interest" button');
+
                 if (!areasInterestTooltipVisible) setLayersTooltipVisible(false);
                 setAreasInterestTooltipVisible(true);
               }}

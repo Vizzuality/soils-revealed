@@ -13,6 +13,7 @@ import {
   Customized,
 } from 'recharts';
 
+import { logEvent } from 'utils/analytics';
 import { slugify, getHumanReadableValue, getFormattedValue, truncate } from 'utils/functions';
 import { Switch } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
@@ -54,6 +55,8 @@ const ChangeSection = ({
   }, [socLayerState, modeOptions, updateLayer]);
 
   const onClickDownload = useCallback(() => {
+    logEvent('Areas of interest', 'download data', 'download change data');
+
     const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 

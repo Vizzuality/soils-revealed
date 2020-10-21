@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import debounce from 'lodash/debounce';
 
+import { logEvent } from 'utils/analytics';
 import { getLayerExtraParams } from 'utils/map';
 import { BOUNDARIES, LAYERS } from 'components/map/constants';
 import { getViewportFromBounds } from 'components/map';
@@ -53,6 +54,12 @@ const AreasInterestHome = ({
 
   const onClickArea = useCallback(
     result => {
+      logEvent(
+        'Areas of interest',
+        'clicks on AOI from list',
+        `${result.name} (${BOUNDARIES[result.type].label})`
+      );
+
       if (boundaries.id !== result.type) {
         updateBoundaries({ id: result.type });
       }
@@ -108,6 +115,13 @@ const AreasInterestHome = ({
       setDebouncedSearch('');
     }
   }, [search, updateSearch, setDebouncedSearch]);
+
+  // When search results are presented to the user, we send an analytics event
+  useEffect(() => {
+    if (debouncedSearch.length > 0 && !error && results?.length > 0) {
+      logEvent('Areas of interest', 'search completed', debouncedSearch);
+    }
+  }, [debouncedSearch, error, results]);
 
   return (
     <div className="c-areas-interest-home">
@@ -170,13 +184,19 @@ const AreasInterestHome = ({
                 <Dropdown
                   options={socLayerState.config.settings.type.options}
                   value={typeOption}
-                  onChange={({ value }) => onChangeType(value)}
+                  onChange={({ label, value }) => {
+                    logEvent('Areas of interest', 'Changes AOI selection criteria', label);
+                    onChangeType(value);
+                  }}
                 />{' '}
                 Soil Organic Carbon change by{' '}
                 <Dropdown
                   options={rankingBoundariesOptions}
                   value={rankingBoundariesOption}
-                  onChange={({ value }) => updateBoundaries({ id: value })}
+                  onChange={({ label, value }) => {
+                    logEvent('Areas of interest', 'Changes AOI selection criteria', label);
+                    updateBoundaries({ id: value });
+                  }}
                 />
               </>
             )}
@@ -186,13 +206,19 @@ const AreasInterestHome = ({
                 <Dropdown
                   options={socLayerState.config.settings.type.options}
                   value={typeOption}
-                  onChange={({ value }) => onChangeType(value)}
+                  onChange={({ label, value }) => {
+                    logEvent('Areas of interest', 'Changes AOI selection criteria', label);
+                    onChangeType(value);
+                  }}
                 />{' '}
                 change by{' '}
                 <Dropdown
                   options={rankingBoundariesOptions}
                   value={rankingBoundariesOption}
-                  onChange={({ value }) => updateBoundaries({ id: value })}
+                  onChange={({ label, value }) => {
+                    logEvent('Areas of interest', 'Changes AOI selection criteria', label);
+                    updateBoundaries({ id: value });
+                  }}
                 />
               </>
             )}

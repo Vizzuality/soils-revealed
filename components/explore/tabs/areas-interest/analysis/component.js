@@ -1,6 +1,7 @@
 import React, { useMemo, useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
+import { logEvent } from 'utils/analytics';
 import { getLayerExtraParams } from 'utils/map';
 import Icon from 'components/icon';
 import { Radio } from 'components/forms';
@@ -74,6 +75,11 @@ const Analysis = ({
 
   const onClickCompare = useCallback(() => {
     const tooltipOpen = !compareTooltipOpen;
+
+    if (tooltipOpen) {
+      logEvent('Areas of interest', 'comparison', 'clicks on "compare" button');
+    }
+
     setCompareTooltipOpen(tooltipOpen);
     onChangeVisibilityCloseBtn(!tooltipOpen);
   }, [compareTooltipOpen, setCompareTooltipOpen, onChangeVisibilityCloseBtn]);
@@ -162,12 +168,13 @@ const Analysis = ({
           <button
             type="button"
             className="btn"
-            onClick={() =>
+            onClick={() => {
+              logEvent('Areas of interest', 'Clicks on info button');
               onClickInfo({
                 id: socLayerState.id,
                 tab: socLayerState.id === 'soc-stock' ? socLayerState.type : null,
-              })
-            }
+              });
+            }}
           >
             <Icon name="info" />
           </button>

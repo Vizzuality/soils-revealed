@@ -11,6 +11,7 @@ import {
   Tooltip,
 } from 'recharts';
 
+import { logEvent } from 'utils/analytics';
 import { slugify, truncate, getFormattedValue } from 'utils/functions';
 import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
@@ -89,6 +90,8 @@ const TimeseriesSection = ({
   );
 
   const onClickDownload = useCallback(() => {
+    logEvent('Areas of interest', 'download data', 'download time series data');
+
     const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 

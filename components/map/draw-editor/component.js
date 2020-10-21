@@ -4,6 +4,8 @@ import { Editor, DrawPolygonMode } from 'react-map-gl-draw';
 import getArea from '@turf/area';
 import getBbox from '@turf/bbox';
 
+import { logEvent } from 'utils/analytics';
+
 const DrawEditor = ({
   areaInterest,
   compareAreaInterest,
@@ -37,6 +39,8 @@ const DrawEditor = ({
         if (area < 1 || area > 1000000) {
           updateDrawingState('error');
         } else {
+          logEvent('Areas of interest', 'draw', 'drawing completed');
+
           let bbox = /** @type {any} */ (getBbox(geojson));
           bbox = [bbox.slice(0, 2), bbox.slice(2, 4)];
 
@@ -54,6 +58,7 @@ const DrawEditor = ({
     },
     [
       areaInterest,
+      compareAreaInterest,
       drawingState,
       boundaries,
       updateAreaInterest,
