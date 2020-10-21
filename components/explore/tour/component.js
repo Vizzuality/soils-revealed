@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Joyride from 'react-joyride';
 
+import { logEvent } from 'utils/analytics';
 import { isFirstVisit } from 'utils/explore';
 import { getLayerExtraParams } from 'utils/map';
 import { LAYERS } from 'components/map/constants';
@@ -135,6 +136,8 @@ const ExploreTour = props => {
   // Whenever the showTour flag is set to true, we display the tour
   useEffect(() => {
     const startTour = async () => {
+      logEvent('Map settings (top right)', 'Help tour', 'Tour shows up - step 1');
+
       if (STEPS[stepIndex].init) {
         await STEPS[stepIndex].init(props);
       }
@@ -157,6 +160,14 @@ const ExploreTour = props => {
     ({ action, type }) => {
       const goToNextStep = async () => {
         const nextStepIndex = stepIndex + 1;
+
+        if (nextStepIndex < STEPS.length) {
+          logEvent(
+            'Map settings (top right)',
+            'Help tour',
+            `Tour shows up - step ${nextStepIndex + 1}`
+          );
+        }
 
         if (STEPS[nextStepIndex]?.init) {
           await STEPS[nextStepIndex].init(props);
