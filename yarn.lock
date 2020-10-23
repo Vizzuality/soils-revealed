@@ -1144,10 +1144,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.5.tgz#8eed982e2ee6f7f4e44c253e12962980791efd46"
   integrity sha512-6U71C2Wp7r5XtFtQzYrW5iKFT67OixrSxjI4MptCHzdSVlgabczzqLe0ZSgnub/5Kp4hSbpDB1tMytZY9pwxxA==
 
-"@google/earthengine@^0.1.219":
-  version "0.1.219"
-  resolved "https://registry.yarnpkg.com/@google/earthengine/-/earthengine-0.1.219.tgz#f1b1cf458995dabf1b24a17ed85323a62557e0ef"
-  integrity sha512-WEEB233wOyN2bu3TkxNTdhz6DZYm3c9zRSb/kh85RyQuReI22X8sS61GjE5FgfcnBS5tkNUflnvoNnmhf4epNg==
+"@google/earthengine@^0.1.239":
+  version "0.1.239"
+  resolved "https://registry.yarnpkg.com/@google/earthengine/-/earthengine-0.1.239.tgz#d1148c05298118aaae5d7b0ec7b987b310dd5af0"
+  integrity sha512-YbOfaTZ6SAz05cdJ1R/d8XB7GCGOJnBe43ABNySn1uMZCBOZ7rw2TOiT73NMr2l9A+2guNw5s1DHIYeve4qZUw==
   dependencies:
     googleapis "^42.0.0"
     xmlhttprequest "^1.8.0"
