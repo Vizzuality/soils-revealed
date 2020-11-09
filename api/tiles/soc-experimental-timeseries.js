@@ -48,13 +48,13 @@ module.exports = ({ params: { type, depth, year, x, y, z } }, res) => {
       image = ee
         .Image(
           ee
-            .ImageCollection('projects/soils-revealed/experimental-dataset/SOC_concentration')
+            .ImageCollection('projects/soils-revealed/experimental-dataset/SOC_concentration_2020')
             .filterDate(`${year}-01-01`, `${year}-12-31`)
             .first()
         )
-        .divide(10)
-        .select(`b${+depth + 1}`)
-        .sldStyle(CONCENTRATION_RAMP);
+        .select(`b${+depth + 1}`);
+
+      image = image.updateMask(image.gt(0)).sldStyle(CONCENTRATION_RAMP);
     }
 
     image.getMap({}, async ({ formatTileUrl }) => {

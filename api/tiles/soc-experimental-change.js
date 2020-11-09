@@ -51,16 +51,16 @@ module.exports = ({ params: { type, depth, year1, year2, x, y, z } }, res) => {
         .sldStyle(STOCK_RAMP);
     } else if (type === 'concentration') {
       const collection = ee.ImageCollection(
-        'projects/soils-revealed/experimental-dataset/SOC_concentration'
+        'projects/soils-revealed/experimental-dataset/SOC_concentration_2020'
       );
 
       image = collection
         .filterDate(`${year2}-01-01`, `${year2}-12-31`)
         .first()
         .subtract(collection.filterDate(`${year1}-01-01`, `${year1}-12-31`).first())
-        .divide(10)
-        .select(`b${+depth + 1}`)
-        .sldStyle(CONCENTRATION_RAMP);
+        .select(`b${+depth + 1}`);
+
+      image = image.updateMask(image.gt(0)).sldStyle(CONCENTRATION_RAMP);
     }
 
     image.getMap({}, async ({ formatTileUrl }) => {
