@@ -54,13 +54,16 @@ module.exports = ({ params: { type, depth, year1, year2, x, y, z } }, res) => {
         'projects/soils-revealed/experimental-dataset/SOC_concentration_2020'
       );
 
-      image = collection
-        .filterDate(`${year2}-01-01`, `${year2}-12-31`)
-        .first()
-        .subtract(collection.filterDate(`${year1}-01-01`, `${year1}-12-31`).first())
-        .select(`b${+depth + 1}`);
+      let startImage = collection.filterDate(`${year1}-01-01`, `${year1}-12-31`).first();
+      let endImage = collection.filterDate(`${year2}-01-01`, `${year2}-12-31`).first();
 
-      image = image.updateMask(image.gt(0)).sldStyle(CONCENTRATION_RAMP);
+      startImage = startImage.updateMask(startImage.gt(0));
+      endImage = endImage.updateMask(endImage.gt(0));
+
+      image = endImage
+        .subtract(startImage)
+        .select(`b${+depth + 1}`)
+        .sldStyle(CONCENTRATION_RAMP);
     }
 
     image.getMap({}, async ({ formatTileUrl }) => {
