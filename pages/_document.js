@@ -19,7 +19,6 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Roboto+Mono:wght@400;500;700&display=swap"
             rel="stylesheet"
           />
-          <meta name="robots" content="noindex" />
         </Head>
         <body id="root">
           <Main />
