@@ -31,7 +31,7 @@ module.exports = ({ params: { scenario, year, x, y, z } }, res) => {
   try {
     const baseline = ee.Image(
       ee
-        .ImageCollection('projects/soils-revealed/Recent/SOC_stocks')
+        .ImageCollection('projects/soils-revealed/Recent/SOC_stock_nov2020')
         .filterDate('2018-01-01', '2018-12-31')
         .first()
     );

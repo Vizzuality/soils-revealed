@@ -20,7 +20,7 @@ module.exports = ({ params: { year, x, y, z } }, res) => {
     const image = ee
       .Image(
         ee
-          .ImageCollection('projects/soils-revealed/Recent/SOC_stocks')
+          .ImageCollection('projects/soils-revealed/Recent/SOC_stock_nov2020')
           .filterDate(`${year}-01-01`, `${year}-12-31`)
           .first()
       )
