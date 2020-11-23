@@ -1,12 +1,23 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
+import dayOfYear from 'dayjs/plugin/dayOfYear';
+
+dayjs.extend(dayOfYear);
+
+const DATE_FORMAT = 'YYYY-MM-DD';
 
 export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
-  const minDate = moment(layer.legend.timeline.minDate);
-  const maxDate = moment(layer.legend.timeline.maxDate);
+  const minDate = dayjs(layer.legend.timeline.minDate, DATE_FORMAT);
+  const maxDate = dayjs(layer.legend.timeline.maxDate, DATE_FORMAT);
 
-  const start = moment(dateRange[0]).isBefore(minDate) ? minDate : moment(dateRange[0]);
-  const end = moment(dateRange[1]).isAfter(maxDate) ? maxDate : moment(dateRange[1]);
-  const current = moment(currentDate).isAfter(maxDate) ? maxDate : moment(currentDate);
+  const start = dayjs(dateRange[0], DATE_FORMAT).isBefore(minDate)
+    ? minDate
+    : dayjs(dateRange[0], DATE_FORMAT);
+  const end = dayjs(dateRange[1], DATE_FORMAT).isAfter(maxDate)
+    ? maxDate
+    : dayjs(dateRange[1], DATE_FORMAT);
+  const current = dayjs(currentDate, DATE_FORMAT).isAfter(maxDate)
+    ? maxDate
+    : dayjs(currentDate, DATE_FORMAT);
 
   const startDate = start;
   const endDate = current.isBefore(end) ? current : end;
