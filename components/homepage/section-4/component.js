@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Parallax } from 'react-scroll-parallax';
+import Image from 'next/image';
 
 import './style.scss';
 
@@ -18,9 +19,12 @@ const Section4 = ({ configuration }) => (
         </div>
         <div className="col-sm-12 col-md-9 offset-md-2 image">
           <Parallax y={['100px', '-100px']}>
-            <img
+            <Image
               src="/images/homepage-section-4-image.png"
               alt="Illustration of the soils layers"
+              width={750}
+              height={696}
+              layout="responsive"
             />
           </Parallax>
         </div>

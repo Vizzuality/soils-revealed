@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Parallax } from 'react-scroll-parallax';
+import Image from 'next/image';
 
 import { useDesktop } from 'utils/hooks';
 
@@ -29,25 +30,28 @@ const Section3 = ({ configuration }) => {
           <div className="col-sm-12 col-md-3 images-container">
             <div>
               <Parallax disabled={!desktop} y={['-50px', '0px']}>
-                <img
+                <Image
                   src="/images/homepage-section-3-image-1.jpeg"
                   alt="Aerial view of a crop field"
+                  layout="fill"
                 />
               </Parallax>
             </div>
             <div>
               <Parallax disabled={!desktop} y={['-40px', '0px']}>
-                <img
+                <Image
                   src="/images/homepage-section-3-image-2.jpeg"
                   alt="Aerial view of a crop field"
+                  layout="fill"
                 />
               </Parallax>
             </div>
             <div>
               <Parallax disabled={!desktop} y={['-30px', '0px']}>
-                <img
+                <Image
                   src="/images/homepage-section-3-image-3.jpeg"
                   alt="Aerial view of a crop field"
+                  layout="fill"
                 />
               </Parallax>
             </div>

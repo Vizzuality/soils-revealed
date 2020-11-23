@@ -1,5 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { Parallax } from 'react-scroll-parallax';
+import Image from 'next/image';
 
 import { Link } from 'lib/routes';
 import { logEvent } from 'utils/analytics';
@@ -56,9 +57,16 @@ const Section1 = () => {
           </div>
           <div className="scroll-text">
             <Parallax y={['20px', '-20px']}>
-              <img src="/images/shovel-arrow.svg" alt="Bottom arrow" />
+              <Image
+                src="/images/shovel-arrow.svg"
+                alt="Bottom arrow"
+                width={22}
+                height={62}
+                layout="fixed"
+                className="shovel-image"
+              />
             </Parallax>
-            <span className="text-left">Scroll to discover</span>
+            <span className="ml-3 text-left">Scroll to discover</span>
           </div>
         </div>
       </section>

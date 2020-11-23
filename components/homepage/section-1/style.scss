@@ -56,12 +56,5 @@ $depth-visualization-offset: rem(100);
       align-items: center;
       transform: translate(#{-1 * rem(8)}, 100%);
     }
-
-    img {
-      flex-shrink: 0;
-      display: block;
-      width: rem(22);
-      margin-right: map-get($spacers, 3);
-    }
   }
 }
