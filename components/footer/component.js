@@ -20,7 +20,7 @@ const Footer = () => {
                 <div className="row align-items-center">
                   <div className="col-6 col-md-2">
                     <Link route="home">
-                      <a className="navbar-brand mb-3 mb-md-0 py-0">
+                      <a className="navbar-brand mb-3 mb-md-0 py-0" aria-label="Soils Revealed">
                         <Icon name="logo" />
                       </a>
                     </Link>

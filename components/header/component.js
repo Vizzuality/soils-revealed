@@ -13,7 +13,7 @@ const Header = ({ minimal }) => {
       <HeaderContainer minimal={minimal}>
         <nav className="navbar p-0">
           <Link route="home">
-            <a className="navbar-brand py-0">
+            <a className="navbar-brand py-0" aria-label="Soils Revealed">
               <Icon name="logo" />
             </a>
           </Link>

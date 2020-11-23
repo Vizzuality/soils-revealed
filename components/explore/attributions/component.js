@@ -10,7 +10,12 @@ const Attributions = ({ basemap, attributions }) => {
 
   return (
     <div className={['c-explore-attributions', ...(invert ? ['-invert'] : [])].join(' ')}>
-      <a href="https://www.mapbox.com/about/maps/" target="_blank" rel="noopener noreferrer">
+      <a
+        href="https://www.mapbox.com/about/maps/"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Mapbox"
+      >
         <Icon name="mapbox" />
       </a>
       <span dangerouslySetInnerHTML={{ __html: attributions }} />

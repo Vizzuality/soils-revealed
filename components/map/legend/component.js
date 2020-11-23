@@ -57,6 +57,7 @@ const Legend = ({
                   type="button"
                   className="btn"
                   onClick={() => onClickToggleVisibility(layer.id, !layer.visibility)}
+                  aria-label="Toggle visibility"
                 >
                   <Icon name={layer.visibility ? 'eye' : 'slashed-eye'} />
                 </button>
@@ -71,12 +72,18 @@ const Legend = ({
                       tab: layer.id === 'soc-stock' ? layer.layers[0].extraParams.type : null,
                     })
                   }
+                  aria-label="Info"
                 >
                   <Icon name="info" />
                 </button>
               )}
               {!layer.readonly && layer.closeable && (
-                <button type="button" className="btn" onClick={() => onClickRemove(layer.id)}>
+                <button
+                  type="button"
+                  className="btn"
+                  onClick={() => onClickRemove(layer.id)}
+                  aria-label="Remove"
+                >
                   <Icon name="close" />
                 </button>
               )}

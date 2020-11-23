@@ -23,6 +23,7 @@ const HintButton = ({ icon, size, className, onClick, disabled, children, ...res
       })}
       disabled={disabled}
       onClick={onClick}
+      aria-label="Info"
     >
       <Icon name={icon} />
     </button>

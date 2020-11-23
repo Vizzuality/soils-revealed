@@ -32,7 +32,7 @@ const Section3 = ({ configuration }) => {
               <Parallax disabled={!desktop} y={['-50px', '0px']}>
                 <Image
                   src="/images/homepage-section-3-image-1.jpeg"
-                  alt="Aerial view of a crop field"
+                  alt="Aerial view of a crop field near a forest"
                   layout="fill"
                 />
               </Parallax>
@@ -41,7 +41,7 @@ const Section3 = ({ configuration }) => {
               <Parallax disabled={!desktop} y={['-40px', '0px']}>
                 <Image
                   src="/images/homepage-section-3-image-2.jpeg"
-                  alt="Aerial view of a crop field"
+                  alt="Aerial view of circular crop fields"
                   layout="fill"
                 />
               </Parallax>
@@ -50,7 +50,7 @@ const Section3 = ({ configuration }) => {
               <Parallax disabled={!desktop} y={['-30px', '0px']}>
                 <Image
                   src="/images/homepage-section-3-image-3.jpeg"
-                  alt="Aerial view of a crop field"
+                  alt="Aerial view of various crop fields"
                   layout="fill"
                 />
               </Parallax>

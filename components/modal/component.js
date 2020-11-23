@@ -15,7 +15,12 @@ const Modal = ({ open, onClose, title, children, className }) => (
     contentLabel={title}
     className={['c-modal', ...(className ? [className] : [])].join(' ')}
   >
-    <button type="button" className="btn btn-outline-primary close-button" onClick={onClose}>
+    <button
+      type="button"
+      className="btn btn-outline-primary close-button"
+      aria-label="Close"
+      onClick={onClose}
+    >
       <Icon name="close" />
     </button>
     <div className="content">{children}</div>

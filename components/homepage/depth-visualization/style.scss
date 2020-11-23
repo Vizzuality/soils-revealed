@@ -23,6 +23,12 @@
   .item {
     position: relative;
 
+    // This style is un-needed because elements with the class sr-only are only displayed for screen
+    // readers, though it removes accessibility warnings from WebAIM's WAVE tool
+    .sr-only {
+      color: $black;
+    }
+
     &.-active {
       .text {
         display: block;

@@ -169,7 +169,12 @@ const ExploreLayersTab = ({
 
   return (
     <div className="c-explore-layers-tab">
-      <button type="button" className="btn btn-outline-primary close-button" onClick={onClose}>
+      <button
+        type="button"
+        className="btn btn-outline-primary close-button"
+        aria-label="Close"
+        onClick={onClose}
+      >
         <Icon name="close" />
       </button>
       <div className="sidebar">

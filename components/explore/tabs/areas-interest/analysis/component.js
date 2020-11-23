@@ -175,6 +175,7 @@ const Analysis = ({
                 tab: socLayerState.id === 'soc-stock' ? socLayerState.type : null,
               });
             }}
+            aria-label="Info"
           >
             <Icon name="info" />
           </button>

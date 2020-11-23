@@ -41,7 +41,7 @@ const MapControls = ({
             />
           }
         >
-          <button type="button" className="btn btn-primary btn-sm">
+          <button type="button" className="btn btn-primary btn-sm" aria-label="Map settings">
             <Icon name="map-settings" />
           </button>
         </Tooltip>
@@ -52,6 +52,7 @@ const MapControls = ({
           className="btn btn-primary btn-sm"
           onClick={() => onChangeZoom(Math.min(zoom + 1, acceptableMaxZoom))}
           disabled={zoom >= acceptableMaxZoom}
+          aria-label="Zoom in"
         >
           <Icon name="zoom-in" />
         </button>
@@ -60,6 +61,7 @@ const MapControls = ({
           className="btn btn-primary btn-sm"
           onClick={() => onChangeZoom(Math.max(zoom - 1, acceptableMinZoom))}
           disabled={zoom <= acceptableMinZoom}
+          aria-label="Zoom out"
         >
           <Icon name="zoom-out" />
         </button>
@@ -70,6 +72,7 @@ const MapControls = ({
           className="btn btn-primary btn-sm"
           disabled={drawing}
           onClick={onClickHelp}
+          aria-label="Help"
         >
           <Icon name="help" />
         </button>

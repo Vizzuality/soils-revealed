@@ -135,7 +135,12 @@ const AnalysisCompare = ({
 
   return (
     <div className="c-analysis-compare">
-      <button type="button" className="btn btn-outline-primary close-button" onClick={onClose}>
+      <button
+        type="button"
+        className="btn btn-outline-primary close-button"
+        aria-label="Close"
+        onClick={onClose}
+      >
         <Icon name="close" />
       </button>
       <h3 className="h4">Compare with areas of interest</h3>
