@@ -1,5 +1,4 @@
 import { createSlice, createSelector } from '@reduxjs/toolkit';
-import omit from 'lodash/omit';
 
 import { getLayerSource, getBoundariesDef, getLayerExtraParams } from 'utils/map';
 import { BASEMAPS, BOUNDARIES, ATTRIBUTIONS, LAYERS, LAYER_GROUPS } from 'components/map/constants';
@@ -295,8 +294,11 @@ export const selectSerializedState = createSelector(
     selectLayers,
   ],
   (viewport, basemap, basemapParams, roads, labels, boundaries, layers) => {
+    // eslint-disable-next-line no-unused-vars
+    const { transitionDuration, bounds, ...shrunkViewport } = viewport;
+
     return {
-      viewport: omit(viewport, 'transitionDuration', 'bounds'),
+      viewport: shrunkViewport,
       basemap,
       basemapParams,
       roads,
@@ -378,9 +380,12 @@ export default exploreActions =>
         });
       },
       updateLayer(state, action) {
+        // eslint-disable-next-line no-unused-vars
+        const { id, ...shrunkPayload } = action.payload;
+
         state.layers[action.payload.id] = {
           ...state.layers[action.payload.id],
-          ...omit(action.payload, 'id'),
+          ...shrunkPayload,
         };
       },
       updateLayerOrder(state, action) {
