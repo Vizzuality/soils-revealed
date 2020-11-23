@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Image from 'next/image';
 
 import Modal from 'components/modal';
 
@@ -26,22 +27,37 @@ const AboutModal = ({ open, onClose }) => (
       <div className="row align-items-center text-center">
         <div className="col-6 col-md-3 pl-md-0 mb-4 mb-md-0">
           <a href="https://www.nature.org" target="_blank" rel="noopener noreferrer">
-            <img src="/images/tnc-logo.svg" alt="The Nature Conservancy" />
+            <Image
+              src="/images/tnc-logo.svg"
+              alt="The Nature Conservancy"
+              width={147}
+              height={42}
+            />
           </a>
         </div>
         <div className="col-6 col-md-3 mb-4 mb-md-0">
           <a href="https://www.cornell.edu" target="_blank" rel="noopener noreferrer">
-            <img src="/images/cornell-university-logo.svg" alt="Cornell University" />
+            <Image
+              src="/images/cornell-university-logo.svg"
+              alt="Cornell University"
+              width={100}
+              height={100}
+            />
           </a>
         </div>
         <div className="col-6 col-md-3">
           <a href="https://www.isric.org" target="_blank" rel="noopener noreferrer">
-            <img src="/images/isric-logo.svg" alt="ISRIC" />
+            <Image src="/images/isric-logo.svg" alt="ISRIC" width={62} height={100} />
           </a>
         </div>
         <div className="col-6 col-md-3 pr-md-0">
           <a href="https://www.woodwellclimate.org/" target="_blank" rel="noopener noreferrer">
-            <img src="/images/wcrc-logo.png" alt="Woodwell Climate Research Center" />
+            <Image
+              src="/images/wcrc-logo.png"
+              alt="Woodwell Climate Research Center"
+              width={185}
+              height={78}
+            />
           </a>
         </div>
       </div>
@@ -51,7 +67,7 @@ const AboutModal = ({ open, onClose }) => (
       <div className="row align-items-center text-center">
         <div className="col-6 col-md-3 pl-md-0">
           <a href="https://www.vizzuality.com/" target="_blank" rel="noopener noreferrer">
-            <img src="/images/vizzuality-logo.svg" alt="Vizzuality" />
+            <Image src="/images/vizzuality-logo.svg" alt="Vizzuality" width={147} height={34} />
           </a>
         </div>
       </div>
