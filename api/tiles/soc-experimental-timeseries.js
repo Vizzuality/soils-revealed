@@ -65,7 +65,9 @@ module.exports = ({ params: { type, depth, year, x, y, z } }, res) => {
       });
       await serverPromise.then(serverResponse => {
         res.set('Content-Type', 'image/png');
-        res.set('Cache-Control', 'public,max-age=604800');
+        if (z < 5) {
+          res.set('Cache-Control', 'public,max-age=604800');
+        }
         return res.send(Buffer.from(serverResponse.data));
       });
     });
