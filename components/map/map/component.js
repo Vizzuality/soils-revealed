@@ -162,6 +162,7 @@ const Comp = (
         height="100%"
         mapStyle={mapStyle}
         asyncRender
+        maxZoom={11}
         {...internalViewport}
         {...(isStatic
           ? {}
