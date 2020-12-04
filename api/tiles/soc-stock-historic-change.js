@@ -78,7 +78,6 @@ module.exports = ({ params: { depth, x, y, z } }, res) => {
       });
       await serverPromise.then(serverResponse => {
         res.set('Content-Type', 'image/png');
-        res.set('Cache-Control', 'public,max-age=604800');
         return res.send(Buffer.from(serverResponse.data));
       });
     });
