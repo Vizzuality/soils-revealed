@@ -74,15 +74,16 @@ const AboutModal = ({ open, onClose }) => (
     </div>
     <h2 className="mt-5 mb-3">Methods in brief</h2>
     <p>
-      The historic soil organic carbon changes in agricultural lands are derived from Sanderman et
-      al. (2017) who used a data-driven statistical model and the HYDE v3.2 historic land-use
-      dataset (Klein Goldewijk et al., 2017). Recent changes in soil organic carbon stocks are
-      assessed using a UNCCD modified IPCC Tier 1 approach (UNCCD, 2018). Future soil organic carbon
-      changes are predicted using a spatial implementation of IPCC (2019) improved management
+      The historic soil organic carbon changes in agricultural lands are derived using a data-driven
+      statistical model and the HYDE historic land-use dataset. Recent changes in soil organic
+      carbon stocks are assessed using a UNCCD modified IPCC approach, while future soil organic
+      carbon changes are predicted using a spatial implementation of IPCC improved management
       scenarios. In addition, a novel approach was used to model recent soil organic carbon change
-      in Argentina as a pilot region (Heuvelink et al., 2020). This modeling uses actual soil carbon
-      data from national archives, and a statistical space-time method for mapping SOC stocks. A
-      global implementation of this approach is on-going.
+      in Argentina as a pilot region. This modelling uses actual soil carbon data from national
+      archives, and a statistical space-time method for mapping SOC stocks. A global implementation
+      of this approach is on-going. More detailed information about the methods with references to
+      the scientific literature is provided in the info buttons for each method under &apos;Explore
+      Map&apos;.
     </p>
   </Modal>
 );
