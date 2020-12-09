@@ -32,7 +32,7 @@ const RAMP = `
 
 const sendImage = (res, z, data) => {
   res.set('Content-Type', 'image/png');
-  if (z < 5) {
+  if (+z <= 5) {
     res.set('Cache-Control', 'public,max-age=604800');
   }
   return res.send(Buffer.from(data));
