@@ -104,11 +104,16 @@ module.exports = async ({ params: { depth, period, x, y, z } }, res) => {
 
     sendImage(res, z, image);
   } catch (e) {
-    try {
-      const image = await getOnTheFlyTile(depth, period, x, y, z);
-      sendImage(res, z, image);
-    } catch (e) {
+    // Until zoom 5 included, we only retrieve the tiles from the bucket
+    if (+z <= 5) {
       res.status(404).end();
+    } else {
+      try {
+        const image = await getOnTheFlyTile(depth, period, x, y, z);
+        sendImage(res, z, image);
+      } catch (e) {
+        res.status(404).end();
+      }
     }
   }
 };
