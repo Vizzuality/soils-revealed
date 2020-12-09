@@ -1,6 +1,9 @@
 const ee = require('@google/earthengine');
 const axios = require('axios').default;
 
+const { LAYERS } = require('../../components/map/constants');
+const getPregeneratedTile = require('./pregenerated-tile');
+
 const IMAGE = {
   0: {
     historic: 'projects/soils-revealed/Historic/SOCS_0_30cm_year_NoLU_10km',
@@ -64,24 +67,54 @@ const RAMP = {
   `,
 };
 
-module.exports = ({ params: { depth, x, y, z } }, res) => {
-  try {
+const sendImage = (res, data) => {
+  res.set('Content-Type', 'image/png');
+  return res.send(Buffer.from(data));
+};
+
+const getOnTheFlyTile = async (depth, x, y, z) => {
+  return new Promise((resolve, reject) => {
     const image = ee
       .Image(IMAGE[depth].recent)
       .subtract(ee.Image(IMAGE[depth].historic))
       .sldStyle(RAMP[depth]);
+
     image.getMap({}, async ({ formatTileUrl }) => {
       const url = formatTileUrl(x, y, z);
-      const serverPromise = axios.get(url, {
-        headers: { Accept: 'image/*' },
-        responseType: 'arraybuffer',
-      });
-      await serverPromise.then(serverResponse => {
-        res.set('Content-Type', 'image/png');
-        return res.send(Buffer.from(serverResponse.data));
-      });
+      axios
+        .get(url, {
+          headers: { Accept: 'image/*' },
+          responseType: 'arraybuffer',
+        })
+        .then(({ data }) => resolve(data))
+        .catch(reject);
     });
+  });
+};
+
+module.exports = async ({ params: { depth, x, y, z } }, res) => {
+  try {
+    const depthValue = LAYERS['soc-stock'].paramsConfig.settings.type.options
+      .find(option => option.value === 'historic')
+      .settings.depth.options[depth].label.replace(/\scm/, '');
+
+    const image = await getPregeneratedTile([
+      'soc-stock-historic-change',
+      'stock',
+      depthValue,
+      '2010-NoLU',
+      z,
+      x,
+      y,
+    ]);
+
+    sendImage(res, image);
   } catch (e) {
-    res.status(404).end();
+    try {
+      const image = await getOnTheFlyTile(depth, x, y, z);
+      sendImage(res, image);
+    } catch (e) {
+      res.status(404).end();
+    }
   }
 };
