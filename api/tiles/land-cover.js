@@ -81,16 +81,11 @@ module.exports = async ({ params: { year, x, y, z } }, res) => {
     const image = await getPregeneratedTile(['land-cover', year, z, x, y]);
     sendImage(res, image);
   } catch (e) {
-    // Until zoom 5 included, we only retrieve the tiles from the bucket
-    if (+z <= 5) {
+    try {
+      const image = await getOnTheFlyTile(year, x, y, z);
+      sendImage(res, image);
+    } catch (e) {
       res.status(404).end();
-    } else {
-      try {
-        const image = await getOnTheFlyTile(year, x, y, z);
-        sendImage(res, image);
-      } catch (e) {
-        res.status(404).end();
-      }
     }
   }
 };
