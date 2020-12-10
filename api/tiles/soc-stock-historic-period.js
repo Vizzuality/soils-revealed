@@ -1,6 +1,9 @@
 const ee = require('@google/earthengine');
 const axios = require('axios').default;
 
+const { LAYERS } = require('../../components/map/constants');
+const getPregeneratedTile = require('./pregenerated-tile');
+
 const IMAGE = {
   0: {
     historic: 'projects/soils-revealed/Historic/SOCS_0_30cm_year_NoLU_10km',
@@ -58,24 +61,54 @@ const RAMP = {
   `,
 };
 
-module.exports = ({ params: { depth, period, x, y, z } }, res) => {
-  try {
+const sendImage = (res, z, data) => {
+  res.set('Content-Type', 'image/png');
+  if (+z <= 5) {
+    res.set('Cache-Control', 'public,max-age=604800');
+  }
+  return res.send(Buffer.from(data));
+};
+
+const getOnTheFlyTile = async (depth, period, x, y, z) => {
+  return new Promise((resolve, reject) => {
     const image = ee.Image(IMAGE[depth][period]).sldStyle(RAMP[depth]);
+
     image.getMap({}, async ({ formatTileUrl }) => {
       const url = formatTileUrl(x, y, z);
-      const serverPromise = axios.get(url, {
-        headers: { Accept: 'image/*' },
-        responseType: 'arraybuffer',
-      });
-      await serverPromise.then(serverResponse => {
-        res.set('Content-Type', 'image/png');
-        if (z < 5) {
-          res.set('Cache-Control', 'public,max-age=604800');
-        }
-        return res.send(Buffer.from(serverResponse.data));
-      });
+      axios
+        .get(url, {
+          headers: { Accept: 'image/*' },
+          responseType: 'arraybuffer',
+        })
+        .then(({ data }) => resolve(data))
+        .catch(reject);
     });
+  });
+};
+
+module.exports = async ({ params: { depth, period, x, y, z } }, res) => {
+  try {
+    const depthValue = LAYERS['soc-stock'].paramsConfig.settings.type.options
+      .find(option => option.value === 'historic')
+      .settings.depth.options[depth].label.replace(/\scm/, '');
+
+    const image = await getPregeneratedTile([
+      'soc-stock-historic-period',
+      'stock',
+      depthValue,
+      period === 'historic' ? 'NoLU' : '2010',
+      z,
+      x,
+      y,
+    ]);
+
+    sendImage(res, z, image);
   } catch (e) {
-    res.status(404).end();
+    try {
+      const image = await getOnTheFlyTile(depth, period, x, y, z);
+      sendImage(res, z, image);
+    } catch (e) {
+      res.status(404).end();
+    }
   }
 };
