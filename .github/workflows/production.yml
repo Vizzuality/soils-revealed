@@ -39,6 +39,14 @@ jobs:
             export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v12.16.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
             echo '> Kill previous node server'
             pm2 stop production
+            echo '> Open production folder'
+            cd ~/soils-revealed
+            echo '> Pull from git'
+            git fetch origin master
+            git reset --hard origin/master
+            echo '> Use correct node version'
+            nvm install
+            nvm use
             echo '> Install dependencies'
             yarn install --frozen-lockfile
             echo '> Generate a deployment key'
