@@ -3,6 +3,7 @@ const axios = require('axios').default;
 
 const { LAYERS } = require('../../components/map/constants');
 const getPregeneratedTile = require('./pregenerated-tile');
+const saveTile = require('./save-tile');
 
 const IMAGE = {
   0: {
@@ -69,7 +70,7 @@ const RAMP = {
 
 const sendImage = (res, data) => {
   res.set('Content-Type', 'image/png');
-  return res.send(Buffer.from(data));
+  return res.send(data);
 };
 
 const getOnTheFlyTile = async (depth, x, y, z) => {
@@ -93,26 +94,29 @@ const getOnTheFlyTile = async (depth, x, y, z) => {
 };
 
 module.exports = async ({ params: { depth, x, y, z } }, res) => {
+  const depthValue = LAYERS['soc-stock'].paramsConfig.settings.type.options
+    .find(option => option.value === 'historic')
+    .settings.depth.options[depth].label.replace(/\scm/, '');
+
+  const S3Path = `soc-stock-historic-change/stock/${depthValue}/2010-NoLU/${z}/${x}/${y}`;
+
   try {
-    const depthValue = LAYERS['soc-stock'].paramsConfig.settings.type.options
-      .find(option => option.value === 'historic')
-      .settings.depth.options[depth].label.replace(/\scm/, '');
-
-    const image = await getPregeneratedTile([
-      'soc-stock-historic-change',
-      'stock',
-      depthValue,
-      '2010-NoLU',
-      z,
-      x,
-      y,
-    ]);
-
+    const image = await getPregeneratedTile(S3Path);
     sendImage(res, image);
   } catch (e) {
     try {
       const image = await getOnTheFlyTile(depth, x, y, z);
-      sendImage(res, image);
+
+      // We save the data to the S3 bucket
+      if (+z <= +process.env.AWS_MAX_Z_TILE_STORAGE) {
+        try {
+          await saveTile(S3Path, image);
+        } catch (e) {
+          console.log(`> Unable to save tile in S3 (${S3Path})`);
+        }
+      }
+
+      sendImage(res, Buffer.from(image));
     } catch (e) {
       res.status(404).end();
     }

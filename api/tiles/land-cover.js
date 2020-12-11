@@ -2,6 +2,7 @@ const ee = require('@google/earthengine');
 const axios = require('axios').default;
 
 const getPregeneratedTile = require('./pregenerated-tile');
+const saveTile = require('./save-tile');
 
 const RAMP = `
   <RasterSymbolizer>
@@ -49,7 +50,7 @@ const RAMP = `
 
 const sendImage = (res, data) => {
   res.set('Content-Type', 'image/png');
-  return res.send(Buffer.from(data));
+  return res.send(data);
 };
 
 const getOnTheFlyTile = async (year, x, y, z) => {
@@ -77,13 +78,25 @@ const getOnTheFlyTile = async (year, x, y, z) => {
 };
 
 module.exports = async ({ params: { year, x, y, z } }, res) => {
+  const S3Path = `land-cover/${year}/${z}/${x}/${y}`;
+
   try {
-    const image = await getPregeneratedTile(['land-cover', year, z, x, y]);
+    const image = await getPregeneratedTile(S3Path);
     sendImage(res, image);
   } catch (e) {
     try {
       const image = await getOnTheFlyTile(year, x, y, z);
-      sendImage(res, image);
+
+      // We save the data to the S3 bucket
+      if (+z <= +process.env.AWS_MAX_Z_TILE_STORAGE) {
+        try {
+          await saveTile(S3Path, image);
+        } catch (e) {
+          console.log(`> Unable to save tile in S3 (${S3Path})`);
+        }
+      }
+
+      sendImage(res, Buffer.from(image));
     } catch (e) {
       res.status(404).end();
     }

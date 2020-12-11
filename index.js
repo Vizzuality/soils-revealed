@@ -1,6 +1,7 @@
 const express = require('express');
 const next = require('next');
 const ee = require('@google/earthengine');
+const AWS = require('aws-sdk');
 
 require('dotenv').config();
 
@@ -32,6 +33,7 @@ const isDev = process.env.NODE_ENV !== 'production';
 const app = next({ dev: isDev });
 const handle = app.getRequestHandler();
 
+// Initialize GEE
 let geePrivateKey;
 try {
   geePrivateKey = require('./gee.key.json');
@@ -49,6 +51,9 @@ try {
 } catch (e) {
   console.log('> GEE private key missing. GEE services disabled.');
 }
+
+// Initialize AWS
+AWS.config.update({ region: process.env.AWS_REGION });
 
 app.prepare().then(() => {
   const server = express();

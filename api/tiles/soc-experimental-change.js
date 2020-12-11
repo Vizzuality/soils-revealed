@@ -3,6 +3,7 @@ const axios = require('axios').default;
 
 const { LAYERS } = require('../../components/map/constants');
 const getPregeneratedTile = require('./pregenerated-tile');
+const saveTile = require('./save-tile');
 
 const STOCK_RAMP = `
   <RasterSymbolizer>
@@ -38,7 +39,7 @@ const CONCENTRATION_RAMP = `
 
 const sendImage = (res, data) => {
   res.set('Content-Type', 'image/png');
-  return res.send(Buffer.from(data));
+  return res.send(data);
 };
 
 const getOnTheFlyTile = async (type, depth, year1, year2, x, y, z) => {
@@ -88,26 +89,29 @@ const getOnTheFlyTile = async (type, depth, year1, year2, x, y, z) => {
 };
 
 module.exports = async ({ params: { type, depth, year1, year2, x, y, z } }, res) => {
+  const depthValue = LAYERS['soc-experimental'].paramsConfig.settings.type.options
+    .find(option => option.value === type)
+    .settings.depth.options[depth].label.replace(/\scm/, '');
+
+  const S3Path = `soc-experimental-change/${type}/${depthValue}/${year2}-${year1}/${z}/${x}/${y}`;
+
   try {
-    const depthValue = LAYERS['soc-experimental'].paramsConfig.settings.type.options
-      .find(option => option.value === type)
-      .settings.depth.options[depth].label.replace(/\scm/, '');
-
-    const image = await getPregeneratedTile([
-      'soc-experimental-change',
-      type,
-      depthValue,
-      `${year2}-${year1}`,
-      z,
-      x,
-      y,
-    ]);
-
+    const image = await getPregeneratedTile(S3Path);
     sendImage(res, image);
   } catch (e) {
     try {
       const image = await getOnTheFlyTile(type, depth, year1, year2, x, y, z);
-      sendImage(res, image);
+
+      // We save the data to the S3 bucket
+      if (+z <= +process.env.AWS_MAX_Z_TILE_STORAGE) {
+        try {
+          await saveTile(S3Path, image);
+        } catch (e) {
+          console.log(`> Unable to save tile in S3 (${S3Path})`);
+        }
+      }
+
+      sendImage(res, Buffer.from(image));
     } catch (e) {
       res.status(404).end();
     }
