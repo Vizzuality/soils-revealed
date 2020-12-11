@@ -20,13 +20,16 @@ jobs:
           ANALYSIS_API_URL: https://soilsrevealed.org/api/v1/analysis
           GEE_KEY: ${{ secrets.GEE_KEY }}
           GOOGLE_ANALYTICS_KEY: UA-179817360-1
-          TILES_URL: https://soils-revealed.s3.amazonaws.com/tiles
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          AWS_BUCKET_NAME: ${{ secrets.AWS_BUCKET_NAME }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         with:
           host: ${{ secrets.SSH_HOST }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
-          envs: NODE_PORT,MAPBOX_API_KEY,API_URL,ANALYSIS_API_URL,GEE_KEY,GOOGLE_ANALYTICS_KEY,TILES_URL
+          envs: NODE_PORT,MAPBOX_API_KEY,API_URL,ANALYSIS_API_URL,GEE_KEY,GOOGLE_ANALYTICS_KEY,AWS_REGION,AWS_BUCKET_NAME,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY,AWS_MAX_Z_TILE_STORAGE
           script: |
             echo '> Source nvm'
             export NVM_DIR=~/.nvm
@@ -35,20 +38,12 @@ jobs:
             export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v12.16.1/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin
             echo '> Kill previous node server'
             pm2 stop production
-            echo '> Open production folder'
-            cd ~/soils-revealed
-            echo '> Pull from git'
-            git fetch origin master
-            git reset --hard origin/master
-            echo '> Use correct node version'
-            nvm install
-            nvm use
             echo '> Install dependencies'
             yarn install --frozen-lockfile
             echo '> Generate a deployment key'
             DEPLOYMENT_KEY=`date +%s`
             echo '> Create .env file'
-            echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY\nAPI_URL=$API_URL\nANALYSIS_API_URL=$ANALYSIS_API_URL\nDEPLOYMENT_KEY=$DEPLOYMENT_KEY\nGOOGLE_ANALYTICS_KEY=$GOOGLE_ANALYTICS_KEY\nTILES_URL=$TILES_URL" > .env
+            echo -e "PORT=$NODE_PORT\nMAPBOX_API_KEY=$MAPBOX_API_KEY\nAPI_URL=$API_URL\nANALYSIS_API_URL=$ANALYSIS_API_URL\nDEPLOYMENT_KEY=$DEPLOYMENT_KEY\nGOOGLE_ANALYTICS_KEY=$GOOGLE_ANALYTICS_KEY\nAWS_REGION=$AWS_REGION\nAWS_BUCKET_NAME=$AWS_BUCKET_NAME\nAWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID\nAWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY\nAWS_MAX_Z_TILE_STORAGE=$AWS_MAX_Z_TILE_STORAGE" > .env
             echo '> Create gee.key.json file'
             echo $GEE_KEY > gee.key.json
             echo '> Build the app'
