@@ -17,7 +17,8 @@ In order to start modifying the app, please make sure to correctly configure you
 5. Use the correct Node.js version for this app by running `nvm use`; if you didn't install NVM (step 2), then manually install the Node.js version described in `.nvmrc`
 6. Install the dependencies: `yarn`
 7. Create a `.env` file at the root of the project by copying `.env.default` and giving a value for each of the variables (see next section for details)
-8. Run the server: `yarn dev`
+8. Create a `gee.key.json` file at the root of the project with the Google Earth Engine's private key inside
+9. Run the server: `yarn dev`
 
 You can access a hot-reloaded version of the app on [http://localhost:3000](http://localhost:3000).
 
