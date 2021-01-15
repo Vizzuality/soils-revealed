@@ -121,7 +121,7 @@ const Section2 = ({ configuration }) => (
                   Organic Carbon in Soils:{' '}
                 </tspan>{' '}
                 <tspan x="0" y="67" fill="#FDE5C9">
-                  2400 billion tons / 0-200 cm
+                  2060 billion tons / 0-200 cm
                 </tspan>
               </text>
               <g strokeDasharray="3,3" transform="translate(0 1)">
