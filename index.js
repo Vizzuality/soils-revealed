@@ -36,6 +36,7 @@ const handle = app.getRequestHandler();
 // Initialize GEE
 let geePrivateKey;
 try {
+    
   geePrivateKey = require('./gee.key.json');
   ee.data.authenticateViaPrivateKey(
     geePrivateKey,

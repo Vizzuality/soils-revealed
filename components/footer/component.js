@@ -42,7 +42,7 @@ const Footer = () => {
                         </button>
                       </li>
                       <li>
-                        <a href="mailto:soilsrevealed@tnc.org" className="nav-link pb-0">
+                        <a href="mailto:info@soilsrevealed.org" className="nav-link pb-0">
                           Contact
                         </a>
                       </li>
