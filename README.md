@@ -73,7 +73,7 @@ Public deployment is based on Google Cloud build and Google GKE (Kubernetes). Up
 3. Docker build will be initicated.
 4. After completed Docker image is stored on a private repository.
 5. Image will then be deplyed into the soils-revealed cluster.
-6. GKE contains a specific `ConfiMap` with all .env necessary for deployment.
+6. GKE contains a specific `ConfigMap` with all .env necessary for deployment.
 7. `gee.key.json` is added to the pods using a `ConfigMap` mount
 
 GKE will implement the available Dockerfile.
