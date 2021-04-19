@@ -1082,7 +1082,7 @@ exports.LAYERS = {
   'soc-experimental': {
     label: 'Soil organic carbon experimental approach',
     description:
-      'These maps display soil organic carbon in Argentina in any year between 1982 and 2017. You can toggle between soil organic carbon concentration and soil organic carbon stock, as well as between soil organic carbon maps for any given year and change maps between years. Selecting “Change” will display where Argentina has experienced a gain in soil organic carbon and which parts a loss for a chosen time period. To produce these maps, we used a novel machine learning algorithm based on field samples to map soil organic carbon over space and time.\n\nA global implementation of this approach is in process. If you would like to join this effort, please [contact us](mailto:soilsrevealed@tnc.org), and join our growing partnership.',
+      'These maps display soil organic carbon in Argentina in any year between 1982 and 2017. You can toggle between soil organic carbon concentration and soil organic carbon stock, as well as between soil organic carbon maps for any given year and change maps between years. Selecting “Change” will display where Argentina has experienced a gain in soil organic carbon and which parts a loss for a chosen time period. To produce these maps, we used a novel machine learning algorithm based on field samples to map soil organic carbon over space and time.\n\nA global implementation of this approach is in process. If you would like to join this effort, please [contact us](mailto:info@soilsrevealed.org), and join our growing partnership.',
     group: 'soc',
     attributions: [],
     bbox: [
