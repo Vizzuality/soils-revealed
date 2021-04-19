@@ -40,4 +40,3 @@ esac
 #node index.js
 #yarn start
 #exec pm2 start --no-daemon yarn -- start
-
