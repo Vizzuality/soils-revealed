@@ -1,0 +1,68 @@
+@import 'css/settings';
+
+.c-user-modal {
+  max-width: rem(850);
+  display: flex;
+  justify-content: center;
+
+  @include media-breakpoint-up(lg, $grid-breakpoints) {
+    padding: rem(50) rem(100);
+  }
+
+  h1,
+  h2 {
+    @include font-size($font-size-xxl);
+    text-align: left;
+  }
+
+  .text-size-base {
+    @include font-size($font-size-base);
+  }
+
+  .user-modal-radio-input-container {
+    max-height: 125px;
+    flex-wrap: wrap;
+    flex-direction: column;
+    display: flex;
+
+    .custom-radio {
+      width: 50%;
+    }
+  }
+
+  .user-modal-text-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid $primary;
+    border-radius: 0;
+    padding-left: 0;
+  }
+
+  .user-modal-content-note {
+    font-family: $font-family-2;
+    @include font-size($font-size-xxs);
+    font-weight: initial;
+    opacity: 50%;
+
+    p {
+      text-align: justify;
+
+      a {
+        text-decoration: underline;
+        color: $text-color-1;
+      }
+    }
+  }
+
+  .visually-hidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+}
+
