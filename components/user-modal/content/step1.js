@@ -25,17 +25,24 @@ const Step1 = ({ onClick, userData, handleUserData, user }) => (
             {option.label}
           </Radio>
           {option.slug === 'other' && (
-            <input
-              type="text"
-              id="job_role_description"
-              name="job_role_description"
-              className="user-modal-text-input"
-              placeholder="insert your profession"
-              disabled={option.slug !== 'other'}
-              value={userData.job_role_description}
-              onChange={e => handleUserData('job_role_description', e.currentTarget.value)}
-              required={userData.job_role_description === 'other'}
-            />
+            <>
+              <input
+                type="text"
+                id="job_role_description"
+                name="job_role_description"
+                className="user-modal-text-input"
+                placeholder="insert your profession"
+                disabled={option.slug !== 'other'}
+                value={userData.job_role_description}
+                onChange={({ currentTarget }) =>
+                  handleUserData('job_role_description', currentTarget.value)
+                }
+                required={userData.job_role_description === 'other'}
+              />
+              <label aria-label="hidden" className="visually-hidden">
+                job role description
+              </label>
+            </>
           )}
         </>
       ))}
@@ -59,17 +66,22 @@ const Step1 = ({ onClick, userData, handleUserData, user }) => (
             {option.label}
           </Radio>
           {option.slug === 'other' && (
-            <input
-              type="text"
-              id="map_usage_description"
-              name="map_usage_description"
-              className="user-modal-text-input"
-              value={userData.map_usage_description}
-              placeholder="insert your profession"
-              disabled={option.slug !== 'other'}
-              onChange={e => handleUserData('map_usage_description', e.currentTarget.value)}
-              required={userData.map_usage === 'other'}
-            />
+            <>
+              <input
+                type="text"
+                id="map_usage_description"
+                name="map_usage_description"
+                className="user-modal-text-input"
+                value={userData.map_usage_description}
+                placeholder="insert your profession"
+                disabled={option.slug !== 'other'}
+                onChange={e => handleUserData('map_usage_description', e.currentTarget.value)}
+                required={userData.map_usage === 'other'}
+              />
+              <label aria-label="hidden" className="visually-hidden">
+                jmap usage description
+              </label>
+            </>
           )}
         </>
       ))}

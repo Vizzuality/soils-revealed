@@ -34,7 +34,19 @@ const UserModal = ({ open, onClose }) => {
 
   const userDataUpdate = useCallback(
     (key, value) => {
-      setUserData({ ...userData, [key]: value });
+      if (key === 'job_role_description') {
+        setUserData({
+          ...userData,
+          job_role: 'other',
+          [key]: value,
+        });
+      } else if (key === 'map_usage_description') {
+        setUserData({
+          ...userData,
+          map_usage: 'other',
+          [key]: value,
+        });
+      } else setUserData({ ...userData, [key]: value });
     },
     [userData]
   );

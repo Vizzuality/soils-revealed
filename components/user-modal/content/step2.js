@@ -16,7 +16,7 @@ const Step2 = ({ userData, handleUserData, onClick }) => (
         <input
           type="email"
           id="email"
-          // aria-label="insert your email"
+          aria-label="insert your email"
           className="form-control user-modal-text-input"
           placeholder="insert your email"
           value={userData.email}
