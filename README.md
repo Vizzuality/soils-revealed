@@ -45,6 +45,9 @@ Below is a description of each of the keys.
 | AWS_ACCESS_KEY_ID | Access key ID of the AWS server storing the tiles of the soils layers |
 | AWS_SECRET_ACCESS_KEY | Secret access key of the AWS server storing the tiles of the soils layers |
 | AWS_MAX_Z_TILE_STORAGE | Maximum zoom at which tiles generated on-the-fly will be saved in the AWS S3 bucket |
+| AIRTABLE_API_KEY | Secret access key for [Airtable](https://airtable.com/) |
+| AIRTABLE_USER_ID | Airtable User ID |
+
 
 ## Deployment
 

@@ -20,7 +20,16 @@ const createUserEntry = userData => {
   });
 };
 
-const updateUserEntry = (id, userData) =>
-  userResearchBase(USERS_TABLE).update([{ id, fields: userData }]);
+const updateUserEntry = (id, userData) => {
+  return new Promise((resolve, reject) => {
+    userResearchBase(USERS_TABLE).update([{ id, fields: userData }], (error, records) => {
+      if (error) {
+        reject(error);
+        return;
+      }
+      resolve(records);
+    });
+  });
+};
 
 export { createUserEntry, updateUserEntry };

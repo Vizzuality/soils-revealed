@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const Step2 = ({ userData, handleUserData, onClick }) => (
-  <section>
+const Step2 = ({ userData, handleUserData, onClick, error }) => (
+  <form onSubmit={e => !error && onClick(e)}>
     <h2 className="mb-4 text-center">Thank you!</h2>
     <div className="text-size-base">
       <p>Would you like to hep us to improve this map?</p>
       <p>
-        Feedback is really important to us. If you´d like to provide your opinion, write down your
+        Feedback is really important to us. If you’d like to provide your opinion, write down your
         email and we might invite you for a one-to-one chat session.
       </p>
     </div>
@@ -22,9 +22,6 @@ const Step2 = ({ userData, handleUserData, onClick }) => (
           value={userData.email}
           onChange={({ currentTarget }) => handleUserData('email', currentTarget.value)}
         />
-        <label aria-label="hidden" className="visually-hidden">
-          email
-        </label>
       </div>
       <div className="user-modal-content-note text-center">
         <p>
@@ -42,17 +39,23 @@ const Step2 = ({ userData, handleUserData, onClick }) => (
         </p>
       </div>
 
+      {error && (
+        <p className="alert alert-danger" role="alert">
+          Unable to update user entry, please try again.
+        </p>
+      )}
+
       <div className="container mt-3">
         <div className="row">
           <div className="col-sm-12 text-center mb-3">
-            <button type="button" className="btn btn-primary btn-fixed-width" onClick={onClick}>
+            <button type="submit" className="btn btn-primary btn-fixed-width">
               Done
             </button>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </form>
 );
 
 Step2.propTypes = {
@@ -65,6 +68,11 @@ Step2.propTypes = {
     map_usage_description: PropTypes.string,
     email: PropTypes.string,
   }),
+  error: PropTypes.string,
+};
+
+Step2.defaultProps = {
+  error: null,
 };
 
 export default Step2;

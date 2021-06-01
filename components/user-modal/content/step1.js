@@ -1,19 +1,19 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import Radio from 'components/forms/radio';
 
 import { userTypeOptions, useTypeOptions } from './constants';
 
-const Step1 = ({ onClick, userData, handleUserData, user }) => (
-  <section>
-    <h4 className="mb-4">Can you tell us a bit about yourself?</h4>
-    <h5 className="mt-4">
+const Step1 = ({ onClick, userData, handleUserData, error }) => (
+  <form onSubmit={e => onClick(e)}>
+    <h1 className="h4 mb-4">Can you tell us a bit about yourself?</h1>
+    <p className="h5 mt-4">
       In which sector do you work: * (pick the one that brought you to this map)
-    </h5>
+    </p>
     <div className="form-group user-modal-radio-input-container">
       {userTypeOptions.map(option => (
-        <>
+        <Fragment key={option.slug}>
           <Radio
             key={option.slug}
             id={`job-role-${option.slug}`}
@@ -21,6 +21,7 @@ const Step1 = ({ onClick, userData, handleUserData, user }) => (
             name="job-role"
             checked={option.slug === (userData.job_role || userData.job_role_description)}
             onChange={() => handleUserData('job_role', option.slug)}
+            required
           >
             {option.label}
           </Radio>
@@ -32,6 +33,7 @@ const Step1 = ({ onClick, userData, handleUserData, user }) => (
                 name="job_role_description"
                 className="user-modal-text-input"
                 placeholder="insert your profession"
+                aria-label="insert your profession"
                 disabled={option.slug !== 'other'}
                 value={userData.job_role_description}
                 onChange={({ currentTarget }) =>
@@ -39,22 +41,19 @@ const Step1 = ({ onClick, userData, handleUserData, user }) => (
                 }
                 required={userData.job_role_description === 'other'}
               />
-              <label aria-label="hidden" className="visually-hidden">
-                job role description
-              </label>
             </>
           )}
-        </>
+        </Fragment>
       ))}
     </div>
 
-    <h5 className="mt-4">
+    <p className="h5 mt-4">
       Please tell us what you are using Soils platform for: <sup>*</sup>
-    </h5>
+    </p>
 
     <div className="form-group user-modal-radio-input-container">
       {useTypeOptions.map(option => (
-        <>
+        <Fragment key={option.slug}>
           <Radio
             key={option.slug}
             id={`map_usage-${option.slug}`}
@@ -62,6 +61,7 @@ const Step1 = ({ onClick, userData, handleUserData, user }) => (
             name="map-usage"
             checked={option.slug === userData.map_usage}
             onChange={() => handleUserData('map_usage', option.slug)}
+            required
           >
             {option.label}
           </Radio>
@@ -74,16 +74,14 @@ const Step1 = ({ onClick, userData, handleUserData, user }) => (
                 className="user-modal-text-input"
                 value={userData.map_usage_description}
                 placeholder="insert your profession"
+                aria-label="insert your profession"
                 disabled={option.slug !== 'other'}
                 onChange={e => handleUserData('map_usage_description', e.currentTarget.value)}
                 required={userData.map_usage === 'other'}
               />
-              <label aria-label="hidden" className="visually-hidden">
-                jmap usage description
-              </label>
             </>
           )}
-        </>
+        </Fragment>
       ))}
     </div>
     <div className="container mt-3">
@@ -94,13 +92,17 @@ const Step1 = ({ onClick, userData, handleUserData, user }) => (
       </div>
     </div>
 
+    {error && (
+      <p className="alert alert-danger" role="alert">
+        Unable to create user entry, please try again.
+      </p>
+    )}
     <div className="container mt-3">
       <div className="row">
         <div className="col-sm-12 text-center mb-3">
           <button
-            type="button"
+            type="submit"
             className="btn btn-primary btn-fixed-width"
-            onClick={() => onClick(userData, user)}
             disabled={
               userData.job_role === '' ||
               (userData.job_role === 'other' && userData.job_role.description === '') ||
@@ -113,7 +115,7 @@ const Step1 = ({ onClick, userData, handleUserData, user }) => (
         </div>
       </div>
     </div>
-  </section>
+  </form>
 );
 
 Step1.propTypes = {
@@ -126,7 +128,13 @@ Step1.propTypes = {
     map_usage_description: PropTypes.string,
     email: PropTypes.string,
   }),
-  user: PropTypes.string.isRequired,
+  user: PropTypes.string,
+  error: PropTypes.string,
+};
+
+Step1.defaultProps = {
+  user: null,
+  error: null,
 };
 
 export default Step1;

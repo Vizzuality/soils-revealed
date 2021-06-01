@@ -6,6 +6,7 @@ import throttle from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
 import { logEvent } from 'utils/analytics';
+import { isFirstVisit } from 'utils/explore';
 import { useHasMounted, useDesktop } from 'utils/hooks';
 import { toggleBasemap, toggleLabels, toggleRoads } from 'utils/map';
 import {
@@ -77,13 +78,11 @@ const Explore = ({
   const [interactiveFeatures, setInteractiveFeatures] = useState(null);
   const [showTour, setShowTour] = useState(false);
 
-  // User data modal, prevent modal to appear again after first visit
-  const myStorage = typeof window !== 'undefined' ? window.localStorage : null;
-  const modalStatus = typeof window !== 'undefined' && myStorage.getItem('modal');
-  const [userModalOpen, setUserModalOpen] = useState(modalStatus === null);
+  // User recruitment modal. This modal should appear just the first time the user
+  // visits the map section
+  const [userModalOpen, setUserModalOpen] = useState(isFirstVisit());
 
   const handleModalClose = () => {
-    myStorage.setItem('modal', 'filled');
     setUserModalOpen(false);
   };
 

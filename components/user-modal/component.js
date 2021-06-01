@@ -20,16 +20,27 @@ const UserModal = ({ open, onClose }) => {
     map_usage_description: '',
     email: '',
   });
+  const [userEntryError, setCreateUserEntryError] = useState(null);
 
-  const handleCreateUser = async () => {
-    const user = await createUserEntry({ ...userData });
-    setUserId(user[0].id);
-    setStep('step2');
+  const handleCreateUser = async e => {
+    e.preventDefault();
+    try {
+      const user = await createUserEntry({ ...userData });
+      setUserId(user[0].id);
+      setStep('step2');
+    } catch (e) {
+      setCreateUserEntryError(e.message);
+    }
   };
 
-  const handleUpdateUser = () => {
-    updateUserEntry(userId, userData);
-    onClose();
+  const handleUpdateUser = async e => {
+    e.preventDefault();
+    try {
+      await updateUserEntry(userId, userData);
+      onClose();
+    } catch (e) {
+      setCreateUserEntryError(e.message);
+    }
   };
 
   const userDataUpdate = useCallback(
@@ -60,6 +71,7 @@ const UserModal = ({ open, onClose }) => {
           userData={userData}
           handleUserData={userDataUpdate}
           onClick={handleCreateUser}
+          error={userEntryError}
         />
       )}
       {step === 'step2' && (
@@ -68,6 +80,7 @@ const UserModal = ({ open, onClose }) => {
           userData={userData}
           handleUserData={userDataUpdate}
           onClick={handleUpdateUser}
+          error={userEntryError}
         />
       )}
     </Modal>
