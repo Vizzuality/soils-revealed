@@ -45,7 +45,7 @@
     "@zeit/next-sass": "^1.0.1",
     "airtable": "^0.11.1",
     "aws-sdk": "^2.808.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "classnames": "^2.2.6",
     "dayjs": "^1.9.6",
