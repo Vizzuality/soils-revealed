@@ -14,8 +14,5 @@ npm-debug.log
 .editorconfig
 .dockerignore
 .env
-<<<<<<< HEAD
 Dockerfile
 .cloudbuild.yaml
-=======
->>>>>>> Dockerfile/K8s implementation, prod/dev run (#24)
