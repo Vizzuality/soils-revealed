@@ -14,5 +14,5 @@ npm-debug.log
 .editorconfig
 .dockerignore
 .env
-.Dockerfile
+Dockerfile
 .cloudbuild.yaml
