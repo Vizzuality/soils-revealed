@@ -1,0 +1,29 @@
+steps:
+  - id: 'build-image'
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'eu.gcr.io/$PROJECT_ID/$REPO_NAME/$BRANCH_NAME/$REPO_NAME:$SHORT_SHA'
+      - '-t'
+      - 'eu.gcr.io/$PROJECT_ID/$REPO_NAME/$BRANCH_NAME/$REPO_NAME:latest'
+      - '.'
+      - '-f'
+      - './Dockerfile'
+    timeout: 1200s
+  - id: 'push-to-registry'
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'eu.gcr.io/$PROJECT_ID/$REPO_NAME/$BRANCH_NAME/$REPO_NAME'
+  - id: 'deploy-to-gke'
+    name: 'gcr.io/cloud-builders/gcloud'
+    env:
+      - 'KUBECONFIG=/.kube/config'
+    entrypoint: 'bash'
+    args:
+      - '-c'
+      - |
+        gcloud container clusters get-credentials soils-revealed-cluster  --project=$PROJECT_ID --zone=europe-west4-a
+        kubectl set image deployment/$REPO_NAME --namespace=$BRANCH_NAME soils-revealed=eu.gcr.io/$PROJECT_ID/$REPO_NAME/$BRANCH_NAME/$REPO_NAME:$SHORT_SHA
+        kubectl rollout restart deployment $REPO_NAME --namespace=$BRANCH_NAME

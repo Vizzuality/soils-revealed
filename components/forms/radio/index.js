@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import './style.scss';
 
-const Radio = ({ id, name, disabled, checked, onChange, children, className }) => (
+const Radio = ({ id, name, disabled, checked, onChange, children, className, required }) => (
   <div
     className={[
       'custom-control',
@@ -20,6 +20,7 @@ const Radio = ({ id, name, disabled, checked, onChange, children, className }) =
       name={name}
       checked={checked}
       onChange={onChange}
+      required={required}
     />
     <label className="custom-control-label" htmlFor={id}>
       {children}
@@ -34,6 +35,7 @@ Radio.propTypes = {
   onChange: PropTypes.func,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  required: PropTypes.bool,
 };
 
 Radio.defaultProps = {
@@ -41,6 +43,7 @@ Radio.defaultProps = {
   checked: false,
   onChange: null,
   className: null,
+  required: false,
 };
 
 export default Radio;

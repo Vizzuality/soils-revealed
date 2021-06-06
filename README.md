@@ -45,6 +45,9 @@ Below is a description of each of the keys.
 | AWS_ACCESS_KEY_ID | Access key ID of the AWS server storing the tiles of the soils layers |
 | AWS_SECRET_ACCESS_KEY | Secret access key of the AWS server storing the tiles of the soils layers |
 | AWS_MAX_Z_TILE_STORAGE | Maximum zoom at which tiles generated on-the-fly will be saved in the AWS S3 bucket |
+| AIRTABLE_API_KEY | Secret access key for [Airtable](https://airtable.com/) |
+| AIRTABLE_USER_ID | Airtable User ID |
+
 
 ## Deployment
 
@@ -66,19 +69,18 @@ docker run -p3001:3001 --env-file .env soils-revealed:latest /soils-revealed/run
 
 ### Google GKE
 
-Public deployment is based on Google Cloud build and Google GKE (Kubernetes). Up on push to `master` or `develop`, the following steps will happen:
+Public deployment is based on Google Cloud build and file `.cloudbuild.yaml`. Up on push to `master` or `develop`, the following steps will happen:
 
 1. Github will trigger a Google Cloud run trigger
 2. Google cloud will pull the branch content.
-3. Docker build will be initicated.
-4. After completed Docker image is stored on a private repository.
-5. Image will then be deplyed into the soils-revealed cluster.
+3. Docker build will be iniciated, using `Dockerfile` and `.cloudbuild.yaml`  
+4. After completed Docker image is stored on a private repository, using tags `latest` and `$SHORT_SHA`
+5. Google Cloud build will update the image on GKE and make a `kubectl rollout restart`
 6. GKE contains a specific `ConfigMap` with all .env necessary for deployment.
 7. `gee.key.json` is added to the pods using a `ConfigMap` mount
+ 
 
-GKE will implement the available Dockerfile.
-
-Overall, deploying to either environment takes between 5 to 10 minutes to complete.
+Overall, deploying to either environment takes between 5 to 10 minutes to complete. If deployment is not successful GKE will continue implementing the previous deployment.
 
 ## Architecture
 
