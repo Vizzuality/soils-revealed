@@ -22,3 +22,26 @@ export const isFirstVisit = () => {
 
   return isFirstVisit;
 };
+
+/* This function tracks the first time the app shows the recruitment modal to users */
+
+export const isModalShown = () => {
+  let modalShown = true;
+
+  try {
+    const storedValue = localStorage.getItem('showUserRecruitmentModal');
+    modalShown = storedValue !== 'false';
+  } catch (e) {
+    console.error('Unable to access the localStorage.');
+  }
+
+  if (modalShown) {
+    try {
+      localStorage.setItem('showUserRecruitmentModal', 'false');
+    } catch (e) {
+      console.error('Unable to access the localStorage.');
+    }
+  }
+
+  return modalShown;
+};
