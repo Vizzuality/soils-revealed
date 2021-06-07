@@ -6,7 +6,6 @@ import throttle from 'lodash/debounce';
 
 import { Router } from 'lib/routes';
 import { logEvent } from 'utils/analytics';
-
 import { useHasMounted, useDesktop } from 'utils/hooks';
 import { toggleBasemap, toggleLabels, toggleRoads } from 'utils/map';
 import {
