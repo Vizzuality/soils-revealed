@@ -17,14 +17,15 @@ In order to start modifying the app, please make sure to correctly configure you
 5. Use the correct Node.js version for this app by running `nvm use`; if you didn't install NVM (step 2), then manually install the Node.js version described in `.nvmrc`
 6. Install the dependencies: `yarn`
 7. Create a `.env` file at the root of the project by copying `.env.default` and giving a value for each of the variables (see next section for details)
-8. Create a `gee.key.json` file at the root of the project with the Google Earth Engine's private key inside
+8. Create a gee.key.json file at the root of the project with the Google Earth Engine's private key inside.
+
 9. Run the server: `yarn dev`
 
 You can access a hot-reloaded version of the app on [http://localhost:3000](http://localhost:3000).
 
 The application is built using [React](https://reactjs.org/) and the framework [Next.js](https://nextjs.org/). The styles use [Sass](https://sass-lang.com/) and the [Bootstrap](https://getbootstrap.com/) framework.
 
-A continuous deployment system is in place. Each time you push to the `master` branch, the application is deployed to production through a GitHub Action defined in `.github/workflows/production.yml`. Each time you push to `develop`, the application is deployed to staging through an action defined in `.github/workflows/staging.yml`. You can see the status of the build in the “Actions” tab of the repository on GitHub.
+A continuous deployment system is in place. Each time you push to the `master` branch, the application is deployed to production. Github will trigger an event on google cloud run and make a deployment. The same for the `develop` branch.
 
 ## Environment variables
 
@@ -44,18 +45,42 @@ Below is a description of each of the keys.
 | AWS_ACCESS_KEY_ID | Access key ID of the AWS server storing the tiles of the soils layers |
 | AWS_SECRET_ACCESS_KEY | Secret access key of the AWS server storing the tiles of the soils layers |
 | AWS_MAX_Z_TILE_STORAGE | Maximum zoom at which tiles generated on-the-fly will be saved in the AWS S3 bucket |
+| AIRTABLE_API_KEY | Secret access key for [Airtable](https://airtable.com/) |
+| AIRTABLE_USER_ID | Airtable User ID |
+
 
 ## Deployment
 
-As explained before, the application is automatically deployed to staging when pushing new changes to the `develop` branch, and deployed to production when pushing changes to `master`. This is achieved through GitHub Actions defined in `.github/workflows`.
+### Local computer
 
-When an action is executed, it connects via SSH to the server hosting the application. The server's credentials are stored in GitHub's  “secrets” vault. A script is then executed: the running instance of the application is stopped, the code is pulled, the correct version of node is selected, the dependencies are installed, a local `.env` file is generated, a local `gee.key.json` file is generated, and the application is restarted.
+It is possible to run a local test deployment using the docker image. Docker implement an agnostic build and then during run it will pickup the container's env variables, and properly set the system
 
-The `.env` file is programmatically generated on the server because it differs for each environment. Some of the keys are hard coded in the `.github/workflows/XXX.yml` file and others are pulled from GitHub's “secrets” vault.
+`run.sh` accepts 2 arguments: production or develop. Production argument will run `yarn start` and the code will production ready, while `develop` runs nodejs in development mode, necessary if you are testing content and changes.
 
-The `gee.key.json` file contains the credentials for the Google Earth Engine library. It is also programmatically generated as its value is stored in GitHub's “secrets” vault.
+```bash
+docker build --force-rm --no-cache -t soils-revealed:latest .
+docker run -p3001:3001 --env-file .env soils-revealed:latest /soils-revealed/run.sh production
+```
 
-Overall, deploying to either environment takes between 1 to 2 minutes to complete.
+**Note:** We have created a `.env` file on the project root with all variables, and this will be used to run nodejs in production mode. This is a deployment to test nodejs in production mode.  
+
+**Note:** Dockerfile has `CMD` implementing production.
+
+
+### Google GKE
+
+Public deployment is based on Google Cloud build and file `.cloudbuild.yaml`. Up on push to `master` or `develop`, the following steps will happen:
+
+1. Github will trigger a Google Cloud run trigger
+2. Google cloud will pull the branch content.
+3. Docker build will be iniciated, using `Dockerfile` and `.cloudbuild.yaml`  
+4. After completed Docker image is stored on a private repository, using tags `latest` and `$SHORT_SHA`
+5. Google Cloud build will update the image on GKE and make a `kubectl rollout restart`
+6. GKE contains a specific `ConfigMap` with all .env necessary for deployment.
+7. `gee.key.json` is added to the pods using a `ConfigMap` mount
+ 
+
+Overall, deploying to either environment takes between 5 to 10 minutes to complete. If deployment is not successful GKE will continue implementing the previous deployment.
 
 ## Architecture
 

@@ -1,0 +1,18 @@
+# ignore folder on copy (more for local build)
+*.md
+.git
+.cache
+.history
+node_modules
+npm-debug.log
+.prettierrc
+.gitignore
+.github
+.git
+.eslintrc
+.env.default
+.editorconfig
+.dockerignore
+.env
+Dockerfile
+.cloudbuild.yaml
