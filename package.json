@@ -55,7 +55,7 @@
     "layer-manager": "^3.0.7",
     "lodash": "^4.17.19",
     "luma.gl": "7.3.2",
-    "next": "^10.0.2",
+    "next": "^11.1.0",
     "next-redux-wrapper": "^5.0.0",
     "next-routes": "^1.4.2",
     "node-sass": "^4.13.1",
