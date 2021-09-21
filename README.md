@@ -44,7 +44,7 @@ Below is a description of each of the keys.
 | AWS_BUCKET_NAME | Name of the AWS S3 bucket storing the tiles of the soils layers |
 | AWS_ACCESS_KEY_ID | Access key ID of the AWS server storing the tiles of the soils layers |
 | AWS_SECRET_ACCESS_KEY | Secret access key of the AWS server storing the tiles of the soils layers |
-| AWS_MAX_Z_TILE_STORAGE | Maximum zoom at which tiles generated on-the-fly will be saved in the AWS S3 bucket 
+| AWS_MAX_Z_TILE_STORAGE | Maximum zoom at which tiles generated on-the-fly will be saved in the AWS S3 bucket |
 
 ## Deployment
 
