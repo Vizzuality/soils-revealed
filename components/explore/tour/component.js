@@ -154,7 +154,7 @@ const ExploreTour = props => {
         previousShowTour.current = showTour;
       }
     }
-  }, [previousShowTour.current, showTour, props, stepIndex, setOpened, updateShowTour]);
+  }, [showTour, props, stepIndex, setOpened, updateShowTour]);
 
   const onChange = useCallback(
     ({ action, type }) => {
