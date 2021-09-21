@@ -29,7 +29,6 @@ import InfoModal from './info-modal';
 import InteractiveFeaturePopup from './interactive-feature-popup';
 import DrawBoard from './draw-board';
 import MapContainer from './map-container';
-import UserModal from 'components/user-modal';
 
 import './style.scss';
 
@@ -77,14 +76,6 @@ const Explore = ({
   );
   const [interactiveFeatures, setInteractiveFeatures] = useState(null);
   const [showTour, setShowTour] = useState(false);
-
-  // User recruitment modal. This modal should appear just the first time the user
-  // visits the map section
-  const [userModalOpen, setUserModalOpen] = useState(isModalShown());
-
-  const handleModalClose = () => {
-    setUserModalOpen(false);
-  };
 
   // When the user clicks the popup's button that triggers its close, the map also receives the
   // event and it opens a new popup right after
@@ -232,7 +223,6 @@ const Explore = ({
       className="c-explore"
       style={isDesktop ? { backgroundColor: BASEMAPS[basemap].backgroundColor } : undefined}
     >
-      <UserModal open={userModalOpen} onClose={handleModalClose} />
       {isDesktop && (
         <>
           {showTour && <Tour />}
