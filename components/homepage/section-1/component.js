@@ -5,11 +5,13 @@ import Image from 'next/image';
 import { Link } from 'lib/routes';
 import { logEvent } from 'utils/analytics';
 import AboutModal from 'components/about-modal';
+import JoinUsModal from 'components/join-us-modal';
 
 import './style.scss';
 
 const Section1 = () => {
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
+  const [joinUsModalOpen, setJoinUsModalOpen] = useState(false);
 
   const onClickExplore = useCallback(() => {
     logEvent('Homepage', 'click on calls to action buttons', 'explore map (top of page)');
@@ -20,9 +22,15 @@ const Section1 = () => {
     setAboutModalOpen(true);
   }, [setAboutModalOpen]);
 
+  const onClickJoinUs = useCallback(() => {
+    logEvent('Homepage', 'click on calls to action buttons', 'join us (top of page)');
+    setJoinUsModalOpen(true);
+  }, [setJoinUsModalOpen]);
+
   return (
     <>
       <AboutModal open={aboutModalOpen} onClose={() => setAboutModalOpen(false)} />
+      <JoinUsModal open={joinUsModalOpen} onClose={() => setJoinUsModalOpen(false)} />
       <section className="c-homepage-section-1">
         <div className="scroll-text-container">
           <div className="container text-center">
@@ -36,21 +44,30 @@ const Section1 = () => {
                 biggest impact.
               </div>
             </div>
-            <div className="row">
-              <div className="col-sm-12 col-md-4 offset-md-2 text-center text-md-right mb-3 mb-md-0">
+            <div className="row justify-content-center">
+              <div className="col-sm-12 col-md-auto mb-3 mb-md-0">
                 <Link to="explore">
                   <a className="btn btn-primary btn-fixed-width" onClick={onClickExplore}>
                     Explore map
                   </a>
                 </Link>
               </div>
-              <div className="col-sm-12 col-md-4 text-center text-md-left">
+              <div className="col-sm-12 col-md-auto mb-3 mb-md-0">
                 <button
                   type="button"
                   className="btn btn-outline-primary btn-fixed-width"
                   onClick={onClickAbout}
                 >
                   About us
+                </button>
+              </div>
+              <div className="col-sm-12 col-md-auto">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary btn-fixed-width"
+                  onClick={onClickJoinUs}
+                >
+                  Join us
                 </button>
               </div>
             </div>
