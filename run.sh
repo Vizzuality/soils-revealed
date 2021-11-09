@@ -13,11 +13,9 @@ AWS_REGION=$AWS_REGION\n\
 AWS_BUCKET_NAME=$AWS_BUCKET_NAME\n\
 AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID\n\
 AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY\n\
-AWS_MAX_Z_TILE_STORAGE=$AWS_MAX_Z_TILE_STORAGE\n\
-AIRTABLE_API_KEY=$AIRTABLE_API_KEY\n\
-AIRTABLE_USER_ID=$AIRTABLE_USER_ID" >> .env
-  echo -e "Initiating yarn build"
+AWS_MAX_Z_TILE_STORAGE=$AWS_MAX_Z_TILE_STORAGE" >> .env 
 
+  echo -e "Initiating yarn build"
   yarn build
 
 }
@@ -40,4 +38,3 @@ esac
 #node index.js
 #yarn start
 #exec pm2 start --no-daemon yarn -- start
-
