@@ -1,4 +1,4 @@
-FROM docker.io/debian:stable-slim@sha256:a939c03c4d3e3f53e3ef4ef6e75cb681a3ad56537842f95bf89755da86559b13
+FROM docker.io/debian:bullseye-slim@sha256:312218c8dae688bae4e9d12926704fa9af6f7307a6edb4f66e479702a9af5a0c
 
 # Source: https://www.kabisa.nl/tech/nvm-in-docker/
 # docker build --force-rm --no-cache -t soils-revealed:latest .
@@ -7,8 +7,8 @@ FROM docker.io/debian:stable-slim@sha256:a939c03c4d3e3f53e3ef4ef6e75cb681a3ad565
 SHELL ["/bin/bash","-l","-c"] 
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update \
-    && apt-get install -y tini curl \
+RUN apt update \
+    && apt install -y tini curl \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /soils-revealed
