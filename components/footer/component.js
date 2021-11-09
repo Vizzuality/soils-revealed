@@ -3,15 +3,18 @@ import { Link } from 'lib/routes';
 
 import Icon from 'components/icon';
 import AboutModal from 'components/about-modal';
+import JoinUsModal from 'components/join-us-modal';
 
 import './style.scss';
 
 const Footer = () => {
   const [aboutModalOpen, setAboutModalOpen] = useState(false);
+  const [joinUsModalOpen, setJoinUsModalOpen] = useState(false);
 
   return (
     <>
       <AboutModal open={aboutModalOpen} onClose={() => setAboutModalOpen(false)} />
+      <JoinUsModal open={joinUsModalOpen} onClose={() => setJoinUsModalOpen(false)} />
       <footer className="c-footer">
         <div className="container ">
           <div className="row py-4">
@@ -39,6 +42,15 @@ const Footer = () => {
                           onClick={() => setAboutModalOpen(true)}
                         >
                           About us
+                        </button>
+                      </li>
+                      <li>
+                        <button
+                          type="button"
+                          className="nav-link pb-0"
+                          onClick={() => setJoinUsModalOpen(true)}
+                        >
+                          Join us
                         </button>
                       </li>
                       <li>
