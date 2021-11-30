@@ -1,0 +1,19 @@
+@import 'css/settings';
+
+.c-join-us-modal {
+  max-width: rem(850);
+
+  @include media-breakpoint-up(lg, $grid-breakpoints) {
+    padding: rem(50) rem(100);
+  }
+
+  h1 {
+    @include font-size($font-size-xxl);
+    text-align: center;
+  }
+
+  img {
+    display: inline-block;
+    max-width: 100%;
+  }
+}
