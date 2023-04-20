@@ -20,7 +20,7 @@ steps:
     name: 'gcr.io/cloud-builders/gcloud'
     env:
       - 'KUBECONFIG=/.kube/config'
-      - 'GKE_CLUSTER_NAME=soils-revealed-cluster-v20'
+      - 'GKE_CLUSTER_NAME=$_GKE_CLUSTER_NAME'
     entrypoint: 'bash'
     args:
       - '-c'
