@@ -25,7 +25,7 @@ const AboutModal = ({ open, onClose }) => (
     <p>The project involves collaboration with the following partners:</p>
     <div className="container mt-3">
       <div className="row align-items-center text-center">
-        <div className="col-6 col-md-3 pl-md-0 mb-4 mb-md-0">
+        <div className="col-6 col-md-4 pl-md-0 mb-4">
           <a href="https://www.nature.org" target="_blank" rel="noopener noreferrer">
             <Image
               src="/images/tnc-logo.svg"
@@ -35,29 +35,34 @@ const AboutModal = ({ open, onClose }) => (
             />
           </a>
         </div>
-        <div className="col-6 col-md-3 mb-4 mb-md-0">
+        <div className="col-6 col-md-4 mb-4">
           <a href="https://www.cornell.edu" target="_blank" rel="noopener noreferrer">
             <Image
               src="/images/cornell-university-logo.svg"
               alt="Cornell University"
-              width={100}
-              height={100}
+              width={90}
+              height={90}
             />
           </a>
         </div>
-        <div className="col-6 col-md-3">
+        <div className="col-6 col-md-4 pr-md-0 mb-4">
           <a href="https://www.isric.org" target="_blank" rel="noopener noreferrer">
-            <Image src="/images/isric-logo.svg" alt="ISRIC" width={62} height={100} />
+            <Image src="/images/isric-logo.svg" alt="ISRIC" width={59} height={95} />
           </a>
         </div>
-        <div className="col-6 col-md-3 pr-md-0">
+        <div className="col-6 col-md-4 pl-md-0 mb-4 mb-md-0">
           <a href="https://www.woodwellclimate.org/" target="_blank" rel="noopener noreferrer">
             <Image
               src="/images/wcrc-logo.png"
               alt="Woodwell Climate Research Center"
-              width={185}
-              height={78}
+              width={153}
+              height={65}
             />
+          </a>
+        </div>
+        <div className="col-6 col-md-4 pr-md-0">
+          <a href="https://www.inrae.fr/en" target="_blank" rel="noopener noreferrer">
+            <Image src="/images/inrae-logo.png" alt="INRAE" width={100} height={26} />
           </a>
         </div>
       </div>
