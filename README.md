@@ -85,8 +85,8 @@ Overall, deploying to either environment takes between 5 to 10 minutes to comple
 
 The platform is hosted on an Amazon server and consists of two main applications:
 
-- the web server
-- the on-the-fly analysis service
+- the web server.
+- the on-the-fly analysis service.
 
 The web server is a Node.js application made out of two elements: the Next.js server and an API the server relies on for all of its non-cartographic data (e.g. analysis data) and some of its cartographic data (e.g. the soils layers).
 
