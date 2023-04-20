@@ -20,10 +20,11 @@ steps:
     name: 'gcr.io/cloud-builders/gcloud'
     env:
       - 'KUBECONFIG=/.kube/config'
+      - 'GKE_CLUSTER_NAME=soils-revealed-cluster-v20'
     entrypoint: 'bash'
     args:
       - '-c'
       - |
-        gcloud container clusters get-credentials soils-revealed-cluster  --project=$PROJECT_ID --zone=europe-west4-a
+        gcloud container clusters get-credentials $GKE_CLUSTER_NAME  --project=$PROJECT_ID --zone=europe-west4-a
         kubectl set image deployment/$REPO_NAME --namespace=$BRANCH_NAME soils-revealed=eu.gcr.io/$PROJECT_ID/$REPO_NAME/$BRANCH_NAME/$REPO_NAME:$SHORT_SHA
         kubectl rollout restart deployment $REPO_NAME --namespace=$BRANCH_NAME
