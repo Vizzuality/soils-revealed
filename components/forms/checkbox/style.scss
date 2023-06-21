@@ -1,0 +1,15 @@
+@import 'css/settings';
+
+.c-checkbox {
+  &.custom-checkbox {
+    .custom-control-label {
+      font-family: $font-family-2;
+      @include font-size($font-size-xxs);
+      line-height: $font-size-base * $line-height-base;
+
+      &::before {
+        border-radius: 0;
+      }
+    }
+  }
+}
