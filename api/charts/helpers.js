@@ -1,3 +1,5 @@
+const { LAYERS } = require('../../components/map/constants');
+
 /**
  * Parse the data of the timeseries chart
  * @param {number[]} years List of years
@@ -37,6 +39,44 @@ exports.parseChangeData = (counts, bins, average, area) => {
       bin: bins[index],
     })),
   };
+};
+
+/**
+ * Return the land cover legend item that corresponds to a land cover class ID
+ * @param {string} id ID of the land cover class
+ * @param {boolean} isMainClass Whether this is a main land cover class
+ */
+const getLandCoverClassLegendItem = (id, isMainClass = true) => {
+  if (isMainClass) {
+    return LAYERS['land-cover'].legend.items.find(({ id: itemId }) => itemId === id);
+  }
+
+  let res = null;
+  LAYERS['land-cover'].legend.items.some(({ items }) => {
+    const legendItem = items.find(({ id: itemId }) => itemId === id);
+    if (legendItem) {
+      res = legendItem;
+      return true;
+    }
+
+    return false;
+  });
+
+  return res;
+};
+
+/**
+ * Parse the data of the change by land cover chart
+ * @param {Record<string, Record<string, number>>[]} mainClasses Data for the main classes
+ * @param {Record<string, Record<string, number>>[]} mainClassesBreakdown Data breakdown for the main classes
+ * @param {Record<string, Record<string, Record<string, number>>>[]} subClasses Data for the subclasses
+ */
+exports.parseChangeByLandCoverData = (mainClasses, mainClassesBreakdown, subClasses) => {
+  return Object.keys(mainClasses).map(mainClassId => ({
+    id: mainClassId,
+    name: getLandCoverClassLegendItem(mainClassId).name,
+    breakdown: mainClasses[mainClassId],
+  }));
 };
 
 /**

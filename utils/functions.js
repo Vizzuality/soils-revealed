@@ -71,6 +71,27 @@ export const getHumanReadableValue = number => {
 };
 
 /**
+ * Return the scientific prefix (k, M, G, etc.) and power of 10 of a value
+ * @param {number} value Value to analyze in tons
+ * @returns {[string, number]}
+ */
+export const getValuePrefixAndPow = value => {
+  const factors = /** @type {[string, number][]} */ ([
+    ['P', 15],
+    ['T', 12],
+    ['G', 9],
+    ['M', 6],
+    ['k', 3],
+    ['', 0],
+  ]);
+
+  return factors.find(
+    // The value we receive is in tons, so we need to multiply it by 10⁶
+    ([, pow]) => Math.abs(value * Math.pow(10, 6)) / Math.pow(10, pow) > 1 || pow === 0
+  );
+};
+
+/**
  * Return the formatted value and its unit
  * @param {number} value Value to be formatted
  * @param {string} layer ID of the SOC layer
@@ -124,19 +145,7 @@ export const getFormattedValue = (value, layer, layerType, section) => {
         (layer === 'soc-stock' || (layer === 'soc-experimental' && layerType === 'stock')) &&
         (section === 'ranking-total' || section === 'analysis-change-total'),
       formatter: value => {
-        const factors = /** @type {[string, number][]} */ ([
-          ['P', 15],
-          ['T', 12],
-          ['G', 9],
-          ['M', 6],
-          ['k', 3],
-          ['', 0],
-        ]);
-
-        const [prefix, pow] = factors.find(
-          // The value we receive is in tons, so we need to multiply it by 10⁶
-          ([, pow]) => Math.abs(value * Math.pow(10, 6)) / Math.pow(10, pow) > 1 || pow === 0
-        );
+        const [prefix, pow] = getValuePrefixAndPow(value);
 
         return {
           unit: `${prefix}g C`,

@@ -247,4 +247,45 @@
       font-weight: $font-weight-medium;
     }
   }
+
+  .change-by-land-cover-section {
+    .recharts-responsive-container {
+      overflow: visible;
+
+      svg {
+        overflow: visible;
+      }
+
+      .recharts-bar-rectangle {
+        path {
+          stroke: $body-bg;
+        }
+      }
+    }
+
+    .recharts-tooltip-wrapper {
+      z-index: 10;
+    }
+
+    .recharts-default-tooltip {
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          display: flex;
+          margin-top: map-get($spacers, 2);
+        }
+      }
+
+      .color-pill {
+        position: relative;
+        top: map-get($spacers, 1);
+        margin-right: map-get($spacers, 2);
+        width: rem(12);
+        height: rem(12);
+      }
+    }
+  }
 }

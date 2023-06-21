@@ -1,6 +1,7 @@
 const getOnTheFlyData = require('./on-the-fly');
 const getTimeseriesData = require('./timeseries');
 const getChangeData = require('./change');
+const getChangeByLandCoverData = require('./change-by-land-cover');
 const { combineTimeseriesData, combineChangeData } = require('./helpers');
 
 module.exports = async (
@@ -27,6 +28,13 @@ module.exports = async (
               scenario,
             }),
             change: await getChangeData({ layer, type, boundaries, depth, areaInterest, scenario }),
+            changeByLandCover: await getChangeByLandCoverData({
+              layer,
+              type,
+              boundaries,
+              areaInterest,
+              scenario,
+            }),
           };
 
     resData = data;

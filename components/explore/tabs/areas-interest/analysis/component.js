@@ -11,6 +11,7 @@ import Tooltip from 'components/tooltip';
 import Compare from './compare';
 import TimeseriesSection from './timeseries-section';
 import ChangeSection from './change-section';
+import ChangeByLandCoverSection from './change-by-land-cover-section';
 import RankingSection from './ranking-section';
 import { useChartsData } from './helpers';
 
@@ -204,6 +205,14 @@ const Analysis = ({
           socLayerState.type === 'future') && (
           <TimeseriesSection data={data?.timeseries} loading={!data && !error} error={!!error} />
         )}
+        {socLayerState.id === 'soc-stock' &&
+          (socLayerState.type === 'recent' || socLayerState.type === 'future') && (
+            <ChangeByLandCoverSection
+              data={data?.changeByLandCover}
+              loading={!data && !error}
+              error={!!error}
+            />
+          )}
         {areaInterest.level === 0 && !compareAreaInterest && <RankingSection />}
       </div>
     </div>

@@ -1243,88 +1243,264 @@ exports.LAYERS = {
       type: 'basic',
       items: [
         {
-          color: '#ffff64',
-          name: 'Cropland rainfed',
-        },
-        {
-          color: '#aaf0f0',
-          name: 'Cropland irrigated or post-flooding',
-        },
-        {
-          color: '#dcf064',
-          name: 'Mosaic cropland (>50%) / natural vegetation (<50%)',
-        },
-        {
-          color: '#c8c864',
-          name: 'Mosaic natural vegetation (>50%) / cropland (<50%)',
-        },
-        {
-          color: '#006400',
-          name: 'Tree cover broadleaved evergreen (>%15)',
-        },
-        {
-          color: '#00a000',
-          name: 'Tree cover broadleaved deciduous (>%15)',
-        },
-        {
-          color: '#003c00',
-          name: 'Tree cover needleleaved evergreen (>%15)',
-        },
-        {
-          color: '#285000',
-          name: 'Tree cover needleleaved deciduous (>%15)',
-        },
-        {
-          color: '#788200',
-          name: 'Tree cover mixed leaf type (broadleaved and needleleaved)',
-        },
-        {
-          color: '#8ca000',
-          name: 'Mosaic tree and shrub (>50%) / herbaceous cover (<50%)',
-        },
-        {
-          color: '#be9600',
-          name: 'Mosaic herbaceous cover (>50%) / tree and shrub (<50%)',
-        },
-        {
-          color: '#966400',
-          name: 'Shrubland',
-        },
-        {
-          color: '#ffb432',
-          name: 'Grassland',
-        },
-        {
-          color: '#ffdcd2',
-          name: 'Lichens and mosses',
-        },
-        {
-          color: '#ffebaf',
-          name: 'Sparse vegetation (<15%)',
-        },
-        {
-          color: '#00785a',
-          name: 'Tree cover flooded fresh/brakish water',
-        },
-        {
-          color: '#009678',
-          name: 'Tree cover flooded saline water',
-        },
-        {
-          color: '#00dc82',
-          name: 'Shrub or herbaceous cover flooded',
-        },
-        {
-          color: '#c31400',
-          name: 'Urban areas',
-        },
-        {
-          color: '#c31400',
-          name: 'Bare areas',
-        },
-        {
+          id: '0',
           color: '#ffffff',
-          name: 'Permanent snow and ice',
+          name: 'No Data',
+          items: [
+            {
+              id: '0',
+              color: '#ffffff',
+              name: 'No Data',
+            },
+          ],
+        },
+        {
+          id: '1',
+          color: '#dfc30c',
+          name: 'Cropland',
+          items: [
+            {
+              id: '10',
+              color: '#5B5B18',
+              name: 'Cropland rainfed',
+            },
+            {
+              id: '11',
+              color: '#7D7616',
+              name: 'Cropland rainfed herbaceous cover',
+            },
+            {
+              id: '20',
+              color: '#A09113',
+              name: 'Cropland irrigated or post-flooding',
+            },
+            {
+              id: '30',
+              color: '#C0AB10',
+              name: 'Mosaic cropland',
+            },
+            {
+              id: '40',
+              color: '#DFC30C',
+              name: 'Mosaic natural vegetation',
+            },
+          ],
+        },
+        {
+          id: '2',
+          color: '#0B842F',
+          name: 'Tree-cover areas',
+          items: [
+            {
+              id: '12',
+              color: '#124d00',
+              name: 'Cropland rainfed tree or shrub cover',
+            },
+            {
+              id: '50',
+              color: '#136010',
+              name: 'Tree broadleaved evergreen closed to open',
+            },
+            {
+              id: '60',
+              color: '#117221',
+              name: 'Tree broadleaved deciduous closed to open',
+            },
+            {
+              id: '61',
+              color: '#0b842f',
+              name: 'Tree broadleaved deciduous closed',
+            },
+            {
+              id: '62',
+              color: '#2a9339',
+              name: 'Tree broadleaved deciduous open',
+            },
+            {
+              id: '70',
+              color: '#4aa040',
+              name: 'Tree needleleaved evergreen closed to open',
+            },
+            {
+              id: '71',
+              color: '#64ac48',
+              name: 'Tree needleleaved evergreen closed',
+            },
+            {
+              id: '72',
+              color: '#7ab84f',
+              name: 'Tree needleleaved evergreen open',
+            },
+            {
+              id: '80',
+              color: '#91c357',
+              name: 'Tree needleleaved deciduous closed to open',
+            },
+            {
+              id: '81',
+              color: '#a5ce5f',
+              name: 'Tree needleleaved deciduous closed',
+            },
+            {
+              id: '82',
+              color: '#b9d867',
+              name: 'Tree needleleaved deciduous open',
+            },
+            {
+              id: '90',
+              color: '#cce36f',
+              name: 'Tree mixed',
+            },
+            {
+              id: '100',
+              color: '#e0ed78',
+              name: 'Mosaic tree and shrub',
+            },
+          ],
+        },
+        {
+          id: '3',
+          color: '#C69323',
+          name: 'Rangeland and pasture',
+          items: [
+            {
+              id: '110',
+              color: '#967216',
+              name: 'Mosaic herbaceous',
+            },
+            {
+              id: '120',
+              color: '#a67d1a',
+              name: 'Shrubland',
+            },
+            {
+              id: '121',
+              color: '#b6881f',
+              name: 'Shrubland evergreen',
+            },
+            {
+              id: '122',
+              color: '#c69323',
+              name: 'Shrubland deciduous',
+            },
+            {
+              id: '130',
+              color: '#d69e27',
+              name: 'Grassland',
+            },
+            {
+              id: '140',
+              color: '#e6a82b',
+              name: 'Lichens and mosses',
+            },
+            {
+              id: '150',
+              color: '#f6b148',
+              name: 'Sparse vegetation',
+            },
+            {
+              id: '151',
+              color: '#febc7a',
+              name: 'Sparse tree',
+            },
+            {
+              id: '152',
+              color: '#ffcaaa',
+              name: 'Sparse shrub',
+            },
+            {
+              id: '153',
+              color: '#f8dcd3',
+              name: 'Sparse herbaceous',
+            },
+          ],
+        },
+        {
+          id: '4',
+          color: '#016A6D',
+          name: 'Wetland',
+          items: [
+            {
+              id: '160',
+              color: '#016A6D',
+              name: 'Tree cover flooded fresh or brackish water',
+            },
+            {
+              id: '180',
+              color: '#35ADAD',
+              name: 'Shrub or herbaceous cover flooded',
+            },
+          ],
+        },
+        {
+          id: '5',
+          color: '#42DED5',
+          name: 'Mangroves',
+          items: [
+            {
+              id: '170',
+              color: '#42DED5',
+              name: 'Tree cover flooded saline water',
+            },
+          ],
+        },
+        {
+          id: '6',
+          color: '#3640B7',
+          name: 'Urban areas',
+          items: [
+            {
+              id: '190',
+              color: '#3640B7',
+              name: 'Urban areas',
+            },
+          ],
+        },
+        {
+          id: '7',
+          color: '#C54802',
+          name: 'Bare areas',
+          items: [
+            {
+              id: '200',
+              color: '#C54802',
+              name: 'Bare areas',
+            },
+            {
+              id: '201',
+              color: '#DF704F',
+              name: 'Bare areas consolidated',
+            },
+            {
+              id: '202',
+              color: '#FD9CA7',
+              name: 'Bare areas unconsolidated',
+            },
+          ],
+        },
+        {
+          id: '8',
+          color: '#48A7FF',
+          name: 'Water bodies',
+          items: [
+            {
+              id: '210',
+              color: '#48A7FF',
+              name: 'Water bodies',
+            },
+          ],
+        },
+        {
+          id: '9',
+          color: '#B9EEEF',
+          name: 'Snow and ice',
+          items: [
+            {
+              id: '220',
+              color: '#B9EEEF',
+              name: 'Snow and ice',
+            },
+          ],
         },
       ],
 
