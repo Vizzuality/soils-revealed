@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   ResponsiveContainer,
@@ -20,6 +20,8 @@ import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
 import NoDataMessage from 'components/explore/no-data-message';
 import { LAYERS } from 'components/map';
+import Checkbox from 'components/forms/checkbox';
+import WidgetTooltip from './widget-tooltip';
 
 const Y_AXIS_WIDTH = 90;
 
@@ -35,6 +37,9 @@ const ChangeByLandCoverSection = ({
   removeLayer,
   addLayer,
 }) => {
+  // TODO: move to the Redux state to synchonize with the legend
+  const [showDetailedClasses, setShowDetailedClasses] = useState(false);
+
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
     [legendLayers]
@@ -184,6 +189,13 @@ const ChangeByLandCoverSection = ({
             )}
             {typeOption.settings.depth.options.length <= 1 && <strong>{depthOption.label}</strong>}.
           </div>
+          <Checkbox
+            id="land-cover-detailed-classes"
+            checked={showDetailedClasses}
+            onChange={setShowDetailedClasses}
+          >
+            Detailed land cover classes
+          </Checkbox>
           <ResponsiveContainer width="100%" aspect={0.9}>
             <BarChart
               data={data}
@@ -195,51 +207,14 @@ const ChangeByLandCoverSection = ({
               <Tooltip
                 allowEscapeViewBox={{ x: false, y: true }}
                 offset={20}
-                content={({ payload }) => {
-                  if (!payload.length) {
-                    return null;
-                  }
-
-                  return (
-                    <div className="recharts-default-tooltip">
-                      <div className="recharts-tooltip-item">
-                        Land cover{' '}
-                        {socLayerState.type === 'future'
-                          ? typeOptions[1].settings.year2.defaultOption
-                          : year1Option.label}
-                      </div>
-                      <ul>
-                        {payload
-                          .sort(({ value: valueA }, { value: valueB }) => {
-                            if (valueA * valueB < 0) {
-                              return valueA < 0 ? -1 : 1;
-                            }
-
-                            return valueB - valueA;
-                          })
-                          .map(item => {
-                            // The value we receive is in tons, so we need to multiply it by 10⁶
-                            let formattedValue = getHumanReadableValue(
-                              (item.value * Math.pow(10, 6)) / Math.pow(10, unitPow)
-                            );
-
-                            formattedValue =
-                              item.value === 0 ? 0 : `${formattedValue} ${unitPrefix}g C`;
-
-                            return (
-                              <li key={item.name}>
-                                <div className="color-pill" style={{ background: item.color }} />
-                                <div>
-                                  <div>{item.name}</div>
-                                  <div className="recharts-tooltip-item">{formattedValue}</div>
-                                </div>
-                              </li>
-                            );
-                          })}
-                      </ul>
-                    </div>
-                  );
-                }}
+                content={({ payload }) => (
+                  <WidgetTooltip
+                    payload={payload}
+                    detailedClasses={showDetailedClasses}
+                    unitPow={unitPow}
+                    unitPrefix={unitPrefix}
+                  />
+                )}
               />
               <CartesianGrid horizontal={false} strokeDasharray="5 5" />
               <XAxis
@@ -308,15 +283,32 @@ const ChangeByLandCoverSection = ({
                 />
               </YAxis>
 
-              {LAYERS['land-cover'].legend.items.map(({ id, name, color }) => (
-                <Bar
-                  key={id}
-                  dataKey={`breakdown.${id}`}
-                  name={name}
-                  fill={color}
-                  stackId="stack"
-                />
-              ))}
+              {!showDetailedClasses &&
+                LAYERS['land-cover'].legend.items.map(({ id, name, color }) => (
+                  <Bar
+                    key={id}
+                    dataKey={`breakdown.${id}`}
+                    name={name}
+                    fill={color}
+                    stackId="stack"
+                    isAnimationActive={false}
+                  />
+                ))}
+
+              {showDetailedClasses &&
+                LAYERS['land-cover'].legend.items
+                  .map(item => item.items)
+                  .flat()
+                  .map(({ id, name, color }) => (
+                    <Bar
+                      key={id}
+                      dataKey={`detailedBreakdown.${id}`}
+                      name={name}
+                      fill={color}
+                      stackId="stack"
+                      isAnimationActive={false}
+                    />
+                  ))}
             </BarChart>
           </ResponsiveContainer>
         </>

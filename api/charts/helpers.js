@@ -76,6 +76,7 @@ exports.parseChangeByLandCoverData = (mainClasses, mainClassesBreakdown, subClas
     id: mainClassId,
     name: getLandCoverClassLegendItem(mainClassId).name,
     breakdown: mainClasses[mainClassId],
+    detailedBreakdown: mainClassesBreakdown[mainClassId],
   }));
 };
 

@@ -249,6 +249,18 @@
   }
 
   .change-by-land-cover-section {
+    .chart-intro {
+      margin-bottom: map-get($spacers, 2);
+    }
+
+    .c-checkbox {
+      margin-bottom: map-get($spacers, 2);
+
+      label {
+        text-transform: uppercase;
+      }
+    }
+
     .recharts-responsive-container {
       overflow: visible;
 
@@ -258,7 +270,7 @@
 
       .recharts-bar-rectangle {
         path {
-          stroke: $body-bg;
+          stroke-width: 0;
         }
       }
     }
@@ -268,6 +280,8 @@
     }
 
     .recharts-default-tooltip {
+      width: rem(200);
+
       ul {
         list-style: none;
         padding: 0;
@@ -285,6 +299,7 @@
         margin-right: map-get($spacers, 2);
         width: rem(12);
         height: rem(12);
+        flex-shrink: 0;
       }
     }
   }
