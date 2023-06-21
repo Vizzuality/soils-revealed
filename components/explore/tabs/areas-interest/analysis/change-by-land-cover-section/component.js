@@ -114,8 +114,9 @@ const ChangeByLandCoverSection = ({
   );
 
   const onClickDownload = useCallback(() => {
-    logEvent('Areas of interest', 'download data', 'download time series data');
+    logEvent('Areas of interest', 'download data', 'download change by land cover data');
 
+    // TODO: we can improve the downloaded data by injecting the name of the classes
     const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
@@ -123,7 +124,7 @@ const ChangeByLandCoverSection = ({
     a.href = url;
     a.download = `${slugify(areaInterest.name)}-${
       compareAreaInterest ? `${slugify(compareAreaInterest.name)}-` : ''
-    }timeseries-data.json`;
+    }change-by-land-cover-data.json`;
     a.click();
   }, [data, areaInterest, compareAreaInterest]);
 
