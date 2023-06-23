@@ -220,7 +220,7 @@ const ChangeByLandCoverSection = ({
                     (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
                   );
 
-                  return value === 0 ? 0 : `${formattedValue}${unitPrefix}`;
+                  return value === 0 ? 0 : formattedValue;
                 }}
               >
                 <Label
@@ -234,14 +234,15 @@ const ChangeByLandCoverSection = ({
                           y={viewBox.y + LINE_HEIGHT + 40}
                           textAnchor="end"
                         >
-                          SOC {socLayerState.id !== 'soc-stock' ? socLayerState.type : `stock`}
+                          SOC {socLayerState.id !== 'soc-stock' ? socLayerState.type : `stock`}{' '}
+                          change
                         </text>
                         <text
                           x={viewBox.width + Y_AXIS_WIDTH}
                           y={viewBox.y + LINE_HEIGHT * 2 + 40}
                           textAnchor="end"
                         >
-                          (g C)
+                          ({unitPrefix}g C)
                         </text>
                       </g>
                     );

@@ -155,6 +155,7 @@
 
       .recharts-label {
         @include font-size($font-size-xxs);
+        font-weight: $font-weight-medium;
         fill: $primary;
       }
     }
@@ -172,6 +173,10 @@
       .recharts-text {
         @include font-size($font-size-xxs);
         fill: $primary;
+      }
+
+      .recharts-label {
+        font-weight: $font-weight-medium;
       }
 
       .recharts-legend {
