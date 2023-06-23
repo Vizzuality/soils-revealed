@@ -1229,6 +1229,14 @@ exports.LAYERS = {
       "Land Cover from the European Space Agency's Climate Change Initiative Land Cover (ESA CCI-LC) dataset, categorized under the IPCC land cover classification system at 300 m resolution.",
     group: 'land-use',
     attributions: ['rw'],
+    paramsConfig: {
+      settings: {
+        detailedClasses: {
+          label: 'Detailed land cover classes',
+          default: false,
+        },
+      },
+    },
     config: {
       type: 'raster',
       source: (year = 2018) => {

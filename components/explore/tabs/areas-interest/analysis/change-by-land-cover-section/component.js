@@ -30,19 +30,25 @@ const ChangeByLandCoverSection = ({
   error,
   legendLayers,
   socLayerState,
+  landCoverLayerState,
   areaInterest,
   compareAreaInterest,
   updateLayer,
   removeLayer,
   addLayer,
 }) => {
-  // TODO: move to the Redux state to synchonize with the legend
-  const [showDetailedClasses, setShowDetailedClasses] = useState(false);
   const [classId, setClassId] = useState(null);
 
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
     [legendLayers]
+  );
+
+  const showDetailedClasses = useMemo(
+    () =>
+      landCoverLayerState.detailedClasses ??
+      landCoverLayerState.config.settings.detailedClasses.default,
+    [landCoverLayerState]
   );
 
   const typeOptions = useMemo(
@@ -104,6 +110,11 @@ const ChangeByLandCoverSection = ({
       addLayer('land-cover');
     }
   }, [landCoverActive, removeLayer, addLayer]);
+
+  const onChangeDetailedClasses = useCallback(
+    detailedClasses => updateLayer({ id: landCoverLayerState.id, detailedClasses }),
+    [landCoverLayerState, updateLayer]
+  );
 
   const onChangeDepth = useCallback(
     ({ value }) => updateLayer({ id: socLayerState.id, depth: value }),
@@ -220,13 +231,13 @@ const ChangeByLandCoverSection = ({
             id="land-cover-detailed-classes"
             checked={showDetailedClasses}
             onChange={visible => {
-              setShowDetailedClasses(visible);
+              onChangeDetailedClasses(visible);
               if (!visible) {
                 setClassId(null);
               }
             }}
           >
-            Detailed land cover classes
+            {landCoverLayerState.config.settings.detailedClasses.label}
           </Checkbox>
           <ResponsiveContainer width="100%" aspect={0.9}>
             <BarChart
@@ -343,6 +354,7 @@ ChangeByLandCoverSection.propTypes = {
   error: PropTypes.bool,
   legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   socLayerState: PropTypes.object.isRequired,
+  landCoverLayerState: PropTypes.object.isRequired,
   areaInterest: PropTypes.object.isRequired,
   compareAreaInterest: PropTypes.object,
   updateLayer: PropTypes.func.isRequired,

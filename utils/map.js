@@ -232,11 +232,17 @@ export const toggleRoads = (map, showRoads) => {
 };
 
 export const getLayerExtraParams = (layer, layerConfig) => {
-  if (layer.id === 'soc-experimental' || layer.id === 'soc-stock') {
-    return {
-      config: layer.paramsConfig,
-      // We only support two levels of nesting otherwise we'd need to recurse
-      ...Object.keys(layer.paramsConfig.settings).reduce((res, key) => {
+  if (!layer.paramsConfig) {
+    return undefined;
+  }
+
+  return {
+    config: layer.paramsConfig,
+    // We only support two levels of nesting otherwise we'd need to recurse
+    ...Object.keys(layer.paramsConfig.settings).reduce((res, key) => {
+      const setting = layer.paramsConfig.settings[key];
+
+      if (setting.options) {
         const value = layerConfig[key] || layer.paramsConfig.settings[key].defaultOption;
         const { settings } = layer.paramsConfig.settings[key].options.find(
           option => option.value === value
@@ -253,9 +259,19 @@ export const getLayerExtraParams = (layer, layerConfig) => {
             {}
           ),
         };
-      }, {}),
-    };
-  }
+      }
 
-  return undefined;
+      if (setting.default !== undefined) {
+        // If the layer is not visible, `layerConfig` will be `undefined`
+        const value = (layerConfig && layerConfig[key]) || layer.paramsConfig.settings[key].default;
+
+        return {
+          ...res,
+          [key]: value,
+        };
+      }
+
+      return res;
+    }, {}),
+  };
 };

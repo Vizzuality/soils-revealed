@@ -83,7 +83,11 @@ export const selectBasemapLayerDef = createSelector(
 
 export const selectDataLayers = () => LAYERS;
 
-export const selectActiveDataLayers = createSelector([selectLayers], layers => Object.keys(layers));
+export const selectActiveDataLayers = createSelector([selectLayers], layers =>
+  // Some layers may have parameters though they are not active on the map. They will be inside
+  // `layers` but the `visible` property won't exist.
+  Object.keys(layers).filter(layerId => layers[layerId].visible !== undefined)
+);
 
 export const selectSOCLayerId = createSelector([selectActiveDataLayers], activeDataLayers =>
   activeDataLayers.indexOf('soc-stock') !== -1 ? 'soc-stock' : 'soc-experimental'
@@ -105,6 +109,20 @@ export const selectSOCLayerState = createSelector(
       id: socLayerId,
       label: dataLayers[socLayerId].label,
       ...getLayerExtraParams({ id: socLayerId, ...dataLayers[socLayerId] }, layers[socLayerId]),
+    };
+  }
+);
+
+export const selectLandCoverLayerState = createSelector(
+  [selectDataLayers, selectLayers],
+  (dataLayers, layers) => {
+    return {
+      id: 'land-cover',
+      label: dataLayers['land-cover'].label,
+      ...getLayerExtraParams(
+        { id: 'land-cover', ...dataLayers['land-cover'] },
+        layers['land-cover']
+      ),
     };
   }
 );
@@ -347,6 +365,9 @@ export default exploreActions =>
       },
       addLayer(state, action) {
         state.layers[action.payload] = {
+          // Some layers may already be exist (because they have parameters) but not yet on the map.
+          // For this reason, we want to keep any previous configuration.
+          ...(state.layers[action.payload] ?? {}),
           visible: true,
           opacity: 1,
           // Like z-index, the higher = on top
@@ -356,7 +377,15 @@ export default exploreActions =>
       removeLayer(state, action) {
         const order = state.layers[action.payload].order;
 
-        delete state.layers[action.payload];
+        if (!LAYERS[action.payload].paramsConfig) {
+          delete state.layers[action.payload];
+        } else {
+          // Even if the layer must not be visible on the map anymore, we still want to keep its
+          // parameters intact
+          delete state.layers[action.payload].visible;
+          delete state.layers[action.payload].opacity;
+          delete state.layers[action.payload].order;
+        }
 
         // We make sure to update the order of all the layers
         Object.keys(state.layers).forEach(layerId => {
@@ -384,7 +413,8 @@ export default exploreActions =>
         const { id, ...shrunkPayload } = action.payload;
 
         state.layers[action.payload.id] = {
-          ...state.layers[action.payload.id],
+          // May be `undefined` if the layer is not active
+          ...(state.layers[action.payload.id] ?? {}),
           ...shrunkPayload,
         };
       },

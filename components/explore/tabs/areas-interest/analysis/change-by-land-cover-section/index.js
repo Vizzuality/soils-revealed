@@ -7,6 +7,7 @@ export default connect(
   state => ({
     legendLayers: mapSelectors.selectLegendDataLayers(state),
     socLayerState: mapSelectors.selectSOCLayerState(state),
+    landCoverLayerState: mapSelectors.selectLandCoverLayerState(state),
     areaInterest: analysisSelectors.selectAreaInterest(state),
     compareAreaInterest: analysisSelectors.selectCompareAreaInterest(state),
   }),
