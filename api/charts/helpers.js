@@ -77,6 +77,11 @@ exports.parseChangeByLandCoverData = (mainClasses, mainClassesBreakdown, subClas
     name: getLandCoverClassLegendItem(mainClassId).name,
     breakdown: mainClasses[mainClassId],
     detailedBreakdown: mainClassesBreakdown[mainClassId],
+    subClasses: Object.keys(subClasses[mainClassId]).map(subClassId => ({
+      id: subClassId,
+      name: getLandCoverClassLegendItem(subClassId, false).name,
+      detailedBreakdown: subClasses[mainClassId][subClassId],
+    })),
   }));
 };
 

@@ -10,18 +10,16 @@ import {
   Label,
   Tooltip,
 } from 'recharts';
-import min from 'lodash/min';
-import max from 'lodash/max';
 
 import { logEvent } from 'utils/analytics';
-import { slugify, getValuePrefixAndPow, getHumanReadableValue } from 'utils/functions';
+import { slugify, getHumanReadableValue } from 'utils/functions';
 import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
 import NoDataMessage from 'components/explore/no-data-message';
-import { LAYERS } from 'components/map';
 import Checkbox from 'components/forms/checkbox';
 import WidgetTooltip from './widget-tooltip';
+import { useChartData } from './helpers';
 
 const Y_AXIS_WIDTH = 90;
 
@@ -39,6 +37,7 @@ const ChangeByLandCoverSection = ({
 }) => {
   // TODO: move to the Redux state to synchonize with the legend
   const [showDetailedClasses, setShowDetailedClasses] = useState(false);
+  const [classId, setClassId] = useState(null);
 
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
@@ -89,16 +88,13 @@ const ChangeByLandCoverSection = ({
     legendLayers,
   ]);
 
-  const [unitPrefix, unitPow] = useMemo(() => {
-    if (!error && !loading && data?.length > 0) {
-      const minValue = min(data.map(item => Object.values(item.breakdown)).flat());
-      const maxValue = max(data.map(item => Object.values(item.breakdown)).flat());
-      const maxAbsValue = max([Math.abs(minValue), maxValue]);
-      return getValuePrefixAndPow(maxAbsValue);
-    }
-
-    return getValuePrefixAndPow(0);
-  }, [error, loading, data]);
+  const { chartData, barData, getWidgetData, getYAxisTick, unitPrefix, unitPow } = useChartData({
+    error,
+    loading,
+    data,
+    showDetailedClasses,
+    classId,
+  });
 
   const onToggleLandCover = useCallback(() => {
     if (landCoverActive) {
@@ -199,7 +195,7 @@ const ChangeByLandCoverSection = ({
           </Checkbox>
           <ResponsiveContainer width="100%" aspect={0.9}>
             <BarChart
-              data={data}
+              data={chartData}
               margin={{ top: 50, right: 0, bottom: 45, left: 0 }}
               layout="vertical"
               stackOffset="sign"
@@ -208,14 +204,9 @@ const ChangeByLandCoverSection = ({
               <Tooltip
                 allowEscapeViewBox={{ x: false, y: true }}
                 offset={20}
-                content={({ payload }) => (
-                  <WidgetTooltip
-                    payload={payload}
-                    detailedClasses={showDetailedClasses}
-                    unitPow={unitPow}
-                    unitPrefix={unitPrefix}
-                  />
-                )}
+                content={({ payload }) =>
+                  payload ? <WidgetTooltip payload={getWidgetData(payload)} /> : null
+                }
               />
               <CartesianGrid horizontal={false} strokeDasharray="5 5" />
               <XAxis
@@ -264,6 +255,7 @@ const ChangeByLandCoverSection = ({
                 tickLine={false}
                 interval={0}
                 width={Y_AXIS_WIDTH}
+                tick={getYAxisTick(setClassId)}
                 // Don't set `allowDuplicatedCategory={false}` as we loose the tooltip's payload
               >
                 <Label
@@ -284,32 +276,17 @@ const ChangeByLandCoverSection = ({
                 />
               </YAxis>
 
-              {!showDetailedClasses &&
-                LAYERS['land-cover'].legend.items.map(({ id, name, color }) => (
-                  <Bar
-                    key={id}
-                    dataKey={`breakdown.${id}`}
-                    name={name}
-                    fill={color}
-                    stackId="stack"
-                    isAnimationActive={false}
-                  />
-                ))}
-
-              {showDetailedClasses &&
-                LAYERS['land-cover'].legend.items
-                  .map(item => item.items)
-                  .flat()
-                  .map(({ id, name, color }) => (
-                    <Bar
-                      key={id}
-                      dataKey={`detailedBreakdown.${id}`}
-                      name={name}
-                      fill={color}
-                      stackId="stack"
-                      isAnimationActive={false}
-                    />
-                  ))}
+              {barData.map(({ id, name, color, dataKey }) => (
+                <Bar
+                  key={id}
+                  dataKey={dataKey}
+                  name={name}
+                  fill={color}
+                  stackId="stack"
+                  isAnimationActive={false}
+                  className={showDetailedClasses ? '-no-stroke' : ''}
+                />
+              ))}
             </BarChart>
           </ResponsiveContainer>
         </>
