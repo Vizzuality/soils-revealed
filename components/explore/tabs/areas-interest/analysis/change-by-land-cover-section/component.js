@@ -20,6 +20,7 @@ import NoDataMessage from 'components/explore/no-data-message';
 import Checkbox from 'components/forms/checkbox';
 import WidgetTooltip from './widget-tooltip';
 import { useChartData } from './helpers';
+import { LAYERS } from 'components/map';
 
 const Y_AXIS_WIDTH = 90;
 
@@ -112,8 +113,37 @@ const ChangeByLandCoverSection = ({
   const onClickDownload = useCallback(() => {
     logEvent('Areas of interest', 'download data', 'download change by land cover data');
 
-    // TODO: we can improve the downloaded data by injecting the name of the classes
-    const blob = new Blob([JSON.stringify({ data }, null, 2)], { type: 'application/json' });
+    const formattedData = data.map(classItem => ({
+      ...classItem,
+      breakdown: Object.keys(classItem.breakdown).map(classId => ({
+        id: classId,
+        name: LAYERS['land-cover'].legend.items.find(({ id }) => id === classId).name,
+        value: classItem.breakdown[classId],
+      })),
+      detailedBreakdown: Object.keys(classItem.detailedBreakdown).map(subClassId => ({
+        id: subClassId,
+        name: LAYERS['land-cover'].legend.items
+          .map(item => item.items)
+          .flat()
+          .find(({ id }) => id === subClassId).name,
+        value: classItem.detailedBreakdown[subClassId],
+      })),
+      subClasses: classItem.subClasses.map(subClass => ({
+        ...subClass,
+        detailedBreakdown: Object.keys(subClass.detailedBreakdown).map(subClassId => ({
+          id: subClassId,
+          name: LAYERS['land-cover'].legend.items
+            .map(item => item.items)
+            .flat()
+            .find(({ id }) => id === subClassId).name,
+          value: subClass.detailedBreakdown[subClassId],
+        })),
+      })),
+    }));
+
+    const blob = new Blob([JSON.stringify({ data: formattedData }, null, 2)], {
+      type: 'application/json',
+    });
     const url = URL.createObjectURL(blob);
 
     const a = document.createElement('a');
