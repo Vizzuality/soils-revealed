@@ -189,7 +189,12 @@ const ChangeByLandCoverSection = ({
           <Checkbox
             id="land-cover-detailed-classes"
             checked={showDetailedClasses}
-            onChange={setShowDetailedClasses}
+            onChange={visible => {
+              setShowDetailedClasses(visible);
+              if (!visible) {
+                setClassId(null);
+              }
+            }}
           >
             Detailed land cover classes
           </Checkbox>
