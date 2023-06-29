@@ -273,17 +273,18 @@
         overflow: visible;
       }
 
-      .recharts-bar-rectangle {
-        path {
-          stroke: $body-bg;
+      .recharts-xAxis {
+        .recharts-label {
+
+          .-light {
+            font-weight: $font-weight-normal;
+          }
         }
       }
 
-      .-no-stroke {
-        .recharts-bar-rectangle {
-          path {
-            stroke-width: 0;
-          }
+      .recharts-bar-rectangle {
+        path {
+          stroke-width: 0;
         }
       }
 
@@ -345,21 +346,16 @@
         flex-shrink: 0;
       }
 
-      .name-value {
+      .values {
         display: flex;
-        overflow: hidden;
+        flex-wrap: wrap;
 
         & > *:first-child {
           margin-right: map-get($spacers, 2);
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
 
-        }
-
-        & > *:last-child {
-          flex-shrink: 0;
-          white-space: nowrap;
+          &:after {
+            content: ' |';
+          }
         }
       }
     }

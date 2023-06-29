@@ -12,7 +12,7 @@ import {
 } from 'recharts';
 
 import { logEvent } from 'utils/analytics';
-import { slugify, getHumanReadableValue } from 'utils/functions';
+import { slugify, getHumanReadableValue, truncate } from 'utils/functions';
 import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
@@ -21,8 +21,6 @@ import Checkbox from 'components/forms/checkbox';
 import WidgetTooltip from './widget-tooltip';
 import { useChartData } from './helpers';
 import { LAYERS } from 'components/map';
-
-const Y_AXIS_WIDTH = 90;
 
 const ChangeByLandCoverSection = ({
   data,
@@ -38,6 +36,9 @@ const ChangeByLandCoverSection = ({
   addLayer,
 }) => {
   const [classId, setClassId] = useState(null);
+
+  const Y_AXIS_WIDTH = 90;
+  const X_AXIS_HEIGHT = compareAreaInterest ? 45 : undefined;
 
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
@@ -95,12 +96,21 @@ const ChangeByLandCoverSection = ({
     legendLayers,
   ]);
 
-  const { chartData, barData, getWidgetData, getYAxisTick, unitPrefix, unitPow } = useChartData({
+  const {
+    chartData,
+    barData,
+    compareBarData,
+    getTooltipData,
+    getYAxisTick,
+    unitPrefix,
+    unitPow,
+  } = useChartData({
     error,
     loading,
     data,
     showDetailedClasses,
     classId,
+    compareAreaInterest,
   });
 
   const onToggleLandCover = useCallback(() => {
@@ -239,24 +249,26 @@ const ChangeByLandCoverSection = ({
           >
             {landCoverLayerState.config.settings.detailedClasses.label}
           </Checkbox>
-          <ResponsiveContainer width="100%" aspect={0.9}>
+          <ResponsiveContainer width="100%" aspect={compareAreaInterest ? 0.8 : 0.9}>
             <BarChart
               data={chartData}
               margin={{ top: 50, right: 0, bottom: 45, left: 0 }}
               layout="vertical"
               stackOffset="sign"
-              barCategoryGap={'25%'}
+              barCategoryGap={compareAreaInterest ? '15%' : '25%'}
+              barGap={4}
             >
               <Tooltip
                 allowEscapeViewBox={{ x: false, y: true }}
                 offset={20}
                 content={({ payload }) =>
-                  payload ? <WidgetTooltip payload={getWidgetData(payload)} /> : null
+                  payload ? <WidgetTooltip payload={getTooltipData(payload)} /> : null
                 }
               />
               <CartesianGrid horizontal={false} strokeDasharray="5 5" />
               <XAxis
                 type="number"
+                height={X_AXIS_HEIGHT}
                 axisLine={false}
                 tickLine={false}
                 tickMargin={10}
@@ -273,6 +285,12 @@ const ChangeByLandCoverSection = ({
                   position="insideBottomLeft"
                   content={({ viewBox }) => {
                     const LINE_HEIGHT = 16;
+
+                    const areaInterestName = truncate(areaInterest.name ?? '−', 12);
+                    const compareAreaInterestName = compareAreaInterest
+                      ? truncate(compareAreaInterest.name ?? '−', 12)
+                      : null;
+
                     return (
                       <g className="recharts-text recharts-label">
                         <text
@@ -281,15 +299,18 @@ const ChangeByLandCoverSection = ({
                           textAnchor="end"
                         >
                           SOC {socLayerState.id !== 'soc-stock' ? socLayerState.type : `stock`}{' '}
-                          change
+                          change ({unitPrefix}g C)
                         </text>
-                        <text
-                          x={viewBox.width + Y_AXIS_WIDTH}
-                          y={viewBox.y + LINE_HEIGHT * 2 + 40}
-                          textAnchor="end"
-                        >
-                          ({unitPrefix}g C)
-                        </text>
+                        {!!compareAreaInterest && (
+                          <text
+                            x={viewBox.width + Y_AXIS_WIDTH}
+                            y={viewBox.y + LINE_HEIGHT * 2 + 55}
+                            textAnchor="end"
+                            className="-light"
+                          >
+                            {areaInterestName} (top bar) vs. {compareAreaInterestName} (bottom bar)
+                          </text>
+                        )}
                       </g>
                     );
                   }}
@@ -331,9 +352,21 @@ const ChangeByLandCoverSection = ({
                   fill={color}
                   stackId="stack"
                   isAnimationActive={false}
-                  className={showDetailedClasses ? '-no-stroke' : ''}
                 />
               ))}
+
+              {!!compareAreaInterest &&
+                compareBarData.map(({ id, name, color, dataKey }) => (
+                  <Bar
+                    key={`${id}-compare`}
+                    dataKey={dataKey}
+                    name={name}
+                    fill={color}
+                    stackId="stack-compare"
+                    isAnimationActive={false}
+                    className={showDetailedClasses ? '-no-stroke' : ''}
+                  />
+                ))}
             </BarChart>
           </ResponsiveContainer>
         </>

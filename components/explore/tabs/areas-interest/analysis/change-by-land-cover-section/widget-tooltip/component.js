@@ -41,12 +41,22 @@ const ChangeByLandCoverSectionWidgetTooltip = ({ payload, legendLayers, socLayer
           : year1Option.label}
       </div>
       <ul>
-        {payload.map(({ name, value, color }) => (
+        {payload.map(({ name, value, compareValue, color }) => (
           <li key={name}>
             <div className="color-pill" style={{ background: color }} />
-            <div className="name-value">
+            <div>
               <div>{name}</div>
-              <div className="recharts-tooltip-item">{value}</div>
+              <div className="values">
+                <div>
+                  {compareValue ? 'Top: ' : ''}
+                  <span className="recharts-tooltip-item">{value}</span>
+                </div>
+                {!!compareValue && (
+                  <div>
+                    Bottom: <span className="recharts-tooltip-item">{compareValue}</span>
+                  </div>
+                )}
+              </div>
             </div>
           </li>
         ))}

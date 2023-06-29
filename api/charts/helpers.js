@@ -139,3 +139,66 @@ exports.combineChangeData = (data, compareData) => {
     }),
   };
 };
+
+/**
+ * Combine two change by land cover data sets
+ * @param {ReturnType<typeof exports.parseChangeByLandCoverData>} data Change data
+ * @param {ReturnType<typeof exports.parseChangeByLandCoverData>} compareData Compare change data
+ */
+exports.combineChangeByLandCoverData = (data, compareData) => {
+  if (data === null || compareData === null) {
+    return null;
+  }
+
+  const res = data.map(mainClass => ({
+    ...mainClass,
+    compareBreakdown: {},
+    compareDetailedBreakdown: {},
+    subClasses: mainClass.subClasses.map(subClass => ({
+      ...subClass,
+      compareDetailedBreakdown: {},
+    })),
+  }));
+
+  compareData.forEach(compareMainClass => {
+    const mainClass = res.find(({ id }) => id === compareMainClass.id);
+    if (!mainClass) {
+      const newMainClass = {
+        id: compareMainClass.id,
+        name: compareMainClass.name,
+        breakdown: {},
+        compareBreakdown: compareMainClass.breakdown,
+        detailedBreakdown: {},
+        compareDetailedBreakdown: compareMainClass.detailedBreakdown,
+        subClasses: compareMainClass.subClasses.map(compareSubClass => ({
+          id: compareSubClass.id,
+          name: compareSubClass.name,
+          detailedBreakdown: {},
+          compareDetailedBreakdown: compareMainClass.detailedBreakdown,
+        })),
+      };
+
+      res.push(newMainClass);
+    } else {
+      mainClass.compareBreakdown = compareMainClass.breakdown;
+      mainClass.compareDetailedBreakdown = compareMainClass.detailedBreakdown;
+      compareMainClass.subClasses.forEach(compareSubClass => {
+        const subClass = mainClass.subClasses.find(({ id }) => id === compareSubClass.id);
+        if (!subClass) {
+          const newSubClass = {
+            id: compareSubClass.id,
+            name: compareSubClass.name,
+            detailedBreakdown: {},
+            compareDetailedBreakdown: compareSubClass.detailedBreakdown,
+          };
+
+          compareMainClass.subClasses.push(newSubClass);
+        } else {
+          subClass.compareDetailedBreakdown = compareSubClass.detailedBreakdown;
+        }
+      });
+    }
+  });
+
+  return res;
+};

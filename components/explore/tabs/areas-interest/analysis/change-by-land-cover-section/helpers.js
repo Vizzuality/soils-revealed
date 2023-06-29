@@ -11,7 +11,14 @@ const BUTTON_SIZE = 22;
 const BUTTON_SPACE = 26;
 const LABEL_MAX_CHAR = 25;
 
-export const useChartData = ({ error, loading, data, showDetailedClasses, classId }) => {
+export const useChartData = ({
+  error,
+  loading,
+  data,
+  showDetailedClasses,
+  classId,
+  compareAreaInterest,
+}) => {
   const res = useMemo(() => {
     if (!!error || loading || !data || data.length === 0) {
       const [unitPrefix, unitPow] = getValuePrefixAndPow(0);
@@ -19,10 +26,11 @@ export const useChartData = ({ error, loading, data, showDetailedClasses, classI
       return {
         chartData: [],
         barData: [],
+        ...(compareAreaInterest ? { compareBarData: [] } : {}),
         dataKey: '',
         unitPrefix,
         unitPow,
-        getWidgetData: () => [],
+        getTooltipData: () => [],
         getYAxisTick: () => undefined,
       };
     }
@@ -31,9 +39,12 @@ export const useChartData = ({ error, loading, data, showDetailedClasses, classI
       const chartData = data;
 
       const values = chartData.map(item => Object.values(item.breakdown)).flat();
+      const compareValues = compareAreaInterest
+        ? chartData.map(item => Object.values(item.compareBreakdown)).flat()
+        : [];
 
-      const minValue = min(values);
-      const maxValue = max(values);
+      const minValue = min([values, compareValues].flat());
+      const maxValue = max([values, compareValues].flat());
       const maxAbsValue = max([Math.abs(minValue), maxValue]);
       const [unitPrefix, unitPow] = getValuePrefixAndPow(maxAbsValue);
 
@@ -43,29 +54,87 @@ export const useChartData = ({ error, loading, data, showDetailedClasses, classI
           ...item,
           dataKey: `breakdown.${item.id}`,
         })),
+        ...(compareAreaInterest
+          ? {
+              compareBarData: LAYERS['land-cover'].legend.items.map(item => ({
+                ...item,
+                dataKey: `compareBreakdown.${item.id}`,
+              })),
+            }
+          : {}),
         unitPrefix,
         unitPow,
-        getWidgetData: payload =>
-          payload.length === 0
-            ? []
-            : payload
-                .sort(({ value: valueA }, { value: valueB }) => {
-                  if (valueA * valueB < 0) {
-                    return valueA < 0 ? -1 : 1;
-                  }
+        getTooltipData: payload => {
+          if (payload.length === 0) {
+            return [];
+          }
 
-                  return valueB - valueA;
-                })
-                .map(({ name, value, color }) => ({
-                  name,
-                  color,
-                  value:
-                    value === 0
-                      ? 0
-                      : `${getHumanReadableValue(
-                          (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
-                        )} ${unitPrefix}g C`,
-                })),
+          let res = payload.sort(({ value: valueA }, { value: valueB }) => {
+            if (valueA * valueB < 0) {
+              return valueA < 0 ? -1 : 1;
+            }
+
+            return valueB - valueA;
+          });
+
+          if (compareAreaInterest) {
+            res = res.reduce((localRes, item) => {
+              const existingItemIndex = localRes.findIndex(({ name }) => name === item.name);
+              if (existingItemIndex !== -1) {
+                return [
+                  ...localRes.slice(0, existingItemIndex),
+                  {
+                    ...localRes[existingItemIndex],
+                    value: item.dataKey.startsWith('compare')
+                      ? localRes[existingItemIndex].value
+                      : item.value,
+                    compareValue: item.dataKey.startsWith('compare')
+                      ? item.value
+                      : localRes[existingItemIndex].compareValue,
+                  },
+                  ...(localRes.length > existingItemIndex + 1
+                    ? localRes.slice(existingItemIndex + 1, localRes.length)
+                    : []),
+                ];
+              } else {
+                return [
+                  ...localRes,
+                  {
+                    name: item.name,
+                    color: item.color,
+                    value: item.dataKey.startsWith('compare') ? null : item.value,
+                    compareValue: item.dataKey.startsWith('compare') ? item.value : null,
+                  },
+                ];
+              }
+            }, []);
+          }
+
+          res = res.map(({ name, value, compareValue, color }) => {
+            const formatter = value => {
+              if (value === undefined || value === null) {
+                return '−';
+              }
+
+              if (value === 0) {
+                return 0;
+              }
+
+              return `${getHumanReadableValue(
+                (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
+              )} ${unitPrefix}g C`;
+            };
+
+            return {
+              name,
+              color,
+              value: formatter(value),
+              ...(compareAreaInterest ? { compareValue: formatter(compareValue) } : {}),
+            };
+          });
+
+          return res;
+        },
         getYAxisTick: () => undefined,
       };
     }
@@ -74,9 +143,12 @@ export const useChartData = ({ error, loading, data, showDetailedClasses, classI
       const chartData = data;
 
       const values = chartData.map(item => Object.values(item.detailedBreakdown)).flat();
+      const compareValues = compareAreaInterest
+        ? chartData.map(item => Object.values(item.compareDetailedBreakdown)).flat()
+        : [];
 
-      const minValue = min(values);
-      const maxValue = max(values);
+      const minValue = min([values, compareValues].flat());
+      const maxValue = max([values, compareValues].flat());
       const maxAbsValue = max([Math.abs(minValue), maxValue]);
       const [unitPrefix, unitPow] = getValuePrefixAndPow(maxAbsValue);
 
@@ -89,45 +161,81 @@ export const useChartData = ({ error, loading, data, showDetailedClasses, classI
             ...item,
             dataKey: `detailedBreakdown.${item.id}`,
           })),
+        ...(compareAreaInterest
+          ? {
+              compareBarData: LAYERS['land-cover'].legend.items
+                .map(item => item.items)
+                .flat()
+                .map(item => ({
+                  ...item,
+                  dataKey: `compareDetailedBreakdown.${item.id}`,
+                })),
+            }
+          : {}),
         unitPrefix,
         unitPow,
-        getWidgetData: payload =>
-          payload.length === 0
-            ? []
-            : Object.keys(payload[0].payload.breakdown)
-                .map(id => {
-                  const legendItem = LAYERS['land-cover'].legend.items.find(
-                    ({ id: itemId }) => itemId === id
-                  );
+        getTooltipData: payload => {
+          if (payload.length === 0) {
+            return [];
+          }
 
-                  if (!legendItem) {
-                    return null;
-                  }
+          return [
+            ...new Set([
+              ...Object.keys(payload[0].payload.breakdown),
+              ...(compareAreaInterest ? Object.keys(payload[0].payload.compareBreakdown) : []),
+            ]),
+          ]
+            .map(id => {
+              const legendItem = LAYERS['land-cover'].legend.items.find(
+                ({ id: itemId }) => itemId === id
+              );
 
-                  return {
-                    id,
-                    name: legendItem.name,
-                    color: legendItem.color,
-                    value: payload[0].payload.breakdown[id],
-                  };
-                })
-                .sort(({ value: valueA }, { value: valueB }) => {
-                  if (valueA * valueB < 0) {
-                    return valueA < 0 ? -1 : 1;
-                  }
+              if (!legendItem) {
+                return null;
+              }
 
-                  return valueB - valueA;
-                })
-                .map(({ name, value, color }) => ({
-                  name,
-                  color,
-                  value:
-                    value === 0
-                      ? 0
-                      : `${getHumanReadableValue(
-                          (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
-                        )} ${unitPrefix}g C`,
-                })),
+              return {
+                id,
+                name: legendItem.name,
+                color: legendItem.color,
+                value: payload[0].payload.breakdown[id],
+                ...(compareAreaInterest
+                  ? {
+                      compareValue: payload[0].payload.compareBreakdown[id],
+                    }
+                  : {}),
+              };
+            })
+            .sort(({ value: valueA }, { value: valueB }) => {
+              if (valueA * valueB < 0) {
+                return valueA < 0 ? -1 : 1;
+              }
+
+              return valueB - valueA;
+            })
+            .map(({ name, value, compareValue, color }) => {
+              const formatter = value => {
+                if (value === undefined || value === null) {
+                  return '−';
+                }
+
+                if (value === 0) {
+                  return 0;
+                }
+
+                return `${getHumanReadableValue(
+                  (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
+                )} ${unitPrefix}g C`;
+              };
+
+              return {
+                name,
+                color,
+                value: formatter(value),
+                ...(compareAreaInterest ? { compareValue: formatter(compareValue) } : {}),
+              };
+            });
+        },
         // eslint-disable-next-line react/display-name
         getYAxisTick: setClassId => ({ payload, x, y, width, ...props }) => (
           <g>
@@ -166,9 +274,12 @@ export const useChartData = ({ error, loading, data, showDetailedClasses, classI
     ];
 
     const values = chartData.map(item => Object.values(item.detailedBreakdown)).flat();
+    const compareValues = compareAreaInterest
+      ? chartData.map(item => Object.values(item.compareDetailedBreakdown)).flat()
+      : [];
 
-    const minValue = min(values);
-    const maxValue = max(values);
+    const minValue = min([values, compareValues].flat());
+    const maxValue = max([values, compareValues].flat());
     const maxAbsValue = max([Math.abs(minValue), maxValue]);
     const [unitPrefix, unitPow] = getValuePrefixAndPow(maxAbsValue);
 
@@ -181,46 +292,84 @@ export const useChartData = ({ error, loading, data, showDetailedClasses, classI
           ...item,
           dataKey: `detailedBreakdown.${item.id}`,
         })),
+      ...(compareAreaInterest
+        ? {
+            compareBarData: LAYERS['land-cover'].legend.items
+              .map(item => item.items)
+              .flat()
+              .map(item => ({
+                ...item,
+                dataKey: `compareDetailedBreakdown.${item.id}`,
+              })),
+          }
+        : {}),
       unitPrefix,
       unitPow,
-      getWidgetData: payload =>
-        payload.length === 0
-          ? []
-          : Object.keys(payload[0].payload.detailedBreakdown)
-              .map(id => {
-                const legendItem = LAYERS['land-cover'].legend.items
-                  .map(item => item.items)
-                  .flat()
-                  .find(({ id: itemId }) => itemId === id);
+      getTooltipData: payload => {
+        if (payload.length === 0) {
+          return [];
+        }
 
-                if (!legendItem) {
-                  return null;
-                }
+        return [
+          ...new Set([
+            ...Object.keys(payload[0].payload.detailedBreakdown),
+            ...(compareAreaInterest
+              ? Object.keys(payload[0].payload.compareDetailedBreakdown)
+              : []),
+          ]),
+        ]
+          .map(id => {
+            const legendItem = LAYERS['land-cover'].legend.items
+              .map(item => item.items)
+              .flat()
+              .find(({ id: itemId }) => itemId === id);
 
-                return {
-                  id,
-                  name: legendItem.name,
-                  color: legendItem.color,
-                  value: payload[0].payload.detailedBreakdown[id],
-                };
-              })
-              .sort(({ value: valueA }, { value: valueB }) => {
-                if (valueA * valueB < 0) {
-                  return valueA < 0 ? -1 : 1;
-                }
+            if (!legendItem) {
+              return null;
+            }
 
-                return valueB - valueA;
-              })
-              .map(({ name, value, color }) => ({
-                name,
-                color,
-                value:
-                  value === 0
-                    ? 0
-                    : `${getHumanReadableValue(
-                        (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
-                      )} ${unitPrefix}g C`,
-              })),
+            return {
+              id,
+              name: legendItem.name,
+              color: legendItem.color,
+              value: payload[0].payload.detailedBreakdown[id],
+              ...(compareAreaInterest
+                ? {
+                    compareValue: payload[0].payload.compareDetailedBreakdown[id],
+                  }
+                : {}),
+            };
+          })
+          .sort(({ value: valueA }, { value: valueB }) => {
+            if (valueA * valueB < 0) {
+              return valueA < 0 ? -1 : 1;
+            }
+
+            return valueB - valueA;
+          })
+          .map(({ name, value, compareValue, color }) => {
+            const formatter = value => {
+              if (value === undefined || value === null) {
+                return '−';
+              }
+
+              if (value === 0) {
+                return 0;
+              }
+
+              return `${getHumanReadableValue(
+                (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
+              )} ${unitPrefix}g C`;
+            };
+
+            return {
+              name,
+              color,
+              value: formatter(value),
+              ...(compareAreaInterest ? { compareValue: formatter(compareValue) } : {}),
+            };
+          });
+      },
       // eslint-disable-next-line react/display-name
       getYAxisTick: setClassId => ({ payload, x, y, width, ...props }) => {
         let textLabel = payload.value;
@@ -276,7 +425,7 @@ export const useChartData = ({ error, loading, data, showDetailedClasses, classI
         );
       },
     };
-  }, [error, loading, data, showDetailedClasses, classId]);
+  }, [error, loading, data, showDetailedClasses, classId, compareAreaInterest]);
 
   return res;
 };

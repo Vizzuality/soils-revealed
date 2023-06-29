@@ -2,7 +2,11 @@ const getOnTheFlyData = require('./on-the-fly');
 const getTimeseriesData = require('./timeseries');
 const getChangeData = require('./change');
 const getChangeByLandCoverData = require('./change-by-land-cover');
-const { combineTimeseriesData, combineChangeData } = require('./helpers');
+const {
+  combineTimeseriesData,
+  combineChangeData,
+  combineChangeByLandCoverData,
+} = require('./helpers');
 
 module.exports = async (
   {
@@ -66,11 +70,22 @@ module.exports = async (
                 areaInterest: compareAreaInterest,
                 scenario,
               }),
+              changeByLandCover: await getChangeByLandCoverData({
+                layer,
+                type,
+                boundaries,
+                areaInterest: compareAreaInterest,
+                scenario,
+              }),
             };
 
       resData = {
         timeseries: combineTimeseriesData(data.timeseries, compareData.timeseries),
         change: combineChangeData(data.change, compareData.change),
+        changeByLandCover: combineChangeByLandCoverData(
+          data.changeByLandCover,
+          compareData.changeByLandCover
+        ),
       };
     }
 
