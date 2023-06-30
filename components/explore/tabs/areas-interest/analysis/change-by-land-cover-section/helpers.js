@@ -40,7 +40,7 @@ export const useChartData = ({
 
       const values = chartData.map(item => Object.values(item.breakdown)).flat();
       const compareValues = compareAreaInterest
-        ? chartData.map(item => Object.values(item.compareBreakdown)).flat()
+        ? chartData.map(item => Object.values(item.compareBreakdown ?? {})).flat()
         : [];
 
       const minValue = min([values, compareValues].flat());
@@ -144,7 +144,7 @@ export const useChartData = ({
 
       const values = chartData.map(item => Object.values(item.detailedBreakdown)).flat();
       const compareValues = compareAreaInterest
-        ? chartData.map(item => Object.values(item.compareDetailedBreakdown)).flat()
+        ? chartData.map(item => Object.values(item.compareDetailedBreakdown ?? {})).flat()
         : [];
 
       const minValue = min([values, compareValues].flat());
@@ -182,7 +182,9 @@ export const useChartData = ({
           return [
             ...new Set([
               ...Object.keys(payload[0].payload.breakdown),
-              ...(compareAreaInterest ? Object.keys(payload[0].payload.compareBreakdown) : []),
+              ...(compareAreaInterest
+                ? Object.keys(payload[0].payload.compareBreakdown ?? {})
+                : []),
             ]),
           ]
             .map(id => {
@@ -201,7 +203,7 @@ export const useChartData = ({
                 value: payload[0].payload.breakdown[id],
                 ...(compareAreaInterest
                   ? {
-                      compareValue: payload[0].payload.compareBreakdown[id],
+                      compareValue: payload[0].payload.compareBreakdown?.[id] ?? null,
                     }
                   : {}),
               };
@@ -267,15 +269,17 @@ export const useChartData = ({
 
     const classObj = data.find(({ id }) => id === classId);
 
-    const chartData = [
-      // We inject the parent class' data to be shown at the top
-      classObj,
-      ...classObj.subClasses,
-    ];
+    const chartData = classObj
+      ? [
+          // We inject the parent class' data to be shown at the top
+          classObj,
+          ...classObj.subClasses,
+        ]
+      : [];
 
     const values = chartData.map(item => Object.values(item.detailedBreakdown)).flat();
     const compareValues = compareAreaInterest
-      ? chartData.map(item => Object.values(item.compareDetailedBreakdown)).flat()
+      ? chartData.map(item => Object.values(item.compareDetailedBreakdown ?? {})).flat()
       : [];
 
     const minValue = min([values, compareValues].flat());
@@ -314,7 +318,7 @@ export const useChartData = ({
           ...new Set([
             ...Object.keys(payload[0].payload.detailedBreakdown),
             ...(compareAreaInterest
-              ? Object.keys(payload[0].payload.compareDetailedBreakdown)
+              ? Object.keys(payload[0].payload.compareDetailedBreakdown ?? {})
               : []),
           ]),
         ]
@@ -335,7 +339,7 @@ export const useChartData = ({
               value: payload[0].payload.detailedBreakdown[id],
               ...(compareAreaInterest
                 ? {
-                    compareValue: payload[0].payload.compareDetailedBreakdown[id],
+                    compareValue: payload[0].payload.compareDetailedBreakdown?.[id] ?? null,
                   }
                 : {}),
             };

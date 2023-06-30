@@ -238,21 +238,6 @@
     }
   }
 
-  .recharts-default-tooltip {
-    padding: map-get($spacers, 2) !important;
-    font-family: $font-family-2;
-    @include font-size($font-size-xxs);
-    border: rem(1) solid $primary !important;
-    background: $body-bg !important;
-    box-shadow: $box-shadow-1;
-
-    .recharts-tooltip-item {
-      padding: 0 !important;
-      color: $body-color !important;
-      font-weight: $font-weight-medium;
-    }
-  }
-
   .change-by-land-cover-section {
     .chart-intro {
       margin-bottom: map-get($spacers, 2);
@@ -322,40 +307,72 @@
     .recharts-tooltip-wrapper {
       z-index: 10;
     }
+  }
+}
 
-    .recharts-default-tooltip {
-      width: rem(280);
+// The tooltip may be portaled and thus is outside the main class
+.recharts-default-tooltip {
+  padding: map-get($spacers, 2) !important;
+  font-family: $font-family-2;
+  @include font-size($font-size-xxs);
+  border: rem(1) solid $primary !important;
+  background: $body-bg !important;
+  box-shadow: $box-shadow-1;
 
-      ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
+  .recharts-tooltip-item {
+    padding: 0 !important;
+    color: $body-color !important;
+    font-weight: $font-weight-medium;
+  }
 
-        li {
-          display: flex;
-          margin-top: map-get($spacers, 2);
-        }
-      }
+  &.-change-by-land-cover {
+    min-width: rem(280);
+    z-index: 10;
 
-      .color-pill {
-        position: relative;
-        top: map-get($spacers, 1);
-        margin-right: map-get($spacers, 2);
-        width: rem(12);
-        height: rem(12);
-        flex-shrink: 0;
-      }
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: inline-grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(8, auto);
+      column-gap: map-get($spacers, 4);
 
-      .values {
+      li {
+        width: rem(310);
         display: flex;
-        flex-wrap: wrap;
+        margin-top: map-get($spacers, 2);
+      }
+    }
 
-        & > *:first-child {
-          margin-right: map-get($spacers, 2);
+    .color-pill {
+      position: relative;
+      top: map-get($spacers, 1);
+      margin-right: map-get($spacers, 2);
+      width: rem(12);
+      height: rem(12);
+      flex-shrink: 0;
+    }
 
-          &:after {
-            content: ' |';
-          }
+    .item {
+      overflow: hidden;
+    }
+
+    .name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .values {
+      display: flex;
+      flex-wrap: wrap;
+
+      & > *:nth-child(2) {
+        margin-left: map-get($spacers, 2);
+
+        &:before {
+          content: '| ';
         }
       }
     }

@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback, useState } from 'react';
+import React, { useMemo, useCallback, useState, useRef, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {
   ResponsiveContainer,
@@ -21,6 +21,7 @@ import Checkbox from 'components/forms/checkbox';
 import WidgetTooltip from './widget-tooltip';
 import { useChartData } from './helpers';
 import { LAYERS } from 'components/map';
+import { usePrevious } from 'react-use';
 
 const ChangeByLandCoverSection = ({
   data,
@@ -36,6 +37,8 @@ const ChangeByLandCoverSection = ({
   addLayer,
 }) => {
   const [classId, setClassId] = useState(null);
+  const prevCompareAreaInterest = usePrevious(compareAreaInterest);
+  const chartRef = useRef();
 
   const Y_AXIS_WIDTH = 90;
   const X_AXIS_HEIGHT = compareAreaInterest ? 45 : undefined;
@@ -175,6 +178,14 @@ const ChangeByLandCoverSection = ({
     a.click();
   }, [data, areaInterest, compareAreaInterest]);
 
+  // This makes sure that the widget doesn't show the details of a class as it may have disappeared
+  // from the data when the user removed the area of interest used for comparison
+  useEffect(() => {
+    if (!!prevCompareAreaInterest && !compareAreaInterest) {
+      setClassId(null);
+    }
+  }, [compareAreaInterest, prevCompareAreaInterest]);
+
   return (
     <section className="change-by-land-cover-section">
       <header className="mt-2 align-items-start">
@@ -249,7 +260,7 @@ const ChangeByLandCoverSection = ({
           >
             {landCoverLayerState.config.settings.detailedClasses.label}
           </Checkbox>
-          <ResponsiveContainer width="100%" aspect={compareAreaInterest ? 0.8 : 0.9}>
+          <ResponsiveContainer width="100%" aspect={compareAreaInterest ? 0.8 : 0.9} ref={chartRef}>
             <BarChart
               data={chartData}
               margin={{ top: 50, right: 0, bottom: 45, left: 0 }}
@@ -261,8 +272,15 @@ const ChangeByLandCoverSection = ({
               <Tooltip
                 allowEscapeViewBox={{ x: false, y: true }}
                 offset={20}
-                content={({ payload }) =>
-                  payload ? <WidgetTooltip payload={getTooltipData(payload)} /> : null
+                content={({ payload, coordinate, offset, active }) =>
+                  payload ? (
+                    <WidgetTooltip
+                      open={active}
+                      payload={getTooltipData(payload)}
+                      chartRef={chartRef}
+                      y={coordinate.y - offset}
+                    />
+                  ) : null
                 }
               />
               <CartesianGrid horizontal={false} strokeDasharray="5 5" />

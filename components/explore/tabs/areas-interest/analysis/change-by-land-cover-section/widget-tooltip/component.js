@@ -1,7 +1,15 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { FloatingPortal, autoUpdate, offset, shift, useFloating } from '@floating-ui/react';
 
-const ChangeByLandCoverSectionWidgetTooltip = ({ payload, legendLayers, socLayerState }) => {
+const ChangeByLandCoverSectionWidgetTooltip = ({
+  open,
+  payload,
+  y,
+  chartRef,
+  legendLayers,
+  socLayerState,
+}) => {
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
     [legendLayers]
@@ -28,45 +36,64 @@ const ChangeByLandCoverSectionWidgetTooltip = ({ payload, legendLayers, socLayer
     [typeOption]
   );
 
-  if (!payload.length) {
+  const { refs, floatingStyles } = useFloating({
+    open,
+    placement: 'right-start',
+    elements: {
+      reference: chartRef.current.container,
+    },
+    whileElementsMounted: autoUpdate,
+    middleware: [offset({ crossAxis: y }), shift()],
+  });
+
+  if (!open) {
     return null;
   }
 
   return (
-    <div className="recharts-default-tooltip">
-      <div className="recharts-tooltip-item">
-        Land cover{' '}
-        {socLayerState.type === 'future'
-          ? typeOptions[1].settings.year2.defaultOption
-          : year1Option.label}
-      </div>
-      <ul>
-        {payload.map(({ name, value, compareValue, color }) => (
-          <li key={name}>
-            <div className="color-pill" style={{ background: color }} />
-            <div>
-              <div>{name}</div>
-              <div className="values">
-                <div>
-                  {compareValue ? 'Top: ' : ''}
-                  <span className="recharts-tooltip-item">{value}</span>
-                </div>
-                {!!compareValue && (
+    <FloatingPortal>
+      <div
+        className="recharts-default-tooltip -change-by-land-cover"
+        ref={refs.setFloating}
+        style={floatingStyles}
+      >
+        <div className="recharts-tooltip-item">
+          Land cover{' '}
+          {socLayerState.type === 'future'
+            ? typeOptions[1].settings.year2.defaultOption
+            : year1Option.label}
+        </div>
+        <ul>
+          {payload.map(({ name, value, compareValue, color }) => (
+            <li key={name}>
+              <div className="color-pill" style={{ background: color }} />
+              <div className="item">
+                <div className="name">{name}</div>
+                <div className="values">
                   <div>
-                    Bottom: <span className="recharts-tooltip-item">{compareValue}</span>
+                    {compareValue ? 'Top: ' : ''}
+                    <span className="recharts-tooltip-item">{value}</span>
                   </div>
-                )}
+                  {!!compareValue && (
+                    <div>
+                      Bottom: <span className="recharts-tooltip-item">{compareValue}</span>
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-          </li>
-        ))}
-      </ul>
-    </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </FloatingPortal>
   );
 };
 
 ChangeByLandCoverSectionWidgetTooltip.propTypes = {
+  open: PropTypes.bool.isRequired,
   payload: PropTypes.object.isRequired,
+  y: PropTypes.number.isRequired,
+  chartRef: PropTypes.object.isRequired,
   legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,
   socLayerState: PropTypes.object.isRequired,
 };
