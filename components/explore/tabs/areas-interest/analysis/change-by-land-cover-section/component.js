@@ -162,7 +162,40 @@ const ChangeByLandCoverSection = ({
             .find(({ id }) => id === subClassId).name,
           value: subClass.detailedBreakdown[subClassId],
         })),
+        ...(compareAreaInterest
+          ? {
+              compareDetailedBreakdown: Object.keys(subClass.compareDetailedBreakdown).map(
+                subClassId => ({
+                  id: subClassId,
+                  name: LAYERS['land-cover'].legend.items
+                    .map(item => item.items)
+                    .flat()
+                    .find(({ id }) => id === subClassId).name,
+                  value: subClass.compareDetailedBreakdown[subClassId],
+                })
+              ),
+            }
+          : {}),
       })),
+      ...(compareAreaInterest
+        ? {
+            compareBreakdown: Object.keys(classItem.compareBreakdown).map(classId => ({
+              id: classId,
+              name: LAYERS['land-cover'].legend.items.find(({ id }) => id === classId).name,
+              value: classItem.compareBreakdown[classId],
+            })),
+            compareDetailedBreakdown: Object.keys(classItem.compareDetailedBreakdown).map(
+              subClassId => ({
+                id: subClassId,
+                name: LAYERS['land-cover'].legend.items
+                  .map(item => item.items)
+                  .flat()
+                  .find(({ id }) => id === subClassId).name,
+                value: classItem.compareDetailedBreakdown[subClassId],
+              })
+            ),
+          }
+        : {}),
     }));
 
     const blob = new Blob([JSON.stringify({ data: formattedData }, null, 2)], {
