@@ -40,9 +40,6 @@ const ChangeByLandCoverSection = ({
   const prevCompareAreaInterest = usePrevious(compareAreaInterest);
   const chartRef = useRef();
 
-  const Y_AXIS_WIDTH = 90;
-  const X_AXIS_HEIGHT = compareAreaInterest ? 45 : undefined;
-
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
     [legendLayers]
@@ -114,7 +111,14 @@ const ChangeByLandCoverSection = ({
     showDetailedClasses,
     classId,
     compareAreaInterest,
+    isFuture: socLayerState.type === 'future',
   });
+
+  const Y_AXIS_WIDTH = socLayerState.type === 'future' ? 140 : 90;
+  const X_AXIS_HEIGHT = compareAreaInterest ? 45 : undefined;
+  const ASPECT_RATIO = socLayerState.type === 'future' ? 0.45 : compareAreaInterest ? 0.8 : 0.9;
+  const BAR_CATEGORY_GAP =
+    socLayerState.type === 'future' ? '25%' : compareAreaInterest ? '15%' : '25%';
 
   const onToggleLandCover = useCallback(() => {
     if (landCoverActive) {
@@ -152,31 +156,36 @@ const ChangeByLandCoverSection = ({
           .find(({ id }) => id === subClassId).name,
         value: classItem.detailedBreakdown[subClassId],
       })),
-      subClasses: classItem.subClasses.map(subClass => ({
-        ...subClass,
-        detailedBreakdown: Object.keys(subClass.detailedBreakdown).map(subClassId => ({
-          id: subClassId,
-          name: LAYERS['land-cover'].legend.items
-            .map(item => item.items)
-            .flat()
-            .find(({ id }) => id === subClassId).name,
-          value: subClass.detailedBreakdown[subClassId],
-        })),
-        ...(compareAreaInterest
-          ? {
-              compareDetailedBreakdown: Object.keys(subClass.compareDetailedBreakdown).map(
-                subClassId => ({
-                  id: subClassId,
-                  name: LAYERS['land-cover'].legend.items
-                    .map(item => item.items)
-                    .flat()
-                    .find(({ id }) => id === subClassId).name,
-                  value: subClass.compareDetailedBreakdown[subClassId],
-                })
-              ),
-            }
-          : {}),
-      })),
+      ...(classItem.subClasses
+        ? {
+            subClasses: classItem.subClasses.map(subClass => ({
+              ...subClass,
+              detailedBreakdown: Object.keys(subClass.detailedBreakdown).map(subClassId => ({
+                id: subClassId,
+                name: LAYERS['land-cover'].legend.items
+                  .map(item => item.items)
+                  .flat()
+                  .find(({ id }) => id === subClassId).name,
+                value: subClass.detailedBreakdown[subClassId],
+              })),
+              ...(compareAreaInterest
+                ? {
+                    compareDetailedBreakdown: Object.keys(subClass.compareDetailedBreakdown).map(
+                      subClassId => ({
+                        id: subClassId,
+                        name: LAYERS['land-cover'].legend.items
+                          .map(item => item.items)
+                          .flat()
+                          .find(({ id }) => id === subClassId).name,
+                        value: subClass.compareDetailedBreakdown[subClassId],
+                      })
+                    ),
+                  }
+                : {}),
+            })),
+          }
+        : {}),
+
       ...(compareAreaInterest
         ? {
             compareBreakdown: Object.keys(classItem.compareBreakdown).map(classId => ({
@@ -219,6 +228,14 @@ const ChangeByLandCoverSection = ({
     }
   }, [compareAreaInterest, prevCompareAreaInterest]);
 
+  // This makes sure that the widget doesn't show the details of a class when switching to the
+  // future tab as we don't have data for it
+  useEffect(() => {
+    if (socLayerState.type === 'future') {
+      setClassId(null);
+    }
+  }, [socLayerState]);
+
   return (
     <section className="change-by-land-cover-section">
       <header className="mt-2 align-items-start">
@@ -256,30 +273,26 @@ const ChangeByLandCoverSection = ({
       {!error && !loading && data?.length > 0 && (
         <>
           <div className="chart-intro">
-            Soil organic carbon change by land cover from{' '}
-            <strong>
-              {socLayerState.type === 'future'
-                ? typeOptions[1].settings.year2.defaultOption
-                : year1Option.label}
-            </strong>{' '}
-            to{' '}
-            <strong>
-              {socLayerState.type === 'future'
-                ? typeOptions[2].settings.year.options[
-                    typeOptions[2].settings.year.options.length - 1
-                  ].label
-                : year2Option.label}
-            </strong>
-            <br />
-            at{' '}
-            {typeOption.settings.depth.options.length > 1 && (
-              <Dropdown
-                options={typeOption.settings.depth.options}
-                value={depthOption}
-                onChange={onChangeDepth}
-              />
+            {socLayerState.type === 'future' && 'SOC change by land cover over 20 years.'}
+            {socLayerState.type !== 'future' && (
+              <>
+                Soil organic carbon change by land cover from <strong>{year1Option.label}</strong>{' '}
+                to <strong>{year2Option.label}</strong>
+                <br />
+                at{' '}
+                {typeOption.settings.depth.options.length > 1 && (
+                  <Dropdown
+                    options={typeOption.settings.depth.options}
+                    value={depthOption}
+                    onChange={onChangeDepth}
+                  />
+                )}
+                {typeOption.settings.depth.options.length <= 1 && (
+                  <strong>{depthOption.label}</strong>
+                )}
+                .
+              </>
             )}
-            {typeOption.settings.depth.options.length <= 1 && <strong>{depthOption.label}</strong>}.
           </div>
           <Checkbox
             id="land-cover-detailed-classes"
@@ -293,13 +306,18 @@ const ChangeByLandCoverSection = ({
           >
             {landCoverLayerState.config.settings.detailedClasses.label}
           </Checkbox>
-          <ResponsiveContainer width="100%" aspect={compareAreaInterest ? 0.8 : 0.9} ref={chartRef}>
+          <ResponsiveContainer width="100%" aspect={ASPECT_RATIO} ref={chartRef}>
             <BarChart
               data={chartData}
-              margin={{ top: 50, right: 0, bottom: 45, left: 0 }}
+              margin={{
+                top: socLayerState.type === 'future' ? 0 : 50,
+                right: 0,
+                bottom: 45,
+                left: 0,
+              }}
               layout="vertical"
               stackOffset="sign"
-              barCategoryGap={compareAreaInterest ? '15%' : '25%'}
+              barCategoryGap={BAR_CATEGORY_GAP}
               barGap={4}
             >
               <Tooltip
@@ -379,19 +397,23 @@ const ChangeByLandCoverSection = ({
               >
                 <Label
                   position="insideTopRight"
-                  content={() => {
-                    const LINE_HEIGHT = 16;
-                    return (
-                      <g className="recharts-text recharts-label">
-                        <text x={Y_AXIS_WIDTH - 8} y={LINE_HEIGHT} textAnchor="end">
-                          Land cover
-                        </text>
-                        <text x={Y_AXIS_WIDTH - 8} y={LINE_HEIGHT * 2} textAnchor="end">
-                          2018
-                        </text>
-                      </g>
-                    );
-                  }}
+                  content={
+                    socLayerState.type === 'future'
+                      ? undefined
+                      : () => {
+                          const LINE_HEIGHT = 16;
+                          return (
+                            <g className="recharts-text recharts-label">
+                              <text x={Y_AXIS_WIDTH - 8} y={LINE_HEIGHT} textAnchor="end">
+                                Land cover
+                              </text>
+                              <text x={Y_AXIS_WIDTH - 8} y={LINE_HEIGHT * 2} textAnchor="end">
+                                2018
+                              </text>
+                            </g>
+                          );
+                        }
+                  }
                 />
               </YAxis>
 

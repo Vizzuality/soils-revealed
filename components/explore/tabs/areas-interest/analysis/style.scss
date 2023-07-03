@@ -267,6 +267,13 @@
         }
       }
 
+      .recharts-yAxis {
+        .-scenario {
+          font-weight: $font-weight-medium;
+          text-transform: uppercase;
+        }
+      }
+
       .recharts-bar-rectangle {
         path {
           stroke-width: 0;
