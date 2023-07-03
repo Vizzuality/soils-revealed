@@ -18,6 +18,7 @@ export const useChartData = ({
   showDetailedClasses,
   classId,
   compareAreaInterest,
+  isFuture,
 }) => {
   const res = useMemo(() => {
     if (!!error || loading || !data || data.length === 0) {
@@ -36,7 +37,32 @@ export const useChartData = ({
     }
 
     if (!showDetailedClasses) {
-      const chartData = data;
+      let chartData = data;
+      if (isFuture) {
+        const typeOption = LAYERS['soc-stock'].paramsConfig.settings.type.options.find(
+          ({ value }) => value === 'future'
+        );
+        const scenarios = [...typeOption.settings.scenario.options]
+          .reverse()
+          .map(({ label }) => label);
+
+        chartData = scenarios
+          .map(scenario => chartData.filter(({ group }) => group === scenario))
+          .reduce(
+            (res, items) => [
+              ...res,
+              {
+                id: items[0].group,
+                group: items[0].group,
+                name: items[0].group,
+                breakdown: {},
+                subClasses: [],
+              },
+              ...items,
+            ],
+            []
+          );
+      }
 
       const values = chartData.map(item => Object.values(item.breakdown)).flat();
       const compareValues = compareAreaInterest
@@ -135,12 +161,58 @@ export const useChartData = ({
 
           return res;
         },
-        getYAxisTick: () => undefined,
+        getYAxisTick: isFuture
+          ? () => ({ payload, x, y, width, ...props }) => {
+              const typeOption = LAYERS['soc-stock'].paramsConfig.settings.type.options.find(
+                ({ value }) => value === 'future'
+              );
+              const scenarios = typeOption.settings.scenario.options.map(({ label }) => label);
+              const isScenario = scenarios.indexOf(payload.value) !== -1;
+
+              return (
+                <Text
+                  x={x}
+                  y={y}
+                  dy={isScenario ? 15 : undefined}
+                  width={width}
+                  {...props}
+                  className={isScenario ? '-scenario' : undefined}
+                >
+                  {payload.value}
+                </Text>
+              );
+            }
+          : () => undefined,
       };
     }
 
     if (classId === null) {
-      const chartData = data;
+      let chartData = data;
+      if (isFuture) {
+        const typeOption = LAYERS['soc-stock'].paramsConfig.settings.type.options.find(
+          ({ value }) => value === 'future'
+        );
+        const scenarios = [...typeOption.settings.scenario.options]
+          .reverse()
+          .map(({ label }) => label);
+
+        chartData = scenarios
+          .map(scenario => chartData.filter(({ group }) => group === scenario))
+          .reduce(
+            (res, items) => [
+              ...res,
+              {
+                id: items[0].group,
+                group: items[0].group,
+                name: items[0].group,
+                breakdown: {},
+                detailedBreakdown: {},
+              },
+              ...items,
+            ],
+            []
+          );
+      }
 
       const values = chartData.map(item => Object.values(item.detailedBreakdown)).flat();
       const compareValues = compareAreaInterest
@@ -177,6 +249,68 @@ export const useChartData = ({
         getTooltipData: payload => {
           if (payload.length === 0) {
             return [];
+          }
+
+          if (isFuture) {
+            return [
+              ...new Set([
+                ...Object.keys(payload[0].payload.detailedBreakdown),
+                ...(compareAreaInterest
+                  ? Object.keys(payload[0].payload.compareDetailedBreakdown ?? {})
+                  : []),
+              ]),
+            ]
+              .map(id => {
+                const legendItem = LAYERS['land-cover'].legend.items
+                  .map(item => item.items)
+                  .flat()
+                  .find(({ id: itemId }) => itemId === id);
+
+                if (!legendItem) {
+                  return null;
+                }
+
+                return {
+                  id,
+                  name: legendItem.name,
+                  color: legendItem.color,
+                  value: payload[0].payload.detailedBreakdown[id],
+                  ...(compareAreaInterest
+                    ? {
+                        compareValue: payload[0].payload.compareDetailedBreakdown?.[id] ?? null,
+                      }
+                    : {}),
+                };
+              })
+              .sort(({ value: valueA }, { value: valueB }) => {
+                if (valueA * valueB < 0) {
+                  return valueA < 0 ? -1 : 1;
+                }
+
+                return valueB - valueA;
+              })
+              .map(({ name, value, compareValue, color }) => {
+                const formatter = value => {
+                  if (value === undefined || value === null) {
+                    return '−';
+                  }
+
+                  if (value === 0) {
+                    return 0;
+                  }
+
+                  return `${getHumanReadableValue(
+                    (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
+                  )} ${unitPrefix}g C`;
+                };
+
+                return {
+                  name,
+                  color,
+                  value: formatter(value),
+                  ...(compareAreaInterest ? { compareValue: formatter(compareValue) } : {}),
+                };
+              });
           }
 
           return [
@@ -239,31 +373,54 @@ export const useChartData = ({
             });
         },
         // eslint-disable-next-line react/display-name
-        getYAxisTick: setClassId => ({ payload, x, y, width, ...props }) => (
-          <g>
-            <Text x={x - BUTTON_SPACE} y={y} width={width - BUTTON_SPACE} {...props}>
-              {payload.value}
-            </Text>
-            <foreignObject
-              x={x - BUTTON_SIZE}
-              y={y - BUTTON_SIZE / 2}
-              width={BUTTON_SIZE}
-              height={BUTTON_SIZE}
-            >
-              <button
-                type="button"
-                className="btn btn-sm btn-outline-primary class-button"
-                aria-label="See breakdown"
-                onClick={() => {
-                  const { id } = chartData[payload.index];
-                  setClassId(id);
-                }}
+        getYAxisTick: setClassId => ({ payload, x, y, width, ...props }) => {
+          if (isFuture) {
+            const typeOption = LAYERS['soc-stock'].paramsConfig.settings.type.options.find(
+              ({ value }) => value === 'future'
+            );
+            const scenarios = typeOption.settings.scenario.options.map(({ label }) => label);
+            const isScenario = scenarios.indexOf(payload.value) !== -1;
+
+            return (
+              <Text
+                x={x}
+                y={y}
+                dy={isScenario ? 15 : undefined}
+                width={width}
+                {...props}
+                className={isScenario ? '-scenario' : undefined}
               >
-                <Icon name="bottom-arrow" />
-              </button>
-            </foreignObject>
-          </g>
-        ),
+                {payload.value}
+              </Text>
+            );
+          }
+
+          return (
+            <g>
+              <Text x={x - BUTTON_SPACE} y={y} width={width - BUTTON_SPACE} {...props}>
+                {payload.value}
+              </Text>
+              <foreignObject
+                x={x - BUTTON_SIZE}
+                y={y - BUTTON_SIZE / 2}
+                width={BUTTON_SIZE}
+                height={BUTTON_SIZE}
+              >
+                <button
+                  type="button"
+                  className="btn btn-sm btn-outline-primary class-button"
+                  aria-label="See breakdown"
+                  onClick={() => {
+                    const { id } = chartData[payload.index];
+                    setClassId(id);
+                  }}
+                >
+                  <Icon name="bottom-arrow" />
+                </button>
+              </foreignObject>
+            </g>
+          );
+        },
       };
     }
 

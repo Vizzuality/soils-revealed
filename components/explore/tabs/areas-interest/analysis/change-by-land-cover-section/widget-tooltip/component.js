@@ -46,7 +46,7 @@ const ChangeByLandCoverSectionWidgetTooltip = ({
     middleware: [offset({ crossAxis: y }), shift()],
   });
 
-  if (!open) {
+  if (!open || !payload.length) {
     return null;
   }
 
@@ -71,10 +71,10 @@ const ChangeByLandCoverSectionWidgetTooltip = ({
                 <div className="name">{name}</div>
                 <div className="values">
                   <div>
-                    {compareValue ? 'Top: ' : ''}
+                    {compareValue !== undefined ? 'Top: ' : ''}
                     <span className="recharts-tooltip-item">{value}</span>
                   </div>
-                  {!!compareValue && (
+                  {compareValue !== undefined && (
                     <div>
                       Bottom: <span className="recharts-tooltip-item">{compareValue}</span>
                     </div>

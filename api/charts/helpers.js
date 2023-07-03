@@ -66,22 +66,64 @@ const getLandCoverClassLegendItem = (id, isMainClass = true) => {
 };
 
 /**
+ * Return a scenario based on its database ID
+ * @param {string} id ID of the scenario (database)
+ */
+const getScenario = id => {
+  const SCENARIOS = {
+    crop_MGI: '00',
+    crop_I: '01',
+    crop_MG: '02',
+    grass_full: '03',
+    grass_part: '04',
+    rewilding: '10',
+    degradation_NoDeforestation: '20',
+    degradation_ForestToCrop: '21',
+    degradation_ForestToGrass: '22',
+  };
+
+  const options = LAYERS['soc-stock'].paramsConfig.settings.type.options
+    .find(option => option.value === 'future')
+    .settings.scenario.options.map(({ label, options }) =>
+      options.map(option => ({ ...option, group: label }))
+    )
+    .flat();
+
+  const option = options.find(({ value }) => value === SCENARIOS[id]);
+
+  return {
+    name: option.label,
+    group: option.group,
+  };
+};
+
+/**
  * Parse the data of the change by land cover chart
+ * @param {boolean} isFuture Whether the data represents future scenarios
  * @param {Record<string, Record<string, number>>[]} mainClasses Data for the main classes
  * @param {Record<string, Record<string, number>>[]} mainClassesBreakdown Data breakdown for the main classes
  * @param {Record<string, Record<string, Record<string, number>>>[]} subClasses Data for the subclasses
  */
-exports.parseChangeByLandCoverData = (mainClasses, mainClassesBreakdown, subClasses) => {
+exports.parseChangeByLandCoverData = (isFuture, mainClasses, mainClassesBreakdown, subClasses) => {
   return Object.keys(mainClasses).map(mainClassId => ({
     id: mainClassId,
-    name: getLandCoverClassLegendItem(mainClassId).name,
+    name: isFuture ? getScenario(mainClassId).name : getLandCoverClassLegendItem(mainClassId).name,
+    ...(isFuture
+      ? {
+          group: getScenario(mainClassId).group,
+        }
+      : {}),
     breakdown: mainClasses[mainClassId],
     detailedBreakdown: mainClassesBreakdown[mainClassId],
-    subClasses: Object.keys(subClasses[mainClassId]).map(subClassId => ({
-      id: subClassId,
-      name: getLandCoverClassLegendItem(subClassId, false).name,
-      detailedBreakdown: subClasses[mainClassId][subClassId],
-    })),
+    ...(isFuture
+      ? {}
+      : {
+          subClasses: Object.keys(subClasses[mainClassId]).map(subClassId => ({
+            id: subClassId,
+            name: getLandCoverClassLegendItem(subClassId, false).name,
+            detailedBreakdown: subClasses[mainClassId][subClassId],
+          })),
+        }),
   }));
 };
 
@@ -154,10 +196,14 @@ exports.combineChangeByLandCoverData = (data, compareData) => {
     ...mainClass,
     compareBreakdown: {},
     compareDetailedBreakdown: {},
-    subClasses: mainClass.subClasses.map(subClass => ({
-      ...subClass,
-      compareDetailedBreakdown: {},
-    })),
+    ...(mainClass.subClasses
+      ? {
+          subClasses: mainClass.subClasses.map(subClass => ({
+            ...subClass,
+            compareDetailedBreakdown: {},
+          })),
+        }
+      : {}),
   }));
 
   compareData.forEach(compareMainClass => {
@@ -170,33 +216,40 @@ exports.combineChangeByLandCoverData = (data, compareData) => {
         compareBreakdown: compareMainClass.breakdown,
         detailedBreakdown: {},
         compareDetailedBreakdown: compareMainClass.detailedBreakdown,
-        subClasses: compareMainClass.subClasses.map(compareSubClass => ({
-          id: compareSubClass.id,
-          name: compareSubClass.name,
-          detailedBreakdown: {},
-          compareDetailedBreakdown: compareMainClass.detailedBreakdown,
-        })),
+        ...(compareMainClass.subClasses
+          ? {
+              subClasses: compareMainClass.subClasses.map(compareSubClass => ({
+                id: compareSubClass.id,
+                name: compareSubClass.name,
+                detailedBreakdown: {},
+                compareDetailedBreakdown: compareMainClass.detailedBreakdown,
+              })),
+            }
+          : {}),
       };
 
       res.push(newMainClass);
     } else {
       mainClass.compareBreakdown = compareMainClass.breakdown;
       mainClass.compareDetailedBreakdown = compareMainClass.detailedBreakdown;
-      compareMainClass.subClasses.forEach(compareSubClass => {
-        const subClass = mainClass.subClasses.find(({ id }) => id === compareSubClass.id);
-        if (!subClass) {
-          const newSubClass = {
-            id: compareSubClass.id,
-            name: compareSubClass.name,
-            detailedBreakdown: {},
-            compareDetailedBreakdown: compareSubClass.detailedBreakdown,
-          };
 
-          compareMainClass.subClasses.push(newSubClass);
-        } else {
-          subClass.compareDetailedBreakdown = compareSubClass.detailedBreakdown;
-        }
-      });
+      if (compareMainClass.subClasses) {
+        compareMainClass.subClasses.forEach(compareSubClass => {
+          const subClass = mainClass.subClasses.find(({ id }) => id === compareSubClass.id);
+          if (!subClass) {
+            const newSubClass = {
+              id: compareSubClass.id,
+              name: compareSubClass.name,
+              detailedBreakdown: {},
+              compareDetailedBreakdown: compareSubClass.detailedBreakdown,
+            };
+
+            compareMainClass.subClasses.push(newSubClass);
+          } else {
+            subClass.compareDetailedBreakdown = compareSubClass.detailedBreakdown;
+          }
+        });
+      }
     }
   });
 
