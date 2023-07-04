@@ -1239,9 +1239,12 @@ exports.LAYERS = {
     },
     config: {
       type: 'raster',
-      source: (year = 2018) => {
+      source: ({ detailedClasses, currentDate }) => {
+        const year = currentDate ? currentDate.split('-')[0] : 2018;
+        const group = detailedClasses ? 'detailed' : 'simple';
+
         return {
-          tiles: [`${location.origin}/api/land-cover/${year}/{z}/{x}/{y}`],
+          tiles: [`${location.origin}/api/land-cover/${group}/${year}/{z}/{x}/{y}`],
           minzoom: 2,
           maxzoom: 12,
         };

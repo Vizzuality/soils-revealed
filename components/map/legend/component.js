@@ -13,6 +13,7 @@ import Icon from 'components/icon';
 import LegendTitle from './title';
 import SOCExperimentalLegend from './soc-experimental';
 import SOCStockLegend from './soc-stock';
+import LandCoverLegend from './land-cover';
 
 import './style.scss';
 
@@ -90,15 +91,18 @@ const Legend = ({
             </LegendItemToolbar>
           }
         >
-          {layer.id !== 'soc-experimental' && layer.id !== 'soc-stock' && <LegendItemTypes />}
-          {layer.id !== 'soc-experimental' && layer.id !== 'soc-stock' && (
-            <LegendItemTimeStep handleChange={dates => onChangeDate(layer.id, dates)} />
-          )}
+          {layer.id !== 'soc-experimental' &&
+            layer.id !== 'soc-stock' &&
+            layer.id !== 'land-cover' && <LegendItemTypes />}
           {layer.id === 'soc-experimental' && (
             <SOCExperimentalLegend layerGroup={layer} onChangeParams={onChangeParams} />
           )}
           {layer.id === 'soc-stock' && (
             <SOCStockLegend layerGroup={layer} onChangeParams={onChangeParams} />
+          )}
+          {layer.id === 'land-cover' && <LandCoverLegend />}
+          {layer.id !== 'soc-experimental' && layer.id !== 'soc-stock' && (
+            <LegendItemTimeStep handleChange={dates => onChangeDate(layer.id, dates)} />
           )}
         </LegendListItem>
       ))}
