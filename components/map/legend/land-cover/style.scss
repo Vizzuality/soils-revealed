@@ -1,0 +1,130 @@
+@import 'css/settings';
+
+.c-map-legend-land-cover {
+  .c-checkbox {
+    margin-bottom: map-get($spacers, 2);
+
+    label {
+      text-transform: uppercase;
+    }
+  }
+
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    column-gap: map-get($spacers, 2);
+
+    li {
+      padding: map-get($spacers, 2);
+      display: flex;
+      font-family: $font-family-2;
+      @include font-size($font-size-xxs);
+
+      .color-pill {
+        position: relative;
+        top: map-get($spacers, 1);
+      }
+
+      .class-button {
+        margin-left: map-get($spacers, 2);
+      }
+
+      &:hover {
+        background-color: rgba($black, 0.05);
+
+        .btn {
+          color: color-yiq($primary);
+          background-color: $primary;
+        }
+      }
+    }
+
+    &.-no-column {
+      display: block;
+
+      li {
+        padding: map-get($spacers, 1) map-get($spacers, 2);
+        @include font-size($font-size-xxxs);
+
+        .color-pill {
+          top: rem(2);
+        }
+
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
+  .color-pill {
+    margin-right: map-get($spacers, 2);
+    width: rem(12);
+    height: rem(12);
+    flex-shrink: 0;
+  }
+
+  .item {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+  }
+
+  .class-button {
+    position: relative;
+    top: rem(1);
+    left: rem(1);
+    width: rem(18);
+    height: rem(18);
+    display: flex;
+    justify-content: center;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 0;
+    border: none;
+
+    .c-icon {
+      transform: rotate(-90deg);
+      transform-origin: center;
+      width: rem(12);
+      height: rem(12);
+
+      use {
+        stroke: currentColor;
+      }
+    }
+
+    &.-back {
+      .c-icon {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  .active-class {
+    display: flex;
+    width: calc(50% - #{map-get($spacers, 2) / 2});
+    padding: map-get($spacers, 2);
+    font-family: $font-family-2;
+    @include font-size($font-size-xxs);
+
+    .class-button {
+      flex-shrink: 0;
+      margin-right: map-get($spacers, 2);
+    }
+
+    &:hover {
+      background-color: rgba($black, 0.05);
+
+      .btn {
+        color: color-yiq($primary);
+        background-color: $primary;
+      }
+    }
+  }
+}

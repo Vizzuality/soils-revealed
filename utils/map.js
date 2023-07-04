@@ -34,7 +34,7 @@ export const computeDecodeParams = (layer, { dateRange, currentDate }) => {
 
 export const getLayerSource = (layerId, layer, layerSettings) => {
   let source;
-  if (layerId === 'soc-experimental' || layerId === 'soc-stock') {
+  if (layerId === 'soc-experimental' || layerId === 'soc-stock' || layerId === 'land-cover') {
     source = layer.config.source(layerSettings);
   } else {
     source =
