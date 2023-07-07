@@ -9,6 +9,7 @@ import {
   Bar,
   Label,
   Tooltip,
+  ReferenceLine,
 } from 'recharts';
 
 import { logEvent } from 'utils/analytics';
@@ -335,6 +336,7 @@ const ChangeByLandCoverSection = ({
                 }
               />
               <CartesianGrid horizontal={false} strokeDasharray="5 5" />
+              <ReferenceLine x={0} />
               <XAxis
                 type="number"
                 height={X_AXIS_HEIGHT}

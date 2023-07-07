@@ -195,6 +195,12 @@
       }
     }
 
+    .recharts-reference-line-line {
+      // We can't use the `rgba` function here because there might be a cartesian grid line below
+      // the reference line
+      stroke: lighten($primary, 30%);
+    }
+
     .recharts-cartesian-grid,
     .recharts-reference-line,
     .recharts-tooltip-cursor:not(.recharts-rectangle) {
