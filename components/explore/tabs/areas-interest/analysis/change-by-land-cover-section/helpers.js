@@ -48,6 +48,7 @@ export const useChartData = ({
 
         chartData = scenarios
           .map(scenario => chartData.filter(({ group }) => group === scenario))
+          .filter(items => items.length > 0)
           .reduce(
             (res, items) => [
               ...res,
@@ -220,6 +221,7 @@ export const useChartData = ({
 
         chartData = scenarios
           .map(scenario => chartData.filter(({ group }) => group === scenario))
+          .filter(items => items.length > 0)
           .reduce(
             (res, items) => [
               ...res,
