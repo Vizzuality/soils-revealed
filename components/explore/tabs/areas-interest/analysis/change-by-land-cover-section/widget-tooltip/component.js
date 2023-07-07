@@ -91,7 +91,7 @@ const ChangeByLandCoverSectionWidgetTooltip = ({
 
 ChangeByLandCoverSectionWidgetTooltip.propTypes = {
   open: PropTypes.bool.isRequired,
-  payload: PropTypes.object.isRequired,
+  payload: PropTypes.array.isRequired,
   y: PropTypes.number.isRequired,
   chartRef: PropTypes.object.isRequired,
   legendLayers: PropTypes.arrayOf(PropTypes.object).isRequired,

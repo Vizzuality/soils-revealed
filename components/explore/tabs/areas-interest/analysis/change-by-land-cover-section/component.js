@@ -41,21 +41,11 @@ const ChangeByLandCoverSection = ({
   const prevCompareAreaInterest = usePrevious(compareAreaInterest);
   const chartRef = useRef();
 
-  const socLayerGroup = useMemo(
-    () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
-    [legendLayers]
-  );
-
   const showDetailedClasses = useMemo(
     () =>
       landCoverLayerState.detailedClasses ??
       landCoverLayerState.config.settings.detailedClasses.default,
     [landCoverLayerState]
-  );
-
-  const typeOptions = useMemo(
-    () => socLayerGroup.layers[0].extraParams.config.settings.type.options,
-    [socLayerGroup]
   );
 
   const typeOption = useMemo(
@@ -453,9 +443,17 @@ const ChangeByLandCoverSection = ({
 ChangeByLandCoverSection.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
-      year: PropTypes.number.isRequired,
-      value: PropTypes.number.isRequired,
-      compareValue: PropTypes.number,
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+      breakdown: PropTypes.objectOf(PropTypes.number).isRequired,
+      detailedBreakdown: PropTypes.objectOf(PropTypes.number).isRequired,
+      subClasses: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string.isRequired,
+          name: PropTypes.string.isRequired,
+          detailedBreakdown: PropTypes.objectOf(PropTypes.number),
+        })
+      ),
     })
   ),
   loading: PropTypes.bool,
