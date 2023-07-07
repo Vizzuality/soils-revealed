@@ -48,6 +48,7 @@ export const useChartData = ({
 
         chartData = scenarios
           .map(scenario => chartData.filter(({ group }) => group === scenario))
+          .filter(items => items.length > 0)
           .reduce(
             (res, items) => [
               ...res,
@@ -62,6 +63,28 @@ export const useChartData = ({
             ],
             []
           );
+      } else {
+        chartData.sort((itemA, itemB) => {
+          const itemANegativeTotal = Object.values(itemA.breakdown).reduce(
+            (res, item) => res + (item < 0 ? item : 0),
+            0
+          );
+
+          const itemBNegativeTotal = Object.values(itemB.breakdown).reduce(
+            (res, item) => res + (item < 0 ? item : 0),
+            0
+          );
+
+          if (itemANegativeTotal === itemBNegativeTotal) {
+            return 0;
+          }
+
+          if (itemANegativeTotal < itemBNegativeTotal) {
+            return -1;
+          }
+
+          return 1;
+        });
       }
 
       const values = chartData.map(item => Object.values(item.breakdown)).flat();
@@ -198,6 +221,7 @@ export const useChartData = ({
 
         chartData = scenarios
           .map(scenario => chartData.filter(({ group }) => group === scenario))
+          .filter(items => items.length > 0)
           .reduce(
             (res, items) => [
               ...res,
@@ -212,6 +236,28 @@ export const useChartData = ({
             ],
             []
           );
+      } else {
+        chartData.sort((itemA, itemB) => {
+          const itemANegativeTotal = Object.values(itemA.detailedBreakdown).reduce(
+            (res, item) => res + (item < 0 ? item : 0),
+            0
+          );
+
+          const itemBNegativeTotal = Object.values(itemB.detailedBreakdown).reduce(
+            (res, item) => res + (item < 0 ? item : 0),
+            0
+          );
+
+          if (itemANegativeTotal === itemBNegativeTotal) {
+            return 0;
+          }
+
+          if (itemANegativeTotal < itemBNegativeTotal) {
+            return -1;
+          }
+
+          return 1;
+        });
       }
 
       const values = chartData.map(item => Object.values(item.detailedBreakdown)).flat();
@@ -430,7 +476,27 @@ export const useChartData = ({
       ? [
           // We inject the parent class' data to be shown at the top
           classObj,
-          ...classObj.subClasses,
+          ...classObj.subClasses.sort((itemA, itemB) => {
+            const itemANegativeTotal = Object.values(itemA.detailedBreakdown).reduce(
+              (res, item) => res + (item < 0 ? item : 0),
+              0
+            );
+
+            const itemBNegativeTotal = Object.values(itemB.detailedBreakdown).reduce(
+              (res, item) => res + (item < 0 ? item : 0),
+              0
+            );
+
+            if (itemANegativeTotal === itemBNegativeTotal) {
+              return 0;
+            }
+
+            if (itemANegativeTotal < itemBNegativeTotal) {
+              return -1;
+            }
+
+            return 1;
+          }),
         ]
       : [];
 
@@ -586,7 +652,7 @@ export const useChartData = ({
         );
       },
     };
-  }, [error, loading, data, showDetailedClasses, classId, compareAreaInterest]);
+  }, [error, loading, data, showDetailedClasses, classId, compareAreaInterest, isFuture]);
 
   return res;
 };
