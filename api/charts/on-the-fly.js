@@ -2,6 +2,7 @@ const axios = require('axios').default;
 
 const { LAYERS } = require('../../components/map/constants');
 const { parseTimeseriesData, parseChangeData, parseChangeByLandCoverData } = require('./helpers');
+const logger = require('../../logger');
 
 const SCENARIOS = {
   '00': 'crop_MGI',
@@ -61,9 +62,14 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
     geometry: areaInterest,
   };
 
+  logger.debug(`Loading OTF results with request POST ${url} ${JSON.stringify(body)}`);
+
   return axios
     .post(url, body, {
       headers: { Accept: 'application/json' },
+    })
+    .catch(error => {
+      logger.warn(`Error loading OTF results: ${error.toString()}`);
     })
     .then(
       ({
@@ -81,6 +87,7 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
           },
         },
       }) => {
+        logger.debug(`Successfully loaded OTF results`);
         const landCoverMainClasses = land_cover_groups;
         const landCoverMainClassesBreakdown =
           type === 'future' ? land_cover : land_cover_group_2018;

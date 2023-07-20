@@ -78,6 +78,9 @@
     "recharts": "^1.8.5",
     "slugify": "^1.4.4",
     "swr": "^0.2.3",
+    "pino": "^8.14.1",
+    "pino-http": "^8.3.3",
+    "pino-pretty": "^10.0.1",
     "viewport-mercator-project": "6.1.1",
     "vizzuality-components": "^3.0.1"
   },
