@@ -2,6 +2,7 @@ const axios = require('axios').default;
 
 const { LAYERS } = require('../../components/map/constants');
 const { parseTimeseriesData, parseChangeData } = require('./helpers');
+const logger = require('../../logger');
 
 const SCENARIOS = {
   '00': 'crop_MGI',
@@ -61,12 +62,37 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
     geometry: areaInterest,
   };
 
+  logger.debug(`Loading OTF results with request POST ${url} ${JSON.stringify(body)}`);
+
   return axios
     .post(url, body, {
       headers: { Accept: 'application/json' },
     })
-    .then(({ data: { data: { counts, bins, mean_diff, mean_years, mean_values, area_ha } } }) => ({
-      timeseries: parseTimeseriesData(mean_years, mean_values),
-      change: parseChangeData(counts, bins, mean_diff, area_ha),
-    }));
+    .catch(error => {
+      logger.warn(`Error loading OTF results: ${error.toString()}`);
+    })
+    .then(response => {
+      if (!response) {
+        logger.warn(`Error loading OTF results: no response`);
+      } else {
+        logger.debug(
+          `Successfully loaded OTF results: ${JSON.stringify({
+            status: response.status,
+            statusText: response.statusText,
+            headers: response.headers,
+            data: response.data,
+          })}`
+        );
+      }
+      const {
+        data: {
+          data: { counts, bins, mean_diff, mean_years, mean_values, area_ha },
+        },
+      } = response;
+
+      return {
+        timeseries: parseTimeseriesData(mean_years, mean_values),
+        change: parseChangeData(counts, bins, mean_diff, area_ha),
+      };
+    });
 };
