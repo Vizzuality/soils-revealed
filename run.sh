@@ -2,7 +2,6 @@
 
 yarn_build () {
   echo -e "Using: $(cat .env)"
-  source /root/.nvm/nvm.sh
   echo -e "Preparing .env file"
   echo -e "PORT=$PORT\n\
 MAPBOX_API_KEY=$MAPBOX_API_KEY\n\
@@ -13,7 +12,7 @@ AWS_REGION=$AWS_REGION\n\
 AWS_BUCKET_NAME=$AWS_BUCKET_NAME\n\
 AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID\n\
 AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY\n\
-AWS_MAX_Z_TILE_STORAGE=$AWS_MAX_Z_TILE_STORAGE" >> .env 
+AWS_MAX_Z_TILE_STORAGE=$AWS_MAX_Z_TILE_STORAGE" >> .env
 
   echo -e "Initiating yarn build"
   yarn build
@@ -24,7 +23,7 @@ AWS_MAX_Z_TILE_STORAGE=$AWS_MAX_Z_TILE_STORAGE" >> .env
 case "$1" in
   production)
       yarn_build
-      exec pm2 start --no-daemon yarn -- start
+      exec pm2 start --no-daemon yarn --interpreter bash -- start
       ;;
   develop)
       yarn_build
