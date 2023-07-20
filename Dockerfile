@@ -1,10 +1,10 @@
-FROM docker.io/debian:bullseye-slim@sha256:312218c8dae688bae4e9d12926704fa9af6f7307a6edb4f66e479702a9af5a0c
+FROM node:14.21-bullseye-slim
 
 # Source: https://www.kabisa.nl/tech/nvm-in-docker/
 # docker build --force-rm --no-cache -t soils-revealed:latest .
 # docker run -p3001:3001 --env-file .env soils-revealed:latest
 
-SHELL ["/bin/bash","-l","-c"] 
+SHELL ["/bin/bash","-l","-c"]
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update \
