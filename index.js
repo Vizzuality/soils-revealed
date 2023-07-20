@@ -2,6 +2,7 @@ const express = require('express');
 const next = require('next');
 const ee = require('@google/earthengine');
 const AWS = require('aws-sdk');
+const logger = require('pino-http')()
 
 require('dotenv').config();
 
@@ -60,6 +61,7 @@ app.prepare().then(() => {
   const server = express();
 
   server.use(express.json());
+  server.use(logger);
 
   // Tiles server handlers
   if (geePrivateKey) {

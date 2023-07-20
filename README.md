@@ -33,18 +33,18 @@ The application (and API) is configured via environment variables stored in a `.
 
 Below is a description of each of the keys.
 
-| Variable | Description |
-|---|---|
-| PORT | Port number used by the application |
-| MAPBOX_API_KEY | Mapbox API key for the Explore page |
-| API_URL | URL of the Carto instance providing the pre-calculated analysis |
-| ANALYSIS_API_URL | URL of the on-the-fly analysis service |
-| DEPLOYMENT_KEY | (Optional) Key generated at deployment time to bypass the cache of the Carto instance |
-| AWS_REGION | [Region](https://docs.aws.amazon.com/general/latest/gr/s3.html) of the AWS S3 bucket storing the tiles of the soils layers |
-| AWS_BUCKET_NAME | Name of the AWS S3 bucket storing the tiles of the soils layers |
-| AWS_ACCESS_KEY_ID | Access key ID of the AWS server storing the tiles of the soils layers |
-| AWS_SECRET_ACCESS_KEY | Secret access key of the AWS server storing the tiles of the soils layers |
-| AWS_MAX_Z_TILE_STORAGE | Maximum zoom at which tiles generated on-the-fly will be saved in the AWS S3 bucket |
+| Variable               | Description                                                                                                                |
+|------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| PORT                   | Port number used by the application                                                                                        |
+| MAPBOX_API_KEY         | Mapbox API key for the Explore page                                                                                        |
+| API_URL                | URL of the Carto instance providing the pre-calculated analysis                                                            |
+| ANALYSIS_API_URL       | URL of the on-the-fly analysis service                                                                                     |
+| DEPLOYMENT_KEY         | (Optional) Key generated at deployment time to bypass the cache of the Carto instance                                      |
+| AWS_REGION             | [Region](https://docs.aws.amazon.com/general/latest/gr/s3.html) of the AWS S3 bucket storing the tiles of the soils layers |
+| AWS_BUCKET_NAME        | Name of the AWS S3 bucket storing the tiles of the soils layers                                                            |
+| AWS_ACCESS_KEY_ID      | Access key ID of the AWS server storing the tiles of the soils layers                                                      |
+| AWS_SECRET_ACCESS_KEY  | Secret access key of the AWS server storing the tiles of the soils layers                                                  |
+| AWS_MAX_Z_TILE_STORAGE | Maximum zoom at which tiles generated on-the-fly will be saved in the AWS S3 bucket                                        |
 
 ## Deployment
 
