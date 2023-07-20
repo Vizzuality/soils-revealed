@@ -8,18 +8,13 @@ SHELL ["/bin/bash","-l","-c"]
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt update \
-    && apt install -y tini curl \
+    && apt install -y tini curl python2 python-is-python2 make gcc g++ \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /soils-revealed
 WORKDIR /soils-revealed
 COPY . .
 
-RUN curl --silent -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-RUN nvm install && nvm use
-RUN echo -e "Implementing node: $(node --version)\nFrom: $(which node)"
-
-RUN npm install -g yarn
 RUN npm install -g pm2
 RUN yarn install --frozen-lockfile
 
