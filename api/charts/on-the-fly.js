@@ -87,7 +87,23 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
           },
         },
       }) => {
-        logger.debug(`Successfully loaded OTF results`);
+        logger.debug(
+          `Successfully loaded OTF results: ${JSON.stringify({
+            data: {
+              data: {
+                counts,
+                bins,
+                mean_diff,
+                mean_years,
+                mean_values,
+                area_ha,
+                land_cover,
+                land_cover_groups,
+                land_cover_group_2018,
+              },
+            },
+          })}`
+        );
         const landCoverMainClasses = land_cover_groups;
         const landCoverMainClassesBreakdown =
           type === 'future' ? land_cover : land_cover_group_2018;
