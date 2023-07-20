@@ -71,8 +71,9 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
     .catch(error => {
       logger.warn(`Error loading OTF results: ${error.toString()}`);
     })
-    .then(
-      ({
+    .then(response => {
+      logger.debug(`Successfully loaded OTF results: ${JSON.stringify(response)}`);
+      const {
         data: {
           data: {
             counts,
@@ -86,39 +87,21 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
             land_cover_group_2018,
           },
         },
-      }) => {
-        logger.debug(
-          `Successfully loaded OTF results: ${JSON.stringify({
-            data: {
-              data: {
-                counts,
-                bins,
-                mean_diff,
-                mean_years,
-                mean_values,
-                area_ha,
-                land_cover,
-                land_cover_groups,
-                land_cover_group_2018,
-              },
-            },
-          })}`
-        );
-        const landCoverMainClasses = land_cover_groups;
-        const landCoverMainClassesBreakdown =
-          type === 'future' ? land_cover : land_cover_group_2018;
-        const landCoverSubClasses = type === 'future' ? {} : land_cover;
+      } = response;
 
-        return {
-          timeseries: parseTimeseriesData(mean_years, mean_values),
-          change: parseChangeData(counts, bins, mean_diff, area_ha),
-          changeByLandCover: parseChangeByLandCoverData(
-            type === 'future',
-            landCoverMainClasses,
-            landCoverMainClassesBreakdown,
-            landCoverSubClasses
-          ),
-        };
-      }
-    );
+      const landCoverMainClasses = land_cover_groups;
+      const landCoverMainClassesBreakdown = type === 'future' ? land_cover : land_cover_group_2018;
+      const landCoverSubClasses = type === 'future' ? {} : land_cover;
+
+      return {
+        timeseries: parseTimeseriesData(mean_years, mean_values),
+        change: parseChangeData(counts, bins, mean_diff, area_ha),
+        changeByLandCover: parseChangeByLandCoverData(
+          type === 'future',
+          landCoverMainClasses,
+          landCoverMainClassesBreakdown,
+          landCoverSubClasses
+        ),
+      };
+    });
 };
