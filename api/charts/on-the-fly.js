@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 
 const { LAYERS } = require('../../components/map/constants');
-const { parseTimeseriesData, parseChangeData } = require('./helpers');
+const { parseTimeseriesData, parseChangeData, parseChangeByLandCoverData } = require('./helpers');
 
 const SCENARIOS = {
   '00': 'crop_MGI',
@@ -65,8 +65,37 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
     .post(url, body, {
       headers: { Accept: 'application/json' },
     })
-    .then(({ data: { data: { counts, bins, mean_diff, mean_years, mean_values, area_ha } } }) => ({
-      timeseries: parseTimeseriesData(mean_years, mean_values),
-      change: parseChangeData(counts, bins, mean_diff, area_ha),
-    }));
+    .then(
+      ({
+        data: {
+          data: {
+            counts,
+            bins,
+            mean_diff,
+            mean_years,
+            mean_values,
+            area_ha,
+            land_cover,
+            land_cover_groups,
+            land_cover_group_2018,
+          },
+        },
+      }) => {
+        const landCoverMainClasses = land_cover_groups;
+        const landCoverMainClassesBreakdown =
+          type === 'future' ? land_cover : land_cover_group_2018;
+        const landCoverSubClasses = type === 'future' ? {} : land_cover;
+
+        return {
+          timeseries: parseTimeseriesData(mean_years, mean_values),
+          change: parseChangeData(counts, bins, mean_diff, area_ha),
+          changeByLandCover: parseChangeByLandCoverData(
+            type === 'future',
+            landCoverMainClasses,
+            landCoverMainClassesBreakdown,
+            landCoverSubClasses
+          ),
+        };
+      }
+    );
 };
