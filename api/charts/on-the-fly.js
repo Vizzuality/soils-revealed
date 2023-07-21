@@ -68,9 +68,6 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
     .post(url, body, {
       headers: { Accept: 'application/json' },
     })
-    .catch(error => {
-      logger.warn(`Error loading OTF results: ${error.toString()}`);
-    })
     .then(response => {
       logger.debug(
         `Successfully loaded OTF results: ${JSON.stringify({
@@ -96,9 +93,10 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
         },
       } = response;
 
-      const landCoverMainClasses = land_cover_groups;
-      const landCoverMainClassesBreakdown = type === 'future' ? land_cover : land_cover_group_2018;
-      const landCoverSubClasses = type === 'future' ? {} : land_cover;
+      const landCoverMainClasses = land_cover_groups || {};
+      const landCoverMainClassesBreakdown =
+        (type === 'future' ? land_cover : land_cover_group_2018) || {};
+      const landCoverSubClasses = (type === 'future' ? {} : land_cover) || {};
 
       return {
         timeseries: parseTimeseriesData(mean_years, mean_values),
@@ -110,5 +108,8 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
           landCoverSubClasses
         ),
       };
+    })
+    .catch(error => {
+      logger.warn(`Error loading and parsing the OTF results: ${error.toString()}`);
     });
 };
