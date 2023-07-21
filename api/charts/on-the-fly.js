@@ -72,7 +72,14 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
       logger.warn(`Error loading OTF results: ${error.toString()}`);
     })
     .then(response => {
-      logger.debug(`Successfully loaded OTF results: ${JSON.stringify(response)}`);
+      logger.debug(
+        `Successfully loaded OTF results: ${JSON.stringify({
+          status: response.status,
+          statusText: response.statusText,
+          headers: response.headers,
+          data: response.data,
+        })}`
+      );
       const {
         data: {
           data: {
