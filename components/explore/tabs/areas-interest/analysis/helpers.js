@@ -1,4 +1,4 @@
-import { useStickySWR } from 'utils/hooks';
+import { useSWR } from 'utils/hooks';
 
 export const useChartsData = (
   socLayerId,
@@ -13,7 +13,7 @@ export const useChartsData = (
     scenario ? `?scenario=${scenario}` : ''
   }`;
 
-  return useStickySWR(
+  return useSWR(
     [
       url,
       areaInterest.geo ? JSON.stringify(areaInterest.geo) : areaInterest.id,
