@@ -68,9 +68,6 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
     .post(url, body, {
       headers: { Accept: 'application/json' },
     })
-    .catch(error => {
-      logger.warn(`Error loading OTF results: ${error.toString()}`);
-    })
     .then(response => {
       if (!response) {
         logger.warn(`Error loading OTF results: no response`);
@@ -94,5 +91,8 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
         timeseries: parseTimeseriesData(mean_years, mean_values),
         change: parseChangeData(counts, bins, mean_diff, area_ha),
       };
+    })
+    .catch(error => {
+      logger.warn(`Error loading OTF results: ${error.toString()}`);
     });
 };
