@@ -32,6 +32,7 @@ const Analysis = ({
 }) => {
   const [compareTooltipOpen, setCompareTooltipOpen] = useState(false);
   const scrollableContainerRef = useRef(null);
+  const changeByLandCoverSectionContainerRef = useRef(null);
 
   const prevType = usePrevious(socLayerState.type);
 
@@ -209,6 +210,28 @@ const Analysis = ({
         )}
       </div>
       <div ref={scrollableContainerRef} className="scrollable-container">
+        {socLayerState.id === 'soc-stock' &&
+          (socLayerState.type === 'recent' || socLayerState.type === 'future') && (
+            <section>
+              <p className="banner">
+                <div className="mb-1 font-weight-bold">New widget!</div>
+                Explore the hidden patterns of carbon change with our latest addition:{' '}
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (changeByLandCoverSectionContainerRef.current) {
+                      changeByLandCoverSectionContainerRef.current.scrollIntoView({
+                        behavior: 'smooth',
+                      });
+                    }
+                  }}
+                >
+                  Change by land cover
+                </button>
+                .
+              </p>
+            </section>
+          )}
         <ChangeSection data={data?.change} loading={!data && !error} error={!!error} />
         {(socLayerState.id !== 'soc-stock' ||
           socLayerState.type === 'recent' ||
@@ -217,11 +240,13 @@ const Analysis = ({
         )}
         {socLayerState.id === 'soc-stock' &&
           (socLayerState.type === 'recent' || socLayerState.type === 'future') && (
-            <ChangeByLandCoverSection
-              data={data?.changeByLandCover}
-              loading={!data && !error}
-              error={!!error}
-            />
+            <div ref={changeByLandCoverSectionContainerRef}>
+              <ChangeByLandCoverSection
+                data={data?.changeByLandCover}
+                loading={!data && !error}
+                error={!!error}
+              />
+            </div>
           )}
         {areaInterest.level === 0 && !compareAreaInterest && <RankingSection />}
       </div>

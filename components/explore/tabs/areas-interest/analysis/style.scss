@@ -86,6 +86,36 @@
     padding: 0 #{2 * map-get($spacers, 3)};
   }
 
+  .banner {
+    font-family: $font-family-2;
+    @include font-size($font-size-xxs);
+    background-color: $background-color-1;
+    padding: map-get($spacers, 2);
+    margin: 0;
+
+    button {
+      display: inline-block;
+      background: none;
+      border: 0;
+      padding: 0;
+      font-family: $font-family-2;
+      @include font-size($font-size-xxs);
+      color: currentColor;
+      text-decoration: underline;
+
+      &:focus {
+        border-color: darken($primary, 10%);
+        outline: none;
+
+        @if $enable-shadows {
+          box-shadow: $btn-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-yiq($primary), $primary, 15%), .5);
+        } @else {
+          box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-yiq($primary), $primary, 15%), .5);
+        }
+      }
+    }
+  }
+
   .soc-stock-switcher {
     display: flex;
     padding: 0;
