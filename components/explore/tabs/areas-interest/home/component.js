@@ -125,7 +125,7 @@ const AreasInterestHome = ({
 
   return (
     <div className="c-areas-interest-home">
-      <h3>Areas of interest</h3>
+      <h3>Select an area</h3>
       <div className="form-group mt-3">
         <input
           type="search"

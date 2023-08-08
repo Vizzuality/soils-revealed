@@ -143,7 +143,7 @@ const AnalysisCompare = ({
       >
         <Icon name="close" />
       </button>
-      <h3 className="h4">Compare with areas of interest</h3>
+      <h3 className="h4">Compare with another area</h3>
       <div className="form-group mt-3">
         <input
           type="search"

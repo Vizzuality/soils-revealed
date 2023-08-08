@@ -111,9 +111,9 @@ const Icons = () => (
         <title>Layers</title>
         <path d="M15.753 9.86l2.38 1.473L9.067 17 0 11.333 2.38 9.86l6.687 4.193 6.686-4.193zM9.067 0l9.066 5.667-9.066 5.666L0 5.667 9.067 0z" />
       </symbol>
-      <symbol id="icon-pin" viewBox="0 0 13 18">
-        <title>Location</title>
-        <path d="M6.5 0C2.906 0 0 2.817 0 6.3 0 11.025 6.5 18 6.5 18S13 11.025 13 6.3C13 2.817 10.094 0 6.5 0zm0 9a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z" />
+      <symbol id="icon-chart" viewBox="0 0 19 15">
+        <title>Chart</title>
+        <path d="M14 13H17V0H14V13ZM6 13H9V4H6V13ZM10 13H13V8H10V13ZM5 13H2V11H5V13ZM19 15H0V14H19V15Z" />
       </symbol>
       <symbol id="icon-info" viewBox="0 0 16 16">
         <title>Info</title>
