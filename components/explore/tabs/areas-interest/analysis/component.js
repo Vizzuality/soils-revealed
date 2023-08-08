@@ -1,5 +1,6 @@
-import React, { useMemo, useCallback, useState, useEffect } from 'react';
+import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { usePrevious } from 'react-use';
 
 import { logEvent } from 'utils/analytics';
 import { getLayerExtraParams } from 'utils/map';
@@ -30,6 +31,9 @@ const Analysis = ({
   swapAndResetAreaInterest,
 }) => {
   const [compareTooltipOpen, setCompareTooltipOpen] = useState(false);
+  const scrollableContainerRef = useRef(null);
+
+  const prevType = usePrevious(socLayerState.type);
 
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
@@ -104,6 +108,12 @@ const Analysis = ({
       onChangeVisibilityCloseBtn(true);
     }
   }, [compareAreaInterest, setCompareTooltipOpen, onChangeVisibilityCloseBtn]);
+
+  useEffect(() => {
+    if (socLayerState.type !== prevType && scrollableContainerRef.current) {
+      scrollableContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [socLayerState, prevType]);
 
   return (
     <div className="c-areas-interest-tab-analysis">
@@ -198,7 +208,7 @@ const Analysis = ({
           </div>
         )}
       </div>
-      <div className="scrollable-container">
+      <div ref={scrollableContainerRef} className="scrollable-container">
         <ChangeSection data={data?.change} loading={!data && !error} error={!!error} />
         {(socLayerState.id !== 'soc-stock' ||
           socLayerState.type === 'recent' ||
