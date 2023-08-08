@@ -441,29 +441,42 @@ export const useChartData = ({
             );
           }
 
+          const hasSeveralSubClasses =
+            (LAYERS['land-cover'].legend.items.find(({ id }) => id === chartData[payload.index].id)
+              ?.items.length ?? 0) > 1;
+
           return (
             <g>
-              <Text x={x - BUTTON_SPACE} y={y} width={width - BUTTON_SPACE} {...props}>
+              <Text
+                x={hasSeveralSubClasses ? x - BUTTON_SPACE : x}
+                y={y}
+                width={hasSeveralSubClasses ? width - BUTTON_SPACE : width}
+                {...props}
+              >
                 {payload.value}
               </Text>
-              <foreignObject
-                x={x - BUTTON_SIZE}
-                y={y - BUTTON_SIZE / 2}
-                width={BUTTON_SIZE}
-                height={BUTTON_SIZE}
-              >
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-primary class-button"
-                  aria-label="See breakdown"
-                  onClick={() => {
-                    const { id } = chartData[payload.index];
-                    setClassId(id);
-                  }}
+              {/* If the class has less than 2 sub-classes, then we don't allow the user to see its
+                  breakdown since it's never relevant */}
+              {hasSeveralSubClasses && (
+                <foreignObject
+                  x={x - BUTTON_SIZE}
+                  y={y - BUTTON_SIZE / 2}
+                  width={BUTTON_SIZE}
+                  height={BUTTON_SIZE}
                 >
-                  <Icon name="bottom-arrow" />
-                </button>
-              </foreignObject>
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-primary class-button"
+                    aria-label="See breakdown"
+                    onClick={() => {
+                      const { id } = chartData[payload.index];
+                      setClassId(id);
+                    }}
+                  >
+                    <Icon name="bottom-arrow" />
+                  </button>
+                </foreignObject>
+              )}
             </g>
           );
         },
