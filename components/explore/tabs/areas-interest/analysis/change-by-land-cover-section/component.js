@@ -267,8 +267,8 @@ const ChangeByLandCoverSection = ({
             {socLayerState.type === 'future' && 'SOC change by land cover over 20 years.'}
             {socLayerState.type !== 'future' && (
               <>
-                Soil organic carbon change by land cover from <strong>{year1Option.label}</strong>{' '}
-                to <strong>{year2Option.label}</strong>
+                Soil organic carbon change and land cover transition from{' '}
+                <strong>{year1Option.label}</strong> to <strong>{year2Option.label}</strong>
                 <br />
                 at{' '}
                 {typeOption.settings.depth.options.length > 1 && (
