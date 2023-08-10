@@ -64,6 +64,10 @@ const AreasInterestHome = ({
         updateBoundaries({ id: result.type });
       }
 
+      // We switch to the change mode when an area of interest is set
+      const modeOptions = typeOption.settings.mode.options;
+      updateLayer({ id: socLayerState.id, mode: modeOptions[1].value });
+
       updateAreaInterest({
         id: result.id,
         name: result.name,
@@ -93,7 +97,16 @@ const AreasInterestHome = ({
         );
       }
     },
-    [boundaries, viewport, socLayerState, updateBoundaries, updateAreaInterest, updateViewport]
+    [
+      boundaries.id,
+      typeOption,
+      updateLayer,
+      socLayerState.id,
+      updateAreaInterest,
+      updateBoundaries,
+      updateViewport,
+      viewport,
+    ]
   );
 
   const onChangeType = useCallback(
@@ -125,7 +138,7 @@ const AreasInterestHome = ({
 
   return (
     <div className="c-areas-interest-home">
-      <h3>Areas of interest</h3>
+      <h3>Select an area</h3>
       <div className="form-group mt-3">
         <input
           type="search"

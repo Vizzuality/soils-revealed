@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 import { BOUNDARIES, Popup } from 'components/map';
@@ -14,16 +14,33 @@ const ExploreInteractiveFeaturePopup = ({
   boundaries,
   areaInterest,
   compareAreaInterest,
+  socLayerState,
   onClose,
   updateAreaInterest,
   updateCompareAreaInterest,
+  updateLayer,
 }) => {
   const [selectedFeatureId, setSelectedFeatureId] = useState(null);
+
+  const typeOption = useMemo(
+    () =>
+      socLayerState.config.settings.type.options.find(
+        option => option.value === socLayerState.type
+      ),
+    [socLayerState]
+  );
+
+  const modeOptions = useMemo(() => typeOption.settings.mode.options, [typeOption]);
 
   const onSubmit = useCallback(
     (updater, e) => {
       if (e) {
         e.preventDefault();
+      }
+
+      if (!areaInterest) {
+        // We switch to the change mode when an area of interest is set
+        updateLayer({ id: socLayerState.id, mode: modeOptions[1].value });
       }
 
       const selectedProperty = properties.find(prop => {
@@ -55,11 +72,25 @@ const ExploreInteractiveFeaturePopup = ({
       });
       onClose();
     },
-    [properties, boundaries, selectedFeatureId, onClose]
+    [
+      properties,
+      boundaries,
+      selectedFeatureId,
+      areaInterest,
+      socLayerState,
+      modeOptions,
+      updateLayer,
+      onClose,
+    ]
   );
 
   const onClickGo = useCallback(() => {
     const updater = compareAreaInterest ? updateCompareAreaInterest : updateAreaInterest;
+
+    if (!areaInterest) {
+      // We switch to the change mode when an area of interest is set
+      updateLayer({ id: socLayerState.id, mode: modeOptions[1].value });
+    }
 
     let bbox;
     if (properties[0].bbox) {
@@ -83,12 +114,16 @@ const ExploreInteractiveFeaturePopup = ({
     });
     onClose();
   }, [
-    boundaries,
-    properties,
+    areaInterest,
     compareAreaInterest,
-    updateAreaInterest,
     updateCompareAreaInterest,
+    updateAreaInterest,
+    properties,
+    boundaries.id,
     onClose,
+    modeOptions,
+    updateLayer,
+    socLayerState.id,
   ]);
 
   const onClickCompare = useCallback(() => {
@@ -269,9 +304,11 @@ ExploreInteractiveFeaturePopup.propTypes = {
   boundaries: PropTypes.object.isRequired,
   areaInterest: PropTypes.object,
   compareAreaInterest: PropTypes.object,
+  socLayerState: PropTypes.object.isRequired,
   onClose: PropTypes.func.isRequired,
   updateAreaInterest: PropTypes.func.isRequired,
   updateCompareAreaInterest: PropTypes.func.isRequired,
+  updateLayer: PropTypes.func.isRequired,
 };
 
 ExploreInteractiveFeaturePopup.defaultProps = {

@@ -1,3 +1,5 @@
+const { LAYERS } = require('../../components/map/constants');
+
 /**
  * Parse the data of the timeseries chart
  * @param {number[]} years List of years
@@ -37,6 +39,92 @@ exports.parseChangeData = (counts, bins, average, area) => {
       bin: bins[index],
     })),
   };
+};
+
+/**
+ * Return the land cover legend item that corresponds to a land cover class ID
+ * @param {string} id ID of the land cover class
+ * @param {boolean} isMainClass Whether this is a main land cover class
+ */
+const getLandCoverClassLegendItem = (id, isMainClass = true) => {
+  if (isMainClass) {
+    return LAYERS['land-cover'].legend.items.find(({ id: itemId }) => itemId === id);
+  }
+
+  let res = null;
+  LAYERS['land-cover'].legend.items.some(({ items }) => {
+    const legendItem = items.find(({ id: itemId }) => itemId === id);
+    if (legendItem) {
+      res = legendItem;
+      return true;
+    }
+
+    return false;
+  });
+
+  return res;
+};
+
+/**
+ * Return a scenario based on its database ID
+ * @param {string} id ID of the scenario (database)
+ */
+const getScenario = id => {
+  const SCENARIOS = {
+    crop_MGI: '00',
+    crop_I: '01',
+    crop_MG: '02',
+    grass_part: '03',
+    grass_full: '04',
+    rewilding: '10',
+    degradation_NoDeforestation: '20',
+    degradation_ForestToCrop: '21',
+    degradation_ForestToGrass: '22',
+  };
+
+  const options = LAYERS['soc-stock'].paramsConfig.settings.type.options
+    .find(option => option.value === 'future')
+    .settings.scenario.options.map(({ label, options }) =>
+      options.map(option => ({ ...option, group: label }))
+    )
+    .flat();
+
+  const option = options.find(({ value }) => value === SCENARIOS[id]);
+
+  return {
+    name: option.label,
+    group: option.group,
+  };
+};
+
+/**
+ * Parse the data of the change by land cover chart
+ * @param {boolean} isFuture Whether the data represents future scenarios
+ * @param {Record<string, Record<string, number>>[]} mainClasses Data for the main classes
+ * @param {Record<string, Record<string, number>>[]} mainClassesBreakdown Data breakdown for the main classes
+ * @param {Record<string, Record<string, Record<string, number>>>[]} subClasses Data for the subclasses
+ */
+exports.parseChangeByLandCoverData = (isFuture, mainClasses, mainClassesBreakdown, subClasses) => {
+  return Object.keys(mainClasses).map(mainClassId => ({
+    id: mainClassId,
+    name: isFuture ? getScenario(mainClassId).name : getLandCoverClassLegendItem(mainClassId).name,
+    ...(isFuture
+      ? {
+          group: getScenario(mainClassId).group,
+        }
+      : {}),
+    breakdown: mainClasses[mainClassId],
+    detailedBreakdown: mainClassesBreakdown[mainClassId],
+    ...(isFuture
+      ? {}
+      : {
+          subClasses: Object.keys(subClasses[mainClassId]).map(subClassId => ({
+            id: subClassId,
+            name: getLandCoverClassLegendItem(subClassId, false).name,
+            detailedBreakdown: subClasses[mainClassId][subClassId],
+          })),
+        }),
+  }));
 };
 
 /**
@@ -92,4 +180,78 @@ exports.combineChangeData = (data, compareData) => {
       };
     }),
   };
+};
+
+/**
+ * Combine two change by land cover data sets
+ * @param {ReturnType<typeof exports.parseChangeByLandCoverData>} data Change data
+ * @param {ReturnType<typeof exports.parseChangeByLandCoverData>} compareData Compare change data
+ */
+exports.combineChangeByLandCoverData = (data, compareData) => {
+  if (data === null || compareData === null) {
+    return null;
+  }
+
+  const res = data.map(mainClass => ({
+    ...mainClass,
+    compareBreakdown: {},
+    compareDetailedBreakdown: {},
+    ...(mainClass.subClasses
+      ? {
+          subClasses: mainClass.subClasses.map(subClass => ({
+            ...subClass,
+            compareDetailedBreakdown: {},
+          })),
+        }
+      : {}),
+  }));
+
+  compareData.forEach(compareMainClass => {
+    const mainClass = res.find(({ id }) => id === compareMainClass.id);
+    if (!mainClass) {
+      const newMainClass = {
+        id: compareMainClass.id,
+        name: compareMainClass.name,
+        breakdown: {},
+        compareBreakdown: compareMainClass.breakdown,
+        detailedBreakdown: {},
+        compareDetailedBreakdown: compareMainClass.detailedBreakdown,
+        ...(compareMainClass.subClasses
+          ? {
+              subClasses: compareMainClass.subClasses.map(compareSubClass => ({
+                id: compareSubClass.id,
+                name: compareSubClass.name,
+                detailedBreakdown: {},
+                compareDetailedBreakdown: compareMainClass.detailedBreakdown,
+              })),
+            }
+          : {}),
+      };
+
+      res.push(newMainClass);
+    } else {
+      mainClass.compareBreakdown = compareMainClass.breakdown;
+      mainClass.compareDetailedBreakdown = compareMainClass.detailedBreakdown;
+
+      if (compareMainClass.subClasses) {
+        compareMainClass.subClasses.forEach(compareSubClass => {
+          const subClass = mainClass.subClasses.find(({ id }) => id === compareSubClass.id);
+          if (!subClass) {
+            const newSubClass = {
+              id: compareSubClass.id,
+              name: compareSubClass.name,
+              detailedBreakdown: {},
+              compareDetailedBreakdown: compareSubClass.detailedBreakdown,
+            };
+
+            compareMainClass.subClasses.push(newSubClass);
+          } else {
+            subClass.compareDetailedBreakdown = compareSubClass.detailedBreakdown;
+          }
+        });
+      }
+    }
+  });
+
+  return res;
 };

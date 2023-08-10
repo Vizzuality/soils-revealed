@@ -1,5 +1,6 @@
-import React, { useMemo, useCallback, useState, useEffect } from 'react';
+import React, { useMemo, useCallback, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { usePrevious } from 'react-use';
 
 import { logEvent } from 'utils/analytics';
 import { getLayerExtraParams } from 'utils/map';
@@ -11,6 +12,7 @@ import Tooltip from 'components/tooltip';
 import Compare from './compare';
 import TimeseriesSection from './timeseries-section';
 import ChangeSection from './change-section';
+import ChangeByLandCoverSection from './change-by-land-cover-section';
 import RankingSection from './ranking-section';
 import { useChartsData } from './helpers';
 
@@ -29,6 +31,10 @@ const Analysis = ({
   swapAndResetAreaInterest,
 }) => {
   const [compareTooltipOpen, setCompareTooltipOpen] = useState(false);
+  const scrollableContainerRef = useRef(null);
+  const changeByLandCoverSectionContainerRef = useRef(null);
+
+  const prevType = usePrevious(socLayerState.type);
 
   const socLayerGroup = useMemo(
     () => legendLayers.find(layer => layer.id === 'soc-stock' || layer.id === 'soc-experimental'),
@@ -103,6 +109,12 @@ const Analysis = ({
       onChangeVisibilityCloseBtn(true);
     }
   }, [compareAreaInterest, setCompareTooltipOpen, onChangeVisibilityCloseBtn]);
+
+  useEffect(() => {
+    if (socLayerState.type !== prevType && scrollableContainerRef.current) {
+      scrollableContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }, [socLayerState, prevType]);
 
   return (
     <div className="c-areas-interest-tab-analysis">
@@ -197,13 +209,45 @@ const Analysis = ({
           </div>
         )}
       </div>
-      <div className="scrollable-container">
+      <div ref={scrollableContainerRef} className="scrollable-container">
+        {socLayerState.id === 'soc-stock' &&
+          (socLayerState.type === 'recent' || socLayerState.type === 'future') && (
+            <section>
+              <p className="banner">
+                <div className="mb-1 font-weight-bold">New widget!</div>
+                Explore the hidden patterns of carbon change with our latest addition:{' '}
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (changeByLandCoverSectionContainerRef.current) {
+                      changeByLandCoverSectionContainerRef.current.scrollIntoView({
+                        behavior: 'smooth',
+                      });
+                    }
+                  }}
+                >
+                  Change by land cover
+                </button>
+                .
+              </p>
+            </section>
+          )}
         <ChangeSection data={data?.change} loading={!data && !error} error={!!error} />
         {(socLayerState.id !== 'soc-stock' ||
           socLayerState.type === 'recent' ||
           socLayerState.type === 'future') && (
           <TimeseriesSection data={data?.timeseries} loading={!data && !error} error={!!error} />
         )}
+        {socLayerState.id === 'soc-stock' &&
+          (socLayerState.type === 'recent' || socLayerState.type === 'future') && (
+            <div ref={changeByLandCoverSectionContainerRef}>
+              <ChangeByLandCoverSection
+                data={data?.changeByLandCover}
+                loading={!data && !error}
+                error={!!error}
+              />
+            </div>
+          )}
         {areaInterest.level === 0 && !compareAreaInterest && <RankingSection />}
       </div>
     </div>

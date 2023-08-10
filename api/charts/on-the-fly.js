@@ -1,15 +1,15 @@
 const axios = require('axios').default;
 
 const { LAYERS } = require('../../components/map/constants');
-const { parseTimeseriesData, parseChangeData } = require('./helpers');
+const { parseTimeseriesData, parseChangeData, parseChangeByLandCoverData } = require('./helpers');
 const logger = require('../../logger');
 
 const SCENARIOS = {
   '00': 'crop_MGI',
   '01': 'crop_I',
   '02': 'crop_MG',
-  '03': 'grass_full',
-  '04': 'grass_part',
+  '03': 'grass_part',
+  '04': 'grass_full',
   '10': 'rewilding',
   '20': 'degradation_NoDeforestation',
   '21': 'degradation_ForestToCrop',
@@ -69,30 +69,47 @@ module.exports = ({ layer, type, depth, areaInterest, scenario }) => {
       headers: { Accept: 'application/json' },
     })
     .then(response => {
-      if (!response) {
-        logger.warn(`Error loading OTF results: no response`);
-      } else {
-        logger.debug(
-          `Successfully loaded OTF results: ${JSON.stringify({
-            status: response.status,
-            statusText: response.statusText,
-            headers: response.headers,
-            data: response.data,
-          })}`
-        );
-      }
+      logger.debug(
+        `Successfully loaded OTF results: ${JSON.stringify({
+          status: response.status,
+          statusText: response.statusText,
+          headers: response.headers,
+          data: response.data,
+        })}`
+      );
       const {
         data: {
-          data: { counts, bins, mean_diff, mean_years, mean_values, area_ha },
+          data: {
+            counts,
+            bins,
+            mean_diff,
+            mean_years,
+            mean_values,
+            area_ha,
+            land_cover,
+            land_cover_groups,
+            land_cover_group_2018,
+          },
         },
       } = response;
+
+      const landCoverMainClasses = land_cover_groups || {};
+      const landCoverMainClassesBreakdown =
+        (type === 'future' ? land_cover : land_cover_group_2018) || {};
+      const landCoverSubClasses = (type === 'future' ? {} : land_cover) || {};
 
       return {
         timeseries: parseTimeseriesData(mean_years, mean_values),
         change: parseChangeData(counts, bins, mean_diff, area_ha),
+        changeByLandCover: parseChangeByLandCoverData(
+          type === 'future',
+          landCoverMainClasses,
+          landCoverMainClassesBreakdown,
+          landCoverSubClasses
+        ),
       };
     })
     .catch(error => {
-      logger.warn(`Error loading OTF results: ${error.toString()}`);
+      logger.warn(`Error loading and parsing the OTF results: ${error.toString()}`);
     });
 };

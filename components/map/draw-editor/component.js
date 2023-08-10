@@ -36,7 +36,7 @@ const DrawEditor = ({
         // @ts-ignore
         const area = getArea(geojson) / 1000000; // Area in km²
 
-        if (area < 1 || area > 1000000) {
+        if (area < 1 || area > 100000) {
           updateDrawingState('error');
         } else {
           logEvent('Areas of interest', 'draw', 'drawing completed');

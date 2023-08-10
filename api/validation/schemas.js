@@ -17,6 +17,9 @@ const tileSchema = Joi.object({
 
 module.exports = {
   landCover: tileSchema.append({
+    group: Joi.string()
+      .valid('simple', 'detailed')
+      .required(),
     year: Joi.number()
       .integer()
       .min(2000)

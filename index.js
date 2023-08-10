@@ -37,7 +37,6 @@ const handle = app.getRequestHandler();
 // Initialize GEE
 let geePrivateKey;
 try {
-    
   geePrivateKey = require('./gee.key.json');
   ee.data.authenticateViaPrivateKey(
     geePrivateKey,
@@ -66,7 +65,7 @@ app.prepare().then(() => {
   // Tiles server handlers
   if (geePrivateKey) {
     server.get(
-      '/api/land-cover/:year/:z/:x/:y',
+      '/api/land-cover/:group/:year/:z/:x/:y',
       validation(schemas.landCover, 'params'),
       landCover
     );

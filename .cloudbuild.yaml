@@ -16,6 +16,7 @@ steps:
     args:
       - 'push'
       - 'eu.gcr.io/$PROJECT_ID/$REPO_NAME/$BRANCH_NAME/$REPO_NAME'
+      - '--all-tags'
   - id: 'deploy-to-gke'
     name: 'gcr.io/cloud-builders/gcloud'
     env:

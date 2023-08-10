@@ -86,6 +86,36 @@
     padding: 0 #{2 * map-get($spacers, 3)};
   }
 
+  .banner {
+    font-family: $font-family-2;
+    @include font-size($font-size-xxs);
+    background-color: $background-color-1;
+    padding: map-get($spacers, 2);
+    margin: 0;
+
+    button {
+      display: inline-block;
+      background: none;
+      border: 0;
+      padding: 0;
+      font-family: $font-family-2;
+      @include font-size($font-size-xxs);
+      color: currentColor;
+      text-decoration: underline;
+
+      &:focus {
+        border-color: darken($primary, 10%);
+        outline: none;
+
+        @if $enable-shadows {
+          box-shadow: $btn-box-shadow, 0 0 0 $btn-focus-width rgba(mix(color-yiq($primary), $primary, 15%), .5);
+        } @else {
+          box-shadow: 0 0 0 $btn-focus-width rgba(mix(color-yiq($primary), $primary, 15%), .5);
+        }
+      }
+    }
+  }
+
   .soc-stock-switcher {
     display: flex;
     padding: 0;
@@ -155,6 +185,7 @@
 
       .recharts-label {
         @include font-size($font-size-xxs);
+        font-weight: $font-weight-medium;
         fill: $primary;
       }
     }
@@ -174,6 +205,10 @@
         fill: $primary;
       }
 
+      .recharts-label {
+        font-weight: $font-weight-medium;
+      }
+
       .recharts-legend {
         @include font-size($font-size-xxs);
         fill: $primary;
@@ -188,6 +223,12 @@
           stroke: $primary;
         }
       }
+    }
+
+    .recharts-reference-line-line {
+      // We can't use the `rgba` function here because there might be a cartesian grid line below
+      // the reference line
+      stroke: lighten($primary, 30%);
     }
 
     .recharts-cartesian-grid,
@@ -233,18 +274,150 @@
     }
   }
 
-  .recharts-default-tooltip {
-    padding: map-get($spacers, 2) !important;
-    font-family: $font-family-2;
-    @include font-size($font-size-xxs);
-    border: rem(1) solid $primary !important;
-    background: $body-bg !important;
-    box-shadow: $box-shadow-1;
+  .change-by-land-cover-section {
+    .chart-intro {
+      margin-bottom: map-get($spacers, 2);
+    }
 
-    .recharts-tooltip-item {
-      padding: 0 !important;
-      color: $body-color !important;
-      font-weight: $font-weight-medium;
+    .c-checkbox {
+      margin-bottom: map-get($spacers, 2);
+
+      label {
+        text-transform: uppercase;
+      }
+    }
+
+    .recharts-responsive-container {
+      overflow: visible;
+
+      svg {
+        overflow: visible;
+      }
+
+      .recharts-xAxis {
+        .recharts-label {
+
+          .-light {
+            font-weight: $font-weight-normal;
+          }
+        }
+      }
+
+      .recharts-yAxis {
+        .-scenario {
+          font-weight: $font-weight-medium;
+          text-transform: uppercase;
+        }
+      }
+
+      .recharts-bar-rectangle {
+        path {
+          stroke-width: 0;
+        }
+      }
+
+      .class-button {
+        position: relative;
+        top: rem(2); // Needed for the focus ring
+        left: rem(2); // Needed for the focus ring
+        width: rem(18);
+        height: rem(18);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+        border: none;
+
+        .c-icon {
+          transform: rotate(-90deg);
+          transform-origin: center;
+          width: rem(12);
+          height: rem(12);
+
+          use {
+            stroke: currentColor;
+          }
+        }
+
+        &.-back {
+          .c-icon {
+            transform: rotate(90deg);
+          }
+        }
+      }
+    }
+
+    .recharts-tooltip-wrapper {
+      z-index: 10;
+    }
+  }
+}
+
+// The tooltip may be portaled and thus is outside the main class
+.recharts-default-tooltip {
+  padding: map-get($spacers, 2) !important;
+  font-family: $font-family-2;
+  @include font-size($font-size-xxs);
+  border: rem(1) solid $primary !important;
+  background: $body-bg !important;
+  box-shadow: $box-shadow-1;
+
+  .recharts-tooltip-item {
+    padding: 0 !important;
+    color: $body-color !important;
+    font-weight: $font-weight-medium;
+  }
+
+  &.-change-by-land-cover {
+    min-width: rem(280);
+    z-index: 10;
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: inline-grid;
+      grid-auto-flow: column;
+      grid-template-rows: repeat(8, auto);
+      column-gap: map-get($spacers, 4);
+
+      li {
+        width: rem(310);
+        display: flex;
+        margin-top: map-get($spacers, 2);
+      }
+    }
+
+    .color-pill {
+      position: relative;
+      top: map-get($spacers, 1);
+      margin-right: map-get($spacers, 2);
+      width: rem(12);
+      height: rem(12);
+      flex-shrink: 0;
+    }
+
+    .item {
+      overflow: hidden;
+    }
+
+    .name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .values {
+      display: flex;
+      flex-wrap: wrap;
+
+      & > *:nth-child(2) {
+        margin-left: map-get($spacers, 2);
+
+        &:before {
+          content: '| ';
+        }
+      }
     }
   }
 }

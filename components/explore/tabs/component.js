@@ -103,8 +103,8 @@ const ExploreTabs = ({ showTour, areaInterest, updateAreaInterest, onClickInfo }
                 setAreasInterestTooltipVisible(true);
               }}
             >
-              <Icon name="pin" />
-              Areas of interest
+              <Icon name="chart" />
+              Analysis
             </button>
           </Tooltip>
         </div>
