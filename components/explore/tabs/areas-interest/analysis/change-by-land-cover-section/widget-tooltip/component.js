@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { FloatingPortal, autoUpdate, offset, shift, useFloating } from '@floating-ui/react';
+import classnames from 'classnames';
+import Icon from 'components/icon';
 
 const ChangeByLandCoverSectionWidgetTooltip = ({
   open,
@@ -46,7 +48,7 @@ const ChangeByLandCoverSectionWidgetTooltip = ({
     middleware: [offset({ crossAxis: y }), shift()],
   });
 
-  if (!open || !payload.length) {
+  if (!open) {
     return null;
   }
 
@@ -63,27 +65,35 @@ const ChangeByLandCoverSectionWidgetTooltip = ({
             ? typeOptions[1].settings.year2.defaultOption
             : year1Option.label}
         </div>
-        <ul>
-          {payload.map(({ name, value, compareValue, color }) => (
-            <li key={name}>
-              <div className="color-pill" style={{ background: color }} />
-              <div className="item">
-                <div className="name">{name}</div>
-                <div className="values">
-                  <div>
-                    {compareValue !== undefined ? 'Top: ' : ''}
-                    <span className="recharts-tooltip-item">{value}</span>
-                  </div>
-                  {compareValue !== undefined && (
+        {payload.length > 0 && (
+          <ul>
+            {payload.map(({ name, value, compareValue, color }) => (
+              <li key={name}>
+                <div className="color-pill" style={{ background: color }} />
+                <div className="item">
+                  <div className="name">{name}</div>
+                  <div className="values">
                     <div>
-                      Bottom: <span className="recharts-tooltip-item">{compareValue}</span>
+                      {compareValue !== undefined ? 'Top: ' : ''}
+                      <span className="recharts-tooltip-item">{value}</span>
                     </div>
-                  )}
+                    {compareValue !== undefined && (
+                      <div>
+                        Bottom: <span className="recharts-tooltip-item">{compareValue}</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ul>
+        )}
+        {(payload.length === 0 || !!payload[0].hiddenItems) && (
+          <p className={classnames('note', payload.length > 8 ? null : '-small')}>
+            <Icon name="warning" className="mr-1" />
+            Some land cover classes with negligible values are not displayed.
+          </p>
+        )}
       </div>
     </FloatingPortal>
   );

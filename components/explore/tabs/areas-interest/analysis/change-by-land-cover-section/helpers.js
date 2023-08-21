@@ -4,7 +4,7 @@ import max from 'lodash/max';
 import { Text } from 'recharts';
 
 import Icon from 'components/icon';
-import { getHumanReadableValue, getValuePrefixAndPow } from 'utils/functions';
+import { getHumanReadableValue, getValuePrefixAndPow, isValueInsignificant } from 'utils/functions';
 import { LAYERS } from 'components/map/constants';
 
 const BUTTON_SIZE = 22;
@@ -118,13 +118,7 @@ export const useChartData = ({
             return [];
           }
 
-          let res = payload.sort(({ value: valueA }, { value: valueB }) => {
-            if (valueA * valueB < 0) {
-              return valueA < 0 ? -1 : 1;
-            }
-
-            return valueB - valueA;
-          });
+          let res = payload.sort(({ value: valueA }, { value: valueB }) => valueB - valueA);
 
           if (compareAreaInterest) {
             res = res.reduce((localRes, item) => {
@@ -159,28 +153,43 @@ export const useChartData = ({
             }, []);
           }
 
-          res = res.map(({ name, value, compareValue, color }) => {
-            const formatter = value => {
-              if (value === undefined || value === null) {
-                return '−';
+          let hiddenItems = false;
+
+          res = res
+            .filter(item => {
+              if (
+                isValueInsignificant(item.value, 6 - unitPow) &&
+                (!compareAreaInterest || isValueInsignificant(item.compareValue, 6 - unitPow))
+              ) {
+                hiddenItems = true;
+                return false;
               }
 
-              if (value === 0) {
-                return 0;
-              }
+              return true;
+            })
+            .map(({ name, value, compareValue, color }) => {
+              const formatter = value => {
+                if (value === undefined || value === null) {
+                  return '−';
+                }
 
-              return `${getHumanReadableValue(
-                (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
-              )} ${unitPrefix}g C`;
-            };
+                if (value === 0) {
+                  return 0;
+                }
 
-            return {
-              name,
-              color,
-              value: formatter(value),
-              ...(compareAreaInterest ? { compareValue: formatter(compareValue) } : {}),
-            };
-          });
+                return `${getHumanReadableValue(
+                  value * Math.pow(10, 6 - unitPow)
+                )} ${unitPrefix}g C`;
+              };
+
+              return {
+                name,
+                color,
+                value: formatter(value),
+                ...(compareAreaInterest ? { compareValue: formatter(compareValue) } : {}),
+                hiddenItems,
+              };
+            });
 
           return res;
         },
@@ -297,6 +306,8 @@ export const useChartData = ({
             return [];
           }
 
+          let hiddenItems = false;
+
           if (isFuture) {
             return [
               ...new Set([
@@ -328,13 +339,18 @@ export const useChartData = ({
                     : {}),
                 };
               })
-              .sort(({ value: valueA }, { value: valueB }) => {
-                if (valueA * valueB < 0) {
-                  return valueA < 0 ? -1 : 1;
+              .filter(item => {
+                if (
+                  isValueInsignificant(item.value, 6 - unitPow) &&
+                  (!compareAreaInterest || isValueInsignificant(item.compareValue, 6 - unitPow))
+                ) {
+                  hiddenItems = true;
+                  return false;
                 }
 
-                return valueB - valueA;
+                return true;
               })
+              .sort(({ value: valueA }, { value: valueB }) => valueB - valueA)
               .map(({ name, value, compareValue, color }) => {
                 const formatter = value => {
                   if (value === undefined || value === null) {
@@ -346,7 +362,7 @@ export const useChartData = ({
                   }
 
                   return `${getHumanReadableValue(
-                    (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
+                    value * Math.pow(10, 6 - unitPow)
                   )} ${unitPrefix}g C`;
                 };
 
@@ -355,6 +371,7 @@ export const useChartData = ({
                   color,
                   value: formatter(value),
                   ...(compareAreaInterest ? { compareValue: formatter(compareValue) } : {}),
+                  hiddenItems,
                 };
               });
           }
@@ -388,13 +405,18 @@ export const useChartData = ({
                   : {}),
               };
             })
-            .sort(({ value: valueA }, { value: valueB }) => {
-              if (valueA * valueB < 0) {
-                return valueA < 0 ? -1 : 1;
+            .filter(item => {
+              if (
+                isValueInsignificant(item.value, 6 - unitPow) &&
+                (!compareAreaInterest || isValueInsignificant(item.compareValue, 6 - unitPow))
+              ) {
+                hiddenItems = true;
+                return false;
               }
 
-              return valueB - valueA;
+              return true;
             })
+            .sort(({ value: valueA }, { value: valueB }) => valueB - valueA)
             .map(({ name, value, compareValue, color }) => {
               const formatter = value => {
                 if (value === undefined || value === null) {
@@ -406,7 +428,7 @@ export const useChartData = ({
                 }
 
                 return `${getHumanReadableValue(
-                  (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
+                  value * Math.pow(10, 6 - unitPow)
                 )} ${unitPrefix}g C`;
               };
 
@@ -415,6 +437,7 @@ export const useChartData = ({
                 color,
                 value: formatter(value),
                 ...(compareAreaInterest ? { compareValue: formatter(compareValue) } : {}),
+                hiddenItems,
               };
             });
         },
@@ -550,6 +573,8 @@ export const useChartData = ({
           return [];
         }
 
+        let hiddenItems = false;
+
         return [
           ...new Set([
             ...Object.keys(payload[0].payload.detailedBreakdown),
@@ -580,13 +605,18 @@ export const useChartData = ({
                 : {}),
             };
           })
-          .sort(({ value: valueA }, { value: valueB }) => {
-            if (valueA * valueB < 0) {
-              return valueA < 0 ? -1 : 1;
+          .filter(item => {
+            if (
+              isValueInsignificant(item.value, 6 - unitPow) &&
+              (!compareAreaInterest || isValueInsignificant(item.compareValue, 6 - unitPow))
+            ) {
+              hiddenItems = true;
+              return false;
             }
 
-            return valueB - valueA;
+            return true;
           })
+          .sort(({ value: valueA }, { value: valueB }) => valueB - valueA)
           .map(({ name, value, compareValue, color }) => {
             const formatter = value => {
               if (value === undefined || value === null) {
@@ -597,9 +627,7 @@ export const useChartData = ({
                 return 0;
               }
 
-              return `${getHumanReadableValue(
-                (value * Math.pow(10, 6)) / Math.pow(10, unitPow)
-              )} ${unitPrefix}g C`;
+              return `${getHumanReadableValue(value * Math.pow(10, 6 - unitPow))} ${unitPrefix}g C`;
             };
 
             return {
@@ -607,6 +635,7 @@ export const useChartData = ({
               color,
               value: formatter(value),
               ...(compareAreaInterest ? { compareValue: formatter(compareValue) } : {}),
+              hiddenItems,
             };
           });
       },
