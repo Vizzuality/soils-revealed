@@ -65,25 +65,9 @@ export const useChartData = ({
           );
       } else {
         chartData.sort((itemA, itemB) => {
-          const itemANegativeTotal = Object.values(itemA.breakdown).reduce(
-            (res, item) => res + (item < 0 ? item : 0),
-            0
-          );
-
-          const itemBNegativeTotal = Object.values(itemB.breakdown).reduce(
-            (res, item) => res + (item < 0 ? item : 0),
-            0
-          );
-
-          if (itemANegativeTotal === itemBNegativeTotal) {
-            return 0;
-          }
-
-          if (itemANegativeTotal < itemBNegativeTotal) {
-            return -1;
-          }
-
-          return 1;
+          const itemATotal = Object.values(itemA.breakdown).reduce((res, item) => res + item, 0);
+          const itemBTotal = Object.values(itemB.breakdown).reduce((res, item) => res + item, 0);
+          return itemATotal - itemBTotal;
         });
       }
 
@@ -247,25 +231,15 @@ export const useChartData = ({
           );
       } else {
         chartData.sort((itemA, itemB) => {
-          const itemANegativeTotal = Object.values(itemA.detailedBreakdown).reduce(
-            (res, item) => res + (item < 0 ? item : 0),
+          const itemATotal = Object.values(itemA.detailedBreakdown).reduce(
+            (res, item) => res + item,
             0
           );
-
-          const itemBNegativeTotal = Object.values(itemB.detailedBreakdown).reduce(
-            (res, item) => res + (item < 0 ? item : 0),
+          const itemBTotal = Object.values(itemB.detailedBreakdown).reduce(
+            (res, item) => res + item,
             0
           );
-
-          if (itemANegativeTotal === itemBNegativeTotal) {
-            return 0;
-          }
-
-          if (itemANegativeTotal < itemBNegativeTotal) {
-            return -1;
-          }
-
-          return 1;
+          return itemATotal - itemBTotal;
         });
       }
 
@@ -513,25 +487,15 @@ export const useChartData = ({
           // We inject the parent class' data to be shown at the top
           classObj,
           ...classObj.subClasses.sort((itemA, itemB) => {
-            const itemANegativeTotal = Object.values(itemA.detailedBreakdown).reduce(
-              (res, item) => res + (item < 0 ? item : 0),
+            const itemATotal = Object.values(itemA.detailedBreakdown).reduce(
+              (res, item) => res + item,
               0
             );
-
-            const itemBNegativeTotal = Object.values(itemB.detailedBreakdown).reduce(
-              (res, item) => res + (item < 0 ? item : 0),
+            const itemBTotal = Object.values(itemB.detailedBreakdown).reduce(
+              (res, item) => res + item,
               0
             );
-
-            if (itemANegativeTotal === itemBNegativeTotal) {
-              return 0;
-            }
-
-            if (itemANegativeTotal < itemBNegativeTotal) {
-              return -1;
-            }
-
-            return 1;
+            return itemATotal - itemBTotal;
           }),
         ]
       : [];
