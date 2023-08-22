@@ -8,7 +8,7 @@ import {
   CartesianGrid,
   Bar,
   Label,
-  Tooltip,
+  Tooltip as ChartTooltip,
   ReferenceLine,
 } from 'recharts';
 
@@ -22,6 +22,7 @@ import Checkbox from 'components/forms/checkbox';
 import WidgetTooltip from './widget-tooltip';
 import { useChartData } from './helpers';
 import { LAYERS } from 'components/map';
+import Tooltip from 'components/tooltip';
 import { usePrevious } from 'react-use';
 
 const ChangeByLandCoverSection = ({
@@ -231,23 +232,28 @@ const ChangeByLandCoverSection = ({
     <section className="change-by-land-cover-section">
       <header className="mt-2 align-items-start">
         <h4>Change by land cover</h4>
-        <div className="d-flex align-items-end flex-column-reverse pt-2">
-          <Switch
-            id="analysis-change-by-land-cover-toggle"
-            checked={landCoverActive}
-            onChange={onToggleLandCover}
-            className="-label-left"
-          >
-            Display on map
-          </Switch>
+        <div className="d-flex align-items-center">
           <HintButton
             icon="download"
-            className="ml-3 mb-2"
             onClick={onClickDownload}
             disabled={!data || data.length === 0}
           >
             Download data
           </HintButton>
+          <Tooltip
+            trigger="mouseenter focus"
+            content="Display the Global Land Cover layer on the map"
+            className="c-hint-button-tooltip"
+          >
+            <Switch
+              id="analysis-change-by-land-cover-toggle"
+              checked={landCoverActive}
+              onChange={onToggleLandCover}
+              className="-label-left"
+            >
+              <span className="sr-only">Display the Global Land Cover layer on the map</span>
+            </Switch>
+          </Tooltip>
         </div>
       </header>
       {!!error && (
@@ -268,9 +274,7 @@ const ChangeByLandCoverSection = ({
             {socLayerState.type !== 'future' && (
               <>
                 Soil organic carbon change and land cover transition from{' '}
-                <strong>{year1Option.label}</strong> to <strong>{year2Option.label}</strong>
-                <br />
-                at{' '}
+                <strong>{year1Option.label}</strong> to <strong>{year2Option.label}</strong> at{' '}
                 {typeOption.settings.depth.options.length > 1 && (
                   <Dropdown
                     options={typeOption.settings.depth.options}
@@ -285,18 +289,6 @@ const ChangeByLandCoverSection = ({
               </>
             )}
           </div>
-          <Checkbox
-            id="land-cover-detailed-classes"
-            checked={showDetailedClasses}
-            onChange={visible => {
-              onChangeDetailedClasses(visible);
-              if (!visible) {
-                setClassId(null);
-              }
-            }}
-          >
-            {landCoverLayerState.config.settings.detailedClasses.label}
-          </Checkbox>
           <ResponsiveContainer width="100%" aspect={ASPECT_RATIO} ref={chartRef}>
             <BarChart
               data={chartData}
@@ -311,7 +303,7 @@ const ChangeByLandCoverSection = ({
               barCategoryGap={BAR_CATEGORY_GAP}
               barGap={4}
             >
-              <Tooltip
+              <ChartTooltip
                 allowEscapeViewBox={{ x: false, y: true }}
                 offset={20}
                 content={({ payload, coordinate, offset, active }) =>
@@ -434,6 +426,19 @@ const ChangeByLandCoverSection = ({
                 ))}
             </BarChart>
           </ResponsiveContainer>
+          <Checkbox
+            id="land-cover-detailed-classes"
+            className="-label-left"
+            checked={showDetailedClasses}
+            onChange={visible => {
+              onChangeDetailedClasses(visible);
+              if (!visible) {
+                setClassId(null);
+              }
+            }}
+          >
+            {landCoverLayerState.config.settings.detailedClasses.label}
+          </Checkbox>
         </>
       )}
     </section>

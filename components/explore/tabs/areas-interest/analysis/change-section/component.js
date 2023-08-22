@@ -9,7 +9,7 @@ import {
   Bar,
   Cell,
   ReferenceLine,
-  Tooltip,
+  Tooltip as ChartTooltip,
   Customized,
 } from 'recharts';
 
@@ -19,6 +19,7 @@ import { Switch } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
 import NoDataMessage from 'components/explore/no-data-message';
+import Tooltip from 'components/tooltip';
 import { getParsedData } from './helpers';
 import DynamicSentence from './dynamic-sentence';
 import Warning from './warning';
@@ -80,22 +81,27 @@ const ChangeSection = ({
       <header>
         <h4>{modeOptions[1].label}</h4>
         <div className="d-flex align-items-center">
-          <Switch
-            id="analysis-timeseries-toggle"
-            checked={socLayerState.mode === modeOptions[1].value}
-            onChange={onChangeMode}
-            className="-label-left"
-          >
-            Display on map
-          </Switch>
           <HintButton
             icon="download"
-            className="ml-3"
             onClick={onClickDownload}
             disabled={!data?.rows || data.rows.length === 0}
           >
             Download data
           </HintButton>
+          <Tooltip
+            trigger="mouseenter focus"
+            content="Display the change layer on the map"
+            className="c-hint-button-tooltip"
+          >
+            <Switch
+              id="analysis-change-toggle"
+              checked={socLayerState.mode === modeOptions[1].value}
+              onChange={onChangeMode}
+              className="-label-left"
+            >
+              <span className="sr-only">Display the change layer on the map</span>
+            </Switch>
+          </Tooltip>
         </div>
       </header>
       {!!error && (
@@ -126,7 +132,7 @@ const ChangeSection = ({
               barCategoryGap={1}
               barGap={0}
             >
-              <Tooltip
+              <ChartTooltip
                 labelFormatter={value => `${value} ${unit}`}
                 formatter={value => [getHumanReadableValue(/** @type {number} */ (value))]}
               />

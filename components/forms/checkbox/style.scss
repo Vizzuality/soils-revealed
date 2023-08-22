@@ -12,4 +12,27 @@
       }
     }
   }
+
+  &.-label-left {
+    text-align: right;
+    padding-left: 0;
+    padding-right: $custom-control-gutter + $custom-control-indicator-size;
+
+    input {
+      left: auto;
+      right: 0;
+    }
+
+    .custom-control-label {
+      &::before {
+        left: auto;
+        right: -($custom-control-gutter + $custom-control-indicator-size);
+      }
+
+      &::after {
+        left: auto;
+        right: -($custom-control-gutter + $custom-control-indicator-size);
+      }
+    }
+  }
 }

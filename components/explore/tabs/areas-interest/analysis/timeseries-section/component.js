@@ -8,7 +8,7 @@ import {
   CartesianGrid,
   Line,
   Label,
-  Tooltip,
+  Tooltip as ChartTooltip,
 } from 'recharts';
 
 import { logEvent } from 'utils/analytics';
@@ -17,6 +17,7 @@ import { Switch, Dropdown } from 'components/forms';
 import LoadingSpinner from 'components/loading-spinner';
 import HintButton from 'components/hint-button';
 import NoDataMessage from 'components/explore/no-data-message';
+import Tooltip from 'components/tooltip';
 
 const TimeseriesSection = ({
   data,
@@ -115,22 +116,27 @@ const TimeseriesSection = ({
       <header className="mt-2">
         <h4>Time Series</h4>
         <div className="d-flex align-items-center">
-          <Switch
-            id="analysis-timeseries-toggle"
-            checked={socLayerState.mode === modeOptions[0].value}
-            onChange={onChangeMode}
-            className="-label-left"
-          >
-            Display on map
-          </Switch>
           <HintButton
             icon="download"
-            className="ml-3"
             onClick={onClickDownload}
             disabled={!data || data.length === 0}
           >
             Download data
           </HintButton>
+          <Tooltip
+            trigger="mouseenter focus"
+            content="Display the absolute value layer on the map"
+            className="c-hint-button-tooltip"
+          >
+            <Switch
+              id="analysis-timeseries-toggle"
+              checked={socLayerState.mode === modeOptions[0].value}
+              onChange={onChangeMode}
+              className="-label-left"
+            >
+              <span className="sr-only">Display the absolute value layer on the map</span>
+            </Switch>
+          </Tooltip>
         </div>
       </header>
       {!!error && (
@@ -160,8 +166,7 @@ const TimeseriesSection = ({
                     typeOptions[2].settings.year.options.length - 1
                   ].label
                 : year2Option.label}
-            </strong>
-            <br />
+            </strong>{' '}
             at{' '}
             {typeOption.settings.depth.options.length > 1 && (
               <Dropdown
@@ -174,7 +179,7 @@ const TimeseriesSection = ({
           </div>
           <ResponsiveContainer width="100%" aspect={1.3}>
             <LineChart data={data} margin={{ top: 0, right: 0, bottom: 45, left: 0 }}>
-              <Tooltip
+              <ChartTooltip
                 formatter={value => {
                   const { value: res } = getFormattedValue(
                     /** @type {number} */ (value),

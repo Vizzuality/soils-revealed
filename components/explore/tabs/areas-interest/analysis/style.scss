@@ -156,20 +156,14 @@
 
   .chart-intro {
     margin: map-get($spacers, 2) 0 map-get($spacers, 4);
-    font-family: $font-family-2;
-    @include font-size($font-size-s);
-    line-height: 1.75;
+    line-height: 1.44;
 
     strong {
       font-weight: $font-weight-medium;
     }
 
-    .c-dropdown {
-      line-height: 1.5;
-
-      .target-button {
-        font-size: inherit;
-      }
+    .nowrap {
+      white-space: nowrap;
     }
   }
 
@@ -280,8 +274,6 @@
     }
 
     .c-checkbox {
-      margin-bottom: map-get($spacers, 2);
-
       label {
         text-transform: uppercase;
       }
