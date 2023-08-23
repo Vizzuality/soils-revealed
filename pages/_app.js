@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import withRedux from 'next-redux-wrapper';
+import { CookieConsentProvider } from '@use-cookie-consent/react';
 
 import { Router } from 'lib/routes';
 import createStore from 'lib/store';
@@ -19,10 +20,16 @@ const SoilsRevealedApp = ({ Component, pageProps, store }) => {
 
   return (
     <Provider store={store}>
-      {/* The cookies notice must be the first element on the page */}
-      <CookiesNotice />
-      <Component {...pageProps} />
-      <Analytics />
+      <CookieConsentProvider
+        useCookieConsentHooksOptions={{
+          consentCookieAttributes: { expires: 180 }, // Store the consent for 180 days
+        }}
+      >
+        {/* The cookies notice must be the first element on the page */}
+        <CookiesNotice />
+        <Component {...pageProps} />
+        <Analytics />
+      </CookieConsentProvider>
     </Provider>
   );
 };
