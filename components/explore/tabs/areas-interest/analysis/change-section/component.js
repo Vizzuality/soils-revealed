@@ -90,7 +90,7 @@ const ChangeSection = ({
           </HintButton>
           <Tooltip
             trigger="mouseenter focus"
-            content="Display the change layer on the map"
+            content="Display the SOC change layer on the map"
             className="c-hint-button-tooltip"
           >
             <Switch
@@ -99,7 +99,7 @@ const ChangeSection = ({
               onChange={onChangeMode}
               className="-label-left"
             >
-              <span className="sr-only">Display the change layer on the map</span>
+              <span className="sr-only">Display the SOC change layer on the map</span>
             </Switch>
           </Tooltip>
         </div>
