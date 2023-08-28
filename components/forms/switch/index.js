@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 import PropTypes from 'prop-types';
 
 import './style.scss';
 
-const Switch = ({ id, disabled, checked, onChange, children, className }) => (
+const Comp = ({ id, disabled, checked, onChange, children, className }, ref) => (
   <div
     className={[
       'custom-control',
@@ -11,6 +11,7 @@ const Switch = ({ id, disabled, checked, onChange, children, className }) => (
       'c-switch',
       ...(className ? [className] : []),
     ].join(' ')}
+    ref={ref}
   >
     <input
       type="checkbox"
@@ -25,6 +26,10 @@ const Switch = ({ id, disabled, checked, onChange, children, className }) => (
     </label>
   </div>
 );
+
+const Switch = forwardRef(Comp);
+
+Switch.displayName = 'Switch';
 
 Switch.propTypes = {
   id: PropTypes.string.isRequired,

@@ -156,20 +156,14 @@
 
   .chart-intro {
     margin: map-get($spacers, 2) 0 map-get($spacers, 4);
-    font-family: $font-family-2;
-    @include font-size($font-size-s);
-    line-height: 1.75;
+    line-height: 1.44;
 
     strong {
       font-weight: $font-weight-medium;
     }
 
-    .c-dropdown {
-      line-height: 1.5;
-
-      .target-button {
-        font-size: inherit;
-      }
+    .nowrap {
+      white-space: nowrap;
     }
   }
 
@@ -280,8 +274,6 @@
     }
 
     .c-checkbox {
-      margin-bottom: map-get($spacers, 2);
-
       label {
         text-transform: uppercase;
       }
@@ -397,16 +389,6 @@
       flex-shrink: 0;
     }
 
-    .item {
-      overflow: hidden;
-    }
-
-    .name {
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
     .values {
       display: flex;
       flex-wrap: wrap;
@@ -417,6 +399,19 @@
         &:before {
           content: '| ';
         }
+      }
+    }
+
+    .note {
+      margin: map-get($spacers, 3) 0 0;
+
+      &.-small {
+        max-width: rem(280);
+      }
+
+      .c-icon {
+        width: rem(16);
+        height: rem(16);
       }
     }
   }

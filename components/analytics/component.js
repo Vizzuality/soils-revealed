@@ -1,27 +1,32 @@
-import { useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React from 'react';
+import Head from 'next/head';
+import { useCookieConsentContext } from '@use-cookie-consent/react';
 
-import { initGA, logPageView } from 'utils/analytics';
+const Analytics = () => {
+  const { consent } = useCookieConsentContext();
 
-const Analytics = ({ allowCookies, consentDate }) => {
-  // When allowCookies or consentDate is updated, we eventually initialize the analytics
-  useEffect(() => {
-    if (allowCookies && consentDate) {
-      initGA();
-      logPageView(); // We log the current page
-    }
-  }, [allowCookies, consentDate]);
+  if (!consent.thirdParty || process.env.NODE_ENV !== 'production') {
+    return null;
+  }
 
-  return null;
-};
-
-Analytics.propTypes = {
-  allowCookies: PropTypes.bool.isRequired,
-  consentDate: PropTypes.number,
-};
-
-Analytics.defaultProps = {
-  consentDate: null,
+  return (
+    <Head>
+      <script
+        id="gtm-script"
+        async
+        defer
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_KEY}`}
+      />
+      <script id="gtm-config-script" async defer>
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', '${process.env.GOOGLE_ANALYTICS_KEY}');
+        `}
+      </script>
+    </Head>
+  );
 };
 
 export default Analytics;

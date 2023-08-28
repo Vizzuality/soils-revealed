@@ -431,54 +431,90 @@ const getTemplateParameters = ({
     participle: () => (leadingAreaInterestData.average < 0 ? 'lost' : 'gained'),
     participle2: () => (leadingAreaInterestData.average < 0 ? 'decreased' : 'increased'),
     secondaryParticiple: () => (secondaryAreaInterestData?.average < 0 ? 'lost' : 'gained'),
-    average: () => getHumanReadableValue(Math.abs(leadingAreaInterestData.average)),
+    // eslint-disable-next-line react/display-name
+    average: () => (
+      <span className="nowrap">
+        {getHumanReadableValue(Math.abs(leadingAreaInterestData.average))}
+      </span>
+    ),
+    // eslint-disable-next-line react/display-name
     secondaryAverage: () =>
-      secondaryAreaInterestData
-        ? getHumanReadableValue(Math.abs(secondaryAreaInterestData.average))
-        : null,
-    total: () =>
-      getFormattedValue(
-        Math.abs(leadingAreaInterestData.total),
-        socLayerState.id,
-        socLayerState.type,
-        'analysis-change-total'
-      ).value,
-    unit: () =>
-      getFormattedValue(
-        leadingAreaInterestData.average,
-        socLayerState.id,
-        socLayerState.type,
-        'analysis-change-avg'
-      ).unit,
-    secondaryUnit: () =>
-      secondaryAreaInterestData
-        ? getFormattedValue(
-            secondaryAreaInterestData.average,
+      secondaryAreaInterestData ? (
+        <span className="nowrap">
+          {getHumanReadableValue(Math.abs(secondaryAreaInterestData.average))}
+        </span>
+      ) : null,
+    // eslint-disable-next-line react/display-name
+    total: () => (
+      <span className="nowrap">
+        {
+          getFormattedValue(
+            Math.abs(leadingAreaInterestData.total),
+            socLayerState.id,
+            socLayerState.type,
+            'analysis-change-total'
+          ).value
+        }
+      </span>
+    ),
+    // eslint-disable-next-line react/display-name
+    unit: () => (
+      <span className="nowrap">
+        {
+          getFormattedValue(
+            leadingAreaInterestData.average,
             socLayerState.id,
             socLayerState.type,
             'analysis-change-avg'
           ).unit
-        : null,
+        }
+      </span>
+    ),
+    // eslint-disable-next-line react/display-name
+    secondaryUnit: () =>
+      secondaryAreaInterestData ? (
+        <span className="nowrap">
+          {
+            getFormattedValue(
+              secondaryAreaInterestData.average,
+              socLayerState.id,
+              socLayerState.type,
+              'analysis-change-avg'
+            ).unit
+          }
+        </span>
+      ) : null,
     // eslint-disable-next-line react/display-name
     depth: key =>
       depthOptions.length > 1 ? (
         <Dropdown key={key} options={depthOptions} value={depthOption} onChange={onChangeDepth} />
       ) : (
-        <strong key={key}>{depthOption.label}</strong>
+        <strong key={key} className="nowrap">
+          {depthOption.label}
+        </strong>
       ),
-    totalUnit: () =>
-      getFormattedValue(
-        leadingAreaInterestData.total,
-        socLayerState.id,
-        socLayerState.type,
-        'analysis-change-total'
-      ).unit,
+    // eslint-disable-next-line react/display-name
+    totalUnit: () => (
+      <span className="nowrap">
+        {
+          getFormattedValue(
+            leadingAreaInterestData.total,
+            socLayerState.id,
+            socLayerState.type,
+            'analysis-change-total'
+          ).unit
+        }
+      </span>
+    ),
+    // eslint-disable-next-line react/display-name
     percentage: () =>
-      secondaryAreaInterestData
-        ? getHumanReadableValue(
+      secondaryAreaInterestData ? (
+        <span className="nowrap">
+          {getHumanReadableValue(
             (leadingAreaInterestData.average / secondaryAreaInterestData.average - 1) * 100
-          )
-        : null,
+          )}
+        </span>
+      ) : null,
   };
 };
 

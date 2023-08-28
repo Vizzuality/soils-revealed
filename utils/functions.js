@@ -50,6 +50,18 @@ export const reducePrecision = (value, sigDigitsCount) => {
 export const slugify = string => slugifyExt(string).toLowerCase();
 
 /**
+ * Return whether a value is insignificant
+ * @param {number} value Value to evaluate
+ * @param {number} unitPow The value's unit power
+ */
+export const isValueInsignificant = (value, unitPow) =>
+  value === undefined ||
+  value === null ||
+  value === 0 ||
+  // 0.01 is the threshold used by `getHumanReadableValue` to return `'≈ 0'`
+  Math.abs(value * Math.pow(10, unitPow)) < 0.01;
+
+/**
  * Approximate or truncate the number so it is more readable
  * @param {number} number Number to format
  */

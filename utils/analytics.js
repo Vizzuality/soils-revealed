@@ -1,28 +1,7 @@
-import ReactGA from 'react-ga';
-
-let gaInitialiazed = false;
 let previousPage = null;
 
-export const initGA = () => {
-  if (gaInitialiazed) {
-    return;
-  }
-
-  if (process.env.NODE_ENV === 'production') {
-    if (process.env.GOOGLE_ANALYTICS_KEY) {
-      ReactGA.initialize(process.env.GOOGLE_ANALYTICS_KEY);
-      gaInitialiazed = true;
-    } else {
-      console.error('Google analytics key missing.');
-    }
-  } else {
-    console.info('[GA] Init');
-    gaInitialiazed = true;
-  }
-};
-
 export const logPageView = () => {
-  if (!gaInitialiazed) {
+  if (!window['gtag']) {
     return;
   }
 
@@ -30,8 +9,9 @@ export const logPageView = () => {
 
   if (process.env.NODE_ENV === 'production') {
     if (process.env.GOOGLE_ANALYTICS_KEY && previousPage !== page) {
-      ReactGA.set({ page });
-      ReactGA.pageview(page);
+      window.gtag('config', process.env.GOOGLE_ANALYTICS_KEY, {
+        page_path: page,
+      });
       previousPage = page;
     }
   } else {
@@ -43,13 +23,13 @@ export const logPageView = () => {
 };
 
 export const logEvent = (category = '', action = '', label = '') => {
-  if (!gaInitialiazed) {
+  if (!window['gtag']) {
     return;
   }
 
   if (process.env.NODE_ENV === 'production') {
     if (process.env.GOOGLE_ANALYTICS_KEY && category && action) {
-      ReactGA.event({ category, action, ...(label ? { label } : {}) });
+      window.gtag('event', category, { action, label });
     }
   } else {
     console.info(`[GA] Event: ${category}, ${action}, ${label}`);
@@ -57,7 +37,6 @@ export const logEvent = (category = '', action = '', label = '') => {
 };
 
 export default {
-  initGA,
   logPageView,
   logEvent,
 };

@@ -1,68 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
+import { useCookieConsentContext } from '@use-cookie-consent/react';
 
 import './style.scss';
 
-const CookiesNotice = ({ allowCookies, consentDate, updateAllowCookies, updateConsentDate }) => {
+const CookiesNotice = () => {
+  const { consent, acceptCookies, declineAllCookies } = useCookieConsentContext();
   const [mounted, setMounted] = useState(false);
 
-  const onAcceptCookies = useCallback(() => {
-    updateAllowCookies(true);
-    updateConsentDate(+new Date());
-  }, [updateAllowCookies, updateConsentDate]);
+  useEffect(() => setMounted(true), []);
 
-  const onRefuseCookies = useCallback(() => {
-    updateAllowCookies(false);
-    updateConsentDate(+new Date());
-  }, [updateAllowCookies, updateConsentDate]);
-
-  // When the component is mounted, we store that information
-  useEffect(() => {
-    setMounted(true);
-  }, [setMounted]);
-
-  // On mount, we check if the user has already consented to allowing the cookies or not
-  useEffect(() => {
-    try {
-      const storedAllowCookies = localStorage.getItem('allowCookies');
-      const storedConsentDate = localStorage.getItem('cookiesConsentDate');
-
-      const hasAllowedCookies = storedAllowCookies === 'true';
-      const isConsentDateRecorded =
-        typeof storedConsentDate === 'string' &&
-        storedConsentDate.length > 0 &&
-        !Number.isNaN(+storedConsentDate);
-
-      if (isConsentDateRecorded) {
-        updateAllowCookies(hasAllowedCookies);
-        updateConsentDate(+storedConsentDate);
-      }
-    } catch (e) {
-      console.error('Unable to access the localStorage.');
-    }
-  }, [updateAllowCookies, updateConsentDate]);
-
-  // When allowCookies or consentDate is updated, we store the values in the localStorage
-  useEffect(() => {
-    try {
-      if (consentDate) {
-        localStorage.setItem('allowCookies', `${allowCookies}`);
-        localStorage.setItem('cookiesConsentDate', `${+consentDate}`);
-      }
-    } catch (e) {
-      console.error('Unable to access the localStorage');
-    }
-  }, [allowCookies, consentDate]);
-
-  // We avoid a flash of the cookies notice by not displaying it by default, until the component is
-  // mounted
-  if (!mounted) {
-    return null;
-  }
-
-  // Whether the user has allowed the cookies or not, if they have consented to either choice, the
-  // notice should not be displayed again
-  if (consentDate) {
+  if (!mounted || consent.thirdParty !== undefined) {
     return null;
   }
 
@@ -91,14 +38,14 @@ const CookiesNotice = ({ allowCookies, consentDate, updateAllowCookies, updateCo
                 <button
                   type="button"
                   className="btn btn-sm btn-secondary flex-grow-1 flex-md-grow-0 btn-fixed-width-md"
-                  onClick={onAcceptCookies}
+                  onClick={() => acceptCookies({ thirdParty: true })}
                 >
                   Accept
                 </button>
                 <button
                   type="button"
                   className="btn btn-sm btn-outline-secondary flex-grow-1 flex-md-grow-0 btn-fixed-width-md ml-2 ml-md-0 mt-md-2"
-                  onClick={onRefuseCookies}
+                  onClick={() => declineAllCookies()}
                 >
                   Refuse
                 </button>
@@ -109,17 +56,6 @@ const CookiesNotice = ({ allowCookies, consentDate, updateAllowCookies, updateCo
       </div>
     </div>
   );
-};
-
-CookiesNotice.propTypes = {
-  allowCookies: PropTypes.bool.isRequired,
-  consentDate: PropTypes.number,
-  updateAllowCookies: PropTypes.func.isRequired,
-  updateConsentDate: PropTypes.func.isRequired,
-};
-
-CookiesNotice.defaultProps = {
-  consentDate: null,
 };
 
 export default CookiesNotice;
