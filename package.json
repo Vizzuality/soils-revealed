@@ -52,7 +52,7 @@
     "classnames": "^2.2.6",
     "dayjs": "^1.9.6",
     "deck.gl": "7.3.6",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "joi": "^17.1.1",
     "layer-manager": "^3.0.7",
     "lodash": "^4.17.19",
