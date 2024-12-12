@@ -49,7 +49,7 @@ const getOnTheFlyTile = async (type, depth, year, x, y, z) => {
       image = ee
         .Image(
           ee
-            .ImageCollection('projects/soils-revealed/experimental-dataset/SOC_stock')
+            .ImageCollection('projects/soils-revealed-307010/assets/experimental-dataset/SOC_stock')
             .filterDate(`${year}-01-01`, `${year}-12-31`)
             .first()
         )
@@ -60,7 +60,9 @@ const getOnTheFlyTile = async (type, depth, year, x, y, z) => {
       image = ee
         .Image(
           ee
-            .ImageCollection('projects/soils-revealed/experimental-dataset/SOC_concentration_2020')
+            .ImageCollection(
+              'projects/soils-revealed-307010/assets/experimental-dataset/SOC_concentration_2020'
+            )
             .filterDate(`${year}-01-01`, `${year}-12-31`)
             .first()
         )

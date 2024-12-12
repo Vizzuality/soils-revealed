@@ -28,7 +28,9 @@ const sendImage = (res, data) => {
 
 const getOnTheFlyTile = async (year1, year2, x, y, z) => {
   return new Promise((resolve, reject) => {
-    const collection = ee.ImageCollection('projects/soils-revealed/Recent/SOC_stock_nov2020');
+    const collection = ee.ImageCollection(
+      'projects/soils-revealed-307010/assets/Recent/SOC_stock_nov2020'
+    );
 
     const image = collection
       .filterDate(`${year2}-01-01`, `${year2}-12-31`)

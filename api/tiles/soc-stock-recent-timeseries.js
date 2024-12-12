@@ -32,7 +32,7 @@ const getOnTheFlyTile = async (year, x, y, z) => {
     const image = ee
       .Image(
         ee
-          .ImageCollection('projects/soils-revealed/Recent/SOC_stock_nov2020')
+          .ImageCollection('projects/soils-revealed-307010/assets/Recent/SOC_stock_nov2020')
           .filterDate(`${year}-01-01`, `${year}-12-31`)
           .first()
       )

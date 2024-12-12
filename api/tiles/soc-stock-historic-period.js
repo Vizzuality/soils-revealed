@@ -7,16 +7,16 @@ const saveTile = require('./save-tile');
 
 const IMAGE = {
   0: {
-    historic: 'projects/soils-revealed/Historic/SOCS_0_30cm_year_NoLU_10km',
-    current: 'projects/soils-revealed/Historic/SOCS_0_30cm_year_2010AD_10km',
+    historic: 'projects/soils-revealed-307010/assets/Historic/SOCS_0_30cm_year_NoLU_10km',
+    current: 'projects/soils-revealed-307010/assets/Historic/SOCS_0_30cm_year_2010AD_10km',
   },
   1: {
-    historic: 'projects/soils-revealed/Historic/SOCS_0_100cm_year_NoLU_10km',
-    current: 'projects/soils-revealed/Historic/SOCS_0_100cm_year_2010AD_10km',
+    historic: 'projects/soils-revealed-307010/assets/Historic/SOCS_0_100cm_year_NoLU_10km',
+    current: 'projects/soils-revealed-307010/assets/Historic/SOCS_0_100cm_year_2010AD_10km',
   },
   2: {
-    historic: 'projects/soils-revealed/Historic/SOCS_0_200cm_year_NoLU_10km',
-    current: 'projects/soils-revealed/Historic/SOCS_0_200cm_year_2010AD_10km',
+    historic: 'projects/soils-revealed-307010/assets/Historic/SOCS_0_200cm_year_NoLU_10km',
+    current: 'projects/soils-revealed-307010/assets/Historic/SOCS_0_200cm_year_2010AD_10km',
   },
 };
 
