@@ -58,7 +58,9 @@ const getOnTheFlyTile = async (scenario, year, x, y, z) => {
   return new Promise((resolve, reject) => {
     let diff = ee.Image(
       ee
-        .ImageCollection(`projects/soils-revealed/Future/scenario_${SCENARIOS[scenario]}_dSOC`)
+        .ImageCollection(
+          `projects/soils-revealed-307010/assets/Future/scenario_${SCENARIOS[scenario]}_dSOC`
+        )
         .filterDate(`${year}-01-01`, `${year}-12-31`)
         .first()
     );
@@ -66,7 +68,7 @@ const getOnTheFlyTile = async (scenario, year, x, y, z) => {
 
     const baseline = ee.Image(
       ee
-        .ImageCollection('projects/soils-revealed/Recent/SOC_stocks')
+        .ImageCollection('projects/soils-revealed-307010/assets/Recent/SOC_stocks')
         .filterDate('2018-01-01', '2018-12-31')
         .first()
     );

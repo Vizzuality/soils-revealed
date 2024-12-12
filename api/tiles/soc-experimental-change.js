@@ -48,7 +48,7 @@ const getOnTheFlyTile = async (type, depth, year1, year2, x, y, z) => {
 
     if (type === 'stock') {
       const collection = ee.ImageCollection(
-        'projects/soils-revealed/experimental-dataset/SOC_stock'
+        'projects/soils-revealed-307010/assets/experimental-dataset/SOC_stock'
       );
 
       image = collection
@@ -60,7 +60,7 @@ const getOnTheFlyTile = async (type, depth, year1, year2, x, y, z) => {
         .sldStyle(STOCK_RAMP);
     } else if (type === 'concentration') {
       const collection = ee.ImageCollection(
-        'projects/soils-revealed/experimental-dataset/SOC_concentration_2020'
+        'projects/soils-revealed-307010/assets/experimental-dataset/SOC_concentration_2020'
       );
 
       let startImage = collection.filterDate(`${year1}-01-01`, `${year1}-12-31`).first();
